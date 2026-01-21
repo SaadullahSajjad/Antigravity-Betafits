@@ -1,0 +1,962 @@
+{
+  "portals": [
+    {
+      "id": "portal_prospect",
+      "name": "Betafits Prospect Portal",
+      "key": "prospect-portal",
+      "description": "Prospect-facing portal for onboarding, benefits review, budget estimation, and feedback collection.",
+      "tech_stack": {
+        "framework": "Next.js 14 (App Router)",
+        "language": "TypeScript (Strict)",
+        "styling": "Tailwind CSS + shadcn/ui",
+        "state_management": "React Context + Server Components"
+      },
+      "repository_path": "apps/prospect-portal",
+      "base_url": "prospect.betafits.com"
+    }
+  ],
+  "pages": [
+    {
+      "id": "pg_prospect_home",
+      "portal_id": "portal_prospect",
+      "name": "Prospect Home",
+      "route_path": "/",
+      "file_path": "app/page.tsx",
+      "render_strategy": "ServerComponent",
+      "entity_context": null,
+      "description": "Home dashboard for prospect onboarding and required actions."
+    },
+    {
+      "id": "pg_prospect_company_details",
+      "portal_id": "portal_prospect",
+      "name": "Company Details",
+      "route_path": "/company-details",
+      "file_path": "app/company-details/page.tsx",
+      "render_strategy": "ServerComponent",
+      "entity_context": "ent_intake_group_data",
+      "description": "Company information and insights provided by the prospect."
+    },
+    {
+      "id": "pg_prospect_benefit_plans",
+      "portal_id": "portal_prospect",
+      "name": "Benefit Plans",
+      "route_path": "/benefit-plans",
+      "file_path": "app/benefit-plans/page.tsx",
+      "render_strategy": "ServerComponent",
+      "entity_context": "ent_intake_plan_data",
+      "description": "Overview of benefit plans, eligibility, and contributions."
+    },
+    {
+      "id": "pg_prospect_benefits_analysis",
+      "portal_id": "portal_prospect",
+      "name": "Benefits Analysis",
+      "route_path": "/benefits-analysis",
+      "file_path": "app/benefits-analysis/page.tsx",
+      "render_strategy": "ServerComponent",
+      "entity_context": "ent_intake_group_data",
+      "description": "Strategic overview of workforce demographics, financial benchmarks, and budget distribution."
+    },
+    {
+      "id": "pg_employee_feedback",
+      "portal_id": "portal_prospect",
+      "name": "Employee Feedback",
+      "route_path": "/employee-feedback",
+      "file_path": "app/employee-feedback/page.tsx",
+      "render_strategy": "ServerComponent",
+      "entity_context": "ent_ee_pulse_surveys",
+      "description": "Employee survey sharing, scores, and responses."
+    },
+    {
+      "id": "pg_faq",
+      "portal_id": "portal_prospect",
+      "name": "FAQ",
+      "route_path": "/faq",
+      "file_path": "app/faq/page.tsx",
+      "render_strategy": "ServerComponent",
+      "entity_context": null,
+      "description": "Frequently asked questions about the portal and onboarding process."
+    },
+    {
+      "id": "pg_solutions_catalog",
+      "portal_id": "portal_prospect",
+      "name": "Solutions Catalog",
+      "route_path": "/solutions-catalog",
+      "file_path": "app/solutions-catalog/page.tsx",
+      "render_strategy": "ClientComponent",
+      "entity_context": "ent_ecosystem",
+      "description": "Discover and explore benefit providers, technology platforms, and financial wellness partners."
+    },
+    {
+      "id": "pg_solution_detail",
+      "portal_id": "portal_prospect",
+      "name": "Solution Detail",
+      "route_path": "/solutions/[id]",
+      "file_path": "app/solutions/[id]/page.tsx",
+      "render_strategy": "ClientComponent",
+      "entity_context": "ent_ecosystem",
+      "description": "Detailed view of individual solution profiles."
+    }
+  ],
+  "components": [
+    {
+      "id": "cmp_sidebar",
+      "portal_id": "portal_prospect",
+      "name": "Sidebar",
+      "type": "Organism",
+      "render_strategy": "ClientComponent",
+      "category": "layout",
+      "dependencies": ["next/link", "next/navigation"],
+      "description": "Navigation sidebar with collapsible menu and user profile.",
+      "file_path": "components/Sidebar.tsx"
+    },
+    {
+      "id": "cmp_assigned_forms",
+      "portal_id": "portal_prospect",
+      "name": "AssignedForms",
+      "type": "Molecule",
+      "render_strategy": "ClientComponent",
+      "category": "features/home",
+      "dependencies": ["next/link"],
+      "description": "Lists required forms assigned to the prospect.",
+      "file_path": "components/AssignedForms.tsx"
+    },
+    {
+      "id": "cmp_documents",
+      "portal_id": "portal_prospect",
+      "name": "DocumentsSection",
+      "type": "Molecule",
+      "render_strategy": "ServerComponent",
+      "category": "features/home",
+      "dependencies": [],
+      "description": "Displays required documents and upload status.",
+      "file_path": "components/DocumentsSection.tsx"
+    },
+    {
+      "id": "cmp_progress_steps",
+      "portal_id": "portal_prospect",
+      "name": "ProgressSteps",
+      "type": "Organism",
+      "render_strategy": "ServerComponent",
+      "category": "features/home",
+      "dependencies": [],
+      "description": "Displays onboarding steps and progress tracking table.",
+      "file_path": "components/ProgressSteps.tsx"
+    },
+    {
+      "id": "cmp_available_forms",
+      "portal_id": "portal_prospect",
+      "name": "AvailableForms",
+      "type": "Molecule",
+      "render_strategy": "ClientComponent",
+      "category": "features/home",
+      "dependencies": [],
+      "description": "Shows optional forms available to the prospect with modal view.",
+      "file_path": "components/AvailableForms.tsx"
+    },
+    {
+      "id": "cmp_company_details",
+      "portal_id": "portal_prospect",
+      "name": "CompanyDetails",
+      "type": "Organism",
+      "render_strategy": "ServerComponent",
+      "category": "features/company",
+      "dependencies": [],
+      "description": "Detailed company information display with firmographic data and Glassdoor insights.",
+      "file_path": "components/CompanyDetails.tsx"
+    },
+    {
+      "id": "cmp_benefit_plans",
+      "portal_id": "portal_prospect",
+      "name": "BenefitPlans",
+      "type": "Organism",
+      "render_strategy": "ClientComponent",
+      "category": "features/benefits",
+      "dependencies": [],
+      "description": "Overview of benefit plans with eligibility, contribution strategies, and plan details.",
+      "file_path": "components/BenefitPlans.tsx"
+    },
+    {
+      "id": "cmp_benefits_analysis",
+      "portal_id": "portal_prospect",
+      "name": "BenefitsAnalysis",
+      "type": "Organism",
+      "render_strategy": "ServerComponent",
+      "category": "features/benefits",
+      "dependencies": [],
+      "description": "Strategic analysis of demographics, financial KPIs, and budget breakdown.",
+      "file_path": "components/BenefitsAnalysis.tsx"
+    },
+    {
+      "id": "cmp_employee_feedback",
+      "portal_id": "portal_prospect",
+      "name": "EmployeeFeedback",
+      "type": "Organism",
+      "render_strategy": "ClientComponent",
+      "category": "features/feedback",
+      "dependencies": [],
+      "description": "Feedback collection hub with survey link, scores, and response history.",
+      "file_path": "components/EmployeeFeedback.tsx"
+    },
+    {
+      "id": "cmp_faq",
+      "portal_id": "portal_prospect",
+      "name": "FAQ",
+      "type": "Organism",
+      "render_strategy": "ClientComponent",
+      "category": "features/support",
+      "dependencies": [],
+      "description": "Frequently asked questions with accordion interface.",
+      "file_path": "components/FAQ.tsx"
+    }
+  ],
+  "props": [
+    {
+      "id": "prop_assigned_forms_forms",
+      "component_id": "cmp_assigned_forms",
+      "name": "forms",
+      "ts_type": "AssignedForm[]",
+      "required": true,
+      "description": "Array of forms assigned to the prospect company"
+    },
+    {
+      "id": "prop_documents_documents",
+      "component_id": "cmp_documents",
+      "name": "documents",
+      "ts_type": "DocumentArtifact[]",
+      "required": true,
+      "description": "Array of uploaded documents"
+    },
+    {
+      "id": "prop_progress_steps",
+      "component_id": "cmp_progress_steps",
+      "name": "steps",
+      "ts_type": "ProgressStep[]",
+      "required": true,
+      "description": "Array of onboarding progress steps"
+    },
+    {
+      "id": "prop_available_forms_forms",
+      "component_id": "cmp_available_forms",
+      "name": "forms",
+      "ts_type": "AvailableForm[]",
+      "required": true,
+      "description": "Array of optional forms available to prospects"
+    },
+    {
+      "id": "prop_company_details_data",
+      "component_id": "cmp_company_details",
+      "name": "data",
+      "ts_type": "CompanyData",
+      "required": true,
+      "description": "Company information and insights data"
+    },
+    {
+      "id": "prop_benefit_plans_props",
+      "component_id": "cmp_benefit_plans",
+      "name": "eligibility",
+      "ts_type": "BenefitEligibilityData",
+      "required": true,
+      "description": "Benefit eligibility configuration"
+    },
+    {
+      "id": "prop_benefit_plans_strategies",
+      "component_id": "cmp_benefit_plans",
+      "name": "strategies",
+      "ts_type": "ContributionStrategy[]",
+      "required": true,
+      "description": "Contribution strategy definitions"
+    },
+    {
+      "id": "prop_benefit_plans_plans",
+      "component_id": "cmp_benefit_plans",
+      "name": "plans",
+      "ts_type": "BenefitPlan[]",
+      "required": true,
+      "description": "Array of benefit plans"
+    },
+    {
+      "id": "prop_benefits_analysis_demographics",
+      "component_id": "cmp_benefits_analysis",
+      "name": "demographics",
+      "ts_type": "DemographicInsights",
+      "required": true,
+      "description": "Workforce demographic insights"
+    },
+    {
+      "id": "prop_benefits_analysis_kpis",
+      "component_id": "cmp_benefits_analysis",
+      "name": "kpis",
+      "ts_type": "FinancialKPIs",
+      "required": true,
+      "description": "Financial key performance indicators"
+    },
+    {
+      "id": "prop_benefits_analysis_breakdown",
+      "component_id": "cmp_benefits_analysis",
+      "name": "breakdown",
+      "ts_type": "BudgetBreakdown[]",
+      "required": true,
+      "description": "Budget breakdown by benefit category"
+    },
+    {
+      "id": "prop_employee_feedback_stats",
+      "component_id": "cmp_employee_feedback",
+      "name": "stats",
+      "ts_type": "FeedbackStats",
+      "required": true,
+      "description": "Aggregated feedback statistics"
+    },
+    {
+      "id": "prop_employee_feedback_responses",
+      "component_id": "cmp_employee_feedback",
+      "name": "responses",
+      "ts_type": "FeedbackResponse[]",
+      "required": true,
+      "description": "Individual employee feedback responses"
+    }
+  ],
+  "component_tree": [
+    {
+      "id": "node_root_layout",
+      "page_id": null,
+      "parent_id": null,
+      "component_id": "cmp_sidebar",
+      "slot": "layout",
+      "order": 0,
+      "conditions": null
+    },
+    {
+      "id": "node_home_assigned_forms",
+      "page_id": "pg_prospect_home",
+      "parent_id": null,
+      "component_id": "cmp_assigned_forms",
+      "slot": "main",
+      "order": 0,
+      "conditions": null
+    },
+    {
+      "id": "node_home_documents",
+      "page_id": "pg_prospect_home",
+      "parent_id": null,
+      "component_id": "cmp_documents",
+      "slot": "main",
+      "order": 1,
+      "conditions": null
+    },
+    {
+      "id": "node_home_progress",
+      "page_id": "pg_prospect_home",
+      "parent_id": null,
+      "component_id": "cmp_progress_steps",
+      "slot": "main",
+      "order": 2,
+      "conditions": null
+    },
+    {
+      "id": "node_home_available_forms",
+      "page_id": "pg_prospect_home",
+      "parent_id": null,
+      "component_id": "cmp_available_forms",
+      "slot": "main",
+      "order": 3,
+      "conditions": null
+    },
+    {
+      "id": "node_company_details_main",
+      "page_id": "pg_prospect_company_details",
+      "parent_id": null,
+      "component_id": "cmp_company_details",
+      "slot": "main",
+      "order": 0,
+      "conditions": null
+    },
+    {
+      "id": "node_benefit_plans_main",
+      "page_id": "pg_prospect_benefit_plans",
+      "parent_id": null,
+      "component_id": "cmp_benefit_plans",
+      "slot": "main",
+      "order": 0,
+      "conditions": null
+    },
+    {
+      "id": "node_benefits_analysis_main",
+      "page_id": "pg_prospect_benefits_analysis",
+      "parent_id": null,
+      "component_id": "cmp_benefits_analysis",
+      "slot": "main",
+      "order": 0,
+      "conditions": null
+    },
+    {
+      "id": "node_employee_feedback_main",
+      "page_id": "pg_employee_feedback",
+      "parent_id": null,
+      "component_id": "cmp_employee_feedback",
+      "slot": "main",
+      "order": 0,
+      "conditions": null
+    },
+    {
+      "id": "node_faq_main",
+      "page_id": "pg_faq",
+      "parent_id": null,
+      "component_id": "cmp_faq",
+      "slot": "main",
+      "order": 0,
+      "conditions": null
+    }
+  ],
+  "fields": [
+    {
+      "id": "fld_assigned_form_id",
+      "component_id": "cmp_assigned_forms",
+      "name": "id",
+      "label": "Form ID",
+      "data_type": "string",
+      "enum_values": null,
+      "required": true,
+      "description": "Unique identifier for the assigned form",
+      "entity_id": "ent_assigned_forms",
+      "entity_field_id": null
+    },
+    {
+      "id": "fld_assigned_form_status",
+      "component_id": "cmp_assigned_forms",
+      "name": "status",
+      "label": "Status",
+      "data_type": "enum",
+      "enum_values": ["Not Started", "In Progress", "Submitted", "Completed"],
+      "required": true,
+      "description": "Current progress stage of the assigned form",
+      "entity_id": "ent_assigned_forms",
+      "entity_field_id": "efld_assigned_form_status"
+    },
+    {
+      "id": "fld_document_name",
+      "component_id": "cmp_documents",
+      "name": "name",
+      "label": "Document Name",
+      "data_type": "string",
+      "enum_values": null,
+      "required": true,
+      "description": "Name of the uploaded document",
+      "entity_id": "ent_intake_document_upload",
+      "entity_field_id": null
+    },
+    {
+      "id": "fld_progress_step_status",
+      "component_id": "cmp_progress_steps",
+      "name": "status",
+      "label": "Status",
+      "data_type": "enum",
+      "enum_values": ["Approved", "In Review", "Flagged", "Missing", "Not Requested"],
+      "required": true,
+      "description": "Current status of the onboarding step",
+      "entity_id": null,
+      "entity_field_id": null
+    }
+  ],
+  "entities": [
+    {
+      "id": "ent_intake_group_data",
+      "portal_id": "portal_prospect",
+      "logical_name": "Intake Group Data",
+      "physical_table_id": "tbliXJ7599ngxEriO",
+      "source_config": {
+        "provider": "Airtable",
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_name": "Intake - Group Data"
+      },
+      "description": "Company-level intake information and firmographic data"
+    },
+    {
+      "id": "ent_intake_plan_data",
+      "portal_id": "portal_prospect",
+      "logical_name": "Intake Plan Data",
+      "physical_table_id": "tblPJjWgnbblYLym4",
+      "source_config": {
+        "provider": "Airtable",
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_name": "Intake - Plan Data"
+      },
+      "description": "Benefit plan details and configurations"
+    },
+    {
+      "id": "ent_assigned_forms",
+      "portal_id": "portal_prospect",
+      "logical_name": "Assigned Forms",
+      "physical_table_id": "tblNeyKm9sKAKZq9n",
+      "source_config": {
+        "provider": "Airtable",
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_name": "Assigned Forms"
+      },
+      "description": "Forms assigned to prospect companies during onboarding"
+    },
+    {
+      "id": "ent_available_forms",
+      "portal_id": "portal_prospect",
+      "logical_name": "Available Forms",
+      "physical_table_id": "tblxX9KJkN5Q4xJ9G",
+      "source_config": {
+        "provider": "Airtable",
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_name": "Available Forms"
+      },
+      "description": "Optional forms available to prospects"
+    },
+    {
+      "id": "ent_intake_document_upload",
+      "portal_id": "portal_prospect",
+      "logical_name": "Intake Document Upload",
+      "physical_table_id": "tblK7H9dLxLqX3kR2Y",
+      "source_config": {
+        "provider": "Airtable",
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_name": "Intake - Document Upload"
+      },
+      "description": "Documents uploaded by prospects during onboarding"
+    },
+    {
+      "id": "ent_ee_pulse_surveys",
+      "portal_id": "portal_prospect",
+      "logical_name": "EE Pulse Surveys",
+      "physical_table_id": "tbl28XVUekjvl2Ujn",
+      "source_config": {
+        "provider": "Airtable",
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_name": "EE Pulse Surveys"
+      },
+      "description": "Employee feedback and pulse survey responses"
+    },
+    {
+      "id": "ent_ecosystem",
+      "portal_id": "portal_prospect",
+      "logical_name": "Ecosystem",
+      "physical_table_id": "tblEcosystem123",
+      "source_config": {
+        "provider": "Airtable",
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_name": "Ecosystem"
+      },
+      "description": "Benefit providers, technology platforms, and financial wellness partners"
+    }
+  ],
+  "entity_fields": [
+    {
+      "id": "efld_group_data_company_name",
+      "entity_id": "ent_intake_group_data",
+      "field_key": "company_name",
+      "display_name": "Company Name",
+      "data_type": "singleLineText",
+      "ts_type": "string",
+      "ui_component": "Input",
+      "required": true,
+      "description": "The official name of the company",
+      "validation": {
+        "max_length": 200
+      },
+      "options": null,
+      "default_value": "",
+      "unique": false,
+      "data_dictionary_ref": {
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_id": "tbliXJ7599ngxEriO",
+        "field_id": "fldCompanyName123"
+      }
+    },
+    {
+      "id": "efld_assigned_form_status",
+      "entity_id": "ent_assigned_forms",
+      "field_key": "status",
+      "display_name": "Status",
+      "data_type": "singleSelect",
+      "ts_type": "'Not Started' | 'In Progress' | 'Submitted' | 'Completed'",
+      "ui_component": "Dropdown",
+      "required": true,
+      "description": "Current progress stage of the assigned form",
+      "validation": {},
+      "options": [
+        {"value": "Not Started", "label": "Not Started"},
+        {"value": "In Progress", "label": "In Progress"},
+        {"value": "Submitted", "label": "Submitted"},
+        {"value": "Completed", "label": "Completed"}
+      ],
+      "default_value": "Not Started",
+      "unique": false,
+      "data_dictionary_ref": {
+        "base_id": "appdqgKk1fmhfaJoT",
+        "table_id": "tblNeyKm9sKAKZq9n",
+        "field_id": "fldkHemahpSIZ5raM"
+      }
+    }
+  ],
+  "entity_relationships": [
+    {
+      "id": "rel_assigned_forms_to_company",
+      "name": "assigned_forms_company",
+      "source_entity_id": "ent_assigned_forms",
+      "target_entity_id": "ent_intake_group_data",
+      "relationship_type": "many_to_one",
+      "source_field_id": "efld_assigned_form_company_id",
+      "target_field_id": "efld_group_data_id",
+      "junction_table_id": null,
+      "cascade_delete": false,
+      "description": "Assigned forms belong to a company"
+    },
+    {
+      "id": "rel_plans_to_company",
+      "name": "plans_company",
+      "source_entity_id": "ent_intake_plan_data",
+      "target_entity_id": "ent_intake_group_data",
+      "relationship_type": "many_to_one",
+      "source_field_id": "efld_plan_company_id",
+      "target_field_id": "efld_group_data_id",
+      "junction_table_id": null,
+      "cascade_delete": true,
+      "description": "Benefit plans belong to a company"
+    },
+    {
+      "id": "rel_documents_to_company",
+      "name": "documents_company",
+      "source_entity_id": "ent_intake_document_upload",
+      "target_entity_id": "ent_intake_group_data",
+      "relationship_type": "many_to_one",
+      "source_field_id": "efld_document_company_id",
+      "target_field_id": "efld_group_data_id",
+      "junction_table_id": null,
+      "cascade_delete": true,
+      "description": "Documents belong to a company"
+    }
+  ],
+  "api_endpoint": [
+    {
+      "id": "api_get_assigned_forms",
+      "portal_id": "portal_prospect",
+      "name": "listAssignedForms",
+      "route": "/api/forms/assigned",
+      "return_schema": "AssignedForm[]",
+      "entity_id": "ent_assigned_forms",
+      "method": "GET",
+      "config": {
+        "requires_auth": true,
+        "cache_ttl": 300,
+        "timeout": 10000,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query_params": [],
+        "rate_limit": {
+          "requests": 100,
+          "window": "hour",
+          "scope": "per_user"
+        }
+      },
+      "description": "Returns forms assigned to the logged-in user's company"
+    },
+    {
+      "id": "api_get_available_forms",
+      "portal_id": "portal_prospect",
+      "name": "listAvailableForms",
+      "route": "/api/forms/available",
+      "return_schema": "AvailableForm[]",
+      "entity_id": "ent_available_forms",
+      "method": "GET",
+      "config": {
+        "requires_auth": true,
+        "cache_ttl": 300,
+        "timeout": 10000,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query_params": [],
+        "rate_limit": {
+          "requests": 100,
+          "window": "hour",
+          "scope": "per_user"
+        }
+      },
+      "description": "Returns all available optional forms"
+    },
+    {
+      "id": "api_get_documents",
+      "portal_id": "portal_prospect",
+      "name": "listDocuments",
+      "route": "/api/documents",
+      "return_schema": "DocumentArtifact[]",
+      "entity_id": "ent_intake_document_upload",
+      "method": "GET",
+      "config": {
+        "requires_auth": true,
+        "cache_ttl": 300,
+        "timeout": 10000,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query_params": [],
+        "rate_limit": {
+          "requests": 100,
+          "window": "hour",
+          "scope": "per_user"
+        }
+      },
+      "description": "Returns documents uploaded by the logged-in user's company"
+    },
+    {
+      "id": "api_save_form_progress",
+      "portal_id": "portal_prospect",
+      "name": "saveFormProgress",
+      "route": "/api/forms/quick-start/save",
+      "return_schema": "{ success: boolean, savedAt: string }",
+      "entity_id": "ent_assigned_forms",
+      "method": "POST",
+      "config": {
+        "requires_auth": true,
+        "cache_ttl": 0,
+        "timeout": 30000,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query_params": [],
+        "rate_limit": {
+          "requests": 50,
+          "window": "hour",
+          "scope": "per_user"
+        }
+      },
+      "description": "Saves form progress to Airtable (partial save/draft)"
+    },
+    {
+      "id": "api_submit_form",
+      "portal_id": "portal_prospect",
+      "name": "submitForm",
+      "route": "/api/forms/quick-start/submit",
+      "return_schema": "{ success: boolean, submittedAt: string }",
+      "entity_id": "ent_assigned_forms",
+      "method": "POST",
+      "config": {
+        "requires_auth": true,
+        "cache_ttl": 0,
+        "timeout": 30000,
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "query_params": [],
+        "rate_limit": {
+          "requests": 20,
+          "window": "hour",
+          "scope": "per_user"
+        }
+      },
+      "description": "Submits final form data to Airtable"
+    }
+  ],
+  "entity_operations": [
+    {
+      "id": "op_assigned_forms_read",
+      "entity_id": "ent_assigned_forms",
+      "operation_type": "read",
+      "description": "Read assigned forms list for display",
+      "api_endpoint_id": "api_get_assigned_forms"
+    },
+    {
+      "id": "op_available_forms_read",
+      "entity_id": "ent_available_forms",
+      "operation_type": "read",
+      "description": "Read available forms list for display",
+      "api_endpoint_id": "api_get_available_forms"
+    },
+    {
+      "id": "op_documents_read",
+      "entity_id": "ent_intake_document_upload",
+      "operation_type": "read",
+      "description": "Read uploaded documents list",
+      "api_endpoint_id": "api_get_documents"
+    },
+    {
+      "id": "op_form_save",
+      "entity_id": "ent_assigned_forms",
+      "operation_type": "update",
+      "description": "Save form progress (draft mode)",
+      "api_endpoint_id": "api_save_form_progress"
+    },
+    {
+      "id": "op_form_submit",
+      "entity_id": "ent_assigned_forms",
+      "operation_type": "update",
+      "description": "Submit final form data",
+      "api_endpoint_id": "api_submit_form"
+    }
+  ],
+  "global_store": [
+    {
+      "id": "gs_current_user",
+      "portal_id": "portal_prospect",
+      "state_key": "currentUser",
+      "ts_type": "User | null",
+      "default_value": null,
+      "persistence": {
+        "type": "none",
+        "key": null
+      },
+      "description": "Currently authenticated user (fetched server-side, not stored client-side)"
+    },
+    {
+      "id": "gs_sidebar_collapsed",
+      "portal_id": "portal_prospect",
+      "state_key": "sidebarCollapsed",
+      "ts_type": "boolean",
+      "default_value": false,
+      "persistence": {
+        "type": "localStorage",
+        "key": "betafits_sidebar_collapsed"
+      },
+      "description": "Sidebar collapse state persisted across sessions"
+    }
+  ],
+  "authentication": [
+    {
+      "id": "auth_bearer_token",
+      "portal_id": "portal_prospect",
+      "name": "Bearer Token Authentication",
+      "type": "bearer_token",
+      "file_location": "lib/auth/bearer.ts",
+      "config": {
+        "location": "header",
+        "key_name": "Authorization",
+        "token_prefix": "Bearer ",
+        "token_source": "env:BETAFITS_AUTH_TOKEN",
+        "refresh_endpoint": "/api/auth/refresh",
+        "logout_on_401": true,
+        "storage_key": "betafits_auth_token"
+      },
+      "description": "Standard JWT bearer token authentication for API requests"
+    },
+    {
+      "id": "auth_airtable_key",
+      "portal_id": "portal_prospect",
+      "name": "Airtable API Key",
+      "type": "api_key",
+      "file_location": "lib/api/airtable/auth.ts",
+      "config": {
+        "location": "header",
+        "key_name": "Authorization",
+        "key_prefix": "Bearer ",
+        "key_source": "env:AIRTABLE_API_KEY",
+        "rotate_frequency": "90d"
+      },
+      "description": "API key authentication for Airtable backend"
+    }
+  ],
+  "permissions": [
+    {
+      "id": "perm_assigned_forms_read",
+      "portal_id": "portal_prospect",
+      "resource_type": "entity",
+      "resource_id": "ent_assigned_forms",
+      "action": "read",
+      "allowed_roles": ["prospect", "admin"],
+      "conditions": {
+        "user_can_read_own_forms": true
+      },
+      "description": "Prospects can read forms assigned to their company"
+    },
+    {
+      "id": "perm_forms_update",
+      "portal_id": "portal_prospect",
+      "resource_type": "entity",
+      "resource_id": "ent_assigned_forms",
+      "action": "update",
+      "allowed_roles": ["prospect", "admin"],
+      "conditions": {
+        "user_can_update_own_forms": true
+      },
+      "description": "Prospects can update their own assigned forms"
+    },
+    {
+      "id": "perm_documents_read",
+      "portal_id": "portal_prospect",
+      "resource_type": "entity",
+      "resource_id": "ent_intake_document_upload",
+      "action": "read",
+      "allowed_roles": ["prospect", "admin"],
+      "conditions": {
+        "user_can_read_own_documents": true
+      },
+      "description": "Prospects can read documents uploaded by their company"
+    },
+    {
+      "id": "perm_documents_create",
+      "portal_id": "portal_prospect",
+      "resource_type": "entity",
+      "resource_id": "ent_intake_document_upload",
+      "action": "create",
+      "allowed_roles": ["prospect", "admin"],
+      "conditions": {
+        "user_can_upload_to_own_company": true
+      },
+      "description": "Prospects can upload documents to their company"
+    },
+    {
+      "id": "perm_dashboard_view",
+      "portal_id": "portal_prospect",
+      "resource_type": "page",
+      "resource_id": "pg_prospect_home",
+      "action": "read",
+      "allowed_roles": ["prospect", "admin"],
+      "conditions": {
+        "user_must_be_active": true
+      },
+      "description": "Prospects can view the dashboard"
+    }
+  ],
+  "hooks": [
+    {
+      "id": "hook_use_sidebar_state",
+      "portal_id": "portal_prospect",
+      "name": "useSidebarState",
+      "component_id": "cmp_sidebar",
+      "entity_id": null,
+      "api_endpoint_id": null,
+      "definition": {
+        "library": "React",
+        "pattern": "useState with localStorage persistence",
+        "dependencies": []
+      },
+      "description": "Manages sidebar collapse state with localStorage persistence",
+      "file_path": "hooks/useSidebarState.ts"
+    },
+    {
+      "id": "hook_use_form_data",
+      "portal_id": "portal_prospect",
+      "name": "useFormData",
+      "component_id": "cmp_assigned_forms",
+      "entity_id": "ent_assigned_forms",
+      "api_endpoint_id": "api_get_assigned_forms",
+      "definition": {
+        "library": "Next.js",
+        "pattern": "Server-side data fetching with fetch()",
+        "dependencies": ["auth"]
+      },
+      "description": "Fetches assigned forms data server-side",
+      "file_path": "hooks/useFormData.ts"
+    },
+    {
+      "id": "hook_use_available_forms",
+      "portal_id": "portal_prospect",
+      "name": "useAvailableForms",
+      "component_id": "cmp_available_forms",
+      "entity_id": "ent_available_forms",
+      "api_endpoint_id": "api_get_available_forms",
+      "definition": {
+        "library": "Next.js",
+        "pattern": "Server-side data fetching with fetch()",
+        "dependencies": ["auth"]
+      },
+      "description": "Fetches available forms data server-side",
+      "file_path": "hooks/useAvailableForms.ts"
+    }
+  ]
+}
+
