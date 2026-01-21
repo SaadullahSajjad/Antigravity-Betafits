@@ -3,7 +3,7 @@
 ## Overview
 This document captures the complete process used to generate Prospect Portal pages from the `frontend-backend-context-layer-v2.1.json` context layer schema. It includes the methodology, data flow patterns, lessons learned, and mistakes to avoid for future page generation.
 
----
+-----
 
 ## Phase 1: Schema Analysis & Planning
 
