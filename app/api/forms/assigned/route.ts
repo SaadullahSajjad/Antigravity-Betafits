@@ -6,7 +6,7 @@ import { ASSIGNED_FORMS } from '@/constants';
 export async function GET() {
     const token = process.env.AIRTABLE_API_KEY;
     const baseId = 'appdqgKk1fmhfaJoT';
-    const tableId = 'tblNeyKm9sKAKZq9n'; // Assigned Forms table
+    const tableId = 'tblNeyKm9sKAKZq9n'; // Assigned Forms
 
     if (!token) {
         console.warn('Missing AIRTABLE_API_KEY, returning mock data');
@@ -19,10 +19,10 @@ export async function GET() {
 
         const forms: AssignedForm[] = records.map((record) => ({
             id: record.id,
-            name: String(record.fields['Form Name'] || ''),
+            name: String(record.fields['Name'] || ''),
             status: String(record.fields['Status'] || 'Not Started') as FormStatus,
-            description: String(record.fields['Description'] || ''),
-            dueDate: record.fields['Due Date'] ? String(record.fields['Due Date']) : undefined,
+            description: String(record.fields['Assigned Form URL'] || ''),
+            dueDate: undefined, // Due Date field doesn't exist in this table
         }));
 
         return NextResponse.json(forms);

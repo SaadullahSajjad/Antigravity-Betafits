@@ -6,7 +6,7 @@ import { DOCUMENT_ARTIFACTS } from '@/constants';
 export async function GET() {
     const token = process.env.AIRTABLE_API_KEY;
     const baseId = 'appdqgKk1fmhfaJoT';
-    const tableId = 'tblK7H9dLxLqX3kR2Y'; // Intake - Document Upload
+    const tableId = 'tblBgAZKJln76anVn'; // Documents / Intake - Document Upload
 
     if (!token) {
         return NextResponse.json(DOCUMENT_ARTIFACTS);
@@ -16,18 +16,31 @@ export async function GET() {
         const base = new Airtable({ apiKey: token }).base(baseId);
         const records = await base(tableId)
             .select({
-                sort: [{ field: 'Upload Date', direction: 'desc' }],
+                sort: [{ field: 'Name', direction: 'desc' }],
                 maxRecords: 10,
             })
             .all();
 
-        const documents: DocumentArtifact[] = records.map((record) => ({
-            id: record.id,
-            name: String(record.fields['Document Name'] || ''),
-            status: String(record.fields['Status'] || 'Received') as DocumentStatus,
-            fileName: String(record.fields['File Name'] || ''),
-            date: String(record.fields['Upload Date'] || ''),
-        }));
+        const documents: DocumentArtifact[] = records.map((record) => {
+            // Get file name from File attachment array
+            const fileField = record.fields['File'];
+            const fileAttachment = Array.isArray(fileField) && fileField.length > 0 ? fileField[0] : null;
+            const fileName = fileAttachment?.filename || String(record.fields['Name'] || '');
+            
+            // Try to get date from file attachment or use a fallback
+            // Airtable file attachments have a 'createdTime' property
+            const fileDate = fileAttachment?.createdTime 
+                ? new Date(fileAttachment.createdTime).toISOString()
+                : new Date().toISOString();
+            
+            return {
+                id: record.id,
+                name: String(record.fields['Name'] || record.fields['Extracted Document Title'] || ''),
+                status: 'Received' as DocumentStatus, // Status field doesn't exist in this table
+                fileName: fileName,
+                date: fileDate,
+            };
+        });
 
         return NextResponse.json(documents);
     } catch (error) {
