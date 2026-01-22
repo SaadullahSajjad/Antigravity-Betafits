@@ -3,6 +3,8 @@ import Airtable from 'airtable';
 import { AvailableForm } from '@/types';
 import { AVAILABLE_FORMS } from '@/constants';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
     const token = process.env.AIRTABLE_API_KEY;
     const baseId = 'appdqgKk1fmhfaJoT';
