@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import Airtable from 'airtable';
 import { AssignedForm, FormStatus } from '@/types';
 import { ASSIGNED_FORMS } from '@/constants';
+import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,17 +11,14 @@ export async function GET() {
     const tableId = 'tblNeyKm9sKAKZq9n'; // Assigned Forms
 
     if (!token) {
-        console.warn('Missing AIRTABLE_API_KEY, returning mock data');
+        console.warn('[Assigned Forms API] Missing AIRTABLE_API_KEY environment variable, returning mock data');
         return NextResponse.json(ASSIGNED_FORMS);
     }
 
     try {
-        const airtable = new Airtable({ 
+        const records = await fetchAirtableRecords(baseId, tableId, {
             apiKey: token,
-            requestTimeout: 30000
         });
-        const base = airtable.base(baseId);
-        const records = await base(tableId).select({}).all();
 
         const forms: AssignedForm[] = records.map((record) => ({
             id: record.id,
@@ -31,14 +28,22 @@ export async function GET() {
             dueDate: undefined, // Due Date field doesn't exist in this table
         }));
 
+        console.log(`[Assigned Forms API] Successfully fetched ${forms.length} forms from Airtable`);
         return NextResponse.json(forms);
     } catch (error) {
-        console.error('Airtable fetch error:', error);
+        console.error('[Assigned Forms API] Airtable fetch error:', error);
         const errorMessage = error instanceof Error ? error.message : String(error);
         const errorStack = error instanceof Error ? error.stack : undefined;
-        console.error('Error details:', { errorMessage, errorStack });
+        console.error('[Assigned Forms API] Error details:', { 
+            errorMessage, 
+            errorStack,
+            hasApiKey: !!token,
+            baseId,
+            tableId
+        });
         
         // Return mock data on error to prevent complete failure
+        console.warn('[Assigned Forms API] Falling back to mock data due to Airtable error');
         return NextResponse.json(ASSIGNED_FORMS);
     }
 }

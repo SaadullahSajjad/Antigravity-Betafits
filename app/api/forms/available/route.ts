@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import Airtable from 'airtable';
 import { AvailableForm } from '@/types';
 import { AVAILABLE_FORMS } from '@/constants';
+import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,16 +11,14 @@ export async function GET() {
     const tableId = 'tblZVnNaE4y8e56fa'; // Available Forms
 
     if (!token) {
+        console.warn('[Available Forms API] Missing AIRTABLE_API_KEY environment variable, returning mock data');
         return NextResponse.json(AVAILABLE_FORMS);
     }
 
     try {
-        const airtable = new Airtable({ 
+        const records = await fetchAirtableRecords(baseId, tableId, {
             apiKey: token,
-            requestTimeout: 30000
         });
-        const base = airtable.base(baseId);
-        const records = await base(tableId).select({}).all();
 
         const forms: AvailableForm[] = records.map((record) => ({
             id: record.id,
@@ -30,14 +28,22 @@ export async function GET() {
             description: String(record.fields['Description'] || record.fields['Intro Text'] || ''),
         }));
 
+        console.log(`[Available Forms API] Successfully fetched ${forms.length} forms from Airtable`);
         return NextResponse.json(forms);
     } catch (error) {
-        console.error('Available forms fetch error:', error);
+        console.error('[Available Forms API] Airtable fetch error:', error);
         const errorMessage = error instanceof Error ? error.message : String(error);
         const errorStack = error instanceof Error ? error.stack : undefined;
-        console.error('Error details:', { errorMessage, errorStack });
+        console.error('[Available Forms API] Error details:', { 
+            errorMessage, 
+            errorStack,
+            hasApiKey: !!token,
+            baseId,
+            tableId
+        });
         
         // Return mock data on error to prevent complete failure
+        console.warn('[Available Forms API] Falling back to mock data due to Airtable error');
         return NextResponse.json(AVAILABLE_FORMS);
     }
 }
