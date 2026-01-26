@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
+import Airtable from 'airtable';
 import { DocumentArtifact, DocumentStatus } from '@/types';
 import { DOCUMENT_ARTIFACTS } from '@/constants';
-import { fetchAirtableRecords } from '@/lib/airtable/fetch';
-
-export const dynamic = 'force-dynamic';
 
 export async function GET() {
     const token = process.env.AIRTABLE_API_KEY;
@@ -11,16 +9,17 @@ export async function GET() {
     const tableId = 'tblBgAZKJln76anVn'; // Documents / Intake - Document Upload
 
     if (!token) {
-        console.warn('[Documents API] Missing AIRTABLE_API_KEY environment variable, returning mock data');
         return NextResponse.json(DOCUMENT_ARTIFACTS);
     }
 
     try {
-        const records = await fetchAirtableRecords(baseId, tableId, {
-            apiKey: token,
-            maxRecords: 10,
-            sort: [{ field: 'Name', direction: 'desc' }],
-        });
+        const base = new Airtable({ apiKey: token }).base(baseId);
+        const records = await base(tableId)
+            .select({
+                sort: [{ field: 'Name', direction: 'desc' }],
+                maxRecords: 10,
+            })
+            .all();
 
         const documents: DocumentArtifact[] = records.map((record) => {
             // Get file name from File attachment array
@@ -43,22 +42,18 @@ export async function GET() {
             };
         });
 
-        console.log(`[Documents API] Successfully fetched ${documents.length} documents from Airtable`);
         return NextResponse.json(documents);
     } catch (error) {
-        console.error('[Documents API] Airtable fetch error:', error);
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        const errorStack = error instanceof Error ? error.stack : undefined;
-        console.error('[Documents API] Error details:', { 
-            errorMessage, 
-            errorStack,
-            hasApiKey: !!token,
-            baseId,
-            tableId
-        });
-        
-        // Return mock data on error to prevent complete failure
-        console.warn('[Documents API] Falling back to mock data due to Airtable error');
-        return NextResponse.json(DOCUMENT_ARTIFACTS);
+        // During build time, Airtable SDK may have AbortSignal issues
+        // Return mock data gracefully - these routes are dynamic anyway
+        const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
+        if (isBuildTime) {
+            return NextResponse.json(DOCUMENT_ARTIFACTS);
+        }
+        console.error('Documents fetch error:', error);
+        return NextResponse.json(
+            { error: 'Failed to fetch documents' },
+            { status: 500 }
+        );
     }
 }

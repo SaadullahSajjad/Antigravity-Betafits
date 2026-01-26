@@ -9,13 +9,15 @@ import {
     DOCUMENT_ARTIFACTS,
     PROGRESS_STEPS
 } from '@/constants';
+import { fetchAirtableRecords } from '@/lib/airtable/fetch';
+import { DocumentArtifact, AssignedForm, AvailableForm, DocumentStatus, FormStatus } from '@/types';
 
 // HelpCard component (inline)
 const HelpCard = () => (
-    <div className="bg-[#1c240f] rounded-[28px] p-8 text-white relative overflow-hidden group shadow-xl h-full flex flex-col justify-between">
+    <div className="bg-[#1c240f] rounded-[28px] p-8 text-white relative overflow-hidden group shadow-xl flex flex-col justify-between">
         <div className="relative z-10">
             <h3 className="text-[22px] font-bold mb-3 tracking-tight">Need assistance?</h3>
-            <p className="text-[#a1c270] text-[15px] font-medium leading-relaxed mb-8 max-w-[260px]">
+            <p className="text-[#a1c270] text-[15px] font-medium leading-relaxed mb-6 max-w-[260px]">
                 Our support team is available 9am-5pm EST to help you navigate your intake workflow.
             </p>
         </div>
@@ -30,7 +32,72 @@ const HelpCard = () => (
     </div>
 );
 
-export default function HomePage() {
+export default async function HomePage() {
+    const token = process.env.AIRTABLE_API_KEY;
+
+    // Table IDs
+    const docsTableId = 'tblBgAZKJln76anVn';
+    const assignedFormsTableId = 'tblNeyKm9sKAKZq9n';
+    const availableFormsTableId = 'tblZVnNaE4y8e56fa';
+
+    let documents: DocumentArtifact[] = DOCUMENT_ARTIFACTS;
+    let assignedForms: AssignedForm[] = ASSIGNED_FORMS;
+    let availableForms: AvailableForm[] = AVAILABLE_FORMS;
+
+    if (token) {
+        try {
+            // Fetch Documents
+            const docRecords = await fetchAirtableRecords(docsTableId, {
+                sort: [{ field: 'Name', direction: 'desc' }],
+                maxRecords: 10,
+            });
+            if (docRecords && docRecords.length > 0) {
+                documents = docRecords.map((record) => {
+                    const fileField = record.fields['File'];
+                    const fileAttachment = Array.isArray(fileField) && fileField.length > 0 ? (fileField[0] as any) : null;
+                    const fileName = fileAttachment?.filename || String(record.fields['Name'] || '');
+                    const fileDate = fileAttachment?.createdTime
+                        ? new Date(fileAttachment.createdTime).toISOString()
+                        : new Date().toISOString();
+
+                    return {
+                        id: record.id,
+                        name: String(record.fields['Name'] || record.fields['Extracted Document Title'] || ''),
+                        status: DocumentStatus.RECEIVED,
+                        fileName: fileName,
+                        date: fileDate,
+                    };
+                });
+            }
+
+            // Fetch Assigned Forms
+            const assignedRecords = await fetchAirtableRecords(assignedFormsTableId);
+            if (assignedRecords && assignedRecords.length > 0) {
+                assignedForms = assignedRecords.map((record) => ({
+                    id: record.id,
+                    name: String(record.fields['Name'] || ''),
+                    status: (record.fields['Status'] as FormStatus) || FormStatus.NOT_STARTED,
+                    description: String(record.fields['Assigned Form URL'] || ''),
+                }));
+            }
+
+            // Fetch Available Forms
+            const availableRecords = await fetchAirtableRecords(availableFormsTableId);
+            if (availableRecords && availableRecords.length > 0) {
+                availableForms = availableRecords.map((record) => ({
+                    id: record.id,
+                    name: String(record.fields['Name'] || ''),
+                    category: 'General',
+                    estimatedTime: '',
+                    description: String(record.fields['Description'] || record.fields['Intro Text'] || ''),
+                }));
+            }
+        } catch (error) {
+            console.error('Error fetching dashboard data:', error);
+            // Fallback to mock data (already assigned)
+        }
+    }
+
     return (
         <div className="space-y-12 animate-in fade-in duration-500">
             <header>
@@ -45,7 +112,7 @@ export default function HomePage() {
             {/* Row 1: Assigned Forms & Documents */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 <div className="lg:col-span-8">
-                    <AssignedForms forms={ASSIGNED_FORMS} />
+                    <AssignedForms forms={assignedForms} />
                 </div>
                 <div className="lg:col-span-4">
                     <div className="mb-6 flex justify-between items-start">
@@ -60,7 +127,7 @@ export default function HomePage() {
                             Upload
                         </button>
                     </div>
-                    <DocumentsSection documents={DOCUMENT_ARTIFACTS} />
+                    <DocumentsSection documents={documents} />
                 </div>
             </div>
 
@@ -74,9 +141,9 @@ export default function HomePage() {
             </section>
 
             {/* Row 3: Available Forms & Help Card */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 <div className="lg:col-span-8">
-                    <AvailableForms forms={AVAILABLE_FORMS} />
+                    <AvailableForms forms={availableForms} />
                 </div>
                 <div className="lg:col-span-4">
                     <HelpCard />

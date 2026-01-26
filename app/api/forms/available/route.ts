@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
+import Airtable from 'airtable';
 import { AvailableForm } from '@/types';
 import { AVAILABLE_FORMS } from '@/constants';
-import { fetchAirtableRecords } from '@/lib/airtable/fetch';
-
-export const dynamic = 'force-dynamic';
 
 export async function GET() {
     const token = process.env.AIRTABLE_API_KEY;
@@ -11,14 +9,12 @@ export async function GET() {
     const tableId = 'tblZVnNaE4y8e56fa'; // Available Forms
 
     if (!token) {
-        console.warn('[Available Forms API] Missing AIRTABLE_API_KEY environment variable, returning mock data');
         return NextResponse.json(AVAILABLE_FORMS);
     }
 
     try {
-        const records = await fetchAirtableRecords(baseId, tableId, {
-            apiKey: token,
-        });
+        const base = new Airtable({ apiKey: token }).base(baseId);
+        const records = await base(tableId).select({}).all();
 
         const forms: AvailableForm[] = records.map((record) => ({
             id: record.id,
@@ -28,22 +24,18 @@ export async function GET() {
             description: String(record.fields['Description'] || record.fields['Intro Text'] || ''),
         }));
 
-        console.log(`[Available Forms API] Successfully fetched ${forms.length} forms from Airtable`);
         return NextResponse.json(forms);
     } catch (error) {
-        console.error('[Available Forms API] Airtable fetch error:', error);
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        const errorStack = error instanceof Error ? error.stack : undefined;
-        console.error('[Available Forms API] Error details:', { 
-            errorMessage, 
-            errorStack,
-            hasApiKey: !!token,
-            baseId,
-            tableId
-        });
-        
-        // Return mock data on error to prevent complete failure
-        console.warn('[Available Forms API] Falling back to mock data due to Airtable error');
-        return NextResponse.json(AVAILABLE_FORMS);
+        // During build time, Airtable SDK may have AbortSignal issues
+        // Return mock data gracefully - these routes are dynamic anyway
+        const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
+        if (isBuildTime) {
+            return NextResponse.json(AVAILABLE_FORMS);
+        }
+        console.error('Available forms fetch error:', error);
+        return NextResponse.json(
+            { error: 'Failed to fetch available forms' },
+            { status: 500 }
+        );
     }
 }
