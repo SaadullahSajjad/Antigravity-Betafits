@@ -1,42 +1,28 @@
 import { NextResponse } from 'next/server';
-import Airtable from 'airtable';
 import { AssignedForm, FormStatus } from '@/types';
 import { ASSIGNED_FORMS } from '@/constants';
+import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 
 export async function GET() {
-    const token = process.env.AIRTABLE_API_KEY;
-    const baseId = 'appdqgKk1fmhfaJoT';
     const tableId = 'tblNeyKm9sKAKZq9n'; // Assigned Forms
 
-    if (!token) {
-        console.warn('Missing AIRTABLE_API_KEY, returning mock data');
-        return NextResponse.json(ASSIGNED_FORMS);
-    }
-
     try {
-        const base = new Airtable({ apiKey: token }).base(baseId);
-        const records = await base(tableId).select({}).all();
+        const records = await fetchAirtableRecords(tableId);
+
+        if (!records || records.length === 0) {
+            return NextResponse.json(ASSIGNED_FORMS);
+        }
 
         const forms: AssignedForm[] = records.map((record) => ({
             id: record.id,
             name: String(record.fields['Name'] || ''),
-            status: String(record.fields['Status'] || 'Not Started') as FormStatus,
+            status: (record.fields['Status'] as FormStatus) || FormStatus.NOT_STARTED,
             description: String(record.fields['Assigned Form URL'] || ''),
-            dueDate: undefined, // Due Date field doesn't exist in this table
         }));
 
         return NextResponse.json(forms);
     } catch (error) {
-        // During build time, Airtable SDK may have AbortSignal issues
-        // Return mock data gracefully - these routes are dynamic anyway
-        const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-        if (isBuildTime) {
-            return NextResponse.json(ASSIGNED_FORMS);
-        }
-        console.error('Airtable fetch error:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch assigned forms' },
-            { status: 500 }
-        );
+        console.error('Assigned forms fetch error:', error);
+        return NextResponse.json(ASSIGNED_FORMS); // Fallback to mock on error
     }
 }

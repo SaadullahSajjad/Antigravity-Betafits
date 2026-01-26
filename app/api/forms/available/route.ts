@@ -1,41 +1,29 @@
 import { NextResponse } from 'next/server';
-import Airtable from 'airtable';
 import { AvailableForm } from '@/types';
 import { AVAILABLE_FORMS } from '@/constants';
+import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 
 export async function GET() {
-    const token = process.env.AIRTABLE_API_KEY;
-    const baseId = 'appdqgKk1fmhfaJoT';
     const tableId = 'tblZVnNaE4y8e56fa'; // Available Forms
 
-    if (!token) {
-        return NextResponse.json(AVAILABLE_FORMS);
-    }
-
     try {
-        const base = new Airtable({ apiKey: token }).base(baseId);
-        const records = await base(tableId).select({}).all();
+        const records = await fetchAirtableRecords(tableId);
+
+        if (!records || records.length === 0) {
+            return NextResponse.json(AVAILABLE_FORMS);
+        }
 
         const forms: AvailableForm[] = records.map((record) => ({
             id: record.id,
             name: String(record.fields['Name'] || ''),
-            category: 'General', // Category field doesn't exist in this table
-            estimatedTime: '', // Estimated Time field doesn't exist in this table
+            category: 'General',
+            estimatedTime: '',
             description: String(record.fields['Description'] || record.fields['Intro Text'] || ''),
         }));
 
         return NextResponse.json(forms);
     } catch (error) {
-        // During build time, Airtable SDK may have AbortSignal issues
-        // Return mock data gracefully - these routes are dynamic anyway
-        const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-        if (isBuildTime) {
-            return NextResponse.json(AVAILABLE_FORMS);
-        }
         console.error('Available forms fetch error:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch available forms' },
-            { status: 500 }
-        );
+        return NextResponse.json(AVAILABLE_FORMS); // Fallback to mock on error
     }
 }

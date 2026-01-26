@@ -12,12 +12,14 @@ import {
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { DocumentArtifact, AssignedForm, AvailableForm, DocumentStatus, FormStatus } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 // HelpCard component (inline)
 const HelpCard = () => (
-    <div className="bg-[#1c240f] rounded-[28px] p-8 text-white relative overflow-hidden group shadow-xl flex flex-col justify-between">
+    <div className="bg-[#1c240f] rounded-[28px] p-8 text-white relative overflow-hidden group shadow-xl h-full flex flex-col justify-between">
         <div className="relative z-10">
             <h3 className="text-[22px] font-bold mb-3 tracking-tight">Need assistance?</h3>
-            <p className="text-[#a1c270] text-[15px] font-medium leading-relaxed mb-6 max-w-[260px]">
+            <p className="text-[#a1c270] text-[15px] font-medium leading-relaxed mb-8 max-w-[260px]">
                 Our support team is available 9am-5pm EST to help you navigate your intake workflow.
             </p>
         </div>
@@ -141,7 +143,7 @@ export default async function HomePage() {
             </section>
 
             {/* Row 3: Available Forms & Help Card */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
                 <div className="lg:col-span-8">
                     <AvailableForms forms={availableForms} />
                 </div>

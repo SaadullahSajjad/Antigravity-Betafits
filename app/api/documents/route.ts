@@ -1,42 +1,33 @@
 import { NextResponse } from 'next/server';
-import Airtable from 'airtable';
 import { DocumentArtifact, DocumentStatus } from '@/types';
 import { DOCUMENT_ARTIFACTS } from '@/constants';
+import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 
 export async function GET() {
-    const token = process.env.AIRTABLE_API_KEY;
-    const baseId = 'appdqgKk1fmhfaJoT';
     const tableId = 'tblBgAZKJln76anVn'; // Documents / Intake - Document Upload
 
-    if (!token) {
-        return NextResponse.json(DOCUMENT_ARTIFACTS);
-    }
-
     try {
-        const base = new Airtable({ apiKey: token }).base(baseId);
-        const records = await base(tableId)
-            .select({
-                sort: [{ field: 'Name', direction: 'desc' }],
-                maxRecords: 10,
-            })
-            .all();
+        const records = await fetchAirtableRecords(tableId, {
+            sort: [{ field: 'Name', direction: 'desc' }],
+            maxRecords: 10,
+        });
+
+        if (!records || records.length === 0) {
+            return NextResponse.json(DOCUMENT_ARTIFACTS);
+        }
 
         const documents: DocumentArtifact[] = records.map((record) => {
-            // Get file name from File attachment array
             const fileField = record.fields['File'];
-            const fileAttachment = Array.isArray(fileField) && fileField.length > 0 ? fileField[0] : null;
+            const fileAttachment = Array.isArray(fileField) && fileField.length > 0 ? (fileField[0] as any) : null;
             const fileName = fileAttachment?.filename || String(record.fields['Name'] || '');
-            
-            // Try to get date from file attachment or use a fallback
-            // Airtable file attachments have a 'createdTime' property
-            const fileDate = fileAttachment?.createdTime 
+            const fileDate = fileAttachment?.createdTime
                 ? new Date(fileAttachment.createdTime).toISOString()
                 : new Date().toISOString();
-            
+
             return {
                 id: record.id,
                 name: String(record.fields['Name'] || record.fields['Extracted Document Title'] || ''),
-                status: 'Received' as DocumentStatus, // Status field doesn't exist in this table
+                status: DocumentStatus.RECEIVED,
                 fileName: fileName,
                 date: fileDate,
             };
@@ -44,16 +35,7 @@ export async function GET() {
 
         return NextResponse.json(documents);
     } catch (error) {
-        // During build time, Airtable SDK may have AbortSignal issues
-        // Return mock data gracefully - these routes are dynamic anyway
-        const isBuildTime = process.env.NEXT_PHASE === 'phase-production-build';
-        if (isBuildTime) {
-            return NextResponse.json(DOCUMENT_ARTIFACTS);
-        }
         console.error('Documents fetch error:', error);
-        return NextResponse.json(
-            { error: 'Failed to fetch documents' },
-            { status: 500 }
-        );
+        return NextResponse.json(DOCUMENT_ARTIFACTS); // Always fallback to mock on error for safety
     }
 }
