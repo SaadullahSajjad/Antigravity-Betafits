@@ -63,7 +63,38 @@ export async function POST(request: NextRequest) {
         storeMagicToken(magicToken, userId, email.toLowerCase(), 24); // 24 hour expiry (in-memory backup)
 
         // Generate magic link URL
-        const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || "http://localhost:3000";
+        // Always use production URL for magic links (not preview URLs)
+        // Priority:
+        // 1. NEXTAUTH_URL (should be set to production URL in Vercel)
+        // 2. PRODUCTION_URL (dedicated env var for production domain)
+        // 3. Check if we're in production and use VERCEL_URL
+        // 4. Fallback to hardcoded production URL
+        let baseUrl = process.env.NEXTAUTH_URL || process.env.PRODUCTION_URL;
+        
+        // If not set, check if we're in production environment
+        if (!baseUrl) {
+            const vercelEnv = process.env.VERCEL_ENV; // 'production', 'preview', or 'development'
+            
+            if (vercelEnv === 'production') {
+                // In production, use the production domain
+                baseUrl = "https://antigravity-betafits.vercel.app";
+            } else {
+                // For preview/development, still use production URL for magic links
+                // so users can access from any environment
+                baseUrl = "https://antigravity-betafits.vercel.app";
+            }
+        }
+        
+        // Ensure baseUrl has protocol
+        if (baseUrl && !baseUrl.startsWith('http')) {
+            baseUrl = `https://${baseUrl}`;
+        }
+        
+        // Fallback for local development
+        if (!baseUrl || baseUrl.includes('localhost')) {
+            baseUrl = "http://localhost:3000";
+        }
+        
         const magicLink = `${baseUrl}/access?token=${magicToken}`;
 
         // Store token in Airtable for persistence across server contexts
