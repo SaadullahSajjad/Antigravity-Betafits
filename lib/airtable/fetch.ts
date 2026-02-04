@@ -25,26 +25,27 @@ export async function fetchAirtableRecords(
         filterByFormula?: string;
     } = {}
 ): Promise<AirtableRecord[]> {
-    const token = options.apiKey || process.env.AIRTABLE_API_KEY;
-    
+    const rawToken = options.apiKey || process.env.AIRTABLE_API_KEY;
+    const token = rawToken?.trim();
+
     if (!token) {
         console.warn('Missing AIRTABLE_API_KEY, fetchAirtableRecords returning empty array');
         return [];
     }
 
     const { maxRecords, sort, filterByFormula } = options;
-    
+
     const url = new URL(`https://api.airtable.com/v0/${baseId}/${tableId}`);
-    
+
     if (maxRecords) {
         url.searchParams.append('maxRecords', maxRecords.toString());
     }
-    
+
     if (sort && sort.length > 0) {
         url.searchParams.append('sort[0][field]', sort[0].field);
         url.searchParams.append('sort[0][direction]', sort[0].direction);
     }
-    
+
     if (filterByFormula) {
         url.searchParams.append('filterByFormula', filterByFormula);
     }

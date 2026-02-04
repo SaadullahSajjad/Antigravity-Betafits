@@ -1,12 +1,35 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 
 const Sidebar: React.FC = () => {
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
+    const { data: session } = useSession();
+    const dropdownRef = useRef<HTMLDivElement>(null);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+                setIsProfileDropdownOpen(false);
+            }
+        };
+
+        if (isProfileDropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isProfileDropdownOpen]);
 
     // Navigation items matching pages from context layer
     const navItems = [
@@ -61,6 +84,21 @@ const Sidebar: React.FC = () => {
         return pathname.startsWith(href);
     };
 
+    const user = session?.user as any;
+    const userInitials = user?.firstName && user?.lastName
+        ? `${user.firstName[0]}${user.lastName[0]}`
+        : user?.email?.[0]?.toUpperCase() || 'U';
+
+    const handleLogout = () => {
+        setIsProfileDropdownOpen(false);
+        signOut({ callbackUrl: '/login' });
+    };
+
+    const handleAccountSettings = () => {
+        setIsProfileDropdownOpen(false);
+        router.push('/account-settings');
+    };
+
     return (
         <aside className={`${isCollapsed ? 'w-24' : 'w-72'} border-r border-gray-100 bg-white h-full hidden lg:flex flex-col flex-shrink-0 transition-all duration-300 relative`}>
             {/* Toggle Button */}
@@ -75,14 +113,16 @@ const Sidebar: React.FC = () => {
 
             {/* Brand Header */}
             <div className={`p-8 pb-4 flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
-                <div className="w-10 h-10 bg-brand-500 rounded-md flex items-center justify-center flex-shrink-0 text-white font-black text-xl">
-                    B
+                <div className="flex-shrink-0">
+                    <Image
+                        src="/betafits-logo.png"
+                        alt="Betafits"
+                        width={isCollapsed ? 40 : 120}
+                        height={isCollapsed ? 40 : 32}
+                        className={isCollapsed ? "w-10 h-10 object-contain" : "h-8 w-auto"}
+                        priority
+                    />
                 </div>
-                {!isCollapsed && (
-                    <span className="text-xl font-black text-gray-900 tracking-tighter uppercase">
-                        Betafits
-                    </span>
-                )}
             </div>
 
             {/* Navigation */}
@@ -95,8 +135,8 @@ const Sidebar: React.FC = () => {
                                 key={item.id}
                                 href={item.href}
                                 className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-5'} py-2.5 rounded-md transition-all duration-200 group font-semibold ${active
-                                        ? 'bg-gray-100 text-gray-900'
-                                        : 'text-[#4b5563]/70 hover:bg-gray-50 hover:text-[#4b5563]'
+                                    ? 'bg-gray-100 text-gray-900'
+                                    : 'text-[#4b5563]/70 hover:bg-gray-50 hover:text-[#4b5563]'
                                     }`}
                             >
                                 <svg
@@ -116,23 +156,64 @@ const Sidebar: React.FC = () => {
                 </nav>
             </div>
 
-            {/* Footer Profile */}
-            <div className={`mt-auto p-6 border-t border-gray-100 ${isCollapsed ? 'flex justify-center' : ''}`}>
-                <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 bg-gray-50/50 p-2 w-full border border-gray-100'} rounded-md transition-all cursor-pointer group`}>
-                    <div className="w-9 h-9 bg-brand-200 text-brand-800 flex items-center justify-center rounded-md font-bold text-[13px] flex-shrink-0">
-                        MP
-                    </div>
-                    {!isCollapsed && (
-                        <div className="flex flex-col min-w-0">
-                            <span className="text-[11px] font-semibold text-gray-900 truncate tracking-tight">
-                                Matt Prisco
-                            </span>
-                            <span className="text-[10px] text-gray-400 font-medium truncate">
-                                Betafits Advisor
-                            </span>
+            {/* Footer Profile with Dropdown */}
+            <div className={`mt-auto border-t border-gray-100 relative`} ref={dropdownRef}>
+                <div className={`p-6 ${isCollapsed ? 'flex justify-center' : ''}`}>
+                    <div 
+                        className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 bg-gray-50/50 p-2 w-full border border-gray-100'} rounded-md transition-all cursor-pointer hover:bg-gray-100/70 group relative`}
+                        onClick={() => !isCollapsed && setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                    >
+                        <div className="w-9 h-9 bg-brand-200 text-brand-800 flex items-center justify-center rounded-md font-bold text-[13px] flex-shrink-0">
+                            {userInitials}
                         </div>
-                    )}
+                        {!isCollapsed && (
+                            <>
+                                <div className="flex flex-col min-w-0 flex-1">
+                                    <span className="text-[11px] font-semibold text-gray-900 truncate tracking-tight">
+                                        {user?.firstName && user?.lastName
+                                            ? `${user.firstName} ${user.lastName}`
+                                            : user?.email || 'User'}
+                                    </span>
+                                    <span className="text-[10px] text-gray-400 font-medium truncate">
+                                        {user?.email || 'Prospect'}
+                                    </span>
+                                </div>
+                                <svg 
+                                    className={`w-4 h-4 text-gray-400 transition-transform ${isProfileDropdownOpen ? 'rotate-180' : ''}`} 
+                                    fill="none" 
+                                    viewBox="0 0 24 24" 
+                                    stroke="currentColor"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </>
+                        )}
+                    </div>
                 </div>
+
+                {/* Profile Dropdown Menu */}
+                {!isCollapsed && isProfileDropdownOpen && (
+                    <div className="absolute bottom-full left-6 right-6 mb-2 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-50">
+                        <button
+                            onClick={handleAccountSettings}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors text-sm text-gray-900"
+                        >
+                            <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            <span className="font-medium">Account settings</span>
+                        </button>
+                        <button
+                            onClick={handleLogout}
+                            className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors text-sm text-gray-900 border-t border-gray-100"
+                        >
+                            <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                            </svg>
+                            <span className="font-medium">Sign out</span>
+                        </button>
+                    </div>
+                )}
             </div>
         </aside>
     );

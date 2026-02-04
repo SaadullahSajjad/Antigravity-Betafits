@@ -1,19 +1,30 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { DocumentArtifact, DocumentStatus } from '@/types';
-import { DOCUMENT_ARTIFACTS } from '@/constants';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
+import { getCompanyId } from '@/lib/auth/getCompanyId';
 
-export async function GET() {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request: NextRequest) {
     const tableId = 'tblBgAZKJln76anVn'; // Documents / Intake - Document Upload
+    const companyId = await getCompanyId();
+
+    if (!companyId) {
+        console.warn('[Documents API] No company ID - user not authenticated');
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     try {
+        // Filter documents by company ID
         const records = await fetchAirtableRecords(tableId, {
+            apiKey: process.env.AIRTABLE_API_KEY,
+            filterByFormula: `{Company} = '${companyId}'`,
             sort: [{ field: 'Name', direction: 'desc' }],
-            maxRecords: 10,
+            maxRecords: 20,
         });
 
         if (!records || records.length === 0) {
-            return NextResponse.json(DOCUMENT_ARTIFACTS);
+            return NextResponse.json([]);
         }
 
         const documents: DocumentArtifact[] = records.map((record) => {
@@ -30,12 +41,15 @@ export async function GET() {
                 status: DocumentStatus.RECEIVED,
                 fileName: fileName,
                 date: fileDate,
+                url: fileAttachment?.url,
             };
         });
 
+        console.log(`[Documents API] Fetched ${documents.length} documents for company ${companyId}`);
         return NextResponse.json(documents);
     } catch (error) {
-        console.error('Documents fetch error:', error);
-        return NextResponse.json(DOCUMENT_ARTIFACTS); // Always fallback to mock on error for safety
+        console.error('[Documents API] Error:', error);
+        return NextResponse.json([], { status: 500 });
     }
 }
+

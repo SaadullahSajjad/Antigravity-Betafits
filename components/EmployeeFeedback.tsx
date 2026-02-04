@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { FeedbackResponse, FeedbackStats } from '@/types';
+import CreateSurveyButton from './CreateSurveyButton';
 
 interface Props {
     stats: FeedbackStats;
@@ -9,6 +11,12 @@ interface Props {
 }
 
 const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
+    const router = useRouter();
+
+    const handleViewAll = () => {
+        router.push('/employee-feedback/all');
+    };
+
     const getSentimentColor = (sentiment: string) => {
         switch (sentiment) {
             case 'positive':
@@ -66,16 +74,7 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                         {stats.totalResponses}
                     </div>
                 </div>
-                <div className="bg-brand-50 border border-brand-100 rounded-xl p-6 flex flex-col justify-center items-center text-center cursor-pointer hover:bg-brand-100 transition-colors group">
-                    <div className="w-10 h-10 bg-brand-200 text-brand-700 rounded-full flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
-                        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
-                        </svg>
-                    </div>
-                    <span className="text-[13px] font-bold text-brand-800 uppercase tracking-wider">
-                        New Survey
-                    </span>
-                </div>
+                <CreateSurveyButton variant="card" />
             </div>
 
             {/* Recent Responses */}
@@ -85,7 +84,10 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                         <h2 className="text-xl font-bold text-gray-900 tracking-tight">Recent Feedback</h2>
                         <p className="text-[13px] text-gray-500 mt-0.5">Latest comments from your team.</p>
                     </div>
-                    <button className="text-[13px] font-medium text-brand-600 hover:text-brand-700">
+                    <button 
+                        onClick={handleViewAll}
+                        className="text-[13px] font-medium text-brand-600 hover:text-brand-700 transition-colors"
+                    >
                         View All
                     </button>
                 </div>

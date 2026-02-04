@@ -1,9 +1,8 @@
-'use client';
-
 import React from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { SOLUTIONS } from '@/constants';
+import { fetchAirtableRecords } from '@/lib/airtable/fetch';
+import { Solution, SolutionCategory } from '@/types';
 
 interface Props {
     params: {
@@ -11,9 +10,46 @@ interface Props {
     };
 }
 
-export default function SolutionDetailPage({ params }: Props) {
-    // In a real app, this would be an API call or DB lookup
-    const solution = SOLUTIONS.find((s) => s.id === params.id);
+export const dynamic = 'force-dynamic';
+
+export default async function SolutionDetailPage({ params }: Props) {
+    const apiKey = process.env.AIRTABLE_API_KEY;
+    const tableId = 'tblyp74Xh14940523'; // Solutions / Ecosystem table
+    
+    let solution: Solution | null = null;
+
+    if (apiKey) {
+        try {
+            const records = await fetchAirtableRecords(tableId, {
+                apiKey,
+                filterByFormula: `RECORD_ID() = '${params.id}'`,
+                maxRecords: 1,
+            });
+
+            if (records && records.length > 0) {
+                const record = records[0];
+                const fields = record.fields;
+
+                const logoAttachments = fields['Logo'] as any[];
+                const logoUrl = logoAttachments && logoAttachments.length > 0 ? logoAttachments[0].url : undefined;
+
+                solution = {
+                    id: record.id,
+                    name: String(fields['Name'] || 'Unnamed Provider'),
+                    category: (fields['Category'] as SolutionCategory) || 'Provider',
+                    description: String(fields['Description'] || ''),
+                    logoUrl: logoUrl,
+                    rating: Number(fields['Rating'] || 0),
+                    tags: (fields['Tags'] as string[]) || [],
+                    website: String(fields['Website'] || ''),
+                    longDescription: String(fields['Long Description'] || fields['Description'] || ''),
+                    features: (fields['Features'] as string[]) || [],
+                };
+            }
+        } catch (error) {
+            console.error('[SolutionDetailPage] Error fetching solution:', error);
+        }
+    }
 
     if (!solution) {
         notFound();

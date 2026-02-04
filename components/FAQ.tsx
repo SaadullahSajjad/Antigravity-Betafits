@@ -14,6 +14,11 @@ const FAQ: React.FC<Props> = ({ categories }) => {
         setOpenItem(openItem === id ? null : id);
     };
 
+    const handleContactSupport = () => {
+        const supportEmail = process.env.NEXT_PUBLIC_SUPPORT_EMAIL || 'support@betafits.com';
+        window.location.href = `mailto:${supportEmail}?subject=Support Request - Portal Inquiry`;
+    };
+
     return (
         <div className="space-y-8">
             <div className="max-w-3xl mx-auto space-y-12">
@@ -67,7 +72,10 @@ const FAQ: React.FC<Props> = ({ categories }) => {
                     <p className="text-brand-100 mb-6 font-medium">
                         Our support team is here to help you navigate your benefits packages.
                     </p>
-                    <button className="bg-white text-brand-900 px-6 py-2.5 rounded-full text-[14px] font-bold hover:bg-brand-50 transition-colors shadow-lg active:scale-95">
+                    <button 
+                        onClick={handleContactSupport}
+                        className="bg-white text-brand-900 px-6 py-2.5 rounded-full text-[14px] font-bold hover:bg-brand-50 transition-colors shadow-lg active:scale-95"
+                    >
                         Contact Support
                     </button>
                 </div>

@@ -118,37 +118,48 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) =>
                     <p className="text-[13px] text-gray-500 mt-0.5">Breakdown of total benefits spend by category.</p>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
-                    {/* Bar Chart Visualization */}
-                    <div className="flex h-12 w-full rounded-full overflow-hidden mb-8">
-                        {breakdown.map((item) => (
-                            <div
-                                key={item.category}
-                                className={`${item.color} h-full flex items-center justify-center text-white font-bold text-[13px] hover:opacity-90 transition-opacity cursor-pointer`}
-                                style={{ width: `${item.percentage}%` }}
-                                title={`${item.category}: $${item.amount.toLocaleString()}`}
-                            >
-                                {item.percentage > 5 && `${item.percentage}%`}
+                    {breakdown.length === 0 ? (
+                        <div className="text-center py-12">
+                            <p className="text-[14px] text-gray-500">No budget data available at this time.</p>
+                        </div>
+                    ) : (
+                        <>
+                            {/* Bar Chart Visualization */}
+                            <div className="flex h-12 w-full rounded-full overflow-hidden mb-8 bg-gray-100">
+                                {breakdown.map((item) => (
+                                    <div
+                                        key={item.category}
+                                        className={`${item.color} h-full flex items-center justify-center text-white font-bold text-[13px] hover:opacity-90 transition-opacity cursor-pointer min-w-[2px]`}
+                                        style={{ width: `${item.percentage}%` }}
+                                        title={`${item.category}: $${item.amount.toLocaleString()}`}
+                                    >
+                                        {item.percentage > 5 && `${item.percentage}%`}
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
 
-                    {/* Legend / Details */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {breakdown.map((item) => (
-                            <div key={item.category} className="flex items-start gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100">
-                                <div className={`w-4 h-4 rounded-full mt-1 ${item.color}`} />
-                                <div>
-                                    <h4 className="font-bold text-gray-900 text-[14px]">{item.category}</h4>
-                                    <p className="text-[13px] text-gray-500 font-medium">
-                                        ${item.amount.toLocaleString()}
-                                    </p>
-                                    <p className="text-[11px] text-gray-400 mt-0.5">
-                                        {item.percentage}% of total
-                                    </p>
-                                </div>
+                            {/* Legend / Details */}
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                                {breakdown.map((item) => (
+                                    <div 
+                                        key={item.category} 
+                                        className="flex items-start gap-3 p-4 rounded-xl hover:bg-gray-50 transition-colors border border-gray-100"
+                                    >
+                                        <div className={`w-4 h-4 rounded-full mt-1 flex-shrink-0 ${item.color}`} />
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="font-bold text-gray-900 text-[14px] truncate">{item.category}</h4>
+                                            <p className="text-[13px] text-gray-500 font-medium">
+                                                ${item.amount.toLocaleString()}
+                                            </p>
+                                            <p className="text-[11px] text-gray-400 mt-0.5">
+                                                {item.percentage}% of total
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
-                        ))}
-                    </div>
+                        </>
+                    )}
                 </div>
             </section>
         </div>

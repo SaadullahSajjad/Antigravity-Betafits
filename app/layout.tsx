@@ -1,10 +1,16 @@
 import React from 'react';
-import Sidebar from '@/components/Sidebar';
+import AuthProvider from '@/components/AuthProvider';
+import ConditionalLayout from '@/components/ConditionalLayout';
 import './globals.css';
 
 export const metadata = {
     title: 'Betafits Prospect Portal',
     description: 'Manage your intake workflow and document submissions',
+    icons: {
+        icon: '/favicon.ico',
+        shortcut: '/favicon.ico',
+        apple: '/favicon.ico',
+    },
 };
 
 export default function RootLayout({
@@ -15,15 +21,12 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className="bg-gray-50">
-                <div className="flex h-screen overflow-hidden">
-                    <Sidebar />
-                    <main className="flex-1 overflow-y-auto">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                            {children}
-                        </div>
-                    </main>
-                </div>
+                <AuthProvider>
+                    <ConditionalLayout>{children}</ConditionalLayout>
+                </AuthProvider>
             </body>
         </html>
     );
 }
+
+

@@ -235,6 +235,7 @@ export const DOCUMENT_ARTIFACTS: DocumentArtifact[] = [
         status: DocumentStatus.UNDER_REVIEW,
         fileName: 'census_2024.xlsx',
         date: '2024-01-15',
+        url: '#',
     },
     {
         id: 'recDoc2',
@@ -242,6 +243,7 @@ export const DOCUMENT_ARTIFACTS: DocumentArtifact[] = [
         status: DocumentStatus.APPROVED,
         fileName: 'form_941.pdf',
         date: '2024-01-10',
+        url: '#',
     },
 ];
 

@@ -34,6 +34,7 @@ export interface DocumentArtifact {
   status: DocumentStatus;
   fileName: string;
   date: string;
+  url?: string;
 }
 
 export interface ProgressStep {
@@ -151,3 +152,13 @@ export interface Solution {
   features?: string[];
   website?: string;
 }
+
+export interface User {
+  id: string;
+  email: string;
+  firstName?: string;
+  lastName?: string;
+  companyId: string;
+  role?: string;
+}
+
