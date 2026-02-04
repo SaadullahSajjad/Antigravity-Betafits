@@ -40,27 +40,97 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Find user by email
-        const records = await fetchAirtableRecords(usersTableId, {
-            apiKey: token,
-            filterByFormula: `{Email} = '${email}'`,
-            maxRecords: 1,
-        });
+        // Normalize email for matching (lowercase, trim)
+        const normalizedEmail = email.toLowerCase().trim();
+        
+        console.log(`[Generate Magic Link API] Searching for user with email: ${normalizedEmail}`);
+
+        // Find user by email - try multiple field name variations
+        let records: any[] = [];
+        const emailFieldVariations = ['Email', 'email', 'E-mail', 'User Email', 'Email Address'];
+        
+        for (const fieldName of emailFieldVariations) {
+            try {
+                records = await fetchAirtableRecords(usersTableId, {
+                    apiKey: token,
+                    filterByFormula: `LOWER({${fieldName}}) = '${normalizedEmail}'`,
+                    maxRecords: 1,
+                });
+                
+                if (records && records.length > 0) {
+                    console.log(`[Generate Magic Link API] Found user using field: ${fieldName}`);
+                    break;
+                }
+            } catch (fieldError) {
+                console.log(`[Generate Magic Link API] Field "${fieldName}" not found or error:`, fieldError);
+                continue;
+            }
+        }
+        
+        // If still no records, try without LOWER (in case formula doesn't support it)
+        if (!records || records.length === 0) {
+            try {
+                records = await fetchAirtableRecords(usersTableId, {
+                    apiKey: token,
+                    filterByFormula: `{Email} = '${email}'`,
+                    maxRecords: 1,
+                });
+            } catch (error) {
+                console.error(`[Generate Magic Link API] Error fetching records:`, error);
+            }
+        }
+        
+        // If still no records, fetch all and filter in code (fallback)
+        if (!records || records.length === 0) {
+            console.log(`[Generate Magic Link API] No records found with filter, trying to fetch all and filter in code...`);
+            try {
+                const allRecords = await fetchAirtableRecords(usersTableId, {
+                    apiKey: token,
+                    maxRecords: 100, // Limit to prevent huge fetches
+                });
+                
+                if (allRecords && allRecords.length > 0) {
+                    // Filter in code by checking all possible email fields
+                    records = allRecords.filter((record: any) => {
+                        const fields = record.fields;
+                        for (const fieldName of emailFieldVariations) {
+                            const fieldValue = fields[fieldName];
+                            if (fieldValue && String(fieldValue).toLowerCase().trim() === normalizedEmail) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    
+                    if (records.length > 0) {
+                        console.log(`[Generate Magic Link API] Found user by filtering in code`);
+                    }
+                }
+            } catch (fallbackError) {
+                console.error(`[Generate Magic Link API] Fallback fetch error:`, fallbackError);
+            }
+        }
 
         if (!records || records.length === 0) {
-            // Don't reveal if user exists for security
+            console.log(`[Generate Magic Link API] No user found for email: ${normalizedEmail}`);
+            console.log(`[Generate Magic Link API] Tried field variations: ${emailFieldVariations.join(', ')}`);
+            // Don't reveal if user exists for security, but log for debugging
             return NextResponse.json({
-                success: true,
-                message: "If user exists, magic link generated",
+                success: false,
+                message: "User not found. Please verify the email address exists in Airtable.",
+                debug: process.env.NODE_ENV === 'development' ? `Searched for: ${normalizedEmail}` : undefined,
             });
         }
 
         const record = records[0];
         const userId = record.id;
+        const recordEmail = record.fields["Email"] || record.fields["email"] || record.fields["E-mail"] || "unknown";
+        
+        console.log(`[Generate Magic Link API] Found user: ${userId}, email in record: ${recordEmail}`);
 
         // Generate magic token
         const magicToken = generateMagicToken();
-        storeMagicToken(magicToken, userId, email.toLowerCase(), 24); // 24 hour expiry (in-memory backup)
+        storeMagicToken(magicToken, userId, normalizedEmail, 24); // 24 hour expiry (in-memory backup)
 
         // Generate magic link URL
         // Always use production URL for magic links (not preview URLs)

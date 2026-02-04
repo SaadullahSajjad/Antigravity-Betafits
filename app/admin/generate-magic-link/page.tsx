@@ -32,11 +32,19 @@ export default function GenerateMagicLinkPage() {
 
             const data = await response.json();
 
-            if (response.ok) {
-                setMagicLink(data.magicLink);
-                setError("");
+            if (response.ok && data.success !== false) {
+                if (data.magicLink) {
+                    setMagicLink(data.magicLink);
+                    setError("");
+                } else {
+                    // User not found or other issue
+                    setError(data.message || "User not found. Please check the email address.");
+                    setMagicLink("");
+                }
             } else {
-                setError(data.error || "Failed to generate magic link");
+                // Handle both error responses and success: false responses
+                setError(data.message || data.error || "Failed to generate magic link");
+                setMagicLink("");
             }
         } catch (err) {
             setError("An error occurred. Please try again.");
