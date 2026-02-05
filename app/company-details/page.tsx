@@ -1,5 +1,9 @@
 import React from 'react';
-import CompanyDetails from '@/components/CompanyDetails';
+import DashboardHeader from '@/components/DashboardHeader';
+import CompanySummaryCard from '@/components/CompanySummaryCard';
+import CompanyDetailsInfo from '@/components/CompanyDetailsInfo';
+import WorkforceOverview from '@/components/WorkforceOverview';
+import GlassdoorInsights from '@/components/GlassdoorInsights';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { CompanyData } from '@/types';
@@ -56,16 +60,15 @@ export default async function CompanyDetailsPage() {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
-            <header>
-                <h1 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight">
-                    Company Details
-                </h1>
-                <p className="text-[15px] text-gray-500 font-medium mt-1">
-                    Manage your company profile and view firmographic insights.
-                </p>
-            </header>
+            <DashboardHeader
+                title="Company Details"
+                subtitle="Manage and review company information, eligibility, forms, and configurations."
+            />
 
-            <CompanyDetails data={companyData} />
+            <CompanySummaryCard data={companyData} />
+            <CompanyDetailsInfo data={companyData} />
+            <WorkforceOverview data={companyData} />
+            <GlassdoorInsights />
         </div>
     );
 }

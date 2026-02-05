@@ -1,8 +1,13 @@
 import React from 'react';
-import BenefitsAnalysis from '@/components/BenefitsAnalysis';
+import DashboardHeader from '@/components/DashboardHeader';
+import BudgetSummaryKPIs from '@/components/BudgetSummaryKPIs';
+import DemographicInsights from '@/components/DemographicInsights';
+import FinancialBenchmarks from '@/components/FinancialBenchmarks';
+import BudgetDistribution from '@/components/BudgetDistribution';
+import BudgetBreakdownTable from '@/components/BudgetBreakdownTable';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
-import { DemographicInsights, FinancialKPIs, BudgetBreakdown } from '@/types';
+import { DemographicInsights as DemographicInsightsType, FinancialKPIs, BudgetBreakdown } from '@/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -11,7 +16,7 @@ export default async function BenefitsAnalysisPage() {
     const apiKey = process.env.AIRTABLE_API_KEY;
 
     // Default to empty/live-only structure matching Types
-    let demographics: DemographicInsights = {
+    let demographics: DemographicInsightsType = {
         averageAge: 0,
         averageTenure: 0,
         genderRatio: { male: 0, female: 0, other: 0 },
@@ -38,9 +43,6 @@ export default async function BenefitsAnalysisPage() {
             if (records && records.length > 0) {
                 const fields = records[0].fields;
 
-                // Map whatever live data is available
-                // Many fields are missing in Group Data (require Employee Census), so defaulting to 0
-
                 demographics = {
                     averageAge: 0,
                     averageTenure: 0,
@@ -54,8 +56,6 @@ export default async function BenefitsAnalysisPage() {
                     employerContributionPercentage: Number(fields['medical_er_contribution_strategy']) || 0,
                     benchmarkPercentile: 0,
                 };
-
-                // Budget breakdown is usually derived, leaving empty implies "No Data"
             }
         } catch (error) {
             console.error('[BenefitsAnalysisPage] Error fetching live data:', error);
@@ -66,20 +66,16 @@ export default async function BenefitsAnalysisPage() {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
-            <header>
-                <h1 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight">
-                    Benefits Analysis
-                </h1>
-                <p className="text-[15px] text-gray-500 font-medium mt-1">
-                    Strategic overview of your workforce demographics and financial performance.
-                </p>
-            </header>
-
-            <BenefitsAnalysis
-                demographics={demographics}
-                kpis={kpis}
-                breakdown={breakdown}
+            <DashboardHeader
+                title="Benefits Budget"
+                subtitle="Provide financial overview and cost breakdown of benefits."
             />
+
+            <BudgetSummaryKPIs kpis={kpis} />
+            <DemographicInsights demographics={demographics} />
+            <FinancialBenchmarks kpis={kpis} />
+            <BudgetDistribution breakdown={breakdown} />
+            <BudgetBreakdownTable breakdown={breakdown} />
         </div>
     );
 }

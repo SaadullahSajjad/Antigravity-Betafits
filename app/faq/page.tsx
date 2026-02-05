@@ -1,5 +1,5 @@
 import React from 'react';
-import FAQ from '@/components/FAQ';
+import FAQAccordion from '@/components/FAQAccordion';
 import { FAQ_DATA } from '@/constants';
 
 export default function FAQPage() {
@@ -10,11 +10,11 @@ export default function FAQPage() {
                     Frequently Asked Questions
                 </h1>
                 <p className="text-[16px] text-gray-500 font-medium">
-                    Common answers to questions about eligibility, enrollment, and claims.
+                    This portal is designed to guide you through benefits onboarding step by step. Below are answers to common questions about forms, documents, timelines, and how to complete required tasks.
                 </p>
             </header>
 
-            <FAQ categories={FAQ_DATA} />
+            <FAQAccordion categories={FAQ_DATA} />
         </div>
     );
 }

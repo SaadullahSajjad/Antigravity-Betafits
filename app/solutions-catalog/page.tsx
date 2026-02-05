@@ -1,5 +1,6 @@
 import React from 'react';
-import SolutionsCatalog from '@/components/SolutionsCatalog';
+import DashboardHeader from '@/components/DashboardHeader';
+import SolutionsCatalogList from '@/components/SolutionsCatalogList';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { Solution, SolutionCategory } from '@/types';
@@ -22,13 +23,10 @@ export default async function SolutionsCatalogPage() {
             // });
             const records: any[] = []; // Temporary fallback until ID is fixed
 
-            // Add company filtering if the ecosystem becomes restrictive
-
             if (records && records.length > 0) {
                 solutions = records.map(record => {
                     const fields = record.fields;
 
-                    // Handle attachments for logoUrl
                     const logoAttachments = fields['Logo'] as any[];
                     const logoUrl = logoAttachments && logoAttachments.length > 0 ? logoAttachments[0].url : undefined;
 
@@ -51,18 +49,12 @@ export default async function SolutionsCatalogPage() {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
-            <header>
-                <div className="max-w-xl">
-                    <h1 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight">
-                        Solutions Ecosystem
-                    </h1>
-                    <p className="text-[15px] text-gray-500 font-medium mt-1">
-                        Explore our curated network of top-tier providers and platforms.
-                    </p>
-                </div>
-            </header>
+            <DashboardHeader
+                title="Solutions Catalog"
+                subtitle="Discover benefit providers and technology partners."
+            />
 
-            <SolutionsCatalog solutions={solutions} />
+            <SolutionsCatalogList solutions={solutions} />
         </div>
     );
 }

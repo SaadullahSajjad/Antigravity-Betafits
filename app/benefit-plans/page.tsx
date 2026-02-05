@@ -1,5 +1,8 @@
 import React from 'react';
-import BenefitPlans from '@/components/BenefitPlans';
+import DashboardHeader from '@/components/DashboardHeader';
+import BenefitEligibilityCard from '@/components/BenefitEligibilityCard';
+import ContributionStrategyTable from '@/components/ContributionStrategyTable';
+import ActivePlansTabs from '@/components/ActivePlansTabs';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { BenefitPlan, BenefitEligibilityData, ContributionStrategy } from '@/types';
@@ -11,7 +14,6 @@ export default async function BenefitPlansPage() {
     const apiKey = process.env.AIRTABLE_API_KEY;
 
     // Default to empty/live-only structure
-    // We do NOT import static constants here anymore
     let plans: BenefitPlan[] = [];
     let eligibility: BenefitEligibilityData = {
         waitingPeriod: 'N/A',
@@ -23,7 +25,6 @@ export default async function BenefitPlansPage() {
     if (apiKey && companyId) {
         try {
             // 1. Fetch Benefit Plans
-            // Use FIND for linked record filtering
             const planRecords = await fetchAirtableRecords('tblPJjWgnbblYLym4', {
                 apiKey,
                 filterByFormula: `FIND('${companyId}', ARRAYJOIN({Link to Group Data})) > 0`,
@@ -78,20 +79,14 @@ export default async function BenefitPlansPage() {
 
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
-            <header>
-                <h1 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight">
-                    Benefit Plans
-                </h1>
-                <p className="text-[15px] text-gray-500 font-medium mt-1">
-                    Review your organization's benefit plan configurations and eligibility rules.
-                </p>
-            </header>
-
-            <BenefitPlans
-                eligibility={eligibility}
-                strategies={strategies}
-                plans={plans}
+            <DashboardHeader
+                title="Benefit Plans"
+                subtitle="Review your organization's benefit ecosystem, from coverage rules to employer contribution strategies."
             />
+
+            <BenefitEligibilityCard eligibility={eligibility} />
+            <ContributionStrategyTable strategies={strategies} />
+            <ActivePlansTabs plans={plans} />
         </div>
     );
 }
