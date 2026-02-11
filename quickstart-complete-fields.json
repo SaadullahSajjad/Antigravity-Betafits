@@ -1,0 +1,157 @@
+[
+  {
+    "id": "firstName",
+    "label": "First Name",
+    "type": "text"
+  },
+  {
+    "id": "lastName",
+    "label": "Last Name",
+    "type": "text"
+  },
+  {
+    "id": "title",
+    "label": "Title",
+    "type": "text"
+  },
+  {
+    "id": "phone",
+    "label": "Phone",
+    "type": "text"
+  },
+  {
+    "id": "email",
+    "label": "Email",
+    "type": "email"
+  },
+  {
+    "id": "companyName",
+    "label": "Company Name",
+    "type": "text"
+  },
+  {
+    "id": "industry",
+    "label": "Industry",
+    "type": "select"
+  },
+  {
+    "id": "employeeCount",
+    "label": "Number of Employees",
+    "type": "number"
+  },
+  {
+    "id": "address",
+    "label": "Company Address",
+    "type": "textarea"
+  },
+  {
+    "id": "city",
+    "label": "City",
+    "type": "text"
+  },
+  {
+    "id": "state",
+    "label": "State",
+    "type": "select"
+  },
+  {
+    "id": "zipCode",
+    "label": "Zip Code",
+    "type": "text"
+  },
+  {
+    "id": "ein",
+    "label": "EIN (Employer Identification Number)",
+    "type": "text"
+  },
+  {
+    "id": "hasNDA",
+    "label": "Do you have an NDA to upload?",
+    "type": "radio"
+  },
+  {
+    "id": "ndaNotes",
+    "label": "NDA Notes",
+    "type": "textarea"
+  },
+  {
+    "id": "hasMedical",
+    "label": "Do you currently offer medical benefits?",
+    "type": "radio"
+  },
+  {
+    "id": "medicalCarrier",
+    "label": "Medical Insurance Carrier",
+    "type": "text"
+  },
+  {
+    "id": "hasDental",
+    "label": "Do you currently offer dental benefits?",
+    "type": "radio"
+  },
+  {
+    "id": "dentalCarrier",
+    "label": "Dental Insurance Carrier",
+    "type": "text"
+  },
+  {
+    "id": "hasVision",
+    "label": "Do you currently offer vision benefits?",
+    "type": "radio"
+  },
+  {
+    "id": "visionCarrier",
+    "label": "Vision Insurance Carrier",
+    "type": "text"
+  },
+  {
+    "id": "hasLifeInsurance",
+    "label": "Do you currently offer life insurance?",
+    "type": "radio"
+  },
+  {
+    "id": "hasDisability",
+    "label": "Do you currently offer disability insurance?",
+    "type": "radio"
+  },
+  {
+    "id": "has401k",
+    "label": "Do you currently offer 401(k) retirement plans?",
+    "type": "radio"
+  },
+  {
+    "id": "benefitsNotes",
+    "label": "Additional Benefits Information",
+    "type": "textarea"
+  },
+  {
+    "id": "benefitGuide",
+    "label": "Benefit Guide",
+    "type": "text"
+  },
+  {
+    "id": "sbcPlanSummaries",
+    "label": "SBC/Plan Summaries",
+    "type": "text"
+  },
+  {
+    "id": "census",
+    "label": "Employee Census",
+    "type": "text"
+  },
+  {
+    "id": "otherDocuments",
+    "label": "Other Documents",
+    "type": "textarea"
+  },
+  {
+    "id": "confirmAccuracy",
+    "label": "I confirm that all information provided is accurate",
+    "type": "radio"
+  },
+  {
+    "id": "additionalNotes",
+    "label": "Additional Notes or Comments",
+    "type": "textarea"
+  }
+]

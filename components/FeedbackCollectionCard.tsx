@@ -28,8 +28,8 @@ export default function FeedbackCollectionCard({ surveyUrl, surveyFormUrl }: Pro
     return (
         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <div className="mb-6">
-                <h3 className="text-[18px] font-bold text-gray-900 mb-1">Feedback Collection</h3>
-                <p className="text-[13px] text-gray-500">Distribute your unique survey link to employees to start gathering sentiment data.</p>
+                <h3 className="text-xl font-bold text-gray-900 tracking-tight mb-1">Employee Feedback Collection</h3>
+                <p className="text-[13px] text-gray-500 mt-0.5">Please share this survey link with your employees to collect feedback on your benefits program. This helps us evaluate the quality of your current plan and identify opportunities for improvement.</p>
             </div>
 
             {surveyUrl ? (
@@ -52,7 +52,7 @@ export default function FeedbackCollectionCard({ surveyUrl, surveyFormUrl }: Pro
                             />
                             <button
                                 onClick={handleCopyLink}
-                                className="px-4 py-2 bg-brand-600 text-white rounded-lg text-[13px] font-bold hover:bg-brand-700 transition-colors whitespace-nowrap"
+                                className="px-4 py-2 bg-brand-500 text-white rounded-lg text-[13px] font-bold hover:bg-brand-600 transition-colors whitespace-nowrap"
                             >
                                 {copied ? 'Copied!' : 'Copy Link'}
                             </button>
@@ -68,8 +68,10 @@ export default function FeedbackCollectionCard({ surveyUrl, surveyFormUrl }: Pro
                     )}
                 </div>
             ) : (
-                <div className="text-center py-8">
-                    <p className="text-[14px] text-gray-500 mb-4">No active survey. Create a new survey to get started.</p>
+                <div className="space-y-4">
+                    <div className="text-center py-4">
+                        <p className="text-[14px] text-gray-500 mb-4">No active survey. Create a new survey to get started.</p>
+                    </div>
                     <CreateSurveyButton variant="card" />
                 </div>
             )}

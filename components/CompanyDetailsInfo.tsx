@@ -11,9 +11,27 @@ export default function CompanyDetailsInfo({ data }: Props) {
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState(data);
 
-    const handleSave = () => {
-        // TODO: Implement API call to update company data
-        setIsEditing(false);
+    const handleSave = async () => {
+        try {
+            const response = await fetch('/api/company/update', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(editedData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setIsEditing(false);
+                // Refresh the page to show updated data
+                window.location.reload();
+            } else {
+                alert(data.error || 'Failed to update company details');
+            }
+        } catch (error) {
+            console.error('Error updating company details:', error);
+            alert('An error occurred while updating company details');
+        }
     };
 
     return (

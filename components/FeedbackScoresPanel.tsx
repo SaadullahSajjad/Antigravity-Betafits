@@ -31,10 +31,10 @@ export default function FeedbackScoresPanel({ responses }: Props) {
 
     if (Object.keys(categoryScores).length === 0) {
         return (
-            <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                 <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Scores by Category</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">Average feedback scores organized by category.</p>
+                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Average Score Summary</h2>
+                    <p className="text-[13px] text-gray-500 mt-0.5">These results show how your employees rated their current benefit plans. Scores are automatically updated based on completed surveys.</p>
                 </div>
                 <div className="text-center py-12">
                     <p className="text-[14px] text-gray-500">No feedback data available.</p>
@@ -44,10 +44,10 @@ export default function FeedbackScoresPanel({ responses }: Props) {
     }
 
     return (
-        <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <div className="mb-6">
-                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Scores by Category</h2>
-                <p className="text-[13px] text-gray-500 mt-0.5">Average feedback scores organized by category.</p>
+                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Average Score Summary</h2>
+                <p className="text-[13px] text-gray-500 mt-0.5">These results show how your employees rated their current benefit plans. Scores are automatically updated based on completed surveys.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {Object.entries(categoryScores).map(([category, data]) => (

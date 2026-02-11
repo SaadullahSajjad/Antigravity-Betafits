@@ -1,10 +1,9 @@
 import React from 'react';
 import AssignedForms from '@/components/AssignedForms';
-import DocumentsSection from '@/components/DocumentsSection';
-import ProgressSteps from '@/components/ProgressSteps';
 import AvailableForms from '@/components/AvailableForms';
+import DocumentsSection from '@/components/DocumentsSection';
 import DocumentUpload from '@/components/DocumentUpload';
-import HelpCard from '@/components/HelpCard';
+import ProgressSteps from '@/components/ProgressSteps';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { DocumentArtifact, AssignedForm, AvailableForm, DocumentStatus, FormStatus, ProgressStep, ProgressStatus } from '@/types';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
@@ -28,6 +27,7 @@ export default async function HomePage() {
     const docsTableId = 'tblBgAZKJln76anVn';
     const assignedFormsTableId = 'tblNeyKm9sKAKZq9n';
     const availableFormsTableId = 'tblZVnNaE4y8e56fa';
+    const progressStepsTableId = 'tbl5KoDB657pRju5x'; // Intake - Progress Steps
 
     // Default to empty/live-only structure
     let documents: DocumentArtifact[] = [];
@@ -111,12 +111,32 @@ export default async function HomePage() {
                 console.error('[Dashboard] Error fetching documents:', err);
             }
             if (docRecords && docRecords.length > 0) {
-                documents = docRecords.map((record) => {
+                documents = docRecords
+                    .map((record) => {
                     const fileField = record.fields['File'];
+                    console.log(`[Dashboard] Processing document ${record.id}, File field:`, fileField);
+                    
+                    // Airtable file attachments can be an array of objects with structure:
+                    // [{ id: string, url: string, filename: string, size: number, type: string }]
                     const fileAttachment = Array.isArray(fileField) && fileField.length > 0 ? (fileField[0] as any) : null;
+                    
+                    if (fileAttachment) {
+                        console.log(`[Dashboard] File attachment found:`, {
+                            id: fileAttachment.id,
+                            url: fileAttachment.url,
+                            filename: fileAttachment.filename,
+                            size: fileAttachment.size,
+                            type: fileAttachment.type,
+                        });
+                    } else {
+                        console.warn(`[Dashboard] No file attachment found for document ${record.id}, File field:`, fileField);
+                    }
+                    
                     const fileName = fileAttachment?.filename || String(record.fields['Name'] || '');
                     const fileDate = fileAttachment?.createdTime
                         ? new Date(fileAttachment.createdTime).toISOString()
+                        : record.createdTime
+                        ? new Date(record.createdTime).toISOString()
                         : new Date().toISOString();
 
                     // Use filename as name if Name field is empty (since it's computed)
@@ -127,15 +147,70 @@ export default async function HomePage() {
                         'Untitled Document'
                     );
 
+                    // Get the document URL - Airtable attachment objects have a 'url' property
+                    let documentUrl = fileAttachment?.url;
+                    
+                    // If Airtable attachment URL exists, use it directly
+                    // Airtable attachment URLs are in format: https://dl.airtable.com/.attachments/...
+                    if (documentUrl && typeof documentUrl === 'string' && documentUrl.trim() !== '') {
+                        if (documentUrl.startsWith('https://dl.airtable.com')) {
+                            // This is Airtable's attachment URL - use it directly
+                            console.log(`[Dashboard] Using Airtable attachment URL for document ${record.id}`);
+                        } else if (documentUrl.includes('/api/files/')) {
+                            // This is our file storage URL - ensure it's accessible
+                            // Extract fileId from URL
+                            const fileIdMatch = documentUrl.match(/\/api\/files\/([^\/\?]+)/);
+                            if (fileIdMatch) {
+                                const fileId = fileIdMatch[1];
+                                // Construct full URL with proper base - use request origin for client-side access
+                                const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+                                documentUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${fileId}`;
+                                console.log(`[Dashboard] Reconstructed file storage URL for document ${record.id}: ${documentUrl}`);
+                            }
+                        }
+                    } else {
+                        // No URL from Airtable attachment - try to reconstruct from stored fileId or File URL
+                        const fileId = record.fields['File ID'] || record.fields['FileId'] || record.fields['file_id'];
+                        const storedFileUrl = record.fields['File URL'] || record.fields['FileUrl'] || record.fields['file_url'];
+                        
+                        if (fileId && typeof fileId === 'string') {
+                            // Reconstruct URL from stored fileId
+                            const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+                            documentUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${fileId}`;
+                            console.log(`[Dashboard] Reconstructed URL from stored fileId for document ${record.id}: ${documentUrl}`);
+                        } else if (storedFileUrl && typeof storedFileUrl === 'string' && storedFileUrl.includes('/api/files/')) {
+                            // Use stored file URL
+                            const fileIdMatch = storedFileUrl.match(/\/api\/files\/([^\/\?]+)/);
+                            if (fileIdMatch) {
+                                const extractedFileId = fileIdMatch[1];
+                                const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+                                documentUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${extractedFileId}`;
+                                console.log(`[Dashboard] Reconstructed URL from stored File URL for document ${record.id}: ${documentUrl}`);
+                            }
+                        } else {
+                            // No URL found - document might not have been properly attached
+                            console.warn(`[Dashboard] Document ${record.id} has no file URL, fileId, or stored URL. File attachment:`, fileAttachment);
+                            documentUrl = undefined;
+                        }
+                    }
+
+                    // Only return documents that have a valid file attachment or URL
+                    // Documents without files are likely failed uploads or incomplete records
+                    if (!documentUrl && !fileAttachment) {
+                        console.warn(`[Dashboard] Skipping document ${record.id} - no file attachment found`);
+                        return null;
+                    }
+
                     return {
                         id: record.id,
                         name: documentName,
                         status: DocumentStatus.RECEIVED,
                         fileName: fileName,
                         date: fileDate,
-                        url: fileAttachment?.url,
+                        url: documentUrl,
                     };
-                });
+                    })
+                    .filter((doc) => doc !== null) as DocumentArtifact[]; // Filter out null documents
                 console.log(`[Dashboard] Loaded ${documents.length} documents for company ${companyId}`);
             } else {
                 console.log(`[Dashboard] No documents found for company ${companyId}`);
@@ -191,32 +266,116 @@ export default async function HomePage() {
                 console.error('[Dashboard] Error fetching assigned forms:', error);
             }
             
-            // Fetch Available Forms first to create a lookup for form names
-            const availableRecords = await fetchAirtableRecords(availableFormsTableId, {
-                apiKey: token,
-                maxRecords: 100,
-            });
+            // Fetch Available Forms - show all forms that are NOT "Coming Soon" and NOT already assigned
+            // Softr shows all available forms (not filtered by company link), excluding those already assigned
+            let allAvailableRecords: any[] = [];
+            let availableRecords: any[] = [];
             
-            // Create lookup map: available form ID -> form name
+            try {
+                // Fetch all available forms
+                allAvailableRecords = await fetchAirtableRecords(availableFormsTableId, {
+                    apiKey: token,
+                    maxRecords: 100,
+                });
+                
+                console.log(`[Dashboard] Fetched ${allAvailableRecords?.length || 0} total available forms from Airtable`);
+                
+                if (allAvailableRecords && allAvailableRecords.length > 0) {
+                    // Get list of Available Form IDs that are already assigned to this company
+                    const assignedAvailableFormIds: string[] = [];
+                    if (assignedRecords && assignedRecords.length > 0) {
+                        assignedRecords.forEach((assignedRecord: any) => {
+                            const linkToAvailable = assignedRecord.fields['Link to Available Forms'];
+                            if (linkToAvailable) {
+                                const linkedIds = Array.isArray(linkToAvailable) ? linkToAvailable : [linkToAvailable];
+                                linkedIds.forEach((id: string) => {
+                                    if (!assignedAvailableFormIds.includes(String(id).trim())) {
+                                        assignedAvailableFormIds.push(String(id).trim());
+                                    }
+                                });
+                            }
+                        });
+                    }
+                    
+                    console.log(`[Dashboard] Found ${assignedAvailableFormIds.length} available forms already assigned to company ${companyId}`);
+                    
+                    // Filter: exclude "Coming Soon" and already assigned forms
+                    availableRecords = allAvailableRecords.filter((record: any) => {
+                        // Filter out "Coming Soon" forms
+                        const status = String(record.fields['Status'] || '').toLowerCase();
+                        const name = String(record.fields['Name'] || '').toLowerCase();
+                        if (status.includes('coming soon') || name.includes('coming soon')) {
+                            return false;
+                        }
+                        
+                        // Filter out forms that are already assigned to this company
+                        if (assignedAvailableFormIds.includes(record.id)) {
+                            return false;
+                        }
+                        
+                        return true;
+                    });
+                    
+                    console.log(`[Dashboard] Filtered to ${availableRecords.length} available forms (excluding Coming Soon and already assigned)`);
+                }
+            } catch (error) {
+                console.error('[Dashboard] Error fetching available forms:', error);
+            }
+            
+            // Create lookup map: available form ID -> form name (for use in assigned forms mapping)
             const availableFormsLookup: Record<string, string> = {};
-            if (availableRecords && availableRecords.length > 0) {
-                availableRecords.forEach((record) => {
+            if (allAvailableRecords && allAvailableRecords.length > 0) {
+                allAvailableRecords.forEach((record) => {
                     availableFormsLookup[record.id] = String(record.fields['Name'] || '');
                 });
                 console.log(`[Dashboard] Created lookup for ${Object.keys(availableFormsLookup).length} available forms`);
-                
-                // Also map to availableForms for display
-                availableForms = availableRecords.map((record) => ({
-                    id: record.id,
-                    name: String(record.fields['Name'] || ''),
-                    category: String(record.fields['Category'] || 'General'),
-                    estimatedTime: String(record.fields['Estimated Time'] || record.fields['Estimated Completion Time'] || record.fields['Completion Time'] || ''),
-                    description: String(record.fields['Description'] || record.fields['Intro Text'] || ''),
-                }));
             }
             
+            // Map to availableForms for display
+            availableForms = availableRecords.map((record) => ({
+                id: record.id,
+                name: String(record.fields['Name'] || ''),
+                category: String(record.fields['Category'] || 'General'),
+                estimatedTime: String(record.fields['Estimated Time'] || record.fields['Estimated Completion Time'] || record.fields['Completion Time'] || ''),
+                description: String(record.fields['Description'] || record.fields['Intro Text'] || ''),
+            }));
+            
             if (assignedRecords && assignedRecords.length > 0) {
-                assignedForms = assignedRecords.map((record) => {
+                // Sort by createdTime descending (newest first)
+                const sortedRecords = [...assignedRecords].sort((a, b) => {
+                    const timeA = a.createdTime ? new Date(a.createdTime).getTime() : 0;
+                    const timeB = b.createdTime ? new Date(b.createdTime).getTime() : 0;
+                    return timeB - timeA;
+                });
+                
+                // Filter out "Coming Soon" forms
+                const filteredRecords = sortedRecords.filter((record: any) => {
+                    const status = String(record.fields['Status'] || '').toLowerCase();
+                    const name = String(record.fields['Name'] || '').toLowerCase();
+                    
+                    // Check if the assigned form itself is "Coming Soon"
+                    if (status.includes('coming soon') || name.includes('coming soon')) {
+                        return false;
+                    }
+                    
+                    // Also check if the linked Available Form is "Coming Soon"
+                    const availableFormLink = record.fields['Link to Available Forms'];
+                    if (availableFormLink) {
+                        const linkedFormIds = Array.isArray(availableFormLink) ? availableFormLink : [availableFormLink];
+                        for (const linkedFormId of linkedFormIds) {
+                            const linkedFormName = availableFormsLookup[String(linkedFormId)];
+                            if (linkedFormName && linkedFormName.toLowerCase().includes('coming soon')) {
+                                return false;
+                            }
+                        }
+                    }
+                    
+                    return true;
+                });
+                
+                console.log(`[Dashboard] Filtered out ${sortedRecords.length - filteredRecords.length} "Coming Soon" assigned forms`);
+                
+                assignedForms = filteredRecords.map((record) => {
                     // Try to get the actual form name
                     let formName = String(record.fields['Name'] || '');
                     
@@ -270,91 +429,158 @@ export default async function HomePage() {
         console.warn('[HomePage] No company ID available. User may not be authenticated.');
     }
 
-    // Generate dynamic progress steps based on actual data
+    // Fetch Progress Steps from Airtable
     let progressSteps: ProgressStep[] = [];
     
-    if (companyId) {
-        progressSteps = [
-            {
-                id: 'step1',
-                name: 'Company Profile',
-                category: 'Information',
-                status: companyId ? ProgressStatus.APPROVED : ProgressStatus.MISSING,
-                notes: companyId ? 'Basic company details have been verified.' : 'Please update your company profile.',
-            },
-            {
-                id: 'step2',
-                name: 'Assigned Forms',
-                category: 'Action Items',
-                status: assignedForms.length > 0 && assignedForms.every(f => f.status === FormStatus.COMPLETED)
-                    ? ProgressStatus.APPROVED
-                    : (assignedForms.some(f => f.status === FormStatus.COMPLETED || f.status === FormStatus.IN_PROGRESS) ? ProgressStatus.IN_REVIEW : ProgressStatus.MISSING),
-                notes: `${assignedForms.filter(f => f.status === FormStatus.COMPLETED).length} of ${assignedForms.length} forms completed.`,
-            },
-            {
-                id: 'step3',
-                name: 'Document Uploads',
-                category: 'Compliance',
-                status: documents.length > 0 ? ProgressStatus.APPROVED : ProgressStatus.MISSING,
-                notes: documents.length > 0 ? `${documents.length} documents received and under review.` : 'Main document artifacts are missing.',
-            },
-            {
-                id: 'step4',
-                name: 'Benefit Strategy',
-                category: 'Consulting',
-                status: ProgressStatus.IN_REVIEW,
-                notes: 'Our team is reviewing your benefit plan preferences.',
+    if (token && companyId) {
+        try {
+            // Fetch all progress steps and filter by company ID
+            const allProgressSteps = await fetchAirtableRecords(progressStepsTableId, {
+                apiKey: token,
+                maxRecords: 100,
+            });
+            
+            console.log(`[Dashboard] Fetched ${allProgressSteps?.length || 0} total progress steps from Airtable`);
+            
+            if (allProgressSteps && allProgressSteps.length > 0) {
+                // Filter by company ID in code
+                const companyProgressSteps = allProgressSteps.filter((record: any) => {
+                    const linkField = record.fields['Link to Intake - Group Data'];
+                    
+                    if (!linkField) {
+                        return false;
+                    }
+                    
+                    // Handle array of linked record IDs
+                    if (Array.isArray(linkField) && linkField.length > 0) {
+                        const matches = linkField.some((id: string) => {
+                            const idStr = String(id).trim();
+                            const companyIdStr = String(companyId).trim();
+                            return idStr === companyIdStr;
+                        });
+                        return matches;
+                    }
+                    
+                    // Handle single linked record ID
+                    return String(linkField).trim() === String(companyId).trim();
+                });
+                
+                console.log(`[Dashboard] Filtered to ${companyProgressSteps.length} progress steps for company ${companyId}`);
+                
+                // Map Airtable records to ProgressStep interface
+                progressSteps = companyProgressSteps.map((record: any) => {
+                    // Map Airtable Status to ProgressStatus enum
+                    const airtableStatus = String(record.fields['Status'] || '').toLowerCase();
+                    let mappedStatus: ProgressStatus;
+                    
+                    switch (airtableStatus) {
+                        case 'completed':
+                            mappedStatus = ProgressStatus.APPROVED;
+                            break;
+                        case 'in review':
+                        case 'in_review':
+                            mappedStatus = ProgressStatus.IN_REVIEW;
+                            break;
+                        case 'flagged':
+                            mappedStatus = ProgressStatus.FLAGGED;
+                            break;
+                        case 'not started':
+                        case 'not_started':
+                        case 'missing':
+                            mappedStatus = ProgressStatus.MISSING;
+                            break;
+                        case 'not requested':
+                        case 'not_requested':
+                            mappedStatus = ProgressStatus.NOT_REQUESTED;
+                            break;
+                        case 'in progress':
+                        case 'in_progress':
+                        default:
+                            mappedStatus = ProgressStatus.IN_REVIEW;
+                            break;
+                    }
+                    
+                    // Get category from "Description for Prospect (from Progress Steps/Automation Templates)" or "Category" field
+                    const category = String(
+                        record.fields['Category'] || 
+                        record.fields['Description for Prospect (from Progress Steps/Automation Templates)'] ||
+                        'General'
+                    );
+                    
+                    // Get notes from "Notes" field
+                    const notes = String(record.fields['Notes'] || '');
+                    
+                    return {
+                        id: record.id,
+                        name: String(record.fields['Name'] || 'Untitled Step'),
+                        category: category,
+                        status: mappedStatus,
+                        notes: notes || undefined,
+                    };
+                });
+                
+                console.log(`[Dashboard] Mapped ${progressSteps.length} progress steps`);
+            } else {
+                console.log(`[Dashboard] No progress steps found in Airtable`);
             }
-        ];
+        } catch (error) {
+            console.error('[Dashboard] Error fetching progress steps:', error);
+        }
     }
-    // If no company ID, progressSteps remains empty array
 
     return (
         <div className="space-y-12 animate-in fade-in duration-500">
-            <header>
-                <h1 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight">
-                    Prospect Portal
-                </h1>
-                <p className="text-[15px] text-gray-500 font-medium mt-1">
-                    Manage your intake workflow and document submissions with ease.
-                </p>
-            </header>
-
-            {/* Row 1: Assigned Forms & Documents */}
+            {/* Row 1: Assigned Forms & Documents (matching Softr layout) */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 <div className="lg:col-span-8">
+                    <div className="mb-6">
+                        <h2 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight mb-2">
+                            Assigned Forms
+                        </h2>
+                        <p className="text-[15px] text-gray-500 font-medium">
+                            Complete the forms assigned to you to move your benefits onboarding forward.
+                        </p>
+                    </div>
                     <AssignedForms forms={assignedForms} />
                 </div>
                 <div className="lg:col-span-4">
-                    <div className="mb-6 flex justify-between items-start">
-                        <div>
-                            <h2 className="text-xl font-bold text-gray-900 tracking-tight">Documents</h2>
-                            <p className="text-[13px] text-gray-500 mt-0.5">Recently uploaded files and artifacts.</p>
-                        </div>
-                        <DocumentUpload />
+                    <div className="mb-6">
+                        <h2 className="text-xl font-bold text-gray-900 tracking-tight">Your Documents</h2>
                     </div>
-                    <DocumentsSection documents={documents} />
+                    <DocumentUpload />
+                    <div className="mt-6">
+                        <DocumentsSection documents={documents} />
+                    </div>
                 </div>
             </div>
 
-            {/* Row 2: Process Tracking */}
-            <section className="w-full">
+            {/* Row 2: Available Forms Section (matching Softr layout) */}
+            {availableForms.length > 0 && (
+                <section>
+                    <div className="mb-6">
+                        <h2 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight mb-2">
+                            Available Forms
+                        </h2>
+                        <p className="text-[15px] text-gray-500 font-medium">
+                            Browse and start additional forms to complete your onboarding.
+                        </p>
+                    </div>
+                    <AvailableForms forms={availableForms} />
+                </section>
+            )}
+
+            {/* Row 3: Progress Steps Section (matching Softr layout) */}
+            <section>
                 <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Process Tracking</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">Real-time status of your onboarding pipeline.</p>
+                    <h2 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight mb-2">
+                        Progress Steps
+                    </h2>
+                    <p className="text-[15px] text-gray-500 font-medium">
+                        Track your onboarding progress and see what's left to finish.
+                    </p>
                 </div>
                 <ProgressSteps steps={progressSteps} />
             </section>
-
-            {/* Row 3: Available Forms & Help Card */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-                <div className="lg:col-span-8">
-                    <AvailableForms forms={availableForms} />
-                </div>
-                <div className="lg:col-span-4">
-                    <HelpCard />
-                </div>
-            </div>
         </div>
     );
 }

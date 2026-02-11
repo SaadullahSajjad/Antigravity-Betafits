@@ -18,7 +18,7 @@ export default function ActivePlansTabs({ plans }: Props) {
     const visionPlans = plans.filter(p => p.type.toLowerCase().includes('vision'));
 
     return (
-        <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <div className="mb-6">
                 <h2 className="text-xl font-bold text-gray-900 tracking-tight">Active Plans</h2>
                 <p className="text-[13px] text-gray-500 mt-0.5">Current benefit plans available for enrollment.</p>

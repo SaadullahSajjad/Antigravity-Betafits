@@ -1,9 +1,6 @@
 import React from 'react';
 import DashboardHeader from '@/components/DashboardHeader';
-import CompanySummaryCard from '@/components/CompanySummaryCard';
-import CompanyDetailsInfo from '@/components/CompanyDetailsInfo';
-import WorkforceOverview from '@/components/WorkforceOverview';
-import GlassdoorInsights from '@/components/GlassdoorInsights';
+import CompanyDetailsTabs from '@/components/CompanyDetailsTabs';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { CompanyData } from '@/types';
@@ -65,10 +62,7 @@ export default async function CompanyDetailsPage() {
                 subtitle="Manage and review company information, eligibility, forms, and configurations."
             />
 
-            <CompanySummaryCard data={companyData} />
-            <CompanyDetailsInfo data={companyData} />
-            <WorkforceOverview data={companyData} />
-            <GlassdoorInsights />
+            <CompanyDetailsTabs data={companyData} />
         </div>
     );
 }

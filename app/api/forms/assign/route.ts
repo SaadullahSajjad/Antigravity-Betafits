@@ -68,6 +68,16 @@ export async function POST(request: NextRequest) {
         const formRecord = await formResponse.json();
         const formFields = formRecord.fields;
 
+        // Check if form is "Coming Soon" - prevent assignment
+        const formStatus = String(formFields['Status'] || '').toLowerCase();
+        const formName = String(formFields['Name'] || '').toLowerCase();
+        if (formStatus.includes('coming soon') || formName.includes('coming soon')) {
+            return NextResponse.json(
+                { error: 'This form is marked as "Coming Soon" and cannot be assigned yet' },
+                { status: 400 }
+            );
+        }
+
         console.log(`[Assign Form API] Available form fields:`, Object.keys(formFields));
         console.log(`[Assign Form API] Company ID to link: ${companyId}`);
 

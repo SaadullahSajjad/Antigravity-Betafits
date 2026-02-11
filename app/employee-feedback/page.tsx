@@ -107,17 +107,19 @@ export default async function EmployeeFeedbackPage() {
         <div className="space-y-8 animate-in fade-in duration-500">
             <DashboardHeader
                 title="Employee Feedback"
-                subtitle="Monitor workforce sentiment and review feedback collected through benefits-related surveys."
+                subtitle="Employee feedback helps shape stronger benefit programs. Each response guides Betafits and your company in making informed, employee-focused decisions."
             />
 
-            <FeedbackKPIs stats={stats} />
-            <FeedbackCollectionCard 
-                surveyUrl={activeSurveyUrl}
-                surveyFormUrl={activeSurveyFormUrl}
-            />
+            <div className="max-w-xl">
+                <FeedbackCollectionCard 
+                    surveyUrl={activeSurveyUrl}
+                    surveyFormUrl={activeSurveyFormUrl}
+                />
+            </div>
+
             <FeedbackScoresPanel responses={responses} />
-            <RecentFeedbackList responses={responses} />
-            <FeedbackHistoryTable responses={responses} />
+
+            <RecentFeedbackList responses={responses} limit={5} />
         </div>
     );
 }

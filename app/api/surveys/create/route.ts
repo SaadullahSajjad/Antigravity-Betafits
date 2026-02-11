@@ -41,58 +41,95 @@ export async function POST(request: NextRequest) {
         // Create survey record in Airtable
         const createUrl = `https://api.airtable.com/v0/${baseId}/${surveysTableId}`;
 
-        // Build fields object - only include fields that are provided
+        // Build fields object - match Softr's approach
+        // Softr likely only sets the required link field, and other fields are handled by Airtable/Softr
+        // "Name" field is computed in Airtable, so we can't set it directly
         const fields: Record<string, any> = {
-            // Link to company (required)
+            // Link to company (required) - this is the only field we know exists and can set
             "Link to Intake - Group Data": [companyId],
         };
 
-        // Add title/name if provided (try common field names)
-        if (title) {
-            // Try "Name" first, which is the most common Airtable field
-            fields["Name"] = title;
-        }
-
-        // Add description if provided
+        // Try to add description if provided (but don't set Name/Title as they're computed)
         if (description) {
             fields["Description"] = description;
         }
 
-        const response = await fetch(createUrl, {
-            method: "POST",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                fields,
-            }),
-        });
+        let record;
+        let fieldsToUpdate = { ...fields };
+        const maxRetries = 3;
+        let retryCount = 0;
+        const skippedFields: string[] = [];
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error("[Create Survey API] Airtable error:", errorText);
-            
-            // Try to parse error message for better user feedback
-            let errorMessage = "Failed to create survey in Airtable";
-            try {
-                const errorData = JSON.parse(errorText);
-                if (errorData.error?.message) {
-                    errorMessage = errorData.error.message;
+        // Try creating with retry logic for unknown or computed fields
+        while (retryCount < maxRetries) {
+            const response = await fetch(createUrl, {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    fields: fieldsToUpdate,
+                }),
+            });
+
+            if (response.ok) {
+                record = await response.json();
+                console.log(`[Create Survey API] Successfully created survey: ${record.id} for company: ${companyId}`);
+                if (retryCount > 0) {
+                    console.log(`[Create Survey API] Successfully created after removing ${retryCount} invalid field(s): ${skippedFields.join(', ')}`);
                 }
-            } catch {
-                // Use default message if parsing fails
+                break;
+            } else {
+                const errorText = await response.text();
+                console.error(`[Create Survey API] Airtable error (attempt ${retryCount + 1}):`, errorText);
+                
+                let errorData: any = null;
+                try {
+                    errorData = JSON.parse(errorText);
+                } catch {
+                    // If we can't parse the error, return it as-is
+                    return NextResponse.json(
+                        { error: "Failed to create survey in Airtable" },
+                        { status: 500 }
+                    );
+                }
+
+                // Handle unknown field names or computed fields
+                if (errorData.error?.type === 'UNKNOWN_FIELD_NAME' || errorData.error?.type === 'INVALID_VALUE_FOR_COLUMN') {
+                    // Extract the field name from error message
+                    const fieldMatch = errorData.error.message.match(/"([^"]+)"/);
+                    if (fieldMatch && fieldMatch[1]) {
+                        const invalidField = fieldMatch[1];
+                        console.warn(`[Create Survey API] Field "${invalidField}" is invalid (unknown or computed), removing it and retrying...`);
+                        skippedFields.push(invalidField);
+                        const { [invalidField]: removed, ...remainingFields } = fieldsToUpdate;
+                        fieldsToUpdate = remainingFields;
+
+                        // Always keep the required link field
+                        if (!fieldsToUpdate["Link to Intake - Group Data"]) {
+                            fieldsToUpdate["Link to Intake - Group Data"] = [companyId];
+                        }
+
+                        retryCount++;
+                        continue;
+                    }
+                }
+                
+                // If error is not about unknown/computed fields, or we've exhausted retries, return error
+                return NextResponse.json(
+                    { error: errorData?.error?.message || "Failed to create survey in Airtable" },
+                    { status: 500 }
+                );
             }
-            
+        }
+
+        if (!record) {
             return NextResponse.json(
-                { error: errorMessage },
+                { error: "Failed to create survey after retrying with different field combinations" },
                 { status: 500 }
             );
         }
-
-        const record = await response.json();
-
-        console.log(`[Create Survey API] Successfully created survey: ${record.id} for company: ${companyId}`);
 
         return NextResponse.json({
             success: true,

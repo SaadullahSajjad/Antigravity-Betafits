@@ -29,7 +29,7 @@ function AccessPageContent() {
                 });
 
                 if (result?.error) {
-                    setError("Invalid or expired access link. Please contact support.");
+                    setError("It seems your magic link is no longer valid. Please, contact your administrator.");
                     setLoading(false);
                 } else if (result?.ok) {
                     // Check if user needs to change password
@@ -89,14 +89,14 @@ function AccessPageContent() {
                                     </svg>
                                 </div>
                                 <h1 className="text-[28px] font-bold text-gray-900 mb-2">
-                                    Access Denied
+                                    Something went wrong...
                                 </h1>
                                 <p className="text-gray-600 text-sm mb-6">{error}</p>
                                 <button
-                                    onClick={() => router.push("/login")}
+                                    onClick={() => router.push("/")}
                                     className="w-full bg-[#97C25E] hover:bg-[#8bb356] text-white font-bold py-4 rounded-xl text-[15px] transition-all shadow-sm shadow-[#97C25E]/20"
                                 >
-                                    Go to Login
+                                    back to home page
                                 </button>
                             </div>
                         </div>

@@ -131,6 +131,9 @@ export async function POST(request: NextRequest) {
         // Generate magic token
         const magicToken = generateMagicToken();
         storeMagicToken(magicToken, userId, normalizedEmail, 24); // 24 hour expiry (in-memory backup)
+        
+        console.log(`[Generate Magic Link API] Token stored in memory: ${magicToken.substring(0, 10)}...`);
+        console.log(`[Generate Magic Link API] Token will be valid for 24 hours from: ${new Date().toISOString()}`);
 
         // Generate magic link URL
         // Always use production URL for magic links (not preview URLs)
@@ -191,9 +194,15 @@ export async function POST(request: NextRequest) {
             if (!updateResponse.ok) {
                 const errorText = await updateResponse.text();
                 console.error("[Generate Magic Link API] Airtable update error:", errorText);
-                // Still return the link even if update fails
+                console.error("[Generate Magic Link API] This might mean the 'Magic Token' or 'Magic Token Expires' fields don't exist in Airtable");
+                console.error("[Generate Magic Link API] ERROR: Magic link may not work if server restarts!");
+                console.error("[Generate Magic Link API] Please create 'Magic Token' (Single line text) and 'Magic Token Expires' (Number) fields in Airtable Users table");
+                // Still return the link - it will work from in-memory storage on the same server instance
+                // But will fail if server restarts or it's a different instance
             } else {
-                console.log(`[Generate Magic Link API] Token stored in Airtable for ${email}`);
+                console.log(`[Generate Magic Link API] ✓ Token stored in Airtable for ${email}`);
+                console.log(`[Generate Magic Link API] Token: ${magicToken.substring(0, 10)}...`);
+                console.log(`[Generate Magic Link API] Expires at: ${new Date(expiresAt).toISOString()}`);
             }
         } catch (updateError) {
             console.error("[Generate Magic Link API] Error updating Airtable:", updateError);

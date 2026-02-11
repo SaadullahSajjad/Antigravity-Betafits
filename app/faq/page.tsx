@@ -1,5 +1,5 @@
 import React from 'react';
-import FAQAccordion from '@/components/FAQAccordion';
+import FAQ from '@/components/FAQ';
 import { FAQ_DATA } from '@/constants';
 
 export default function FAQPage() {
@@ -14,7 +14,7 @@ export default function FAQPage() {
                 </p>
             </header>
 
-            <FAQAccordion categories={FAQ_DATA} />
+            <FAQ categories={FAQ_DATA} />
         </div>
     );
 }

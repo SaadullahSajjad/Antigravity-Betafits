@@ -31,11 +31,11 @@ const Sidebar: React.FC = () => {
         };
     }, [isProfileDropdownOpen]);
 
-    // Navigation items matching pages from context layer
+    // Navigation items matching Softr portal exactly
     const navItems = [
         {
             id: 'home',
-            name: 'Dashboard',
+            name: 'Home',
             href: '/',
             icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
         },
@@ -53,9 +53,15 @@ const Sidebar: React.FC = () => {
         },
         {
             id: 'benefits-analysis',
-            name: 'Benefits Budget',
+            name: 'Benefits Analysis',
             href: '/benefits-analysis',
             icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z'
+        },
+        {
+            id: 'benefit-budget',
+            name: 'Benefit Budget',
+            href: '/benefit-budget',
+            icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
         },
         {
             id: 'employee-feedback',
@@ -64,16 +70,22 @@ const Sidebar: React.FC = () => {
             icon: 'M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z'
         },
         {
-            id: 'faq',
-            name: 'FAQ',
-            href: '/faq',
-            icon: 'M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-        },
-        {
             id: 'solutions-catalog',
             name: 'Solutions Catalog',
             href: '/solutions-catalog',
             icon: 'M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
+        },
+        {
+            id: 'appoint-betafits',
+            name: 'Appoint Betafits',
+            href: '/appoint-betafits',
+            icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+        },
+        {
+            id: 'faq',
+            name: 'FAQ',
+            href: '/faq',
+            icon: 'M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
         },
     ];
 
@@ -113,7 +125,7 @@ const Sidebar: React.FC = () => {
 
             {/* Brand Header */}
             <div className={`p-8 pb-4 flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
-                <div className="flex-shrink-0">
+                <Link href="/" className="flex-shrink-0">
                     <Image
                         src="/betafits-logo.png"
                         alt="Betafits"
@@ -122,7 +134,7 @@ const Sidebar: React.FC = () => {
                         className={isCollapsed ? "w-10 h-10 object-contain" : "h-8 w-auto"}
                         priority
                     />
-                </div>
+                </Link>
             </div>
 
             {/* Navigation */}
@@ -135,7 +147,7 @@ const Sidebar: React.FC = () => {
                                 key={item.id}
                                 href={item.href}
                                 className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-5'} py-2.5 rounded-md transition-all duration-200 group font-semibold ${active
-                                    ? 'bg-gray-100 text-gray-900'
+                                    ? 'bg-[#97C25E]/10 text-gray-900'
                                     : 'text-[#4b5563]/70 hover:bg-gray-50 hover:text-[#4b5563]'
                                     }`}
                             >
@@ -161,7 +173,7 @@ const Sidebar: React.FC = () => {
                 <div className={`p-6 ${isCollapsed ? 'flex justify-center' : ''}`}>
                     <div 
                         className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 bg-gray-50/50 p-2 w-full border border-gray-100'} rounded-md transition-all cursor-pointer hover:bg-gray-100/70 group relative`}
-                        onClick={() => !isCollapsed && setIsProfileDropdownOpen(!isProfileDropdownOpen)}
+                        onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
                     >
                         <div className="w-9 h-9 bg-brand-200 text-brand-800 flex items-center justify-center rounded-md font-bold text-[13px] flex-shrink-0">
                             {userInitials}
@@ -192,8 +204,8 @@ const Sidebar: React.FC = () => {
                 </div>
 
                 {/* Profile Dropdown Menu */}
-                {!isCollapsed && isProfileDropdownOpen && (
-                    <div className="absolute bottom-full left-6 right-6 mb-2 bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-50">
+                {isProfileDropdownOpen && (
+                    <div className={`absolute ${isCollapsed ? 'bottom-full left-0 mb-2 w-48' : 'bottom-full left-6 right-6 mb-2'} bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden z-50`}>
                         <button
                             onClick={handleAccountSettings}
                             className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors text-sm text-gray-900"

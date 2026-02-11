@@ -7,7 +7,7 @@ interface Props {
 
 export default function FinancialBenchmarks({ kpis }: Props) {
     return (
-        <div className="bg-brand-900 rounded-[28px] p-8 shadow-sm text-white relative overflow-hidden">
+        <div className="bg-brand-900 rounded-xl p-6 shadow-sm text-white relative overflow-hidden">
             <div className="relative z-10">
                 <div className="mb-6">
                     <h2 className="text-[20px] font-bold mb-1">Financial Benchmarks</h2>

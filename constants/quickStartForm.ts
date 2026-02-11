@@ -108,7 +108,8 @@ export const QUICK_START_FORM_DATA: FormDataDefinition = {
                             id: 'budgetPerEmployee',
                             label: 'Target Monthly Budget (Per Employee)',
                             type: 'number',
-                            placeholder: 'e.g. 500'
+                            placeholder: 'e.g. 500',
+                            validation: [{ type: 'min', value: 0, message: 'Budget cannot be negative' }]
                         }
                     ]
                 }

@@ -7,10 +7,10 @@ interface Props {
 
 export default function DemographicInsights({ demographics }: Props) {
     return (
-        <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <div className="mb-6">
-                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Workforce Demographics</h2>
-                <p className="text-[13px] text-gray-500 mt-0.5">Key population metrics impacting plan design.</p>
+                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Demographic Insights</h2>
+                <p className="text-[13px] text-gray-500 mt-0.5">Key company demographics that shape benefit needs and cost trends.</p>
             </div>
             <div className="grid grid-cols-2 gap-8">
                 <div>

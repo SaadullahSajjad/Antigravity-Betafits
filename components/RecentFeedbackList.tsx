@@ -24,8 +24,8 @@ export default function RecentFeedbackList({ responses, limit = 5 }: Props) {
         return (
             <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
                 <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Recent Feedback</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">Latest comments from your team.</p>
+                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Employee Feedback Summary</h2>
+                    <p className="text-[13px] text-gray-500 mt-0.5">These are your employees' survey responses about their current benefit plans. Betafit reviews this feedback to improve future plan options.</p>
                 </div>
                 <div className="text-center py-12">
                     <p className="text-[14px] text-gray-500">No recent feedback available.</p>
@@ -36,10 +36,10 @@ export default function RecentFeedbackList({ responses, limit = 5 }: Props) {
 
     return (
         <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
-            <div className="mb-6">
-                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Recent Feedback</h2>
-                <p className="text-[13px] text-gray-500 mt-0.5">Latest comments from your team.</p>
-            </div>
+                <div className="mb-6">
+                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Employee Feedback Summary</h2>
+                    <p className="text-[13px] text-gray-500 mt-0.5">These are your employees' survey responses about their current benefit plans. Betafit reviews this feedback to improve future plan options.</p>
+                </div>
             <div className="grid grid-cols-1 gap-4">
                 {recentResponses.map((response) => (
                     <div key={response.id} className="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:border-gray-300 transition-colors">

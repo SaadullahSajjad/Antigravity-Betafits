@@ -54,12 +54,16 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
                     fileInputRef.current.value = '';
                 }
                 // Wait a moment for Airtable to process, then refresh
+                // Also store the fileId and fileUrl in the response for immediate access
+                if (data.fileId && data.fileUrl) {
+                    console.log('[DocumentUpload] File uploaded successfully. FileId:', data.fileId, 'FileUrl:', data.fileUrl);
+                }
                 setTimeout(() => {
                     router.refresh();
                     if (onUploadComplete) {
                         onUploadComplete();
                     }
-                }, 1000);
+                }, 1500); // Increased delay to allow Airtable to process
             } else {
                 setError(data.error || 'Failed to upload document');
             }
@@ -74,12 +78,12 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
         <>
             <button
                 onClick={() => fileInputRef.current?.click()}
-                className="flex items-center gap-2 bg-brand-50 text-brand-700 border border-brand-100 px-3 py-1.5 rounded-md text-[11px] font-bold uppercase tracking-wider hover:bg-brand-100 transition-colors shadow-sm active:scale-95"
+                className="w-full flex items-center justify-center gap-2 bg-brand-500 text-white border-2 border-[#a8d06f] px-4 py-2.5 rounded-lg text-[14px] font-bold hover:bg-brand-600 transition-colors shadow-sm active:scale-[0.98]"
             >
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
                 </svg>
-                Upload
+                Upload Document
             </button>
 
             <input

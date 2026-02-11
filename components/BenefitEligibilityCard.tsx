@@ -7,7 +7,7 @@ interface Props {
 
 export default function BenefitEligibilityCard({ eligibility }: Props) {
     return (
-        <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <div className="mb-6">
                 <h2 className="text-xl font-bold text-gray-900 tracking-tight">Eligibility Rules</h2>
                 <p className="text-[13px] text-gray-500 mt-0.5">Configuration for employee benefit eligibility.</p>
@@ -18,7 +18,7 @@ export default function BenefitEligibilityCard({ eligibility }: Props) {
                         Waiting Period
                     </span>
                     <div className="text-[16px] font-bold text-gray-900 bg-brand-50 inline-block px-4 py-2 rounded-lg text-brand-700">
-                        {eligibility.waitingPeriod}
+                        {eligibility.waitingPeriod !== 'N/A' ? eligibility.waitingPeriod : '-'}
                     </div>
                 </div>
                 <div>
@@ -26,7 +26,7 @@ export default function BenefitEligibilityCard({ eligibility }: Props) {
                         Min Hours / Week
                     </span>
                     <div className="text-[16px] font-bold text-gray-900 bg-brand-50 inline-block px-4 py-2 rounded-lg text-brand-700">
-                        {eligibility.minHoursPerWeek} Hours
+                        {eligibility.minHoursPerWeek > 0 ? `${eligibility.minHoursPerWeek} Hours` : '-'}
                     </div>
                 </div>
                 <div>
@@ -34,7 +34,7 @@ export default function BenefitEligibilityCard({ eligibility }: Props) {
                         Effective Date Rule
                     </span>
                     <div className="text-[16px] font-medium text-gray-900">
-                        {eligibility.effectiveDateRule}
+                        {eligibility.effectiveDateRule !== 'N/A' ? eligibility.effectiveDateRule : '-'}
                     </div>
                 </div>
             </div>

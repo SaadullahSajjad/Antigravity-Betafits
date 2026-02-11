@@ -1,0 +1,132 @@
+'use client';
+
+import React, { useState } from 'react';
+import { CompanyData } from '@/types';
+
+interface Props {
+    data: CompanyData;
+}
+
+export default function CompanyDetailsTabs({ data }: Props) {
+    const [activeTab, setActiveTab] = useState<'company-info' | 'contact-info' | 'workforce' | 'glassdoor'>('company-info');
+
+    const tabs = [
+        { id: 'company-info' as const, label: 'Company Info' },
+        { id: 'contact-info' as const, label: 'Contact Info' },
+        { id: 'workforce' as const, label: 'Workforce Overview' },
+        { id: 'glassdoor' as const, label: 'Glassdoor Overview' },
+    ];
+
+    const handleNext = () => {
+        const currentIndex = tabs.findIndex(t => t.id === activeTab);
+        if (currentIndex < tabs.length - 1) {
+            setActiveTab(tabs[currentIndex + 1].id);
+        } else {
+            setActiveTab(tabs[0].id);
+        }
+    };
+
+    return (
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm">
+            {/* Tab Navigation */}
+            <div className="border-b border-gray-200 px-6">
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`px-4 py-3 text-[14px] font-semibold border-b-2 transition-colors ${
+                                    activeTab === tab.id
+                                        ? 'border-brand-500 text-gray-900'
+                                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                                }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </div>
+                    <button
+                        onClick={handleNext}
+                        className="px-4 py-2 text-[13px] font-semibold text-gray-600 hover:text-gray-900 transition-colors"
+                    >
+                        Next
+                    </button>
+                </div>
+            </div>
+
+            {/* Tab Content */}
+            <div className="p-6">
+                {activeTab === 'company-info' && (
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Company Name</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.companyName || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Entity Type</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.industry || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Entity Legal Name</span>
+                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">EIN</span>
+                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">SIC Code</span>
+                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">NAICS Code</span>
+                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">HQ Address</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.address || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3">
+                            <span className="text-[14px] text-gray-500">Current Start Month</span>
+                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'contact-info' && (
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Name</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.primaryContact || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Title</span>
+                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Phone</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.phone || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3">
+                            <span className="text-[14px] text-gray-500">Email</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.website || '-'}</span>
+                        </div>
+                    </div>
+                )}
+
+                {activeTab === 'workforce' && (
+                    <div className="text-center py-12">
+                        <p className="text-[14px] text-gray-500">Workforce data will be displayed here.</p>
+                    </div>
+                )}
+
+                {activeTab === 'glassdoor' && (
+                    <div className="text-center py-12">
+                        <p className="text-[14px] text-gray-500">Glassdoor insights will be displayed here.</p>
+                    </div>
+                )}
+            </div>
+        </div>
+    );
+}

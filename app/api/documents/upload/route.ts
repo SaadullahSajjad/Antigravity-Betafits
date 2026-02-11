@@ -48,30 +48,55 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Step 1: Upload file to get a public URL
-        // Instead of making an HTTP call, directly use the file storage
-        const { storeFile } = await import("@/lib/fileStorage");
-        
-        // Generate unique file ID
-        const fileId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
-        
         // Convert file to buffer
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
+        const fileName = file.name;
 
-        // Store file directly
+        // Generate unique file ID and store file
+        const { storeFile } = await import("@/lib/fileStorage");
+        const fileId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
+        
         storeFile(fileId, {
             buffer,
             filename: file.name,
             mimeType: file.type || "application/octet-stream",
         });
 
-        // Generate the file URL
-        const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || "http://localhost:3000";
+        // Generate the file URL - must be publicly accessible
+        // Use NEXTAUTH_URL or VERCEL_URL for production, or construct from request
+        let baseUrl: string = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || '';
+        
+        // Check if we're in development (localhost)
+        const isLocalhost = !baseUrl || 
+                          baseUrl.includes('localhost') ||
+                          baseUrl.includes('127.0.0.1');
+
+        if (isLocalhost) {
+            // For localhost, try to use ngrok if available, otherwise use localhost (will fail)
+            const ngrokUrl = process.env.NGROK_URL;
+            if (ngrokUrl) {
+                baseUrl = ngrokUrl;
+                console.log(`[Document Upload API] Using ngrok URL for localhost: ${baseUrl}`);
+            } else {
+                // Try to construct from request
+                const host = request.headers.get('host');
+                const protocol = request.headers.get('x-forwarded-proto') || 'http';
+                if (host) {
+                    baseUrl = `${protocol}://${host}`;
+                } else {
+                    baseUrl = "http://localhost:3000";
+                }
+                console.warn(`[Document Upload API] WARNING: Using localhost URL. Airtable cannot access this. Consider using ngrok or deploying to production.`);
+            }
+        }
+        
+        // Ensure baseUrl doesn't have trailing slash
+        baseUrl = baseUrl.replace(/\/$/, '');
         const fileUrl = `${baseUrl}/api/files/${fileId}`;
-        const fileName = file.name;
 
         // Step 2: Create Airtable record with file attachment
+        // Airtable can attach files via URL if the URL is publicly accessible
         const uploadUrl = `https://api.airtable.com/v0/${baseId}/${tableId}`;
         
         const response = await fetch(uploadUrl, {
@@ -82,17 +107,15 @@ export async function POST(request: NextRequest) {
             },
             body: JSON.stringify({
                 fields: {
-                    // Link to company if available (optional)
+                    // Link to company if available (required for Softr filtering)
                     ...(companyId ? {
                         "Link to Intake - Group Data": Array.isArray(companyId) ? companyId : [String(companyId)]
                     } : {}),
-                    // Attach file - Airtable expects array of attachment objects
+                    // Attach file - Airtable expects array of attachment objects with url and filename
                     "File": [{
                         url: fileUrl,
                         filename: fileName,
                     }],
-                    // Store user email for filtering (if there's a field for it)
-                    // Note: You may need to add a "User Email" or "Uploaded By" field in Airtable
                 },
             }),
         });
@@ -109,12 +132,19 @@ export async function POST(request: NextRequest) {
         const record = await response.json();
 
         console.log(`[Document Upload API] Successfully created document record: ${record.id} for user: ${userEmail}${companyId ? ` (company: ${companyId})` : ' (no company linked)'}`);
-        console.log(`[Document Upload API] File URL: ${fileUrl}`);
+        console.log(`[Document Upload API] File URL sent to Airtable: ${fileUrl}`);
+        console.log(`[Document Upload API] Airtable record response:`, JSON.stringify(record.fields, null, 2));
+        
+        // Note: We don't store fileId in Airtable since those fields don't exist
+        // Instead, we rely on Airtable's File attachment URL which should be available
+        // after Airtable processes the file from the URL we provided
 
         return NextResponse.json({
             success: true,
             message: "Document uploaded successfully",
             recordId: record.id,
+            fileUrl: fileUrl, // Return the file URL so frontend can use it immediately
+            fileId: fileId, // Return fileId for fallback URL reconstruction
         });
     } catch (error) {
         console.error("[Document Upload API] Error:", error);

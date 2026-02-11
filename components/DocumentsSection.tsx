@@ -25,8 +25,13 @@ const DocumentsSection: React.FC<Props> = ({ documents }) => {
 
     if (safeDocuments.length === 0) {
         return (
-            <div className="bg-white border border-gray-200 rounded-xl p-6 text-center">
-                <p className="text-[13px] text-gray-500">No documents uploaded yet.</p>
+            <div className="bg-white border border-gray-200 rounded-xl p-12 text-center">
+                <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center mx-auto mb-4">
+                    <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                    </svg>
+                </div>
+                <p className="text-[14px] text-gray-500 font-medium">No documents have been uploaded yet.</p>
             </div>
         );
     }
@@ -39,8 +44,33 @@ const DocumentsSection: React.FC<Props> = ({ documents }) => {
                     className={`bg-white border border-gray-200 rounded-lg p-4 transition-colors group ${doc.url ? 'hover:border-blue-300 cursor-pointer' : 'hover:border-gray-300'
                         }`}
                     onClick={() => {
-                        if (doc.url && doc.url !== '#') {
-                            window.open(doc.url, '_blank', 'noopener,noreferrer');
+                        if (doc.url && doc.url !== '#' && doc.url.trim() !== '') {
+                            // Open document in new tab
+                            let url = doc.url.trim();
+                            
+                            // Ensure URL is absolute - if it's relative, make it absolute
+                            if (url.startsWith('/api/files/')) {
+                                // Relative URL - make it absolute using current origin
+                                url = `${window.location.origin}${url}`;
+                            } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                                // Not a valid URL - try to make it absolute
+                                if (url.startsWith('/')) {
+                                    url = `${window.location.origin}${url}`;
+                                } else {
+                                    url = `${window.location.origin}/${url}`;
+                                }
+                            }
+                            
+                            console.log('[DocumentsSection] Opening document:', url, 'for document:', doc.name);
+                            window.open(url, '_blank', 'noopener,noreferrer');
+                        } else {
+                            console.warn('[DocumentsSection] Document has no valid URL:', {
+                                id: doc.id,
+                                name: doc.name,
+                                fileName: doc.fileName,
+                                url: doc.url,
+                            });
+                            alert('This document is not available to view. The file may still be processing or the upload may have failed.');
                         }
                     }}
                 >
@@ -75,11 +105,25 @@ const DocumentsSection: React.FC<Props> = ({ documents }) => {
                             >
                                 {doc.status}
                             </span>
-                            {doc.url && doc.url !== '#' && (
+                            {doc.url && doc.url !== '#' && doc.url.trim() !== '' && (
                                 <button
                                     onClick={(e) => {
                                         e.stopPropagation();
-                                        window.open(doc.url, '_blank', 'noopener,noreferrer');
+                                        let url = doc.url?.trim();
+                                        if (url) {
+                                            // Ensure URL is absolute
+                                            if (url.startsWith('/api/files/')) {
+                                                url = `${window.location.origin}${url}`;
+                                            } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                                                if (url.startsWith('/')) {
+                                                    url = `${window.location.origin}${url}`;
+                                                } else {
+                                                    url = `${window.location.origin}/${url}`;
+                                                }
+                                            }
+                                            console.log('[DocumentsSection] Opening document via button:', url);
+                                            window.open(url, '_blank', 'noopener,noreferrer');
+                                        }
                                     }}
                                     className="text-[10px] text-blue-600 hover:text-blue-700 font-medium px-2 py-1 bg-blue-50 rounded border border-blue-100 transition-colors"
                                 >

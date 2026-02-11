@@ -3,6 +3,7 @@
 import { signIn } from "next-auth/react";
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import Image from "next/image";
 
 export default function LoginPage() {
@@ -76,13 +77,17 @@ export default function LoginPage() {
             <div className="flex-1 flex flex-col relative">
                 {/* Top Left Logo */}
                 <div className="p-8 pb-0">
-                    <Image
-                        src="/betafits-logo.png"
-                        alt="Betafits"
-                        width={120}
-                        height={32}
-                        className="h-8 w-auto"
-                    />
+                    <Link href="/">
+                        <Image
+                            src="/betafits-logo.png"
+                            alt="Betafits"
+                            width={120}
+                            height={32}
+                            className="h-8 w-auto"
+                            quality={100}
+                            priority
+                        />
+                    </Link>
                 </div>
 
                 {/* Centered Form Card */}
@@ -219,6 +224,7 @@ export default function LoginPage() {
                     fill
                     className="object-cover"
                     style={{ objectPosition: 'center top' }}
+                    quality={100}
                     priority
                 />
             </div>

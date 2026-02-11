@@ -21,14 +21,34 @@ export default function AccountSettingsClient({ user }: AccountSettingsClientPro
     const [loading, setLoading] = useState(false);
 
     const handleUpdate = async () => {
+        if (!name.trim()) {
+            alert('Name is required');
+            return;
+        }
+
         setLoading(true);
-        // TODO: Implement update functionality via API
-        // For now, just show a message
-        setTimeout(() => {
+        try {
+            const response = await fetch('/api/account/update', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setIsEditing(false);
+                // Refresh the session to get updated user data
+                window.location.reload();
+            } else {
+                alert(data.error || 'Failed to update account');
+            }
+        } catch (error) {
+            console.error('Error updating account:', error);
+            alert('An error occurred while updating account');
+        } finally {
             setLoading(false);
-            setIsEditing(false);
-            alert('Account updated successfully! (Note: This is a placeholder - API integration needed)');
-        }, 1000);
+        }
     };
 
     return (
@@ -40,17 +60,20 @@ export default function AccountSettingsClient({ user }: AccountSettingsClientPro
                 </label>
                 <div className="flex items-center justify-between px-4 py-3 bg-gray-50 rounded-lg border border-gray-200">
                     <span className="text-gray-900">{email}</span>
-                    <button
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
-                        onClick={() => {
-                            // Email editing might be restricted
-                            alert('Email changes require administrator approval. Please contact support.');
-                        }}
-                    >
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                        </svg>
-                    </button>
+                    {/* Hide edit button if user doesn't have permission to update email */}
+                    {currentUser?.canUpdateEmail !== false && (
+                        <button
+                            className="text-gray-400 hover:text-gray-600 transition-colors"
+                            onClick={() => {
+                                // Email editing might be restricted
+                                alert('Email changes require administrator approval. Please contact support.');
+                            }}
+                        >
+                            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                            </svg>
+                        </button>
+                    )}
                 </div>
             </div>
 

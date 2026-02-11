@@ -15,8 +15,8 @@ const config: Config = {
                     200: '#d0e0b8',  // Light borders, avatars
                     300: '#b9d194',  // Medium light
                     400: '#a1c270',  // Medium - Help card text
-                    500: '#8ab34d',  // Primary - buttons, brand elements
-                    600: '#6e8f3d',  // Hover states
+                    500: '#97C25E',  // Primary - buttons, brand elements (Softr exact match)
+                    600: '#87b04e',  // Hover states
                     700: '#536b2e',  // Text on light backgrounds
                     800: '#37471f',  // Darker text
                     900: '#1c240f',  // Darkest - Help card background

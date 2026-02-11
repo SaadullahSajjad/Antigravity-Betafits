@@ -12,7 +12,7 @@ interface MagicTokenData {
     usedAt?: number;
 }
 
-const magicTokens = new Map<string, MagicTokenData>();
+export const magicTokens = new Map<string, MagicTokenData>();
 
 /**
  * Generate a secure random token
@@ -55,11 +55,9 @@ export function validateMagicToken(token: string): MagicTokenData | null {
         return null;
     }
 
-    if (stored.usedAt) {
-        return null; // Token already used
-    }
-
-    // Don't mark as used here - let the caller decide when to mark it
+    // Don't check usedAt here - allow the token to be validated
+    // The caller will decide when to mark it as used
+    // This allows the token to work on first attempt
     return stored;
 }
 
