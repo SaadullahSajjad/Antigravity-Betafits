@@ -11,12 +11,14 @@ export interface ValidationRule {
 export interface Question {
     id: string;
     label: string;
-    type: 'text' | 'number' | 'email' | 'select' | 'radio' | 'checkbox' | 'date' | 'textarea';
+    type: 'text' | 'number' | 'email' | 'select' | 'radio' | 'checkbox' | 'date' | 'textarea' | 'file';
     placeholder?: string;
     required?: boolean;
     options?: { value: string; label: string }[];
     validation?: ValidationRule[];
     helperText?: string;
+    accept?: string; // For file inputs: e.g., ".pdf,.doc,.docx"
+    multiple?: boolean; // For file inputs: allow multiple files
 }
 
 export interface FormSectionData {
