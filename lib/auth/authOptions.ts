@@ -3,7 +3,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import { fetchAirtableRecords } from "@/lib/airtable/fetch";
 import { verifyPassword } from "@/lib/auth/password";
-import { validateMagicToken, markMagicTokenAsUsed, magicTokens } from "@/lib/auth/magicToken";
+import { validateMagicToken, markMagicTokenAsUsed, magicTokens, storeMagicToken } from "@/lib/auth/magicToken";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -149,41 +149,52 @@ export const authOptions: NextAuthOptions = {
                     // If not in memory, check Airtable (for persistence across server contexts)
                     if (!tokenData) {
                         console.log("[Magic Link Auth] Token not in memory, checking Airtable...");
-                        // Try to find token in Airtable
-                        // Note: If Magic Token field doesn't exist, this will fail
-                        // In that case, we'll rely on in-memory storage only
+                        // Try to find token in Airtable using Magic Link Url field
+                        // The Magic Link Url contains the token as: https://domain.com/access?token={token}
                         let records: any[] = [];
-                        let airtableError: any = null;
+                        let foundViaUrl = false;
+                        
+                        // First, try to find using Magic Link Url field (which we know exists)
                         try {
+                            // Search for users whose Magic Link Url contains the token
+                            // Using FIND() function to search for token in the URL
                             records = await fetchAirtableRecords(usersTableId, {
                                 apiKey: token,
-                                filterByFormula: `{Magic Token} = '${credentials.token}'`,
+                                filterByFormula: `FIND('${credentials.token}', {Magic Link Url}) > 0`,
                                 maxRecords: 1,
                             });
-                        } catch (filterError: any) {
-                            airtableError = filterError;
-                            // If field doesn't exist, try alternative field names or skip Airtable lookup
-                            console.log("[Magic Link Auth] Magic Token field may not exist, trying alternatives...");
-                            console.log("[Magic Link Auth] Error details:", filterError);
+                            
+                            if (records && records.length > 0) {
+                                foundViaUrl = true;
+                                console.log("[Magic Link Auth] Token found via Magic Link Url field");
+                            }
+                        } catch (urlError: any) {
+                            console.log("[Magic Link Auth] Could not search Magic Link Url field, trying Magic Token field...");
+                            
+                            // Fallback: Try Magic Token field (if it exists)
                             try {
                                 records = await fetchAirtableRecords(usersTableId, {
                                     apiKey: token,
-                                    filterByFormula: `{magic token} = '${credentials.token}'`,
+                                    filterByFormula: `{Magic Token} = '${credentials.token}'`,
                                     maxRecords: 1,
                                 });
-                            } catch (e) {
-                                // If all attempts fail, token is not in Airtable - rely on in-memory only
-                                console.log("[Magic Link Auth] Magic Token field not found in Airtable, using in-memory storage only");
-                                console.log("[Magic Link Auth] Alternative field name also failed:", e);
+                            } catch (tokenError: any) {
+                                console.log("[Magic Link Auth] Magic Token field also doesn't exist");
                             }
                         }
 
                         if (records && records.length > 0) {
                             record = records[0];
                             fields = record.fields;
+                            
+                            // Check expiration if Magic Token Expires field exists
                             const expiresAt = Number(fields["Magic Token Expires"] || 0);
                             
-                            // Check if token is expired
+                            // If no expiration field, default to 24 hours from now (generous validation)
+                            // This allows tokens to work even if expiration wasn't stored
+                            const tokenExpiresAt = expiresAt > 0 ? expiresAt : (Date.now() + 24 * 60 * 60 * 1000);
+                            
+                            // Check if token is expired (only if we have an expiration time)
                             if (expiresAt > 0 && Date.now() > expiresAt) {
                                 console.log("[Magic Link Auth] Magic token expired");
                                 return null;
@@ -194,32 +205,21 @@ export const authOptions: NextAuthOptions = {
                                 token: credentials.token,
                                 userId: record.id,
                                 email: String(fields["Email"] || fields["email"] || ""),
-                                expiresAt: expiresAt || (Date.now() + 24 * 60 * 60 * 1000), // Default to 24 hours if not set
+                                expiresAt: tokenExpiresAt,
                             };
 
                             console.log("[Magic Link Auth] Token found in Airtable for user:", tokenData.email);
+                            
+                            // Store in memory for faster future lookups
+                            storeMagicToken(credentials.token, record.id, tokenData.email, 24);
                         } else {
-                            // Token not found in Airtable - this might mean:
-                            // 1. The Magic Token field doesn't exist in Airtable
-                            // 2. The token wasn't stored properly
-                            // 3. We're on a different server instance
-                            // Since the token is not in memory and not in Airtable, we cannot validate it
-                            // BUT: If this is a fresh token generation, it should be in memory
-                            // The issue is likely that the server restarted or it's a different instance
+                            // Token not found in Airtable
                             console.error("[Magic Link Auth] Magic token not found in Airtable");
                             console.error("[Magic Link Auth] Token:", credentials.token.substring(0, 10) + "...");
-                            console.error("[Magic Link Auth] Airtable error:", airtableError);
                             console.error("[Magic Link Auth] This usually means:");
-                            console.error("[Magic Link Auth] 1. The 'Magic Token' field doesn't exist in Airtable Users table");
-                            console.error("[Magic Link Auth] 2. The token wasn't stored properly when generated");
-                            console.error("[Magic Link Auth] 3. The server instance changed and in-memory storage was lost");
-                            console.error("[Magic Link Auth] 4. The token was generated on a different server instance");
-                            
-                            // IMPORTANT: For development/localhost, if Airtable fields don't exist,
-                            // we should still allow the magic link to work if it was just generated
-                            // The token should be in memory on the same server instance
-                            // If it's not, it means the server restarted or it's a different instance
-                            // In that case, we need to ensure tokens are stored in Airtable properly
+                            console.error("[Magic Link Auth] 1. The token was generated on a different server instance");
+                            console.error("[Magic Link Auth] 2. The Magic Link Url field doesn't contain this token");
+                            console.error("[Magic Link Auth] 3. The token has expired or been invalidated");
                             
                             return null;
                         }
