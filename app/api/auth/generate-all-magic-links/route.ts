@@ -43,14 +43,12 @@ export async function POST(request: NextRequest) {
 
         if (result.success) {
             return NextResponse.json({
-                success: true,
                 message: `Successfully generated magic links for ${result.updated} user(s)`,
                 ...result,
             });
         } else {
             return NextResponse.json(
                 {
-                    success: false,
                     message: `Generated magic links with some errors. Updated: ${result.updated}, Failed: ${result.failed}`,
                     ...result,
                 },
