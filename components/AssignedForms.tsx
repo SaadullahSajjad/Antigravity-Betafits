@@ -169,48 +169,78 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
                                    formRoute !== `/forms/${form.id}` && 
                                    !form.description.startsWith('?id=');
 
+                    // Clean up form name - remove any unwanted suffixes, patterns, or email addresses
+                    let displayName = form.name.trim();
+                    
+                    // Remove "Assigned to:" prefix and email addresses
+                    displayName = displayName.replace(/^Assigned to:\s*/i, '');
+                    displayName = displayName.replace(/\bAssigned to:\s*/gi, '');
+                    displayName = displayName.replace(/\b[\w\.-]+@[\w\.-]+\.\w+\b/g, '');
+                    
+                    // Remove patterns like "(Original)", trailing dashes, or company name patterns
+                    displayName = displayName.replace(/\s*\(Original\)\s*/gi, '');
+                    displayName = displayName.replace(/\s*-\s*$/, '');
+                    displayName = displayName.replace(/\s*\([^)]*\)\s*/g, ''); // Remove any text in parentheses
+                    
+                    // Remove common unwanted prefixes
+                    displayName = displayName.replace(/^(Form|Survey|Intake):\s*/i, '');
+                    
+                    displayName = displayName.trim();
+                    
+                    // If name is empty after cleaning, use a fallback
+                    if (!displayName || displayName.length === 0) {
+                        displayName = 'Untitled Form';
+                    }
+
                     return (
                         <div
                             key={form.id}
-                            className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between hover:border-gray-300 transition-colors"
+                            className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200 flex flex-col"
                         >
-                            <div className="flex items-start justify-between mb-4">
-                                <h3 className="font-bold text-gray-900 text-[16px]">
-                                    {form.name}
+                            <div className="flex items-start justify-between mb-4 gap-3">
+                                <h3 
+                                    className="font-semibold text-gray-900 text-[15px] leading-tight flex-1 min-w-0 pr-2"
+                                    title={displayName || 'Untitled Form'}
+                                >
+                                    <span className="block line-clamp-2">
+                                        {displayName || 'Untitled Form'}
+                                    </span>
                                 </h3>
                                 <span
-                                    className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider ${getStatusStyle(form.status)}`}
+                                    className={`inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap flex-shrink-0 border ${getStatusStyle(form.status)}`}
                                 >
-                                    {form.status === FormStatus.NOT_STARTED ? 'Not Started' : form.status}
+                                    {form.status === FormStatus.NOT_STARTED ? 'NOT STARTED' : form.status.toUpperCase()}
                                 </span>
                             </div>
-                            {isLink ? (
-                                formRoute.startsWith('http://') || formRoute.startsWith('https://') ? (
-                                    <a href={formRoute} target="_blank" rel="noopener noreferrer">
-                                        <button className="w-full py-3 bg-brand-500 text-white rounded-lg font-bold text-[14px] hover:bg-brand-600 transition-all shadow-sm active:scale-[0.98]">
-                                            Open
-                                        </button>
-                                    </a>
+                            <div className="mt-auto pt-3 border-t border-gray-100">
+                                {isLink ? (
+                                    formRoute.startsWith('http://') || formRoute.startsWith('https://') ? (
+                                        <a href={formRoute} target="_blank" rel="noopener noreferrer" className="block">
+                                            <button className="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg font-semibold text-[13px] transition-all shadow-sm active:scale-[0.98]">
+                                                Open
+                                            </button>
+                                        </a>
+                                    ) : (
+                                        <Link href={formRoute} className="block">
+                                            <button className="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg font-semibold text-[13px] transition-all shadow-sm active:scale-[0.98]">
+                                                Open
+                                            </button>
+                                        </Link>
+                                    )
                                 ) : (
-                                    <Link href={formRoute}>
-                                        <button className="w-full py-3 bg-brand-500 text-white rounded-lg font-bold text-[14px] hover:bg-brand-600 transition-all shadow-sm active:scale-[0.98]">
-                                            Open
-                                        </button>
-                                    </Link>
-                                )
-                            ) : (
-                                <button
-                                    className="w-full py-3 bg-brand-500 text-white rounded-lg font-bold text-[14px] cursor-not-allowed opacity-50"
-                                    disabled
-                                >
-                                    Coming Soon
-                                </button>
-                            )}
+                                    <button
+                                        className="w-full py-2.5 bg-gray-100 text-gray-400 rounded-lg font-semibold text-[13px] cursor-not-allowed"
+                                        disabled
+                                    >
+                                        Coming Soon
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     );
                 })}
                 {forms.length === 0 && (
-                    <div className="bg-gray-50 border border-dashed border-gray-300 rounded-xl p-12 text-center">
+                    <div className="col-span-full bg-gray-50 border border-dashed border-gray-300 rounded-xl p-12 text-center">
                         <p className="text-gray-500 font-medium">No forms currently assigned.</p>
                     </div>
                 )}
