@@ -135,37 +135,29 @@ export async function POST(request: NextRequest) {
         console.log(`[Generate Magic Link API] Token stored in memory: ${magicToken.substring(0, 10)}...`);
         console.log(`[Generate Magic Link API] Token will be valid for 24 hours from: ${new Date().toISOString()}`);
 
-        // Generate magic link URL
-        // Always use production URL for magic links (not preview URLs)
+        // Generate magic link URL - Always use production URL, never localhost
         // Priority:
-        // 1. NEXTAUTH_URL (should be set to production URL in Vercel)
-        // 2. PRODUCTION_URL (dedicated env var for production domain)
-        // 3. Check if we're in production and use VERCEL_URL
-        // 4. Fallback to hardcoded production URL
-        let baseUrl = process.env.NEXTAUTH_URL || process.env.PRODUCTION_URL;
+        // 1. PRODUCTION_URL (dedicated env var for production domain)
+        // 2. NEXTAUTH_URL (if it's not localhost)
+        // 3. Hardcoded production URL
+        let baseUrl = process.env.PRODUCTION_URL;
         
-        // If not set, check if we're in production environment
+        // If PRODUCTION_URL not set, try NEXTAUTH_URL (but skip if it's localhost)
         if (!baseUrl) {
-            const vercelEnv = process.env.VERCEL_ENV; // 'production', 'preview', or 'development'
-            
-            if (vercelEnv === 'production') {
-                // In production, use the production domain
-                baseUrl = "https://antigravity-betafits.vercel.app";
-            } else {
-                // For preview/development, still use production URL for magic links
-                // so users can access from any environment
-                baseUrl = "https://antigravity-betafits.vercel.app";
+            const nextAuthUrl = process.env.NEXTAUTH_URL;
+            if (nextAuthUrl && !nextAuthUrl.includes('localhost') && !nextAuthUrl.includes('127.0.0.1')) {
+                baseUrl = nextAuthUrl;
             }
+        }
+        
+        // Always use production URL, never localhost
+        if (!baseUrl || baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1')) {
+            baseUrl = "https://antigravity-betafits.vercel.app";
         }
         
         // Ensure baseUrl has protocol
         if (baseUrl && !baseUrl.startsWith('http')) {
             baseUrl = `https://${baseUrl}`;
-        }
-        
-        // Fallback for local development
-        if (!baseUrl || baseUrl.includes('localhost')) {
-            baseUrl = "http://localhost:3000";
         }
         
         const magicLink = `${baseUrl}/access?token=${magicToken}`;
@@ -186,7 +178,7 @@ export async function POST(request: NextRequest) {
                     fields: {
                         "Magic Token": magicToken,
                         "Magic Token Expires": expiresAt,
-                        // Note: We're NOT updating "Magic Link" field to preserve existing values
+                        "Magic Link Url": magicLink,
                     },
                 }),
             });

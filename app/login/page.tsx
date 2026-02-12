@@ -8,10 +8,10 @@ import Image from "next/image";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [ssoLoading, setSsoLoading] = useState<string | null>(null);
+    const [emailSent, setEmailSent] = useState(false);
     const router = useRouter();
 
     const handleSSO = async (provider: "google" | "linkedin") => {
@@ -25,10 +25,9 @@ export default function LoginPage() {
             });
 
             if (result?.error) {
-                setError("SSO authentication failed. Please try again or use email/password.");
+                setError("SSO authentication failed. Please try again.");
                 setSsoLoading(null);
             } else if (result?.ok) {
-                // Check if user needs to change password (handled by middleware)
                 router.push("/");
                 router.refresh();
             }
@@ -43,27 +42,31 @@ export default function LoginPage() {
         setError("");
         setLoading(true);
 
-        if (!email || !password) {
-            setError("Please enter both email and password");
+        if (!email) {
+            setError("Please enter your email");
             setLoading(false);
             return;
         }
 
         try {
-            const result = await signIn("credentials", {
-                email,
-                password,
-                redirect: false,
+            // Request magic link to be sent to email
+            const response = await fetch("/api/auth/send-magic-link", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ email }),
             });
 
-            if (result?.error) {
-                setError("Invalid email or password");
+            const data = await response.json();
+
+            if (!response.ok) {
+                setError(data.error || "Failed to send magic link. Please try again.");
                 setLoading(false);
-            } else if (result?.ok) {
-                // Check if user needs to change password
-                // This will be handled by checking session in middleware
-                router.push("/");
-                router.refresh();
+            } else {
+                // Show success message
+                setEmailSent(true);
+                setLoading(false);
             }
         } catch (err) {
             setError("An error occurred. Please try again.");
@@ -154,15 +157,9 @@ export default function LoginPage() {
                             )}
                         </div>
 
-                        {/* Divider */}
-                        <div className="relative mb-8 flex items-center justify-center">
-                            <div className="absolute w-full border-t border-gray-100"></div>
-                            <span className="relative px-4 bg-white text-gray-400 text-xs tracking-wider">or</span>
-                        </div>
-
-                        {/* Email + Password Form - Secondary */}
+                        {/* Email Form - Secondary */}
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-6">
+                            <div className="mb-8">
                                 <label
                                     htmlFor="email"
                                     className="block text-xs font-bold text-gray-700 mb-2 tracking-wide"
@@ -176,40 +173,29 @@ export default function LoginPage() {
                                     onChange={(e) => setEmail(e.target.value)}
                                     placeholder="Enter your email"
                                     required
-                                    className="w-full px-4 py-4 rounded-xl text-gray-900 text-[15px] outline-none transition-all bg-gray-50/80 border-none focus:ring-1 focus:ring-[#97C25E]/50"
-                                />
-                            </div>
-
-                            <div className="mb-8">
-                                <label
-                                    htmlFor="password"
-                                    className="block text-xs font-bold text-gray-700 mb-2 tracking-wide"
-                                >
-                                    Password <span className="text-red-500">*</span>
-                                </label>
-                                <input
-                                    id="password"
-                                    type="password"
-                                    value={password}
-                                    onChange={(e) => setPassword(e.target.value)}
-                                    placeholder="Enter your password"
-                                    required
-                                    className="w-full px-4 py-4 rounded-xl text-gray-900 text-[15px] outline-none transition-all bg-gray-50/80 border-none focus:ring-1 focus:ring-[#97C25E]/50"
+                                    disabled={emailSent}
+                                    className="w-full px-4 py-4 rounded-xl text-gray-900 text-[15px] outline-none transition-all bg-gray-50/80 border-none focus:ring-1 focus:ring-[#97C25E]/50 disabled:opacity-50 disabled:cursor-not-allowed"
                                 />
                             </div>
 
                             {error && (
-                                <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-lg text-red-600 text-xs font-medium center text-center">
+                                <div className="mb-4 p-3 bg-red-50 border border-red-100 rounded-lg text-red-600 text-xs font-medium text-center">
                                     {error}
+                                </div>
+                            )}
+
+                            {emailSent && (
+                                <div className="mb-4 p-3 bg-green-50 border border-green-100 rounded-lg text-green-600 text-xs font-medium text-center">
+                                    Check your email for a magic link to sign in.
                                 </div>
                             )}
 
                             <button
                                 type="submit"
-                                disabled={loading || ssoLoading !== null}
+                                disabled={loading || ssoLoading !== null || emailSent}
                                 className="w-full bg-[#97C25E] hover:bg-[#8bb356] text-white font-bold py-4 rounded-xl text-[15px] transition-all shadow-sm shadow-[#97C25E]/20 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                {loading ? "Logging in..." : "Continue"}
+                                {loading ? "Sending..." : "Continue"}
                             </button>
                         </form>
                     </div>
