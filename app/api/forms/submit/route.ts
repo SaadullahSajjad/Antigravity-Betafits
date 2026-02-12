@@ -295,6 +295,36 @@ export async function POST(request: NextRequest) {
         // The "Link to Intake - Group Data" field is used in OTHER tables to link TO Group Data
         // Since we're updating the Group Data record itself, we just update its fields directly
 
+        // Define number fields that need conversion from string to number
+        // These are Airtable field names that expect number type
+        const numberFields = new Set([
+            // Employee counts and growth
+            'Estimated Benefit-Eligible Employees',
+            'Estimated Benefit Eligible EEs',
+            'Estimated Medical Enrolled EEs',
+            'Expected Headcount Growth (next 12 months)',
+            // Company info
+            'Year Company Founded',
+            // Financial fields
+            'Current Monthly Premium',
+            'Employer Contribution Percentage',
+            // Broker evaluation ratings (1-10 scale)
+            'Broker Responsiveness Rating',
+            'Broker Renewal Strategy Rating',
+            'Broker Compliance Rating',
+            'Broker Admin Support Rating',
+            'Broker Strategic Value Rating',
+            // Benefits satisfaction ratings (1-10 scale)
+            'Overall Benefits Satisfaction',
+            'Medical Benefits Satisfaction',
+            'Dental Benefits Satisfaction',
+            'Vision Benefits Satisfaction',
+            // Broker info (if they're numbers)
+            'Years Experience',
+            'Number of Clients',
+            'Average Client Size',
+        ]);
+
         // Map form values to Airtable fields
         // Filter out system fields that shouldn't be sent to Airtable
         const systemFields = ['error', 'confirmAccuracy']; // Fields to skip
@@ -307,7 +337,18 @@ export async function POST(request: NextRequest) {
             
             const airtableField = mapping[formField] || formField;
             if (value !== null && value !== undefined && value !== '') {
-                airtableFields[airtableField] = value;
+                // Convert number fields from string to number if needed
+                if (numberFields.has(airtableField)) {
+                    const numValue = typeof value === 'string' ? parseFloat(value) : Number(value);
+                    if (!isNaN(numValue)) {
+                        airtableFields[airtableField] = numValue;
+                    } else {
+                        // If conversion fails, skip this field
+                        console.warn(`[Form Submit] Could not convert "${airtableField}" to number, skipping:`, value);
+                    }
+                } else {
+                    airtableFields[airtableField] = value;
+                }
             }
         }
 
@@ -342,25 +383,27 @@ export async function POST(request: NextRequest) {
                 }
                 break; // Success, exit loop
             } catch (error: any) {
-                // If we get an unknown field error, try to extract which field is unknown
+                // If we get an unknown field error or invalid value error, try to extract which field is problematic
                 const errorMessage = error.message || '';
-                if (errorMessage.includes('UNKNOWN_FIELD_NAME')) {
+                if (errorMessage.includes('UNKNOWN_FIELD_NAME') || errorMessage.includes('INVALID_VALUE_FOR_COLUMN')) {
                     // Extract the field name from the error message
                     const fieldMatch = errorMessage.match(/"([^"]+)"/);
                     if (fieldMatch && fieldMatch[1]) {
-                        const unknownField = fieldMatch[1];
-                        console.warn(`[Form Submit] Field "${unknownField}" does not exist in Airtable, removing it and retrying...`);
+                        const problematicField = fieldMatch[1];
+                        const errorType = errorMessage.includes('UNKNOWN_FIELD_NAME') ? 'does not exist' : 'cannot accept the provided value';
+                        console.warn(`[Form Submit] Field "${problematicField}" ${errorType} in Airtable, removing it and retrying...`);
+                        console.warn(`[Form Submit] Field value was:`, fieldsToUpdate[problematicField], `(type: ${typeof fieldsToUpdate[problematicField]})`);
                         
-                        // Remove the unknown field and retry
-                        const { [unknownField]: removed, ...remainingFields } = fieldsToUpdate;
+                        // Remove the problematic field and retry
+                        const { [problematicField]: removed, ...remainingFields } = fieldsToUpdate;
                         fieldsToUpdate = remainingFields;
                         
                         if (Object.keys(fieldsToUpdate).length === 0) {
-                            // If all fields were unknown, log a warning but don't fail
+                            // If all fields were problematic, log a warning but don't fail
                             // This allows forms to submit successfully even if field mappings need to be updated
-                            console.warn(`[Form Submit] All fields for form ${formId} were unknown. Form submitted but no data was saved to Airtable.`);
+                            console.warn(`[Form Submit] All fields for form ${formId} were problematic. Form submitted but no data was saved to Airtable.`);
                             console.warn(`[Form Submit] Fields attempted:`, Object.keys(airtableFields));
-                            console.warn(`[Form Submit] Please verify field mappings in app/api/forms/submit/route.ts`);
+                            console.warn(`[Form Submit] Please verify field mappings and data types in app/api/forms/submit/route.ts`);
                             
                             // Return success anyway - the form was submitted, just not saved to Airtable
                             // This prevents blocking the user experience while field mappings are being fixed
