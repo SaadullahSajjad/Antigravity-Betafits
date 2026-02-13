@@ -37,15 +37,18 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  if (!stats) {
-    return (
-      <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
-        <div className="text-center py-20">
-          <p className="text-gray-500 font-medium">No feedback data available.</p>
-        </div>
-      </div>
-    );
-  }
+  // Default stats if not provided
+  const defaultStats: FeedbackStats = {
+    overall: 0,
+    responses: 0,
+    nonMedical: 0,
+    employeeCost: 0,
+    medicalNetwork: 0,
+    medicalOptions: 0,
+    retirement: null,
+  };
+
+  const displayStats = stats || defaultStats;
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
@@ -120,21 +123,21 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
             {/* Hero Card - Overall */}
             <div className="md:w-1/3 bg-gray-50/50 rounded-xl p-8 flex flex-col items-center justify-center text-center border-r border-gray-50">
               <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">Overall Score</div>
-              <div className="text-5xl font-black text-brand-600 tracking-tighter mb-4">{stats.overall}</div>
-              <StarRating rating={Math.round(stats.overall)} size="w-4 h-4" />
+              <div className="text-5xl font-black text-brand-600 tracking-tighter mb-4">{displayStats.overall.toFixed(1)}</div>
+              <StarRating rating={Math.round(displayStats.overall)} size="w-4 h-4" />
               <div className="mt-4 px-3 py-1 bg-white border border-gray-100 rounded-full text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-                {stats.responses} Total Responses
+                {displayStats.responses} Total Responses
               </div>
             </div>
 
             {/* Metrics Grid */}
             <div className="flex-1 p-6 grid grid-cols-2 md:grid-cols-3 gap-6">
               {[
-                { label: 'Non-Medical', value: stats.nonMedical },
-                { label: 'Employee Cost', value: stats.employeeCost },
-                { label: 'Medical Network', value: stats.medicalNetwork },
-                { label: 'Medical Options', value: stats.medicalOptions },
-                { label: 'Retirement', value: stats.retirement, isRetirement: true },
+                { label: 'Non-Medical', value: displayStats.nonMedical },
+                { label: 'Employee Cost', value: displayStats.employeeCost },
+                { label: 'Medical Network', value: displayStats.medicalNetwork },
+                { label: 'Medical Options', value: displayStats.medicalOptions },
+                { label: 'Retirement', value: displayStats.retirement, isRetirement: true },
               ].map((item, idx) => (
                 <div key={idx} className={`flex flex-col justify-center ${item.isRetirement ? 'col-span-2 md:col-span-1' : ''}`}>
                   <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2 truncate" title={item.label}>{item.label}</div>
@@ -229,8 +232,16 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={8} className="px-8 py-12 text-center text-gray-500">
-                      No feedback responses yet.
+                    <td colSpan={8} className="px-8 py-12">
+                      <div className="flex items-center justify-center">
+                        <div className="text-center">
+                          <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center mx-auto mb-4">
+                            <svg className="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
                     </td>
                   </tr>
                 )}

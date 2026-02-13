@@ -286,15 +286,15 @@ const BenefitPlans: React.FC<Props> = ({ eligibility, strategies, plans }) => {
 
   const filteredPlans = plans.filter(p => p.category === activeTab);
 
-  if (!eligibility) {
-    return (
-      <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
-        <div className="text-center py-20">
-          <p className="text-gray-500 font-medium">No eligibility data available.</p>
-        </div>
-      </div>
-    );
-  }
+  // Default eligibility if not provided
+  const defaultEligibility: BenefitEligibilityData = {
+    className: '',
+    waitingPeriod: '',
+    effectiveDate: '',
+    requiredHours: '',
+  };
+
+  const displayEligibility = eligibility || defaultEligibility;
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
@@ -318,10 +318,10 @@ const BenefitPlans: React.FC<Props> = ({ eligibility, strategies, plans }) => {
             
             <div className="space-y-6 flex-1 flex flex-col justify-around">
               {[
-                { label: 'Benefit Class', value: eligibility.className, icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5', color: 'brand' },
-                { label: 'Waiting Period', value: eligibility.waitingPeriod, icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', color: 'blue' },
-                { label: 'Effective Date', value: eligibility.effectiveDate, icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', color: 'amber' },
-                { label: 'Work Commitment', value: eligibility.requiredHours, icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', color: 'pink' }
+                { label: 'Benefit Class', value: displayEligibility.className, icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5', color: 'brand' },
+                { label: 'Waiting Period', value: displayEligibility.waitingPeriod, icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', color: 'blue' },
+                { label: 'Effective Date', value: displayEligibility.effectiveDate, icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z', color: 'amber' },
+                { label: 'Work Commitment', value: displayEligibility.requiredHours, icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', color: 'pink' }
               ].map((item, idx) => (
                 <div key={idx} className="flex items-center group">
                   <div className={`w-10 h-10 rounded-md flex items-center justify-center mr-4 bg-${item.color}-50 text-${item.color}-600 group-hover:scale-110 transition-transform flex-shrink-0`}>

@@ -3,6 +3,7 @@ import EmployeeFeedback from '@/components/EmployeeFeedback';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth/authOptions';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
+import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { FeedbackStats, FeedbackResponse } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -18,9 +19,67 @@ export default async function EmployeeFeedbackPage() {
     return <EmployeeFeedback stats={null} responses={[]} />;
   }
 
-  // For now, return empty data - can be populated from Airtable when feedback table is available
-  const stats: FeedbackStats | null = null;
-  const responses: FeedbackResponse[] = [];
+  const apiKey = process.env.AIRTABLE_API_KEY;
+  let stats: FeedbackStats | null = null;
+  let responses: FeedbackResponse[] = [];
+
+  if (apiKey && companyId) {
+    try {
+      // Fetch all Pulse Survey records
+      const records = await fetchAirtableRecords('tbl28XVUekjvl2Ujn', {
+        apiKey,
+        filterByFormula: `FIND('${companyId}', ARRAYJOIN({Link to Intake - Group Data})) > 0`,
+        maxRecords: 1000,
+      });
+
+      if (records && records.length > 0) {
+        // Sort by createdTime (newest first)
+        const sortedRecords = [...records].sort((a, b) => {
+          const timeA = a.createdTime ? new Date(a.createdTime).getTime() : 0;
+          const timeB = b.createdTime ? new Date(b.createdTime).getTime() : 0;
+          return timeB - timeA;
+        });
+
+        // Map to FeedbackResponse structure
+        responses = sortedRecords.map(record => {
+          const fields = record.fields;
+          return {
+            id: record.id,
+            submittedAt: String(fields['Created'] || record.createdTime || new Date().toISOString()).split('T')[0],
+            tier: String(fields['Tier'] || fields['Coverage Tier'] || 'Individual Only'),
+            overallRating: Number(fields['Overall Rating'] || fields['Rating'] || fields['Score'] || 0),
+            medicalOptions: Number(fields['Medical Options'] || fields['Medical Options Rating'] || 0),
+            medicalNetwork: Number(fields['Medical Network'] || fields['Medical Network Rating'] || 0),
+            medicalCost: Number(fields['Medical Cost'] || fields['Employee Cost'] || fields['Cost Rating'] || 0),
+            nonMedical: Number(fields['Non-Medical'] || fields['Non-Medical Rating'] || 0),
+            comments: String(fields['Comments'] || fields['Text'] || ''),
+          };
+        });
+
+        // Calculate stats from responses
+        if (responses.length > 0) {
+          const overallSum = responses.reduce((sum, r) => sum + r.overallRating, 0);
+          const medicalOptionsSum = responses.reduce((sum, r) => sum + r.medicalOptions, 0);
+          const medicalNetworkSum = responses.reduce((sum, r) => sum + r.medicalNetwork, 0);
+          const medicalCostSum = responses.reduce((sum, r) => sum + r.medicalCost, 0);
+          const nonMedicalSum = responses.reduce((sum, r) => sum + r.nonMedical, 0);
+          const employeeCostSum = medicalCostSum; // Assuming employee cost is same as medical cost
+
+          stats = {
+            overall: overallSum / responses.length,
+            responses: responses.length,
+            nonMedical: nonMedicalSum / responses.length,
+            employeeCost: employeeCostSum / responses.length,
+            medicalNetwork: medicalNetworkSum / responses.length,
+            medicalOptions: medicalOptionsSum / responses.length,
+            retirement: null,
+          };
+        }
+      }
+    } catch (error) {
+      console.error('[EmployeeFeedbackPage] Error fetching data:', error);
+    }
+  }
 
   return <EmployeeFeedback stats={stats} responses={responses} />;
 }

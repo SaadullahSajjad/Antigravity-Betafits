@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 
 const Sidebar: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -44,9 +45,14 @@ const Sidebar: React.FC = () => {
 
       {/* Brand Header */}
       <div className={`p-8 pb-4 flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
-        <div className="w-10 h-10 bg-brand-500 rounded-md flex items-center justify-center flex-shrink-0 text-white font-black text-xl">
-          B
-        </div>
+        <Image 
+          src="/betafits-logo.png" 
+          alt="Betafits" 
+          width={isCollapsed ? 40 : 120}
+          height={isCollapsed ? 40 : 32}
+          className="flex-shrink-0 object-contain"
+          priority
+        />
         {!isCollapsed && <span className="text-xl font-black text-gray-900 tracking-tighter uppercase">Betafits</span>}
       </div>
 

@@ -13,15 +13,24 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) =>
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
-  if (!demographics || !kpis) {
-    return (
-      <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
-        <div className="text-center py-20">
-          <p className="text-gray-500 font-medium">No analysis data available.</p>
-        </div>
-      </div>
-    );
-  }
+  // Default values if not provided
+  const defaultDemographics: DemographicInsights = {
+    eligibleEmployees: 0,
+    averageSalary: 0,
+    averageAge: 0,
+    malePercentage: 0,
+    femalePercentage: 0,
+  };
+
+  const defaultKpis: FinancialKPIs = {
+    totalMonthlyCost: 0,
+    totalEmployerContribution: 0,
+    totalEmployeeContribution: 0,
+    erCostPerEligible: 0,
+  };
+
+  const displayDemographics = demographics || defaultDemographics;
+  const displayKpis = kpis || defaultKpis;
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
@@ -52,10 +61,10 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) =>
       {/* Financial KPIs - Large Metric Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {[
-          { label: 'Total Monthly Cost', value: formatCurrency(kpis.totalMonthlyCost), color: 'gray' },
-          { label: 'Total Employer Contribution', value: formatCurrency(kpis.totalEmployerContribution), color: 'brand' },
-          { label: 'Total Employee Contribution', value: formatCurrency(kpis.totalEmployeeContribution), color: 'blue' },
-          { label: 'ER Cost per Eligible Employee', value: formatCurrency(kpis.erCostPerEligible), color: 'amber', highlight: true },
+          { label: 'Total Monthly Cost', value: formatCurrency(displayKpis.totalMonthlyCost), color: 'gray' },
+          { label: 'Total Employer Contribution', value: formatCurrency(displayKpis.totalEmployerContribution), color: 'brand' },
+          { label: 'Total Employee Contribution', value: formatCurrency(displayKpis.totalEmployeeContribution), color: 'blue' },
+          { label: 'ER Cost per Eligible Employee', value: formatCurrency(displayKpis.erCostPerEligible), color: 'amber', highlight: true },
         ].map((item, idx) => (
           <div key={idx} className={`bg-white border ${item.highlight ? 'border-amber-200 bg-amber-50/10' : 'border-gray-200'} rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow`}>
             <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">{item.label}</div>
@@ -81,21 +90,21 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) =>
                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
                  </div>
                  <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Eligible Employees</div>
-                 <div className="text-2xl font-black text-gray-900">{demographics.eligibleEmployees}</div>
+                 <div className="text-2xl font-black text-gray-900">{displayDemographics.eligibleEmployees}</div>
               </div>
               <div className="bg-gray-50/50 p-6 rounded-xl border border-gray-100 flex flex-col items-center text-center">
                  <div className="w-10 h-10 rounded-md bg-white flex items-center justify-center text-blue-600 mb-3 shadow-sm">
                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                  </div>
                  <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Average Salary</div>
-                 <div className="text-2xl font-black text-gray-900">{formatCurrency(demographics.averageSalary)}</div>
+                 <div className="text-2xl font-black text-gray-900">{formatCurrency(displayDemographics.averageSalary)}</div>
               </div>
               <div className="bg-gray-50/50 p-6 rounded-xl border border-gray-100 flex flex-col items-center text-center">
                  <div className="w-10 h-10 rounded-md bg-white flex items-center justify-center text-amber-600 mb-3 shadow-sm">
                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                  </div>
                  <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Average Age</div>
-                 <div className="text-2xl font-black text-gray-900">{demographics.averageAge} <span className="text-sm font-medium text-gray-400">YRS</span></div>
+                 <div className="text-2xl font-black text-gray-900">{displayDemographics.averageAge} <span className="text-sm font-medium text-gray-400">YRS</span></div>
               </div>
             </div>
 
@@ -107,13 +116,13 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) =>
                   <div className="text-[16px] font-bold text-gray-900">Workforce Split</div>
                 </div>
                 <div className="flex gap-4">
-                  <span className="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-md">Male {demographics.malePercentage}%</span>
-                  <span className="text-sm font-bold text-pink-500 bg-pink-50 px-3 py-1 rounded-md">Female {demographics.femalePercentage}%</span>
+                  <span className="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-md">Male {displayDemographics.malePercentage}%</span>
+                  <span className="text-sm font-bold text-pink-500 bg-pink-50 px-3 py-1 rounded-md">Female {displayDemographics.femalePercentage}%</span>
                 </div>
               </div>
               <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden flex">
-                <div className="h-full bg-blue-500 transition-all duration-1000" style={{ width: `${demographics.malePercentage}%` }}></div>
-                <div className="h-full bg-pink-400 transition-all duration-1000" style={{ width: `${demographics.femalePercentage}%` }}></div>
+                <div className="h-full bg-blue-500 transition-all duration-1000" style={{ width: `${displayDemographics.malePercentage}%` }}></div>
+                <div className="h-full bg-pink-400 transition-all duration-1000" style={{ width: `${displayDemographics.femalePercentage}%` }}></div>
               </div>
             </div>
           </div>
@@ -170,8 +179,14 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) =>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={8} className="px-8 py-12 text-center text-gray-500">
-                    No budget breakdown data available.
+                  <td colSpan={8} className="px-8 py-12">
+                    <div className="flex items-center justify-center">
+                      <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center mx-auto">
+                        <svg className="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                      </div>
+                    </div>
                   </td>
                 </tr>
               )}

@@ -8,19 +8,6 @@ interface Props {
 }
 
 export default function BudgetBreakdownTable({ breakdown }: Props) {
-    if (breakdown.length === 0) {
-        return (
-            <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
-                <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Budget Breakdown</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">Detailed breakdown of budget by benefit type.</p>
-                </div>
-                <div className="text-center py-12">
-                    <p className="text-[14px] text-gray-500">No budget breakdown data available.</p>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
@@ -53,7 +40,7 @@ export default function BudgetBreakdownTable({ breakdown }: Props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {breakdown.map((item, idx) => {
+                        {breakdown.length > 0 ? breakdown.map((item, idx) => {
                             const formatCurrency = (val: number) => 
                                 new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
                             
@@ -88,7 +75,19 @@ export default function BudgetBreakdownTable({ breakdown }: Props) {
                                     </td>
                                 </tr>
                             );
-                        })}
+                        }) : (
+                            <tr>
+                                <td colSpan={6} className="py-12">
+                                    <div className="flex items-center justify-center">
+                                        <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center">
+                                            <svg className="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

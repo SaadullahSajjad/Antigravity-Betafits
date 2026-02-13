@@ -25,20 +25,6 @@ export default function FeedbackScoresPanel({ responses }: Props) {
 
     const sortedTiers = Object.entries(tierScores).sort((a, b) => b[1].avg - a[1].avg);
 
-    if (sortedTiers.length === 0) {
-        return (
-            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Scores by Tier</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">Average ratings grouped by coverage tier.</p>
-                </div>
-                <div className="text-center py-12">
-                    <p className="text-[14px] text-gray-500">No feedback data available.</p>
-                </div>
-            </div>
-        );
-    }
-
     return (
         <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
             <div className="mb-6">
@@ -46,7 +32,7 @@ export default function FeedbackScoresPanel({ responses }: Props) {
                 <p className="text-[13px] text-gray-500 mt-0.5">Average ratings grouped by coverage tier.</p>
             </div>
             <div className="space-y-4">
-                {sortedTiers.map(([tier, data]) => (
+                {sortedTiers.length > 0 ? sortedTiers.map(([tier, data]) => (
                     <div key={tier} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100">
                         <div className="flex-1">
                             <div className="flex items-center justify-between mb-2">
@@ -62,7 +48,15 @@ export default function FeedbackScoresPanel({ responses }: Props) {
                             <p className="text-[11px] text-gray-400 mt-1">{data.count} response{data.count !== 1 ? 's' : ''}</p>
                         </div>
                     </div>
-                ))}
+                )) : (
+                    <div className="flex items-center justify-center py-12">
+                        <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center">
+                            <svg className="w-8 h-8 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+                            </svg>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
