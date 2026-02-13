@@ -76,7 +76,7 @@ const FAQ: React.FC = () => {
           answer: "Forms are assigned based on your company's situation (current benefits, group size, compliance needs). Not all forms apply to every company."
         },
         {
-          question: "What are "Available Forms"?",
+          question: "What are \"Available Forms\"?",
           answer: "These are optional or situational forms you may complete if relevant. If you're unsure whether one applies to you, feel free to ask our team."
         },
         {

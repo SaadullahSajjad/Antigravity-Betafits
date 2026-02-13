@@ -20,31 +20,34 @@ export default function FeedbackKPIs({ stats }: Props) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                 <span className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider block mb-2">
-                    Avg Score
+                    Overall Rating
                 </span>
                 <div className="flex items-end gap-2">
-                    <span className={`text-[32px] font-bold ${getScoreColor(stats.averageScore)}`}>
-                        {stats.averageScore.toFixed(1)}
+                    <span className={`text-[32px] font-bold ${getScoreColor(stats.overall)}`}>
+                        {stats.overall.toFixed(1)}
                     </span>
                     <span className="text-[13px] text-gray-400 mb-1.5">/ 5.0</span>
                 </div>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                 <span className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider block mb-2">
-                    Participation
+                    Total Responses
                 </span>
                 <div className="flex items-end gap-2">
                     <span className="text-[32px] font-bold text-gray-900">
-                        {(stats.participationRate * 100).toFixed(0)}%
+                        {stats.responses}
                     </span>
                 </div>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                 <span className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider block mb-2">
-                    Total Responses
+                    Non-Medical Rating
                 </span>
-                <div className="text-[32px] font-bold text-gray-900">
-                    {stats.totalResponses}
+                <div className="flex items-end gap-2">
+                    <span className={`text-[32px] font-bold ${getScoreColor(stats.nonMedical)}`}>
+                        {stats.nonMedical.toFixed(1)}
+                    </span>
+                    <span className="text-[13px] text-gray-400 mb-1.5">/ 5.0</span>
                 </div>
             </div>
             <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-center items-center text-center">

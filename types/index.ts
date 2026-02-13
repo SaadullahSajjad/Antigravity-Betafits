@@ -190,6 +190,17 @@ export interface FeedbackStats {
   retirement: number | null;
 }
 
+export interface FAQItem {
+  question: string;
+  answer: string | React.ReactNode;
+}
+
+export interface FAQCategory {
+  title: string;
+  icon: string;
+  items: FAQItem[];
+}
+
 export type ViewType = 'home' | 'company-details' | 'benefit-plans' | 'benefits-analysis' | 'benefit-budget' | 'employee-feedback' | 'appoint-betafits' | 'faq' | 'solutions-catalog' | 'solution-detail';
 
 export interface User {

@@ -18,7 +18,7 @@ export default function PlanDetailModal({ plan, isOpen, onClose }: Props) {
                 <div className="flex items-center justify-between mb-6">
                     <div>
                         <h2 className="text-[24px] font-bold text-gray-900">{plan.name}</h2>
-                        <p className="text-[14px] text-gray-500 mt-1">{plan.carrier} • {plan.network}</p>
+                        <p className="text-[14px] text-gray-500 mt-1">{plan.carrier}</p>
                     </div>
                     <button
                         onClick={onClose}
@@ -47,7 +47,7 @@ export default function PlanDetailModal({ plan, isOpen, onClose }: Props) {
                         <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
                             OOPM (Single)
                         </span>
-                        <p className="text-[16px] font-medium text-gray-900">{plan.outOfPocketMax}</p>
+                        <p className="text-[16px] font-medium text-gray-900">{plan.oopm}</p>
                     </div>
                     {plan.copay && (
                         <div>

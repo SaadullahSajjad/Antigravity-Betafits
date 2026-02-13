@@ -42,21 +42,27 @@ export default function ContributionStrategyTable({ strategies }: Props) {
                                 Strategy Type
                             </th>
                             <th className="text-left py-3 px-4 text-[13px] font-bold text-white uppercase tracking-wider bg-brand-500">
-                                Flat
+                                Flat Amount
+                            </th>
+                            <th className="text-left py-3 px-4 text-[13px] font-bold text-white uppercase tracking-wider bg-brand-500">
+                                EE Percent
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {strategies.map((strategy) => (
-                            <tr key={strategy.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                        {strategies.map((strategy, idx) => (
+                            <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
                                 <td className="py-4 px-4 text-[14px] font-semibold text-gray-900">
-                                    {strategy.employeeType}
+                                    {strategy.benefit}
                                 </td>
                                 <td className="py-4 px-4 text-[14px] text-gray-600">
-                                    {strategy.description}
+                                    {strategy.strategyType}
                                 </td>
                                 <td className="py-4 px-4 text-[14px] text-gray-600">
-                                    {strategy.employerContribution}
+                                    {strategy.flatAmount || '-'}
+                                </td>
+                                <td className="py-4 px-4 text-[14px] text-gray-600">
+                                    {strategy.eePercent || '-'}
                                 </td>
                             </tr>
                         ))}

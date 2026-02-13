@@ -8,7 +8,7 @@ interface Props {
 export default function WorkforceOverview({ data }: Props) {
     // Placeholder data - in production, this would come from employee census
     const workforceData = {
-        totalEmployees: data.employeeCount || 0,
+        totalEmployees: Number(data.workforce.totalEmployees) || 0,
         averageAge: 0,
         genderDistribution: { male: 0, female: 0, other: 0 },
         tenureDistribution: { '0-2': 0, '3-5': 0, '6-10': 0, '10+': 0 },

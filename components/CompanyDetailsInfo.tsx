@@ -77,48 +77,42 @@ export default function CompanyDetailsInfo({ data }: Props) {
                     {isEditing ? (
                         <input
                             type="text"
-                            value={editedData.companyName}
-                            onChange={(e) => setEditedData({ ...editedData, companyName: e.target.value })}
+                            value={editedData.name}
+                            onChange={(e) => setEditedData({ ...editedData, name: e.target.value })}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                         />
                     ) : (
-                        <p className="text-[16px] font-medium text-gray-900">{data.companyName || '-'}</p>
+                        <p className="text-[16px] font-medium text-gray-900">{data.name || '-'}</p>
                     )}
                 </div>
                 <div>
                     <label className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
-                        Industry
+                        Entity Type
                     </label>
                     {isEditing ? (
                         <input
                             type="text"
-                            value={editedData.industry}
-                            onChange={(e) => setEditedData({ ...editedData, industry: e.target.value })}
+                            value={editedData.entityType}
+                            onChange={(e) => setEditedData({ ...editedData, entityType: e.target.value })}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                         />
                     ) : (
-                        <p className="text-[16px] font-medium text-gray-900">{data.industry || '-'}</p>
+                        <p className="text-[16px] font-medium text-gray-900">{data.entityType || '-'}</p>
                     )}
                 </div>
                 <div>
                     <label className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
-                        Website
+                        EIN
                     </label>
                     {isEditing ? (
                         <input
-                            type="url"
-                            value={editedData.website}
-                            onChange={(e) => setEditedData({ ...editedData, website: e.target.value })}
+                            type="text"
+                            value={editedData.ein}
+                            onChange={(e) => setEditedData({ ...editedData, ein: e.target.value })}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                         />
                     ) : (
-                        <p className="text-[16px] font-medium text-brand-600">
-                            {data.website ? (
-                                <a href={data.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                    {data.website.replace(/^https?:\/\//, '')}
-                                </a>
-                            ) : '-'}
-                        </p>
+                        <p className="text-[16px] font-medium text-gray-900">{data.ein || '-'}</p>
                     )}
                 </div>
                 <div>
@@ -128,12 +122,15 @@ export default function CompanyDetailsInfo({ data }: Props) {
                     {isEditing ? (
                         <input
                             type="tel"
-                            value={editedData.phone}
-                            onChange={(e) => setEditedData({ ...editedData, phone: e.target.value })}
+                            value={editedData.contact.phone}
+                            onChange={(e) => setEditedData({ 
+                                ...editedData, 
+                                contact: { ...editedData.contact, phone: e.target.value }
+                            })}
                             className="w-full px-4 py-2 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-brand-500 focus:border-transparent"
                         />
                     ) : (
-                        <p className="text-[16px] font-medium text-gray-900">{data.phone || '-'}</p>
+                        <p className="text-[16px] font-medium text-gray-900">{data.contact.phone || '-'}</p>
                     )}
                 </div>
                 <div className="md:col-span-2">

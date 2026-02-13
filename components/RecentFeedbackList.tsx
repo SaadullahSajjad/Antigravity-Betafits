@@ -1,31 +1,32 @@
+'use client';
+
 import React from 'react';
 import { FeedbackResponse } from '@/types';
 
 interface Props {
     responses: FeedbackResponse[];
-    limit?: number;
 }
 
-export default function RecentFeedbackList({ responses, limit = 5 }: Props) {
-    const recentResponses = responses.slice(0, limit);
-
-    const getSentimentColor = (sentiment: string) => {
-        switch (sentiment) {
-            case 'positive':
-                return 'bg-green-50 text-green-700 border-green-100';
-            case 'negative':
-                return 'bg-red-50 text-red-700 border-red-100';
-            default:
-                return 'bg-gray-50 text-gray-700 border-gray-200';
-        }
+export default function RecentFeedbackList({ responses }: Props) {
+    const getTierColor = (tier: string) => {
+        if (tier.includes('Family')) return 'bg-indigo-50 text-indigo-700 border-indigo-100';
+        if (tier.includes('Only')) return 'bg-blue-50 text-blue-700 border-blue-100';
+        return 'bg-slate-50 text-slate-700 border-slate-100';
     };
 
-    if (recentResponses.length === 0) {
+    const getScoreColor = (score: number) => {
+        if (score >= 4.5) return 'text-green-600';
+        if (score >= 3.5) return 'text-brand-600';
+        if (score >= 2.5) return 'text-yellow-600';
+        return 'text-red-600';
+    };
+
+    if (responses.length === 0) {
         return (
-            <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
                 <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Employee Feedback Summary</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">These are your employees' survey responses about their current benefit plans. Betafit reviews this feedback to improve future plan options.</p>
+                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Recent Feedback</h2>
+                    <p className="text-[13px] text-gray-500 mt-0.5">Latest employee feedback responses.</p>
                 </div>
                 <div className="text-center py-12">
                     <p className="text-[14px] text-gray-500">No recent feedback available.</p>
@@ -35,41 +36,36 @@ export default function RecentFeedbackList({ responses, limit = 5 }: Props) {
     }
 
     return (
-        <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
-                <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Employee Feedback Summary</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">These are your employees' survey responses about their current benefit plans. Betafit reviews this feedback to improve future plan options.</p>
-                </div>
-            <div className="grid grid-cols-1 gap-4">
-                {recentResponses.map((response) => (
-                    <div key={response.id} className="bg-gray-50 border border-gray-200 rounded-xl p-6 hover:border-gray-300 transition-colors">
+        <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+            <div className="mb-6">
+                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Recent Feedback</h2>
+                <p className="text-[13px] text-gray-500 mt-0.5">Latest employee feedback responses.</p>
+            </div>
+            <div className="space-y-4">
+                {responses.slice(0, 5).map((response) => (
+                    <div key={response.id} className="border border-gray-200 rounded-xl p-4 hover:border-gray-300 transition-colors">
                         <div className="flex items-start justify-between mb-3">
                             <div className="flex items-center gap-3">
-                                <span className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider border ${getSentimentColor(response.sentiment)}`}>
-                                    {response.sentiment}
+                                <span className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider border ${getTierColor(response.tier)}`}>
+                                    {response.tier}
                                 </span>
-                                <span className="text-[12px] text-gray-400 font-medium">
-                                    {response.category}
+                                <span className={`text-[14px] font-bold ${getScoreColor(response.overallRating)}`}>
+                                    {response.overallRating}/5
                                 </span>
                             </div>
                             <span className="text-[12px] text-gray-400 tabular-nums">
-                                {response.date}
+                                {response.submittedAt}
                             </span>
                         </div>
-                        <p className="text-[14px] text-gray-700 leading-relaxed font-medium">
-                            "{response.comment}"
-                        </p>
-                        <div className="mt-4 flex items-center gap-1">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                                <svg
-                                    key={star}
-                                    className={`w-4 h-4 ${star <= response.score ? 'text-yellow-400' : 'text-gray-200'}`}
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                                </svg>
-                            ))}
+                        {response.comments && (
+                            <p className="text-[14px] text-gray-700 leading-relaxed font-medium mb-3">
+                                "{response.comments}"
+                            </p>
+                        )}
+                        <div className="flex items-center gap-4 text-[12px] text-gray-500">
+                            <span>Options: {response.medicalOptions}/5</span>
+                            <span>Network: {response.medicalNetwork}/5</span>
+                            <span>Cost: {response.medicalCost}/5</span>
                         </div>
                     </div>
                 ))}

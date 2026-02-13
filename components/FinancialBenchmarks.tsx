@@ -6,6 +6,9 @@ interface Props {
 }
 
 export default function FinancialBenchmarks({ kpis }: Props) {
+    const formatCurrency = (val: number) => 
+        new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+
     return (
         <div className="bg-brand-900 rounded-xl p-6 shadow-sm text-white relative overflow-hidden">
             <div className="relative z-10">
@@ -16,34 +19,34 @@ export default function FinancialBenchmarks({ kpis }: Props) {
                 <div className="grid grid-cols-2 gap-8">
                     <div>
                         <span className="text-[13px] font-bold text-brand-400 uppercase tracking-wider block mb-1">
-                            PEPM Cost
+                            Total Monthly Cost
                         </span>
                         <span className="text-[32px] font-bold text-white">
-                            ${kpis.pepm.toLocaleString()}
+                            {formatCurrency(kpis.totalMonthlyCost)}
                         </span>
                     </div>
                     <div>
                         <span className="text-[13px] font-bold text-brand-400 uppercase tracking-wider block mb-1">
-                            Annual Spend
+                            Employer Contribution
                         </span>
                         <span className="text-[32px] font-bold text-white">
-                            ${(kpis.totalAnnualSpend / 1000000).toFixed(2)}M
+                            {formatCurrency(kpis.totalEmployerContribution)}
                         </span>
                     </div>
                     <div>
                         <span className="text-[13px] font-bold text-brand-400 uppercase tracking-wider block mb-1">
-                            Employer Contrib.
+                            Employee Contribution
                         </span>
                         <span className="text-[32px] font-bold text-white">
-                            {kpis.employerContributionPercentage}%
+                            {formatCurrency(kpis.totalEmployeeContribution)}
                         </span>
                     </div>
                     <div>
                         <span className="text-[13px] font-bold text-brand-400 uppercase tracking-wider block mb-1">
-                            Percentile
+                            ER Cost per Eligible
                         </span>
                         <span className="text-[32px] font-bold text-white">
-                            {getOrdinal(kpis.benchmarkPercentile)}
+                            {formatCurrency(kpis.erCostPerEligible)}
                         </span>
                     </div>
                 </div>
@@ -54,9 +57,3 @@ export default function FinancialBenchmarks({ kpis }: Props) {
         </div>
     );
 }
-
-const getOrdinal = (n: number) => {
-    const s = ["th", "st", "nd", "rd"];
-    const v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
-};

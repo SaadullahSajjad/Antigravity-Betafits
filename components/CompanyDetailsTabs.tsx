@@ -61,35 +61,35 @@ export default function CompanyDetailsTabs({ data }: Props) {
                     <div className="space-y-4">
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <span className="text-[14px] text-gray-500">Company Name</span>
-                            <span className="text-[14px] font-semibold text-gray-900">{data.companyName || '-'}</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.name || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <span className="text-[14px] text-gray-500">Entity Type</span>
-                            <span className="text-[14px] font-semibold text-gray-900">{data.industry || '-'}</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.entityType || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <span className="text-[14px] text-gray-500">Entity Legal Name</span>
-                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.legalName || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <span className="text-[14px] text-gray-500">EIN</span>
-                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.ein || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <span className="text-[14px] text-gray-500">SIC Code</span>
-                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.sicCode || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <span className="text-[14px] text-gray-500">NAICS Code</span>
-                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.naicsCode || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <span className="text-[14px] text-gray-500">HQ Address</span>
                             <span className="text-[14px] font-semibold text-gray-900">{data.address || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3">
-                            <span className="text-[14px] text-gray-500">Current Start Month</span>
-                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                            <span className="text-[14px] text-gray-500">Renewal Month</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.renewalMonth || '-'}</span>
                         </div>
                     </div>
                 )}
@@ -97,33 +97,87 @@ export default function CompanyDetailsTabs({ data }: Props) {
                 {activeTab === 'contact-info' && (
                     <div className="space-y-4">
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
-                            <span className="text-[14px] text-gray-500">Name</span>
-                            <span className="text-[14px] font-semibold text-gray-900">{data.primaryContact || '-'}</span>
+                            <span className="text-[14px] text-gray-500">First Name</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.contact.firstName || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
-                            <span className="text-[14px] text-gray-500">Title</span>
-                            <span className="text-[14px] font-semibold text-gray-900">-</span>
+                            <span className="text-[14px] text-gray-500">Last Name</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.contact.lastName || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Job Title</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.contact.jobTitle || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3 border-b border-gray-100">
                             <span className="text-[14px] text-gray-500">Phone</span>
-                            <span className="text-[14px] font-semibold text-gray-900">{data.phone || '-'}</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.contact.phone || '-'}</span>
                         </div>
                         <div className="flex items-center justify-between py-3">
                             <span className="text-[14px] text-gray-500">Email</span>
-                            <span className="text-[14px] font-semibold text-gray-900">{data.website || '-'}</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.contact.email || '-'}</span>
                         </div>
                     </div>
                 )}
 
                 {activeTab === 'workforce' && (
-                    <div className="text-center py-12">
-                        <p className="text-[14px] text-gray-500">Workforce data will be displayed here.</p>
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Total Employees</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.workforce.totalEmployees || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">U.S. HQ Employees</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.workforce.usHqEmployees || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">HQ City</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.workforce.hqCity || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Other US Cities</span>
+                            <span className="text-[14px] font-semibold text-gray-900">
+                                {data.workforce.otherUsCities.length > 0 ? data.workforce.otherUsCities.join(', ') : '-'}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Other Countries</span>
+                            <span className="text-[14px] font-semibold text-gray-900">
+                                {data.workforce.otherCountries.length > 0 ? data.workforce.otherCountries.join(', ') : '-'}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between py-3">
+                            <span className="text-[14px] text-gray-500">Open Jobs</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.workforce.openJobs || '-'}</span>
+                        </div>
                     </div>
                 )}
 
                 {activeTab === 'glassdoor' && (
-                    <div className="text-center py-12">
-                        <p className="text-[14px] text-gray-500">Glassdoor insights will be displayed here.</p>
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Overall Rating</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.glassdoor.overallRating || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Benefits Rating</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.glassdoor.benefitsRating || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Health Insurance Rating</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.glassdoor.healthInsuranceRating || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Retirement Rating</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.glassdoor.retirementRating || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3 border-b border-gray-100">
+                            <span className="text-[14px] text-gray-500">Overall Reviews</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.glassdoor.overallReviews || '-'}</span>
+                        </div>
+                        <div className="flex items-center justify-between py-3">
+                            <span className="text-[14px] text-gray-500">Benefits Reviews</span>
+                            <span className="text-[14px] font-semibold text-gray-900">{data.glassdoor.benefitsReviews || '-'}</span>
+                        </div>
                     </div>
                 )}
             </div>

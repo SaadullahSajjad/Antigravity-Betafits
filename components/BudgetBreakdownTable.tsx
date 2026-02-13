@@ -33,33 +33,62 @@ export default function BudgetBreakdownTable({ breakdown }: Props) {
                     <thead>
                         <tr className="border-b border-gray-200">
                             <th className="text-left py-3 px-4 text-[13px] font-bold text-gray-500 uppercase tracking-wider">
-                                Category
+                                Benefit
+                            </th>
+                            <th className="text-left py-3 px-4 text-[13px] font-bold text-gray-500 uppercase tracking-wider">
+                                Carrier
                             </th>
                             <th className="text-right py-3 px-4 text-[13px] font-bold text-gray-500 uppercase tracking-wider">
-                                Amount
+                                Monthly Total
                             </th>
                             <th className="text-right py-3 px-4 text-[13px] font-bold text-gray-500 uppercase tracking-wider">
-                                Percentage
+                                Annual Total
+                            </th>
+                            <th className="text-right py-3 px-4 text-[13px] font-bold text-gray-500 uppercase tracking-wider">
+                                ER Cost/Month
+                            </th>
+                            <th className="text-right py-3 px-4 text-[13px] font-bold text-gray-500 uppercase tracking-wider">
+                                EE Cost/Month
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        {breakdown.map((item) => (
-                            <tr key={item.category} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                                <td className="py-4 px-4">
-                                    <div className="flex items-center gap-3">
-                                        <div className={`w-3 h-3 rounded-full ${item.color}`} />
-                                        <span className="text-[15px] font-semibold text-gray-900">{item.category}</span>
-                                    </div>
-                                </td>
-                                <td className="py-4 px-4 text-right text-[15px] font-semibold text-gray-900">
-                                    ${item.amount.toLocaleString()}
-                                </td>
-                                <td className="py-4 px-4 text-right text-[15px] font-semibold text-gray-900">
-                                    {item.percentage}%
-                                </td>
-                            </tr>
-                        ))}
+                        {breakdown.map((item, idx) => {
+                            const formatCurrency = (val: number) => 
+                                new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
+                            
+                            const getBenefitColor = (benefit: string) => {
+                                if (benefit === 'Medical') return 'bg-brand-500';
+                                if (benefit === 'Dental') return 'bg-blue-500';
+                                return 'bg-amber-500';
+                            };
+                            
+                            return (
+                                <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
+                                    <td className="py-4 px-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className={`w-3 h-3 rounded-full ${getBenefitColor(item.benefit)}`} />
+                                            <span className="text-[15px] font-semibold text-gray-900">{item.benefit}</span>
+                                        </div>
+                                    </td>
+                                    <td className="py-4 px-4 text-[15px] font-medium text-gray-600">
+                                        {item.carrier}
+                                    </td>
+                                    <td className="py-4 px-4 text-right text-[15px] font-semibold text-gray-900">
+                                        {formatCurrency(item.monthlyTotal)}
+                                    </td>
+                                    <td className="py-4 px-4 text-right text-[15px] font-semibold text-gray-900">
+                                        {formatCurrency(item.annualTotal)}
+                                    </td>
+                                    <td className="py-4 px-4 text-right text-[15px] font-semibold text-brand-600">
+                                        {formatCurrency(item.erCostMonth)}
+                                    </td>
+                                    <td className="py-4 px-4 text-right text-[15px] font-semibold text-blue-600">
+                                        {formatCurrency(item.eeCostMonth)}
+                                    </td>
+                                </tr>
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>

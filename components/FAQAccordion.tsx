@@ -16,23 +16,24 @@ export default function FAQAccordion({ categories }: Props) {
 
     return (
         <div className="max-w-3xl mx-auto space-y-12">
-            {categories.map((category) => (
-                <section key={category.id}>
+            {categories.map((category, catIdx) => (
+                <section key={catIdx}>
                     <h2 className="text-[18px] font-bold text-gray-900 tracking-tight mb-4 border-b border-gray-100 pb-2">
                         {category.title}
                     </h2>
                     <div className="space-y-4">
-                        {category.items.map((item) => {
-                            const isOpen = openItem === item.id;
+                        {category.items.map((item, itemIdx) => {
+                            const itemId = `${catIdx}-${itemIdx}`;
+                            const isOpen = openItem === itemId;
                             return (
                                 <div
-                                    key={item.id}
+                                    key={itemId}
                                     className={`bg-white border rounded-xl transition-all duration-200 overflow-hidden ${
                                         isOpen ? 'border-brand-200 shadow-md ring-1 ring-brand-100' : 'border-gray-200 shadow-sm hover:border-gray-300'
                                     }`}
                                 >
                                     <button
-                                        onClick={() => toggleItem(item.id)}
+                                        onClick={() => toggleItem(itemId)}
                                         className="w-full flex items-center justify-between p-5 text-left focus:outline-none"
                                     >
                                         <span className={`text-[15px] font-semibold ${isOpen ? 'text-brand-800' : 'text-gray-900'}`}>

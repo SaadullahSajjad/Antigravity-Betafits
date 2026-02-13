@@ -12,29 +12,37 @@ export default function BenefitEligibilityCard({ eligibility }: Props) {
                 <h2 className="text-xl font-bold text-gray-900 tracking-tight">Eligibility Rules</h2>
                 <p className="text-[13px] text-gray-500 mt-0.5">Configuration for employee benefit eligibility.</p>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
+                        Benefit Class
+                    </span>
+                    <div className="text-[16px] font-bold text-gray-900 bg-brand-50 inline-block px-4 py-2 rounded-lg text-brand-700">
+                        {eligibility.className || '-'}
+                    </div>
+                </div>
                 <div>
                     <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
                         Waiting Period
                     </span>
                     <div className="text-[16px] font-bold text-gray-900 bg-brand-50 inline-block px-4 py-2 rounded-lg text-brand-700">
-                        {eligibility.waitingPeriod !== 'N/A' ? eligibility.waitingPeriod : '-'}
+                        {eligibility.waitingPeriod || '-'}
                     </div>
                 </div>
                 <div>
                     <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
-                        Min Hours / Week
+                        Effective Date
                     </span>
                     <div className="text-[16px] font-bold text-gray-900 bg-brand-50 inline-block px-4 py-2 rounded-lg text-brand-700">
-                        {eligibility.minHoursPerWeek > 0 ? `${eligibility.minHoursPerWeek} Hours` : '-'}
+                        {eligibility.effectiveDate || '-'}
                     </div>
                 </div>
                 <div>
                     <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
-                        Effective Date Rule
+                        Required Hours
                     </span>
-                    <div className="text-[16px] font-medium text-gray-900">
-                        {eligibility.effectiveDateRule !== 'N/A' ? eligibility.effectiveDateRule : '-'}
+                    <div className="text-[16px] font-bold text-gray-900 bg-brand-50 inline-block px-4 py-2 rounded-lg text-brand-700">
+                        {eligibility.requiredHours || '-'}
                     </div>
                 </div>
             </div>

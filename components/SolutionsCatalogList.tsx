@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Solution, SolutionCategory } from '@/types';
+import { Solution } from '@/types';
 
 interface Props {
     solutions: Solution[];
@@ -31,7 +31,7 @@ export default function SolutionsCatalogList({ solutions }: Props) {
         const matchesSearch = searchQuery === '' || 
             solution.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             solution.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            solution.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+            solution.category.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
     });
 
@@ -71,22 +71,14 @@ export default function SolutionsCatalogList({ solutions }: Props) {
                     <Link href={`/solutions/${solution.id}`} key={solution.id} className="group cursor-pointer">
                         <div className="bg-white border border-gray-200 rounded-xl p-6 h-full shadow-sm hover:shadow-lg hover:border-brand-200 transition-all duration-300 flex flex-col">
                             <div className="flex items-start justify-between mb-4">
-                                {solution.logoUrl ? (
-                                    <img
-                                        src={solution.logoUrl}
-                                        alt={solution.name}
-                                        className="w-12 h-12 object-contain rounded-xl"
-                                    />
-                                ) : (
-                                    <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-[18px] font-bold text-gray-400 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
-                                        {solution.name.charAt(0)}
-                                    </div>
-                                )}
+                                <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-[18px] font-bold text-gray-400 group-hover:bg-brand-50 group-hover:text-brand-600 transition-colors">
+                                    {solution.name.charAt(0)}
+                                </div>
                                 <div className="flex items-center gap-1 bg-yellow-50 px-2 py-1 rounded text-yellow-700 text-[12px] font-bold">
                                     <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                                         <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                     </svg>
-                                    {solution.rating}
+                                    N/A
                                 </div>
                             </div>
 
@@ -104,11 +96,12 @@ export default function SolutionsCatalogList({ solutions }: Props) {
                             </p>
 
                             <div className="flex flex-wrap gap-2 mt-auto">
-                                {solution.tags.slice(0, 2).map((tag) => (
-                                    <span key={tag} className="bg-gray-50 text-gray-600 text-[11px] font-semibold px-2 py-1 rounded border border-gray-100">
-                                        {tag}
-                                    </span>
-                                ))}
+                                <span className="bg-gray-50 text-gray-600 text-[11px] font-semibold px-2 py-1 rounded border border-gray-100">
+                                    {solution.category}
+                                </span>
+                                <span className="bg-gray-50 text-gray-600 text-[11px] font-semibold px-2 py-1 rounded border border-gray-100">
+                                    {solution.integrationType}
+                                </span>
                             </div>
 
                             <div className="mt-4 pt-4 border-t border-gray-100">

@@ -32,20 +32,18 @@ export default async function EmployeeFeedbackAllPage() {
 
                 const mappedResponses: FeedbackResponse[] = sortedRecords.map(record => {
                     const fields = record.fields;
-                    const score = Number(fields['Rating'] || fields['Score'] || 0);
-
-                    // Sentiment logic based on score
-                    let sentiment: 'positive' | 'neutral' | 'negative' = 'neutral';
-                    if (score >= 4) sentiment = 'positive';
-                    else if (score <= 2) sentiment = 'negative';
-
+                    
+                    // Map to new FeedbackResponse structure
                     return {
                         id: record.id,
-                        date: String(fields['Created'] || record.createdTime).split('T')[0],
-                        category: String(fields['Category'] || 'General'),
-                        score: score,
-                        comment: String(fields['Comments'] || fields['Text'] || ''),
-                        sentiment: sentiment,
+                        submittedAt: String(fields['Created'] || record.createdTime || new Date().toISOString()).split('T')[0],
+                        tier: String(fields['Tier'] || fields['Coverage Tier'] || 'Individual Only'),
+                        overallRating: Number(fields['Overall Rating'] || fields['Rating'] || fields['Score'] || 0),
+                        medicalOptions: Number(fields['Medical Options'] || fields['Medical Options Rating'] || 0),
+                        medicalNetwork: Number(fields['Medical Network'] || fields['Medical Network Rating'] || 0),
+                        medicalCost: Number(fields['Medical Cost'] || fields['Employee Cost'] || fields['Cost Rating'] || 0),
+                        nonMedical: Number(fields['Non-Medical'] || fields['Non-Medical Rating'] || 0),
+                        comments: String(fields['Comments'] || fields['Text'] || ''),
                     };
                 });
 
@@ -58,15 +56,10 @@ export default async function EmployeeFeedbackAllPage() {
         console.warn('[EmployeeFeedbackAllPage] No API key or company ID available for live data.');
     }
 
-    const getSentimentColor = (sentiment: string) => {
-        switch (sentiment) {
-            case 'positive':
-                return 'bg-green-50 text-green-700 border-green-100';
-            case 'negative':
-                return 'bg-red-50 text-red-700 border-red-100';
-            default:
-                return 'bg-gray-50 text-gray-700 border-gray-200';
-        }
+    const getTierColor = (tier: string) => {
+        if (tier.includes('Family')) return 'bg-indigo-50 text-indigo-700 border-indigo-100';
+        if (tier.includes('Only')) return 'bg-blue-50 text-blue-700 border-blue-100';
+        return 'bg-slate-50 text-slate-700 border-slate-100';
     };
 
     const getScoreColor = (score: number) => {
@@ -125,28 +118,45 @@ export default async function EmployeeFeedbackAllPage() {
                             <div key={response.id} className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:border-gray-300 transition-colors">
                                 <div className="flex items-start justify-between mb-3">
                                     <div className="flex items-center gap-3">
-                                        <span className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider border ${getSentimentColor(response.sentiment)}`}>
-                                            {response.sentiment}
+                                        <span className={`inline-block px-2.5 py-1 rounded text-[11px] font-bold uppercase tracking-wider border ${getTierColor(response.tier)}`}>
+                                            {response.tier}
                                         </span>
-                                        <span className="text-[12px] text-gray-400 font-medium">
-                                            {response.category}
-                                        </span>
-                                        <span className={`text-[14px] font-bold ${getScoreColor(response.score)}`}>
-                                            {response.score}/5
+                                        <span className={`text-[14px] font-bold ${getScoreColor(response.overallRating)}`}>
+                                            Overall: {response.overallRating}/5
                                         </span>
                                     </div>
                                     <span className="text-[12px] text-gray-400 tabular-nums">
-                                        {response.date}
+                                        {response.submittedAt}
                                     </span>
                                 </div>
-                                <p className="text-[14px] text-gray-700 leading-relaxed font-medium mb-4">
-                                    "{response.comment}"
-                                </p>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                                    <div>
+                                        <span className="text-[11px] text-gray-500 font-medium">Options</span>
+                                        <div className="text-[14px] font-bold text-gray-900">{response.medicalOptions}/5</div>
+                                    </div>
+                                    <div>
+                                        <span className="text-[11px] text-gray-500 font-medium">Network</span>
+                                        <div className="text-[14px] font-bold text-gray-900">{response.medicalNetwork}/5</div>
+                                    </div>
+                                    <div>
+                                        <span className="text-[11px] text-gray-500 font-medium">Cost</span>
+                                        <div className="text-[14px] font-bold text-gray-900">{response.medicalCost}/5</div>
+                                    </div>
+                                    <div>
+                                        <span className="text-[11px] text-gray-500 font-medium">Non-Medical</span>
+                                        <div className="text-[14px] font-bold text-gray-900">{response.nonMedical}/5</div>
+                                    </div>
+                                </div>
+                                {response.comments && (
+                                    <p className="text-[14px] text-gray-700 leading-relaxed font-medium mb-4">
+                                        "{response.comments}"
+                                    </p>
+                                )}
                                 <div className="flex items-center gap-1">
                                     {[1, 2, 3, 4, 5].map((star) => (
                                         <svg
                                             key={star}
-                                            className={`w-4 h-4 ${star <= response.score ? 'text-yellow-400' : 'text-gray-200'}`}
+                                            className={`w-4 h-4 ${star <= response.overallRating ? 'text-yellow-400' : 'text-gray-200'}`}
                                             fill="currentColor"
                                             viewBox="0 0 20 20"
                                         >

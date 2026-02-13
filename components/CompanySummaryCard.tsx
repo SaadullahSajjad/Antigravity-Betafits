@@ -11,24 +11,24 @@ export default function CompanySummaryCard({ data }: Props) {
             <div className="flex items-start justify-between mb-8">
                 <div>
                     <h2 className="text-[24px] font-bold text-gray-900 tracking-tight">
-                        {data.companyName || 'Company Name'}
+                        {data.name || 'Company Name'}
                     </h2>
                     <p className="text-[15px] text-gray-500 mt-1 font-medium">
                         {data.address || 'Address not provided'}
                     </p>
                 </div>
                 <div className="w-16 h-16 bg-brand-50 rounded-xl flex items-center justify-center text-brand-700 font-bold text-2xl">
-                    {data.companyName?.charAt(0) || 'C'}
+                    {data.name?.charAt(0) || 'C'}
                 </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div className="space-y-1">
                     <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider">
-                        Industry
+                        Entity Type
                     </span>
                     <p className="text-[16px] font-medium text-gray-900">
-                        {data.industry || '-'}
+                        {data.entityType || '-'}
                     </p>
                 </div>
                 <div className="space-y-1">
@@ -36,35 +36,33 @@ export default function CompanySummaryCard({ data }: Props) {
                         Employees
                     </span>
                     <p className="text-[16px] font-medium text-gray-900">
-                        {data.employeeCount?.toLocaleString() || '-'}
+                        {data.workforce.totalEmployees?.toLocaleString() || '-'}
                     </p>
                 </div>
                 <div className="space-y-1">
                     <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider">
-                        Founded
+                        EIN
                     </span>
                     <p className="text-[16px] font-medium text-gray-900">
-                        {data.foundedYear || '-'}
+                        {data.ein || '-'}
                     </p>
                 </div>
                 <div className="space-y-1">
                     <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider">
-                        Website
-                    </span>
-                    <p className="text-[16px] font-medium text-brand-600">
-                        {data.website ? (
-                            <a href={data.website} target="_blank" rel="noopener noreferrer" className="hover:underline">
-                                {data.website.replace(/^https?:\/\//, '')}
-                            </a>
-                        ) : '-'}
-                    </p>
-                </div>
-                <div className="space-y-1">
-                    <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider">
-                        Primary Contact
+                        Contact Name
                     </span>
                     <p className="text-[16px] font-medium text-gray-900">
-                        {data.primaryContact || '-'}
+                        {data.contact.firstName && data.contact.lastName 
+                            ? `${data.contact.firstName} ${data.contact.lastName}`
+                            : '-'}
+                    </p>
+                </div>
+                <div className="space-y-1">
+                    <span className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider">
+                        Job Title
+                    </span>
+                    <p className="text-[16px] font-medium text-gray-900">
+                        {data.contact.jobTitle || '-'}
                     </p>
                 </div>
                 <div className="space-y-1">
@@ -72,7 +70,7 @@ export default function CompanySummaryCard({ data }: Props) {
                         Phone
                     </span>
                     <p className="text-[16px] font-medium text-gray-900">
-                        {data.phone || '-'}
+                        {data.contact.phone || '-'}
                     </p>
                 </div>
             </div>

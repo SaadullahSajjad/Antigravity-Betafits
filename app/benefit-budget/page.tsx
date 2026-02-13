@@ -17,17 +17,18 @@ export default async function BenefitBudgetPage() {
 
     // Default to empty/live-only structure matching Types
     let demographics: DemographicInsightsType = {
+        eligibleEmployees: 0,
+        averageSalary: 0,
         averageAge: 0,
-        averageTenure: 0,
-        genderRatio: { male: 0, female: 0, other: 0 },
-        dependentCoverageRatio: 0,
+        malePercentage: 0,
+        femalePercentage: 0,
     };
 
     let kpis: FinancialKPIs = {
-        pepm: 0,
-        totalAnnualSpend: 0,
-        employerContributionPercentage: 0,
-        benchmarkPercentile: 0,
+        totalMonthlyCost: 0,
+        totalEmployerContribution: 0,
+        totalEmployeeContribution: 0,
+        erCostPerEligible: 0,
     };
 
     let breakdown: BudgetBreakdown[] = [];
@@ -44,17 +45,18 @@ export default async function BenefitBudgetPage() {
                 const fields = records[0].fields;
 
                 demographics = {
+                    eligibleEmployees: 0,
+                    averageSalary: 0,
                     averageAge: 0,
-                    averageTenure: 0,
-                    genderRatio: { male: 0, female: 0, other: 0 },
-                    dependentCoverageRatio: 0,
+                    malePercentage: 0,
+                    femalePercentage: 0,
                 };
 
                 kpis = {
-                    pepm: 0,
-                    totalAnnualSpend: 0,
-                    employerContributionPercentage: Number(fields['medical_er_contribution_strategy']) || 0,
-                    benchmarkPercentile: 0,
+                    totalMonthlyCost: 0,
+                    totalEmployerContribution: 0,
+                    totalEmployeeContribution: 0,
+                    erCostPerEligible: 0,
                 };
             }
         } catch (error) {

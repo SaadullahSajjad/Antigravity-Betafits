@@ -52,7 +52,7 @@ export default function VisionPlansList({ plans }: Props) {
                                 <div>
                                     <h3 className="text-[18px] font-bold text-gray-900">{plan.name}</h3>
                                     <p className="text-[13px] text-gray-500 font-medium">
-                                        {plan.carrier} • {plan.network}
+                                        {plan.carrier}
                                     </p>
                                 </div>
                             </div>
