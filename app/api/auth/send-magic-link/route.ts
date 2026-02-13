@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { generateMagicToken, storeMagicToken } from "@/lib/auth/magicToken";
 import { fetchAirtableRecords } from "@/lib/airtable/fetch";
+import { sendMagicLinkEmail } from "@/lib/email/sendMagicLink";
 
 export const dynamic = "force-dynamic";
 
@@ -83,6 +84,13 @@ export async function POST(request: NextRequest) {
             });
         }
 
+        // Get user's name if available (try common field name variations)
+        const userName = fields["Name"] || 
+                         fields["Full Name"] || 
+                         fields["User Name"] || 
+                         fields["First Name"] || 
+                         undefined;
+
         // Generate magic token
         const magicToken = generateMagicToken();
         storeMagicToken(magicToken, userId, normalizedEmail, 24); // 24 hour expiry
@@ -136,11 +144,21 @@ export async function POST(request: NextRequest) {
             // Continue anyway - token is stored in memory
         }
 
-        // TODO: Send email with magic link
-        // For now, we'll just return success
-        // In production, integrate with email service (SendGrid, Resend, etc.)
+        // Send email with magic link
         console.log(`[Send Magic Link API] Magic link generated: ${magicLink}`);
-        console.log(`[Send Magic Link API] TODO: Send email to ${normalizedEmail} with magic link`);
+        const emailResult = await sendMagicLinkEmail({
+            email: normalizedEmail,
+            magicLink,
+            userName,
+        });
+
+        if (!emailResult.success) {
+            console.error(`[Send Magic Link API] Failed to send email: ${emailResult.error}`);
+            // Still return success to user (don't reveal email service issues)
+            // Log the error for debugging
+        } else {
+            console.log(`[Send Magic Link API] Magic link email sent successfully to ${normalizedEmail}`);
+        }
 
         // Return success (don't expose the magic link in response for security)
         return NextResponse.json({
