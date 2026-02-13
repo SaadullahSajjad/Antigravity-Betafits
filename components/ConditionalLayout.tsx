@@ -16,10 +16,10 @@ export default function ConditionalLayout({ children }: { children: React.ReactN
     }
 
     return (
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen bg-white font-sans text-gray-900 overflow-hidden">
             <Sidebar />
-            <main className="flex-1 overflow-y-auto">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <main className="flex-1 overflow-y-auto bg-white p-8 lg:p-12">
+                <div className="max-w-7xl mx-auto">
                     {children}
                 </div>
             </main>

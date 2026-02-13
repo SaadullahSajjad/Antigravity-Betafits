@@ -6,7 +6,7 @@ import { FormDataDefinition } from '@/types/form';
  * URL: https://betafits.fillout.com/t/eBxXtLZdK4us
  * 
  * Auto-generated from Fillout template JSON
- * Generated: 2026-02-13T16:46:08.801Z
+ * Generated: 2026-02-13T16:56:41.436Z
  */
 export const QUICK_START_COMPLETE_FORM_DATA: FormDataDefinition = {
     id: 'eBxXtLZdK4us',

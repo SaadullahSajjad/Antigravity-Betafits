@@ -1,6 +1,7 @@
 import React from 'react';
-import DashboardHeader from '@/components/DashboardHeader';
-import CompanyDetailsTabs from '@/components/CompanyDetailsTabs';
+import CompanyDetails from '@/components/CompanyDetails';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth/authOptions';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { CompanyData } from '@/types';
@@ -8,61 +9,75 @@ import { CompanyData } from '@/types';
 export const dynamic = 'force-dynamic';
 
 export default async function CompanyDetailsPage() {
-    const companyId = await getCompanyId();
-    const apiKey = process.env.AIRTABLE_API_KEY;
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email) {
+    return <CompanyDetails data={null} />;
+  }
 
-    // Default to empty/live-only structure
-    let companyData: CompanyData = {
-        id: '',
-        companyName: '',
-        industry: '',
-        employeeCount: 0,
-        website: '',
-        address: '',
-        primaryContact: '',
-        phone: '',
-        foundedYear: '',
-    };
+  const companyId = await getCompanyId();
+  if (!companyId) {
+    return <CompanyDetails data={null} />;
+  }
 
-    if (apiKey && companyId) {
-        try {
-            // Fetch the specific company record from Intake - Group Data table
-            const records = await fetchAirtableRecords('tbliXJ7599ngxEriO', {
-                apiKey,
-                filterByFormula: `RECORD_ID() = '${companyId}'`,
-            });
+  const token = process.env.AIRTABLE_API_KEY;
+  if (!token) {
+    return <CompanyDetails data={null} />;
+  }
 
-            if (records && records.length > 0) {
-                const fields = records[0].fields;
+  try {
+    const tableId = 'tbliXJ7599ngxEriO'; // Intake - Group Data
+    const records = await fetchAirtableRecords(tableId, {
+      apiKey: token,
+      filterByFormula: `{Record ID} = '${companyId}'`,
+      maxRecords: 1,
+    });
 
-                // Map fields to CompanyData structure
-                companyData = {
-                    id: records[0].id,
-                    companyName: String(fields['Company Name'] || fields['Name'] || fields['company_name'] || ''),
-                    industry: String(fields['Industry'] || fields['entity_type'] || ''),
-                    employeeCount: Number(fields['estimated_benefit_eligible_employees'] || fields['employee_count'] || 0),
-                    website: String(fields['Website'] || fields['work_email'] || ''),
-                    address: `${fields['street_address'] || ''} ${fields['city'] || ''} ${fields['state_province'] || ''} ${fields['zip_code'] || ''}`.trim(),
-                    primaryContact: `${fields['first_name'] || ''} ${fields['last_name'] || ''}`.trim(),
-                    phone: String(fields['phone_number'] || fields['Phone Number'] || ''),
-                    foundedYear: String(fields['year_company_founded'] || fields['Year Company Founded'] || ''),
-                };
-            }
-        } catch (error) {
-            console.error('[CompanyDetailsPage] Error fetching live data:', error);
-        }
-    } else {
-        console.warn('[CompanyDetailsPage] No API key or company ID available for live data.');
+    if (!records || records.length === 0) {
+      return <CompanyDetails data={null} />;
     }
 
-    return (
-        <div className="space-y-8 animate-in fade-in duration-500">
-            <DashboardHeader
-                title="Company Details"
-                subtitle="Manage and review company information, eligibility, forms, and configurations."
-            />
+    const record = records[0];
+    const fields = record.fields;
 
-            <CompanyDetailsTabs data={companyData} />
-        </div>
-    );
+    const companyData: CompanyData = {
+      name: String(fields['Company Name'] || fields['Name'] || ''),
+      entityType: String(fields['Entity Type'] || ''),
+      legalName: String(fields['Entity Legal Name'] || fields['Legal Name'] || ''),
+      ein: String(fields['EIN'] || ''),
+      sicCode: String(fields['SIC Code'] || ''),
+      naicsCode: String(fields['NAICS Code'] || ''),
+      address: String(fields['HQ Address'] || fields['Address'] || ''),
+      renewalMonth: String(fields['Renewal Month'] || ''),
+      contact: {
+        firstName: String(fields['First Name'] || ''),
+        lastName: String(fields['Last Name'] || ''),
+        jobTitle: String(fields['Job Title'] || ''),
+        phone: String(fields['Phone Number'] || fields['Phone'] || ''),
+        email: String(fields['Work Email'] || fields['Email'] || ''),
+      },
+      workforce: {
+        totalEmployees: String(fields['Total Employees'] || ''),
+        usHqEmployees: String(fields['U.S. HQ Employees'] || ''),
+        hqCity: String(fields['HQ City'] || ''),
+        otherUsCities: Array.isArray(fields['Other US Cities']) ? fields['Other US Cities'] : [],
+        otherCountries: Array.isArray(fields['Other Countries']) ? fields['Other Countries'] : [],
+        openJobs: String(fields['Open Jobs'] || ''),
+        linkedInUrl: String(fields['LinkedIn URL'] || ''),
+      },
+      glassdoor: {
+        overallRating: parseFloat(String(fields['Glassdoor Overall Rating'] || '0')) || 0,
+        benefitsRating: parseFloat(String(fields['Glassdoor Benefits Rating'] || '0')) || 0,
+        healthInsuranceRating: parseFloat(String(fields['Glassdoor Health Insurance Rating'] || '0')) || 0,
+        retirementRating: parseFloat(String(fields['Glassdoor Retirement Rating'] || '0')) || 0,
+        overallReviews: parseInt(String(fields['Glassdoor Overall Reviews'] || '0')) || 0,
+        benefitsReviews: parseInt(String(fields['Glassdoor Benefits Reviews'] || '0')) || 0,
+        glassdoorUrl: String(fields['Glassdoor URL'] || ''),
+      },
+    };
+
+    return <CompanyDetails data={companyData} />;
+  } catch (error) {
+    console.error('[CompanyDetailsPage] Error:', error);
+    return <CompanyDetails data={null} />;
+  }
 }

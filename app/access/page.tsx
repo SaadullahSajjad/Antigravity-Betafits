@@ -23,22 +23,38 @@ function AccessPageContent() {
         // Authenticate with magic link token
         const authenticate = async () => {
             try {
+                console.log("[Access Page] Attempting authentication with token:", token.substring(0, 20) + "...");
+                
                 const result = await signIn("magic-link", {
                     token,
                     redirect: false,
                 });
 
+                console.log("[Access Page] SignIn result:", { ok: result?.ok, error: result?.error });
+
                 if (result?.error) {
-                    setError("It seems your magic link is no longer valid. Please, contact your administrator.");
+                    const errorMessage = process.env.NODE_ENV === 'development' 
+                        ? `Magic link validation failed: ${result.error}. Check server logs for details.`
+                        : "It seems your magic link is no longer valid. Please, contact your administrator.";
+                    setError(errorMessage);
                     setLoading(false);
                 } else if (result?.ok) {
+                    console.log("[Access Page] Authentication successful, redirecting...");
                     // Check if user needs to change password
                     // This will be handled by middleware or redirect logic
                     router.push("/");
                     router.refresh();
+                } else {
+                    // No result - this shouldn't happen but handle it
+                    setError("Authentication failed. Please try again.");
+                    setLoading(false);
                 }
-            } catch (err) {
-                setError("An error occurred. Please try again.");
+            } catch (err: any) {
+                console.error("[Access Page] Authentication error:", err);
+                const errorMessage = process.env.NODE_ENV === 'development'
+                    ? `Error: ${err.message || 'Unknown error'}`
+                    : "An error occurred. Please try again.";
+                setError(errorMessage);
                 setLoading(false);
             }
         };

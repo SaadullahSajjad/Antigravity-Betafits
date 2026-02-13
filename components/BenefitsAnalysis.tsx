@@ -1,175 +1,198 @@
 'use client';
 
 import React from 'react';
-import { BudgetBreakdown, DemographicInsights, FinancialKPIs } from '@/types';
+import { DemographicInsights, FinancialKPIs, BudgetBreakdown } from '@/types';
 
 interface Props {
-    demographics: DemographicInsights;
-    kpis: FinancialKPIs;
-    breakdown: BudgetBreakdown[];
+  demographics: DemographicInsights | null;
+  kpis: FinancialKPIs | null;
+  breakdown: BudgetBreakdown[];
 }
 
 const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) => {
-    return (
-        <div className="space-y-10">
-            {/* Top Row: Demographics & KPIs */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                {/* Workforce Demographics */}
-                <section>
-                    <div className="mb-6">
-                        <h2 className="text-xl font-bold text-gray-900 tracking-tight">Workforce Demographics</h2>
-                        <p className="text-[13px] text-gray-500 mt-0.5">Key population metrics impacting plan design.</p>
-                    </div>
-                    <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm h-full">
-                        <div className="grid grid-cols-2 gap-8">
-                            <div>
-                                <span className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider block mb-1">
-                                    Avg Age
-                                </span>
-                                <span className="text-[32px] font-bold text-gray-900">
-                                    {demographics.averageAge}
-                                </span>
-                                <span className="text-[13px] text-gray-500 ml-1">years</span>
-                            </div>
-                            <div>
-                                <span className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider block mb-1">
-                                    Avg Tenure
-                                </span>
-                                <span className="text-[32px] font-bold text-gray-900">
-                                    {demographics.averageTenure}
-                                </span>
-                                <span className="text-[13px] text-gray-500 ml-1">years</span>
-                            </div>
-                            <div className="col-span-2">
-                                <span className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider block mb-3">
-                                    Dependency Ratio
-                                </span>
-                                <div className="flex items-center gap-4">
-                                    <div className="w-full bg-gray-100 rounded-full h-3">
-                                        <div
-                                            className="bg-brand-500 h-3 rounded-full"
-                                            style={{ width: `${demographics.dependentCoverageRatio * 100}%` }}
-                                        />
-                                    </div>
-                                    <span className="text-[14px] font-bold text-gray-900 min-w-[3rem] text-right">
-                                        {(demographics.dependentCoverageRatio * 100).toFixed(0)}%
-                                    </span>
-                                </div>
-                                <p className="text-[12px] text-gray-400 mt-2">
-                                    Percentage of employees enrolling dependents.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+  const formatCurrency = (val: number) => 
+    new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
-                {/* Financial Benchmarks */}
-                <section>
-                    <div className="mb-6">
-                        <h2 className="text-xl font-bold text-gray-900 tracking-tight">Financial Benchmarks</h2>
-                        <p className="text-[13px] text-gray-500 mt-0.5">Cost performance relative to industry standards.</p>
-                    </div>
-                    <div className="bg-brand-900 rounded-[28px] p-8 shadow-sm text-white relative overflow-hidden h-full">
-                        <div className="relative z-10 grid grid-cols-2 gap-8">
-                            <div>
-                                <span className="text-[13px] font-bold text-brand-400 uppercase tracking-wider block mb-1">
-                                    PEPM Cost
-                                </span>
-                                <span className="text-[32px] font-bold text-white">
-                                    ${kpis.pepm}
-                                </span>
-                            </div>
-                            <div>
-                                <span className="text-[13px] font-bold text-brand-400 uppercase tracking-wider block mb-1">
-                                    Annual Spend
-                                </span>
-                                <span className="text-[32px] font-bold text-white">
-                                    ${(kpis.totalAnnualSpend / 1000000).toFixed(2)}M
-                                </span>
-                            </div>
-                            <div>
-                                <span className="text-[13px] font-bold text-brand-400 uppercase tracking-wider block mb-1">
-                                    Employer Contrib.
-                                </span>
-                                <span className="text-[32px] font-bold text-white">
-                                    {kpis.employerContributionPercentage}%
-                                </span>
-                            </div>
-                            <div>
-                                <span className="text-[13px] font-bold text-brand-400 uppercase tracking-wider block mb-1">
-                                    Percentile
-                                </span>
-                                <span className="text-[32px] font-bold text-white">
-                                    {getOrdinal(kpis.benchmarkPercentile)}
-                                </span>
-                            </div>
-                        </div>
-                        {/* Decorative circles */}
-                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full filter blur-xl"></div>
-                        <div className="absolute bottom-0 left-10 w-32 h-32 bg-brand-500/20 rounded-full filter blur-2xl"></div>
-                    </div>
-                </section>
+  if (!demographics || !kpis) {
+    return (
+      <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
+        <div className="text-center py-20">
+          <p className="text-gray-500 font-medium">No analysis data available.</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
+      {/* Header & Report Asset */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">Benefits Analysis</h1>
+          <p className="text-gray-500 font-medium max-w-2xl leading-relaxed">
+            A strategic overview of workforce demographics, financial benchmarks, and budget distribution across your benefit ecosystem.
+          </p>
+        </div>
+        
+        {/* Featured Report Card */}
+        <div className="flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 group cursor-pointer w-full md:w-auto">
+          <div className="w-12 h-12 bg-brand-50 rounded-md flex items-center justify-center text-brand-600 group-hover:scale-110 transition-transform">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          </div>
+          <div>
+            <div className="text-[14px] font-bold text-gray-900 leading-tight">Benefit Budget Report</div>
+            <div className="text-[12px] text-gray-400 font-medium">E$1,000 — (AA) • PDF</div>
+          </div>
+          <button className="ml-4 bg-brand-500 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-brand-600 transition-colors shadow-sm shadow-brand-100">
+            View Report
+          </button>
+        </div>
+      </div>
+
+      {/* Financial KPIs - Large Metric Row */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {[
+          { label: 'Total Monthly Cost', value: formatCurrency(kpis.totalMonthlyCost), color: 'gray' },
+          { label: 'Total Employer Contribution', value: formatCurrency(kpis.totalEmployerContribution), color: 'brand' },
+          { label: 'Total Employee Contribution', value: formatCurrency(kpis.totalEmployeeContribution), color: 'blue' },
+          { label: 'ER Cost per Eligible Employee', value: formatCurrency(kpis.erCostPerEligible), color: 'amber', highlight: true },
+        ].map((item, idx) => (
+          <div key={idx} className={`bg-white border ${item.highlight ? 'border-amber-200 bg-amber-50/10' : 'border-gray-200'} rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow`}>
+            <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-3">{item.label}</div>
+            <div className={`text-2xl font-black ${item.color === 'brand' ? 'text-brand-600' : 'text-gray-900'} tracking-tight`}>{item.value}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Demographic Insights */}
+      <div className="w-full">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm flex flex-col relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-gray-50 rounded-full -mr-32 -mt-32 opacity-30"></div>
+          
+          <div className="relative z-10 flex flex-col h-full">
+            <div className="mb-10">
+              <h2 className="text-xl font-bold text-gray-900 tracking-tight">Demographic Insights</h2>
+              <p className="text-sm text-gray-500 font-medium mt-1">Key company demographics shaping benefit needs.</p>
             </div>
 
-            {/* Budget Distribution */}
-            <section>
-                <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Budget Distribution</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">Breakdown of total benefits spend by category.</p>
-                </div>
-                <div className="bg-white border border-gray-200 rounded-[28px] p-8 shadow-sm">
-                    {breakdown.length === 0 ? (
-                        <div className="text-center py-12">
-                            <p className="text-[14px] text-gray-500">No budget data available at this time.</p>
-                        </div>
-                    ) : (
-                        <>
-                            {/* Bar Chart Visualization */}
-                            <div className="flex h-12 w-full rounded-full overflow-hidden mb-8 bg-gray-100">
-                                {breakdown.map((item) => (
-                                    <div
-                                        key={item.category}
-                                        className={`${item.color} h-full flex items-center justify-center text-white font-bold text-[13px] hover:opacity-90 transition-opacity cursor-pointer min-w-[2px]`}
-                                        style={{ width: `${item.percentage}%` }}
-                                        title={`${item.category}: $${item.amount.toLocaleString()}`}
-                                    >
-                                        {item.percentage > 5 && `${item.percentage}%`}
-                                    </div>
-                                ))}
-                            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-12">
+              <div className="bg-gray-50/50 p-6 rounded-xl border border-gray-100 flex flex-col items-center text-center">
+                 <div className="w-10 h-10 rounded-md bg-white flex items-center justify-center text-brand-600 mb-3 shadow-sm">
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                 </div>
+                 <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Eligible Employees</div>
+                 <div className="text-2xl font-black text-gray-900">{demographics.eligibleEmployees}</div>
+              </div>
+              <div className="bg-gray-50/50 p-6 rounded-xl border border-gray-100 flex flex-col items-center text-center">
+                 <div className="w-10 h-10 rounded-md bg-white flex items-center justify-center text-blue-600 mb-3 shadow-sm">
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                 </div>
+                 <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Average Salary</div>
+                 <div className="text-2xl font-black text-gray-900">{formatCurrency(demographics.averageSalary)}</div>
+              </div>
+              <div className="bg-gray-50/50 p-6 rounded-xl border border-gray-100 flex flex-col items-center text-center">
+                 <div className="w-10 h-10 rounded-md bg-white flex items-center justify-center text-amber-600 mb-3 shadow-sm">
+                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                 </div>
+                 <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Average Age</div>
+                 <div className="text-2xl font-black text-gray-900">{demographics.averageAge} <span className="text-sm font-medium text-gray-400">YRS</span></div>
+              </div>
+            </div>
 
-                            {/* Legend / Details */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                                {breakdown.map((item) => (
-                                    <div 
-                                        key={item.category} 
-                                        className="flex items-start gap-3 p-4 rounded-xl hover:bg-gray-50 transition-colors border border-gray-100"
-                                    >
-                                        <div className={`w-4 h-4 rounded-full mt-1 flex-shrink-0 ${item.color}`} />
-                                        <div className="min-w-0 flex-1">
-                                            <h4 className="font-bold text-gray-900 text-[14px] truncate">{item.category}</h4>
-                                            <p className="text-[13px] text-gray-500 font-medium">
-                                                ${item.amount.toLocaleString()}
-                                            </p>
-                                            <p className="text-[11px] text-gray-400 mt-0.5">
-                                                {item.percentage}% of total
-                                            </p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    )}
+            {/* Gender Composition Viz */}
+            <div className="mt-auto">
+              <div className="flex justify-between items-end mb-4">
+                <div>
+                  <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest">Gender Composition</div>
+                  <div className="text-[16px] font-bold text-gray-900">Workforce Split</div>
                 </div>
-            </section>
+                <div className="flex gap-4">
+                  <span className="text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1 rounded-md">Male {demographics.malePercentage}%</span>
+                  <span className="text-sm font-bold text-pink-500 bg-pink-50 px-3 py-1 rounded-md">Female {demographics.femalePercentage}%</span>
+                </div>
+              </div>
+              <div className="w-full h-3 bg-gray-100 rounded-full overflow-hidden flex">
+                <div className="h-full bg-blue-500 transition-all duration-1000" style={{ width: `${demographics.malePercentage}%` }}></div>
+                <div className="h-full bg-pink-400 transition-all duration-1000" style={{ width: `${demographics.femalePercentage}%` }}></div>
+              </div>
+            </div>
+          </div>
         </div>
-    );
-};
+      </div>
 
-const getOrdinal = (n: number) => {
-    const s = ["th", "st", "nd", "rd"];
-    const v = n % 100;
-    return n + (s[(v - 20) % 10] || s[v] || s[0]);
+      {/* Benefit Budget Breakdown - Data Grid */}
+      <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+        <div className="px-8 py-6 border-b border-gray-100">
+          <h2 className="text-xl font-bold text-gray-900 tracking-tight">Benefit Budget Breakdown</h2>
+          <p className="text-sm text-gray-500 font-medium mt-1">Plan-by-plan cost distribution matrix.</p>
+        </div>
+        
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-100">
+            <thead>
+              <tr className="bg-gray-50/30">
+                <th className="px-8 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest">Benefit</th>
+                <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest">Carrier</th>
+                <th className="px-6 py-5 text-center text-[11px] font-bold text-gray-400 uppercase tracking-widest">Participation</th>
+                <th className="px-6 py-5 text-right text-[11px] font-bold text-gray-400 uppercase tracking-widest">Monthly Total</th>
+                <th className="px-6 py-5 text-right text-[11px] font-bold text-gray-400 uppercase tracking-widest">Annual Total</th>
+                <th className="px-6 py-5 text-right text-[11px] font-bold text-gray-400 uppercase tracking-widest">ER Cost/Month</th>
+                <th className="px-6 py-5 text-right text-[11px] font-bold text-gray-400 uppercase tracking-widest">EE Cost/Month</th>
+                <th className="px-8 py-5 text-right text-[11px] font-bold text-gray-400 uppercase tracking-widest">ER Cost/Enrolled</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-50">
+              {breakdown.length > 0 ? (
+                breakdown.map((row, idx) => (
+                  <tr key={idx} className="hover:bg-brand-50/20 transition-colors group">
+                    <td className="px-8 py-6">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-2.5 h-2.5 rounded-full ${row.benefit === 'Medical' ? 'bg-brand-500' : row.benefit === 'Dental' ? 'bg-blue-500' : 'bg-amber-500'}`}></div>
+                        <div className="text-[16px] font-bold text-gray-900">{row.benefit}</div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-6 text-[15px] font-medium text-gray-600">{row.carrier}</td>
+                    <td className="px-6 py-6">
+                      <div className="flex flex-col items-center">
+                        <span className="text-[15px] font-bold text-gray-900">{row.participation}</span>
+                      </div>
+                    </td>
+                    <td className="px-6 py-6 text-right text-[16px] font-bold text-gray-900">{formatCurrency(row.monthlyTotal)}</td>
+                    <td className="px-6 py-6 text-right text-[16px] font-bold text-gray-900">{formatCurrency(row.annualTotal)}</td>
+                    <td className="px-6 py-6 text-right text-[15px] font-bold text-brand-600">{formatCurrency(row.erCostMonth)}</td>
+                    <td className="px-6 py-6 text-right text-[15px] font-bold text-blue-600">{formatCurrency(row.eeCostMonth)}</td>
+                    <td className="px-8 py-6 text-right">
+                      <div className="inline-block px-3 py-1 bg-gray-50 border border-gray-100 rounded-md text-[15px] font-bold text-gray-900">
+                        {formatCurrency(row.erCostEnrolled)}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={8} className="px-8 py-12 text-center text-gray-500">
+                    No budget breakdown data available.
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            {breakdown.length > 0 && (
+              <tfoot className="bg-gray-50/50">
+                <tr>
+                  <td colSpan={3} className="px-8 py-5 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Totals</td>
+                  <td className="px-6 py-5 text-right text-[17px] font-black text-gray-900">{formatCurrency(breakdown.reduce((acc, r) => acc + r.monthlyTotal, 0))}</td>
+                  <td className="px-6 py-5 text-right text-[17px] font-black text-gray-900">{formatCurrency(breakdown.reduce((acc, r) => acc + r.annualTotal, 0))}</td>
+                  <td className="px-6 py-5 text-right text-[17px] font-black text-brand-700">{formatCurrency(breakdown.reduce((acc, r) => acc + r.erCostMonth, 0))}</td>
+                  <td className="px-6 py-5 text-right text-[17px] font-black text-blue-700">{formatCurrency(breakdown.reduce((acc, r) => acc + r.eeCostMonth, 0))}</td>
+                  <td className="px-8 py-5"></td>
+                </tr>
+              </tfoot>
+            )}
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default BenefitsAnalysis;

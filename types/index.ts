@@ -5,19 +5,19 @@ export enum FormStatus {
   COMPLETED = 'Completed',
 }
 
+export enum ProgressStatus {
+  APPROVED = 'Approved',
+  IN_REVIEW = 'In Review',
+  FLAGGED = 'Flagged',
+  MISSING = 'Missing',
+  NOT_REQUESTED = 'Not Requested'
+}
+
 export enum DocumentStatus {
   RECEIVED = 'Received',
   UNDER_REVIEW = 'Under Review',
   APPROVED = 'Approved',
-  REJECTED = 'Rejected',
-}
-
-export enum ProgressStatus {
-  NOT_REQUESTED = 'Not Requested',
-  MISSING = 'Missing',
-  IN_REVIEW = 'In Review',
-  APPROVED = 'Approved',
-  FLAGGED = 'Flagged',
+  REJECTED = 'Rejected'
 }
 
 export interface AssignedForm {
@@ -25,7 +25,12 @@ export interface AssignedForm {
   name: string;
   status: FormStatus;
   description: string;
-  dueDate?: string;
+}
+
+export interface AvailableForm {
+  id: string;
+  name: string;
+  description: string;
 }
 
 export interface DocumentArtifact {
@@ -40,118 +45,152 @@ export interface DocumentArtifact {
 export interface ProgressStep {
   id: string;
   name: string;
-  category: string;
   status: ProgressStatus;
-  notes?: string;
-}
-
-export interface AvailableForm {
-  id: string;
-  name: string;
   category: string;
-  estimatedTime: string;
-  description: string;
+  notes?: string;
+  lastUpdated?: string;
 }
 
 export interface CompanyData {
+  name: string;
+  entityType: string;
+  legalName: string;
+  ein: string;
+  sicCode: string;
+  naicsCode: string;
+  address: string;
+  renewalMonth: string;
+  contact: {
+    firstName: string;
+    lastName: string;
+    jobTitle: string;
+    phone: string;
+    email: string;
+  };
+  workforce: {
+    totalEmployees: string;
+    usHqEmployees: string;
+    hqCity: string;
+    otherUsCities: string[];
+    otherCountries: string[];
+    openJobs: string;
+    linkedInUrl: string;
+  };
+  glassdoor: {
+    overallRating: number;
+    benefitsRating: number;
+    healthInsuranceRating: number;
+    retirementRating: number;
+    overallReviews: number;
+    benefitsReviews: number;
+    glassdoorUrl: string;
+  };
+}
+
+export interface Solution {
   id: string;
-  companyName: string;
-  industry?: string;
-  employeeCount?: number;
-  website?: string;
-  address?: string;
-  primaryContact?: string;
-  phone?: string;
-  foundedYear?: string;
+  name: string;
+  category: string;
+  color: string;
+  description: string;
+  features: string[];
+  websiteUrl: string;
+  integrationType: string;
+}
+
+export interface DemographicInsights {
+  eligibleEmployees: number;
+  averageSalary: number;
+  averageAge: number;
+  malePercentage: number;
+  femalePercentage: number;
+}
+
+export interface FinancialKPIs {
+  totalMonthlyCost: number;
+  totalEmployerContribution: number;
+  totalEmployeeContribution: number;
+  erCostPerEligible: number;
+}
+
+export interface BudgetBreakdown {
+  benefit: string;
+  carrier: string;
+  participation: number;
+  monthlyTotal: number;
+  annualTotal: number;
+  erCostMonth: number;
+  eeCostMonth: number;
+  erCostEnrolled: number;
+  erCostFte: number;
 }
 
 export interface BenefitEligibilityData {
+  className: string;
   waitingPeriod: string;
-  minHoursPerWeek: number;
-  effectiveDateRule: string;
+  effectiveDate: string;
+  requiredHours: string;
 }
 
 export interface ContributionStrategy {
-  id: string;
-  employeeType: string;
-  employerContribution: string;
-  description: string;
+  benefit: string;
+  strategyType: string;
+  flatAmount: string;
+  eePercent: string;
+  depPercent: string;
+  buyUpStrategy: string;
 }
 
 export interface BenefitPlan {
   id: string;
   name: string;
   carrier: string;
+  score: number;
+  category: 'Medical' | 'Dental' | 'Vision';
   type: string;
-  network: string;
-  deductible: string;
-  outOfPocketMax: string;
+  // Medical
+  deductible?: string;
+  oopm?: string;
+  coinsurance?: string;
   copay?: string;
-}
-
-export interface DemographicInsights {
-  averageAge: number;
-  genderRatio: { male: number; female: number; other: number };
-  averageTenure: number;
-  dependentCoverageRatio: number;
-}
-
-export interface FinancialKPIs {
-  pepm: number;
-  totalAnnualSpend: number;
-  employerContributionPercentage: number;
-  benchmarkPercentile: number;
-}
-
-export interface BudgetBreakdown {
-  category: string;
-  amount: number;
-  percentage: number;
-  color: string;
-}
-
-export interface FeedbackStats {
-  participationRate: number;
-  averageScore: number; // 0-10 or 0-5
-  totalResponses: number;
-  lastSurveyDate: string;
+  rx?: string;
+  // Dental
+  annualMax?: string;
+  preventive?: string;
+  basic?: string;
+  major?: string;
+  oonReimbursement?: string;
+  // Vision
+  examCopay?: string;
+  materialsCopay?: string;
+  frameAllowance?: string;
+  materialsFrequency?: string;
+  frameFrequency?: string;
 }
 
 export interface FeedbackResponse {
   id: string;
-  date: string;
-  category: string;
-  score: number;
-  comment?: string;
-  sentiment: 'positive' | 'neutral' | 'negative';
+  submittedAt: string;
+  tier: string;
+  overallRating: number;
+  medicalOptions: number;
+  medicalNetwork: number;
+  medicalCost: number;
+  nonMedical: number;
+  comments?: string;
 }
 
-export interface FAQItem {
-  id: string;
-  question: string;
-  answer: string;
+export interface FeedbackStats {
+  overall: number;
+  responses: number;
+  nonMedical: number;
+  employeeCost: number;
+  medicalNetwork: number;
+  medicalOptions: number;
+  retirement: number | null;
 }
 
-export interface FAQCategory {
-  id: string;
-  title: string;
-  items: FAQItem[];
-}
-
-export type SolutionCategory = 'Provider' | 'Platform' | 'Wellness';
-
-export interface Solution {
-  id: string;
-  name: string;
-  category: SolutionCategory;
-  description: string;
-  logoUrl?: string; // Placeholder for now
-  rating: number;
-  tags: string[];
-  longDescription?: string;
-  features?: string[];
-  website?: string;
-}
+export type ViewType = 'home' | 'company-details' | 'benefit-plans' | 'benefits-analysis' | 'benefit-budget' | 'employee-feedback' | 'appoint-betafits' | 'faq' | 'solutions-catalog' | 'solution-detail';
 
 export interface User {
   id: string;
@@ -161,4 +200,3 @@ export interface User {
   companyId: string;
   role?: string;
 }
-

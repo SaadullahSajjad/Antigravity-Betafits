@@ -510,12 +510,24 @@ export default async function HomePage() {
                     // Get notes from "Notes" field
                     const notes = String(record.fields['Notes'] || '');
                     
+                    // Get last updated date
+                    const lastUpdated = record.fields['Last Updated'] || 
+                                       record.fields['Last Modified'] || 
+                                       record.lastModifiedTime ||
+                                       record.createdTime;
+                    const formattedDate = lastUpdated ? new Date(lastUpdated).toLocaleDateString('en-US', { 
+                        month: '2-digit', 
+                        day: '2-digit', 
+                        year: 'numeric' 
+                    }) : undefined;
+
                     return {
                         id: record.id,
                         name: String(record.fields['Name'] || 'Untitled Step'),
                         category: category,
                         status: mappedStatus,
                         notes: notes || undefined,
+                        lastUpdated: formattedDate,
                     };
                 });
                 
@@ -530,57 +542,43 @@ export default async function HomePage() {
 
     return (
         <div className="space-y-12 animate-in fade-in duration-500">
-            {/* Row 1: Assigned Forms & Documents (matching Softr layout) */}
+            <header>
+                <h1 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight">Prospect Portal</h1>
+                <p className="text-[15px] text-gray-500 font-medium mt-1">Manage your intake workflow and document submissions with ease.</p>
+            </header>
+
+            {/* Row 1: Assigned Forms & Documents */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
                 <div className="lg:col-span-8">
-                    <div className="mb-6">
-                        <h2 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight mb-2">
-                            Assigned Forms
-                        </h2>
-                        <p className="text-[15px] text-gray-500 font-medium">
-                            Complete the forms assigned to you to move your benefits onboarding forward.
-                        </p>
-                    </div>
                     <AssignedForms forms={assignedForms} />
                 </div>
                 <div className="lg:col-span-4">
-                    <div className="mb-6">
-                        <h2 className="text-xl font-bold text-gray-900 tracking-tight">Your Documents</h2>
+                    <div className="mb-6 flex justify-between items-start">
+                        <div>
+                            <h2 className="text-2xl font-bold text-[#1c240f] tracking-tight">Your Documents</h2>
+                            <p className="text-[13px] text-gray-500 mt-0.5">Recently uploaded files and artifacts.</p>
+                        </div>
+                        <DocumentUpload />
                     </div>
-                    <DocumentUpload />
-                    <div className="mt-6">
-                        <DocumentsSection documents={documents} />
-                    </div>
+                    <DocumentsSection documents={documents} />
                 </div>
             </div>
 
-            {/* Row 2: Available Forms Section (matching Softr layout) */}
-            {availableForms.length > 0 && (
-                <section>
-                    <div className="mb-6">
-                        <h2 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight mb-2">
-                            Available Forms
-                        </h2>
-                        <p className="text-[15px] text-gray-500 font-medium">
-                            Browse and start additional forms to complete your onboarding.
-                        </p>
-                    </div>
-                    <AvailableForms forms={availableForms} />
-                </section>
-            )}
-
-            {/* Row 3: Progress Steps Section (matching Softr layout) */}
-            <section>
+            {/* Row 2: Process Tracking (Full Width / Stretched) */}
+            <section className="w-full">
                 <div className="mb-6">
-                    <h2 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight mb-2">
-                        Progress Steps
-                    </h2>
-                    <p className="text-[15px] text-gray-500 font-medium">
-                        Track your onboarding progress and see what's left to finish.
-                    </p>
+                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Process Tracking</h2>
+                    <p className="text-[13px] text-gray-500 mt-0.5">Real-time status of your onboarding pipeline.</p>
                 </div>
                 <ProgressSteps steps={progressSteps} />
             </section>
+
+            {/* Row 3: Available Forms (Full Width) */}
+            {availableForms.length > 0 && (
+                <section className="w-full">
+                    <AvailableForms forms={availableForms} />
+                </section>
+            )}
         </div>
     );
 }

@@ -161,7 +161,11 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
 
     return (
         <section>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="mb-6">
+                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Assigned Forms</h2>
+                <p className="text-[13px] text-gray-500 mt-0.5">Core tasks required for your enrollment profile.</p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {forms.map((form) => {
                     const formRoute = getFormRoute(form.id, form.name, form.description);
                     // Check if it's a valid route (not empty and not just company ID)
@@ -193,49 +197,43 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
                     }
 
                     return (
-                        <div
-                            key={form.id}
-                            className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md hover:border-gray-300 transition-all duration-200 flex flex-col"
-                        >
-                            <div className="flex items-start justify-between mb-4 gap-3">
-                                <h3 
-                                    className="font-semibold text-gray-900 text-[15px] leading-tight flex-1 min-w-0 pr-2"
-                                    title={displayName || 'Untitled Form'}
-                                >
-                                    <span className="block line-clamp-2">
-                                        {displayName || 'Untitled Form'}
+                        <div key={form.id} className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between hover:border-gray-300 transition-colors">
+                            <div>
+                                <div className="flex justify-between items-start mb-5">
+                                    <div className="w-11 h-11 bg-gray-50 rounded-md flex items-center justify-center text-gray-400 border border-gray-100">
+                                        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                    </div>
+                                    <span className={`text-[12px] font-semibold uppercase tracking-wider px-3 py-1 rounded-md border ${getStatusStyle(form.status)}`}>
+                                        {form.status}
                                     </span>
-                                </h3>
-                                <span
-                                    className={`inline-flex items-center px-2.5 py-1 rounded-md text-[10px] font-semibold uppercase tracking-wider whitespace-nowrap flex-shrink-0 border ${getStatusStyle(form.status)}`}
-                                >
-                                    {form.status === FormStatus.NOT_STARTED ? 'NOT STARTED' : form.status.toUpperCase()}
-                                </span>
+                                </div>
+                                <h3 className="text-[17px] font-bold text-gray-900 mb-2 leading-tight">{displayName || 'Untitled Form'}</h3>
+                                <p className="text-[14px] text-gray-500 mb-8 leading-relaxed font-medium">{form.description}</p>
                             </div>
-                            <div className="mt-auto pt-3 border-t border-gray-100">
-                                {isLink ? (
-                                    formRoute.startsWith('http://') || formRoute.startsWith('https://') ? (
-                                        <a href={formRoute} target="_blank" rel="noopener noreferrer" className="block">
-                                            <button className="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg font-semibold text-[13px] transition-all shadow-sm active:scale-[0.98]">
-                                                Open
-                                            </button>
-                                        </a>
-                                    ) : (
-                                        <Link href={formRoute} className="block">
-                                            <button className="w-full py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-lg font-semibold text-[13px] transition-all shadow-sm active:scale-[0.98]">
-                                                Open
-                                            </button>
-                                        </Link>
-                                    )
+                            {isLink ? (
+                                formRoute.startsWith('http://') || formRoute.startsWith('https://') ? (
+                                    <a href={formRoute} target="_blank" rel="noopener noreferrer" className="block">
+                                        <button className="w-full py-2.5 bg-brand-500 text-white rounded-md font-semibold text-[12px] hover:bg-brand-600 transition-all shadow-sm active:scale-[0.98]">
+                                            {form.status === FormStatus.NOT_STARTED ? 'Start Form' : 'Continue'}
+                                        </button>
+                                    </a>
                                 ) : (
-                                    <button
-                                        className="w-full py-2.5 bg-gray-100 text-gray-400 rounded-lg font-semibold text-[13px] cursor-not-allowed"
-                                        disabled
-                                    >
-                                        Coming Soon
-                                    </button>
-                                )}
-                            </div>
+                                    <Link href={formRoute} className="block">
+                                        <button className="w-full py-2.5 bg-brand-500 text-white rounded-md font-semibold text-[12px] hover:bg-brand-600 transition-all shadow-sm active:scale-[0.98]">
+                                            {form.status === FormStatus.NOT_STARTED ? 'Start Form' : 'Continue'}
+                                        </button>
+                                    </Link>
+                                )
+                            ) : (
+                                <button
+                                    className="w-full py-2.5 bg-gray-100 text-gray-400 rounded-md font-semibold text-[12px] cursor-not-allowed"
+                                    disabled
+                                >
+                                    Coming Soon
+                                </button>
+                            )}
                         </div>
                     );
                 })}

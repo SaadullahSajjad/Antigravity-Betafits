@@ -1,92 +1,55 @@
 import React from 'react';
-import DashboardHeader from '@/components/DashboardHeader';
-import BenefitEligibilityCard from '@/components/BenefitEligibilityCard';
-import ContributionStrategyTable from '@/components/ContributionStrategyTable';
-import ActivePlansTabs from '@/components/ActivePlansTabs';
+import BenefitPlans from '@/components/BenefitPlans';
+import { getServerSession } from 'next-auth/next';
+import { authOptions } from '@/lib/auth/authOptions';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
-import { BenefitPlan, BenefitEligibilityData, ContributionStrategy } from '@/types';
+import { BenefitEligibilityData, ContributionStrategy, BenefitPlan } from '@/types';
 
 export const dynamic = 'force-dynamic';
 
 export default async function BenefitPlansPage() {
-    const companyId = await getCompanyId();
-    const apiKey = process.env.AIRTABLE_API_KEY;
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.email) {
+    return <BenefitPlans eligibility={null} strategies={[]} plans={[]} />;
+  }
 
-    // Default to empty/live-only structure
-    let plans: BenefitPlan[] = [];
-    let eligibility: BenefitEligibilityData = {
-        waitingPeriod: 'N/A',
-        minHoursPerWeek: 0,
-        effectiveDateRule: 'N/A',
-    };
-    let strategies: ContributionStrategy[] = [];
+  const companyId = await getCompanyId();
+  if (!companyId) {
+    return <BenefitPlans eligibility={null} strategies={[]} plans={[]} />;
+  }
 
-    if (apiKey && companyId) {
-        try {
-            // 1. Fetch Benefit Plans
-            const planRecords = await fetchAirtableRecords('tblPJjWgnbblYLym4', {
-                apiKey,
-                filterByFormula: `FIND('${companyId}', ARRAYJOIN({Link to Group Data})) > 0`,
-            });
+  const token = process.env.AIRTABLE_API_KEY;
+  if (!token) {
+    return <BenefitPlans eligibility={null} strategies={[]} plans={[]} />;
+  }
 
-            if (planRecords && planRecords.length > 0) {
-                plans = planRecords.map(record => ({
-                    id: record.id,
-                    name: String(record.fields['plan_name_client'] || record.fields['Name'] || 'Unnamed Plan'),
-                    carrier: String(record.fields['carrier'] || 'Unknown Carrier'),
-                    type: String(record.fields['medical_plan_type'] || 'Medical'),
-                    network: String(record.fields['network'] || 'Standard Network'),
-                    deductible: String(record.fields['medical_deductible_single'] || '$0'),
-                    outOfPocketMax: String(record.fields['medical_oopm_single'] || '$0'),
-                    copay: String(record.fields['vision_exam_copay'] || 'N/A'),
-                }));
-            }
+  try {
+    const groupDataTableId = 'tbliXJ7599ngxEriO';
+    const groupRecords = await fetchAirtableRecords(groupDataTableId, {
+      apiKey: token,
+      filterByFormula: `{Record ID} = '${companyId}'`,
+      maxRecords: 1,
+    });
 
-            // 2. Fetch Group Data for Eligibility and Contribution Strategies
-            const groupRecords = await fetchAirtableRecords('tbliXJ7599ngxEriO', {
-                apiKey,
-                filterByFormula: `RECORD_ID() = '${companyId}'`,
-            });
-
-            if (groupRecords && groupRecords.length > 0) {
-                const group = groupRecords[0].fields;
-
-                eligibility = {
-                    waitingPeriod: String(group['benefit_waiting_period'] || 'N/A'),
-                    minHoursPerWeek: Number(group['hours_per_week_for_eligibility'] || group['Hours/wk for Eligibility'] || 0),
-                    effectiveDateRule: String(group['effective_date'] || 'N/A'),
-                };
-
-                const preferredStrategy = String(group['preferred_contribution_strategy'] || '');
-                if (preferredStrategy) {
-                    strategies = [
-                        {
-                            id: 'strat-live-1',
-                            employeeType: 'Standard Employees',
-                            employerContribution: group['medical_er_contribution_strategy'] ? String(group['medical_er_contribution_strategy']) : 'See details',
-                            description: preferredStrategy,
-                        }
-                    ];
-                }
-            }
-        } catch (error) {
-            console.error('[BenefitPlansPage] Error fetching live data:', error);
-        }
-    } else {
-        console.warn('[BenefitPlansPage] No API key or company ID available for live data.');
+    let eligibility: BenefitEligibilityData | null = null;
+    if (groupRecords && groupRecords.length > 0) {
+      const fields = groupRecords[0].fields;
+      eligibility = {
+        className: String(fields['Benefit Class'] || 'All Full-Time Employees'),
+        waitingPeriod: String(fields['Waiting Period'] || ''),
+        effectiveDate: String(fields['Effective Date'] || ''),
+        requiredHours: String(fields['Required Hours'] || '30 Hours per week'),
+      };
     }
 
-    return (
-        <div className="space-y-8 animate-in fade-in duration-500">
-            <DashboardHeader
-                title="Benefit Plans"
-                subtitle="Review your organization's benefit ecosystem, from coverage rules to employer contribution strategies."
-            />
+    // Contribution strategies and plans can be fetched from separate tables if they exist
+    const strategies: ContributionStrategy[] = [];
+    const plans: BenefitPlan[] = [];
 
-            <BenefitEligibilityCard eligibility={eligibility} />
-            <ContributionStrategyTable strategies={strategies} />
-            <ActivePlansTabs plans={plans} />
-        </div>
-    );
+    return <BenefitPlans eligibility={eligibility} strategies={strategies} plans={plans} />;
+  } catch (error) {
+    console.error('[BenefitPlansPage] Error:', error);
+    return <BenefitPlans eligibility={null} strategies={[]} plans={[]} />;
+  }
 }
