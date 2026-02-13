@@ -44,7 +44,7 @@ const Sidebar: React.FC = () => {
       </button>
 
       {/* Brand Header */}
-      <div className={`p-8 pb-4 flex items-center ${isCollapsed ? 'justify-center' : 'gap-3'}`}>
+      <div className={`p-8 pb-4 flex items-center ${isCollapsed ? 'justify-center' : 'justify-start'}`}>
         <Image 
           src="/betafits-logo.png" 
           alt="Betafits" 
@@ -53,7 +53,6 @@ const Sidebar: React.FC = () => {
           className="flex-shrink-0 object-contain"
           priority
         />
-        {!isCollapsed && <span className="text-xl font-black text-gray-900 tracking-tighter uppercase">Betafits</span>}
       </div>
 
       {/* Navigation */}
