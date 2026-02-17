@@ -36,7 +36,10 @@ export default async function BenefitsAnalysisPage() {
     let sourceFields: Record<string, any> = {};
     let kpiMetricsRecord: any = null;
 
-    // Try to fetch from KPI Metrics table - primary source based on Softr config
+    // Fetch from KPI Metrics table - primary source based on Softr config
+    const kpiMetricsTableId = 'tblMSbQDSGoiPBWxy'; // Intake - KPI Metrics
+    console.log('[BenefitsAnalysisPage] Fetching from KPI Metrics table:', kpiMetricsTableId);
+    
     // First, try via linked records from Group Data
     let kpiMetricsRecordId: string | null = null;
     if (groupDataRecord) {
@@ -60,71 +63,77 @@ export default async function BenefitsAnalysisPage() {
       }
     }
 
-    // Try to fetch KPI Metrics record - we need the table ID
-    // Common potential table IDs for KPI Metrics (we'll try them)
-    // Since we don't have the exact ID, let's try fetching all records from potential tables
-    // and filter by company ID or record ID
-    
-    // Try fetching all records from potential KPI Metrics tables and filter by company
-    // We'll try a few common table ID patterns or fetch and filter
-    const potentialKpiTableIds = [
-      // We'll need to identify this - for now try fetching and see what we get
-    ];
-
-    // Alternative approach: Fetch all records from tables that might be KPI Metrics
-    // and filter by company ID in code
-    // Since we have the record ID from the link, we can try fetching it directly
-    // But we need the table ID - let's try common patterns
-    
-    // For now, let's try to fetch from a potential KPI Metrics table
-    // We'll try fetching all records and filtering by company ID
+    // Try to fetch KPI Metrics record directly if we have the record ID
     if (kpiMetricsRecordId) {
-      // Try common table ID patterns for KPI Metrics
-      // Since we don't have the exact ID, we'll need to try a few
-      // Or fetch all records and find the one matching the record ID
-      console.log('[BenefitsAnalysisPage] Attempting to fetch KPI Metrics record with ID:', kpiMetricsRecordId);
-      
-      // Try fetching from potential table IDs
-      // We'll need the actual table ID - for now, log that we need it
-      console.log('[BenefitsAnalysisPage] Need KPI Metrics table ID to fetch record');
+      try {
+        kpiMetricsRecord = await fetchAirtableRecordById(kpiMetricsTableId, kpiMetricsRecordId, {
+          apiKey: token,
+        });
+        if (kpiMetricsRecord) {
+          console.log('[BenefitsAnalysisPage] Successfully fetched KPI Metrics record via linked record ID');
+        }
+      } catch (error) {
+        console.log('[BenefitsAnalysisPage] Could not fetch KPI Metrics record by ID:', error);
+      }
     }
 
-    // Also try fetching all records from potential KPI Metrics tables and filter by company
-    // This is a fallback if we don't have a linked record
-    try {
-      // Try fetching from potential KPI Metrics tables
-      // We'll need to identify the table ID first
-      // For now, let's use Group Data and log what we find
-      console.log('[BenefitsAnalysisPage] Attempting to fetch from KPI Metrics table...');
-      
-      // TODO: Add actual KPI Metrics table ID here once identified
-      // const kpiMetricsTableId = 'tbl...';
-      // const allKpiRecords = await fetchAirtableRecords(kpiMetricsTableId, {
-      //   apiKey: token,
-      //   maxRecords: 1000,
-      // });
-      // 
-      // if (allKpiRecords) {
-      //   // Filter by company ID
-      //   const companyKpiRecord = allKpiRecords.find((record: any) => {
-      //     const linkFields = [
-      //       record.fields['Link to Intake - Group Data'],
-      //       record.fields['Link to Group Data'],
-      //       record.fields['Company'],
-      //     ];
-      //     return linkFields.some(link => 
-      //       (Array.isArray(link) && link.includes(companyId)) ||
-      //       (typeof link === 'string' && link === companyId)
-      //     );
-      //   });
-      //   
-      //   if (companyKpiRecord) {
-      //     kpiMetricsRecord = companyKpiRecord;
-      //     console.log('[BenefitsAnalysisPage] Found KPI Metrics record by company filter');
-      //   }
-      // }
-    } catch (error) {
-      console.log('[BenefitsAnalysisPage] Could not fetch from KPI Metrics table:', error);
+    // If we don't have a linked record, fetch all records and filter by company
+    if (!kpiMetricsRecord) {
+      try {
+        console.log('[BenefitsAnalysisPage] Fetching all KPI Metrics records to filter by company...');
+        const allKpiRecords = await fetchAirtableRecords(kpiMetricsTableId, {
+          apiKey: token,
+          maxRecords: 1000,
+        });
+        
+        console.log(`[BenefitsAnalysisPage] Fetched ${allKpiRecords?.length || 0} KPI Metrics records`);
+        
+        if (allKpiRecords && allKpiRecords.length > 0) {
+          // Log first record to see structure
+          console.log('[BenefitsAnalysisPage] Sample KPI Metrics record fields:', Object.keys(allKpiRecords[0].fields));
+          
+          // Filter by company ID - try multiple link field variations
+          const linkFieldVariations = [
+            'Link to Intake - Group Data',
+            'Link to Intake Group Data',
+            'Link to Group Data',
+            'Company',
+            'Link to Company',
+            'Group Data',
+          ];
+          
+          const companyKpiRecord = allKpiRecords.find((record: any) => {
+            for (const fieldName of linkFieldVariations) {
+              const linkField = record.fields[fieldName];
+              if (!linkField) continue;
+              
+              if (Array.isArray(linkField)) {
+                if (linkField.some((id: string) => String(id).trim() === String(companyId).trim())) {
+                  return true;
+                }
+              } else if (String(linkField).trim() === String(companyId).trim()) {
+                return true;
+              }
+            }
+            return false;
+          });
+          
+          if (companyKpiRecord) {
+            kpiMetricsRecord = companyKpiRecord;
+            console.log('[BenefitsAnalysisPage] Found KPI Metrics record by company filter');
+          } else {
+            console.log('[BenefitsAnalysisPage] No KPI Metrics record found for company ID:', companyId);
+            // Log all available link fields from first record for debugging
+            if (allKpiRecords.length > 0) {
+              const sampleRecord = allKpiRecords[0];
+              const availableLinkFields = linkFieldVariations.filter(field => sampleRecord.fields[field]);
+              console.log('[BenefitsAnalysisPage] Available link fields in KPI Metrics:', availableLinkFields);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('[BenefitsAnalysisPage] Error fetching from KPI Metrics table:', error);
+      }
     }
 
     // Use Group Data as fallback, but prioritize KPI Metrics if found
