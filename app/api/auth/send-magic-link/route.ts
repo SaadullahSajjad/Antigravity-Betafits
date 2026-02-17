@@ -97,44 +97,37 @@ export async function POST(request: NextRequest) {
         
         console.log(`[Send Magic Link API] Token generated: ${magicToken.substring(0, 10)}...`);
 
-        // Generate magic link URL - Use local URL on local, production URL on production
+        // Generate magic link URL - Always prioritize production URLs
         // Priority:
-        // 1. Check request origin (for local development)
-        // 2. PRODUCTION_URL (for production)
-        // 3. NEXTAUTH_URL
+        // 1. PRODUCTION_URL (for production)
+        // 2. NEXTAUTH_URL
+        // 3. Check if actually running locally (only if no production URL set)
         // 4. Fallback to production URL
         let baseUrl: string | undefined;
         
-        // Check if we're running locally by examining the request
-        const origin = request.headers.get('origin') || request.headers.get('host');
-        const isLocal = origin?.includes('localhost') || 
-                       origin?.includes('127.0.0.1') || 
-                       process.env.NODE_ENV === 'development';
+        // First, try production URLs (these should always be used in production)
+        baseUrl = process.env.PRODUCTION_URL || process.env.NEXTAUTH_URL;
         
-        if (isLocal) {
-            // Use local URL
-            const host = request.headers.get('host') || 'localhost:3000';
-            baseUrl = `http://${host}`;
-            console.log(`[Send Magic Link API] Using local URL: ${baseUrl}`);
-        } else {
-            // Use production URL
-            baseUrl = process.env.PRODUCTION_URL;
+        // Only use localhost if no production URL is configured AND we're actually running locally
+        if (!baseUrl) {
+            const origin = request.headers.get('origin') || request.headers.get('host');
+            const isActuallyLocal = origin?.includes('localhost') || origin?.includes('127.0.0.1');
             
-            // If PRODUCTION_URL not set, try NEXTAUTH_URL
-            if (!baseUrl) {
-                baseUrl = process.env.NEXTAUTH_URL;
-            }
-            
-            // Fallback to hardcoded production URL
-            if (!baseUrl) {
+            if (isActuallyLocal) {
+                // Use local URL only if we're actually running locally
+                const host = request.headers.get('host') || 'localhost:3000';
+                baseUrl = `http://${host}`;
+                console.log(`[Send Magic Link API] Using local URL: ${baseUrl}`);
+            } else {
+                // Fallback to hardcoded production URL
                 baseUrl = "https://antigravity-betafits.vercel.app";
+                console.log(`[Send Magic Link API] Using fallback production URL: ${baseUrl}`);
             }
-            
+        } else {
             // Ensure baseUrl has protocol
-            if (baseUrl && !baseUrl.startsWith('http')) {
+            if (!baseUrl.startsWith('http')) {
                 baseUrl = `https://${baseUrl}`;
             }
-            
             console.log(`[Send Magic Link API] Using production URL: ${baseUrl}`);
         }
         

@@ -1,15 +1,34 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import Image from 'next/image';
 
 const Sidebar: React.FC = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const router = useRouter();
   const { data: session } = useSession();
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
+        setIsProfileMenuOpen(false);
+      }
+    };
+
+    if (isProfileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isProfileMenuOpen]);
 
   const navItems = [
     { id: 'home', name: 'Dashboard', path: '/', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -29,6 +48,20 @@ const Sidebar: React.FC = () => {
 
   const handleNavigate = (path: string) => {
     router.push(path);
+  };
+
+  const handleProfileClick = () => {
+    setIsProfileMenuOpen(!isProfileMenuOpen);
+  };
+
+  const handleProfileSettings = () => {
+    setIsProfileMenuOpen(false);
+    router.push('/account-settings');
+  };
+
+  const handleSignOut = async () => {
+    setIsProfileMenuOpen(false);
+    await signOut({ callbackUrl: '/login' });
   };
 
   return (
@@ -86,13 +119,16 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Footer Profile */}
-      <div className={`mt-auto p-6 border-t border-gray-100 ${isCollapsed ? 'flex justify-center' : ''}`}>
-        <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 bg-gray-50/50 p-2 w-full border border-gray-100'} rounded-md transition-all cursor-pointer group`}>
+      <div className={`mt-auto p-6 border-t border-gray-100 ${isCollapsed ? 'flex justify-center' : ''} relative`} ref={profileMenuRef}>
+        <div 
+          onClick={handleProfileClick}
+          className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 bg-gray-50/50 p-2 w-full border border-gray-100'} rounded-md transition-all cursor-pointer group hover:bg-gray-100`}
+        >
           <div className="w-9 h-9 bg-brand-200 text-brand-800 flex items-center justify-center rounded-md font-bold text-[13px] flex-shrink-0">
             {session?.user?.name?.charAt(0)?.toUpperCase() || session?.user?.email?.charAt(0)?.toUpperCase() || 'U'}
           </div>
           {!isCollapsed && (
-            <div className="flex flex-col min-w-0">
+            <div className="flex flex-col min-w-0 flex-1">
               <span className="text-[11px] font-semibold text-gray-900 truncate tracking-tight">
                 {session?.user?.name || 
                  session?.user?.email?.split('@')[0] || 
@@ -103,7 +139,41 @@ const Sidebar: React.FC = () => {
               </span>
             </div>
           )}
+          {!isCollapsed && (
+            <svg 
+              className={`w-4 h-4 text-gray-400 transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          )}
         </div>
+
+        {/* Profile Dropdown Menu */}
+        {isProfileMenuOpen && !isCollapsed && (
+          <div className="absolute bottom-full left-6 right-6 mb-2 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
+            <button
+              onClick={handleProfileSettings}
+              className="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-3"
+            >
+              <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+              Profile Settings
+            </button>
+            <button
+              onClick={handleSignOut}
+              className="w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-3 border-t border-gray-100"
+            >
+              <svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
+              Sign Out
+            </button>
+          </div>
+        )}
       </div>
     </aside>
   );
