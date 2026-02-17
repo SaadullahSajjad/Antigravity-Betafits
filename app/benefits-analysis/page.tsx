@@ -9,20 +9,28 @@ import { DemographicInsights, FinancialKPIs, BudgetBreakdown } from '@/types';
 export const dynamic = 'force-dynamic';
 
 export default async function BenefitsAnalysisPage() {
+  console.log('[BenefitsAnalysisPage] ===== PAGE LOADED =====');
+  
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
+    console.log('[BenefitsAnalysisPage] ✗ No session/email found');
     return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
   }
+  console.log('[BenefitsAnalysisPage] ✓ Session found for:', session.user.email);
 
   const companyId = await getCompanyId();
   if (!companyId) {
+    console.log('[BenefitsAnalysisPage] ✗ No company ID found');
     return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
   }
+  console.log('[BenefitsAnalysisPage] ✓ Company ID:', companyId);
 
   const token = process.env.AIRTABLE_API_KEY;
   if (!token) {
+    console.log('[BenefitsAnalysisPage] ✗ No Airtable API key found');
     return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
   }
+  console.log('[BenefitsAnalysisPage] ✓ Airtable API key found');
 
   try {
     const { fetchAirtableRecords, fetchAirtableRecordById } = await import('@/lib/airtable/fetch');
@@ -46,7 +54,9 @@ export default async function BenefitsAnalysisPage() {
       const fields = groupDataRecord.fields;
       console.log('[BenefitsAnalysisPage] Available fields in Group Data:', Object.keys(fields));
       
+      // Check for the link field - it's called "Intake - KPI Metrics" (from the logs)
       const kpiMetricsLinkFields = [
+        'Intake - KPI Metrics',  // This is the actual field name from Group Data
         'Link to Intake - KPI Metrics',
         'Link to KPI Metrics',
         'KPI Metrics',
@@ -57,9 +67,18 @@ export default async function BenefitsAnalysisPage() {
         const linkedKpi = fields[linkField];
         if (Array.isArray(linkedKpi) && linkedKpi.length > 0) {
           kpiMetricsRecordId = linkedKpi[0];
-          console.log(`[BenefitsAnalysisPage] Found linked KPI Metrics record ID: ${kpiMetricsRecordId} in field: ${linkField}`);
+          console.log(`[BenefitsAnalysisPage] ✓ Found linked KPI Metrics record ID: ${kpiMetricsRecordId} in field: ${linkField}`);
+          break;
+        } else if (linkedKpi) {
+          // Handle case where it's not an array
+          kpiMetricsRecordId = String(linkedKpi);
+          console.log(`[BenefitsAnalysisPage] ✓ Found linked KPI Metrics record ID: ${kpiMetricsRecordId} in field: ${linkField} (non-array)`);
           break;
         }
+      }
+      
+      if (!kpiMetricsRecordId) {
+        console.log('[BenefitsAnalysisPage] No linked KPI Metrics record found in Group Data link fields');
       }
     }
 
@@ -91,6 +110,11 @@ export default async function BenefitsAnalysisPage() {
         if (allKpiRecords && allKpiRecords.length > 0) {
           // Log first record to see structure
           console.log('[BenefitsAnalysisPage] Sample KPI Metrics record fields:', Object.keys(allKpiRecords[0].fields));
+          console.log('[BenefitsAnalysisPage] First KPI Metrics record ID:', allKpiRecords[0].id);
+          console.log('[BenefitsAnalysisPage] First KPI Metrics record sample values:', {
+            id: allKpiRecords[0].id,
+            fields: Object.keys(allKpiRecords[0].fields).slice(0, 10), // First 10 fields
+          });
           
           // Filter by company ID - try multiple link field variations
           const linkFieldVariations = [
@@ -102,16 +126,31 @@ export default async function BenefitsAnalysisPage() {
             'Group Data',
           ];
           
+          // Log all link field values from first few records for debugging
+          console.log('[BenefitsAnalysisPage] Checking link fields in first 3 KPI Metrics records...');
+          allKpiRecords.slice(0, 3).forEach((record: any, idx: number) => {
+            console.log(`[BenefitsAnalysisPage] Record ${idx + 1} (ID: ${record.id}):`);
+            linkFieldVariations.forEach(fieldName => {
+              const value = record.fields[fieldName];
+              if (value) {
+                console.log(`  - ${fieldName}:`, Array.isArray(value) ? value : String(value));
+              }
+            });
+          });
+          
           const companyKpiRecord = allKpiRecords.find((record: any) => {
             for (const fieldName of linkFieldVariations) {
               const linkField = record.fields[fieldName];
               if (!linkField) continue;
               
               if (Array.isArray(linkField)) {
-                if (linkField.some((id: string) => String(id).trim() === String(companyId).trim())) {
+                const matches = linkField.some((id: string) => String(id).trim() === String(companyId).trim());
+                if (matches) {
+                  console.log(`[BenefitsAnalysisPage] Match found in field "${fieldName}" with value:`, linkField);
                   return true;
                 }
               } else if (String(linkField).trim() === String(companyId).trim()) {
+                console.log(`[BenefitsAnalysisPage] Match found in field "${fieldName}" with value:`, linkField);
                 return true;
               }
             }
@@ -120,16 +159,25 @@ export default async function BenefitsAnalysisPage() {
           
           if (companyKpiRecord) {
             kpiMetricsRecord = companyKpiRecord;
-            console.log('[BenefitsAnalysisPage] Found KPI Metrics record by company filter');
+            console.log('[BenefitsAnalysisPage] ✓ Found KPI Metrics record by company filter');
+            console.log('[BenefitsAnalysisPage] Matched record ID:', companyKpiRecord.id);
           } else {
-            console.log('[BenefitsAnalysisPage] No KPI Metrics record found for company ID:', companyId);
+            console.log('[BenefitsAnalysisPage] ✗ No KPI Metrics record found for company ID:', companyId);
+            console.log('[BenefitsAnalysisPage] Searching for company ID in format:', companyId);
             // Log all available link fields from first record for debugging
             if (allKpiRecords.length > 0) {
               const sampleRecord = allKpiRecords[0];
               const availableLinkFields = linkFieldVariations.filter(field => sampleRecord.fields[field]);
               console.log('[BenefitsAnalysisPage] Available link fields in KPI Metrics:', availableLinkFields);
+              // Also show what values are in those fields
+              availableLinkFields.forEach(fieldName => {
+                const value = sampleRecord.fields[fieldName];
+                console.log(`[BenefitsAnalysisPage]   ${fieldName}:`, Array.isArray(value) ? value : String(value));
+              });
             }
           }
+        } else {
+          console.log('[BenefitsAnalysisPage] No KPI Metrics records found in table');
         }
       } catch (error) {
         console.error('[BenefitsAnalysisPage] Error fetching from KPI Metrics table:', error);
@@ -153,7 +201,26 @@ export default async function BenefitsAnalysisPage() {
     // If we found a KPI Metrics record, use that instead (it takes priority)
     if (kpiMetricsRecord) {
       sourceFields = kpiMetricsRecord.fields;
-      console.log('[BenefitsAnalysisPage] Using KPI Metrics fields (priority). Available fields:', Object.keys(sourceFields));
+      console.log('[BenefitsAnalysisPage] ✓ Using KPI Metrics fields (priority)');
+      console.log('[BenefitsAnalysisPage] KPI Metrics - All available fields:', Object.keys(sourceFields));
+      console.log('[BenefitsAnalysisPage] KPI Metrics - Sample field values:', {
+        'Eligible Employees': sourceFields['Eligible Employees'],
+        'Total Employees': sourceFields['Total Employees'],
+        'Benefit Eligible Employees': sourceFields['Benefit Eligible Employees'],
+        'Employee Count': sourceFields['Employee Count'],
+        'Number of Employees': sourceFields['Number of Employees'],
+        'Headcount': sourceFields['Headcount'],
+        'Average Salary': sourceFields['Average Salary'],
+        'Average Age': sourceFields['Average Age'],
+        'Male Percentage': sourceFields['Male Percentage'],
+        'Female Percentage': sourceFields['Female Percentage'],
+        'Total Monthly Cost': sourceFields['Total Monthly Cost'],
+        'Total Employer Contribution': sourceFields['Total Employer Contribution'],
+        'Total Employee Contribution': sourceFields['Total Employee Contribution'],
+        'ER Cost per Eligible': sourceFields['ER Cost per Eligible'],
+      });
+    } else {
+      console.log('[BenefitsAnalysisPage] ⚠ No KPI Metrics record found - using Group Data as fallback');
     }
 
     if (!groupDataRecord && !kpiMetricsRecord) {
@@ -183,9 +250,22 @@ export default async function BenefitsAnalysisPage() {
       return isNaN(parsed) ? 0 : parsed;
     };
 
+    // Log raw field values before parsing
+    const eligibleEmployeesRaw = sourceFields['Eligible Employees'] || 
+      sourceFields['Total Employees'] || 
+      sourceFields['Benefit Eligible Employees'] ||
+      sourceFields['Eligible'] ||
+      sourceFields['Employee Count'] ||
+      sourceFields['Number of Employees'] ||
+      sourceFields['Headcount'] ||
+      null;
+    console.log('[BenefitsAnalysisPage] Raw eligible employees value:', eligibleEmployeesRaw, typeof eligibleEmployeesRaw);
+
     // Map demographics from Airtable fields - try multiple field name variations
+    // KPI Metrics uses: '# Eligible', 'Salary (Avg)', 'Age (Avg)', 'Male %', 'Female %'
     const demographics: DemographicInsights = {
       eligibleEmployees: parseEmployeeCount(
+        sourceFields['# Eligible'] ||
         sourceFields['Eligible Employees'] || 
         sourceFields['Total Employees'] || 
         sourceFields['Benefit Eligible Employees'] ||
@@ -196,24 +276,28 @@ export default async function BenefitsAnalysisPage() {
         '0'
       ),
       averageSalary: parseFloat(String(
+        sourceFields['Salary (Avg)'] ||
         sourceFields['Average Salary'] || 
         sourceFields['Avg Salary'] ||
         sourceFields['Salary'] ||
         '0'
       )) || 0,
       averageAge: parseFloat(String(
+        sourceFields['Age (Avg)'] ||
         sourceFields['Average Age'] || 
         sourceFields['Avg Age'] ||
         sourceFields['Age'] ||
         '0'
       )) || 0,
       malePercentage: parseFloat(String(
+        sourceFields['Male %'] ||
         sourceFields['Male Percentage'] || 
         sourceFields['Male %'] ||
         sourceFields['Male'] ||
         '0'
       )) || 0,
       femalePercentage: parseFloat(String(
+        sourceFields['Female %'] ||
         sourceFields['Female Percentage'] || 
         sourceFields['Female %'] ||
         sourceFields['Female'] ||
@@ -222,14 +306,17 @@ export default async function BenefitsAnalysisPage() {
     };
 
     // Map financial KPIs from Airtable fields - try multiple field name variations
+    // KPI Metrics uses: 'Monthly Spend Total', 'ER $/Eligible', etc.
     const kpis: FinancialKPIs = {
       totalMonthlyCost: parseFloat(String(
+        sourceFields['Monthly Spend Total'] ||
         sourceFields['Total Monthly Cost'] || 
         sourceFields['Monthly Cost'] ||
         sourceFields['Total Cost'] ||
         '0'
       )) || 0,
       totalEmployerContribution: parseFloat(String(
+        sourceFields['Monthly Spend Medical'] || // This might be employer contribution
         sourceFields['Total Employer Contribution'] || 
         sourceFields['Employer Contribution'] ||
         sourceFields['ER Contribution'] ||
@@ -242,6 +329,7 @@ export default async function BenefitsAnalysisPage() {
         '0'
       )) || 0,
       erCostPerEligible: parseFloat(String(
+        sourceFields['ER $/Eligible'] ||
         sourceFields['ER Cost per Eligible'] || 
         sourceFields['Cost per Eligible'] ||
         sourceFields['ER Cost/Eligible'] ||
@@ -249,34 +337,298 @@ export default async function BenefitsAnalysisPage() {
       )) || 0,
     };
 
-    console.log('[BenefitsAnalysisPage] Mapped demographics:', demographics);
-    console.log('[BenefitsAnalysisPage] Mapped KPIs:', kpis);
+    console.log('[BenefitsAnalysisPage] ===== FINAL MAPPED DATA =====');
+    console.log('[BenefitsAnalysisPage] Demographics:', JSON.stringify(demographics, null, 2));
+    console.log('[BenefitsAnalysisPage] KPIs:', JSON.stringify(kpis, null, 2));
+    console.log('[BenefitsAnalysisPage] Source:', kpiMetricsRecord ? 'KPI Metrics' : 'Group Data');
+    console.log('[BenefitsAnalysisPage] ===============================');
 
-    // Map budget breakdown - try to extract from Group Data or calculate from existing fields
+    // Map budget breakdown - fetch from Intake - Plan Data table
     let breakdown: BudgetBreakdown[] = [];
     
-    const recordForBreakdown = kpiMetricsRecord || groupDataRecord;
-    if (recordForBreakdown) {
-      const recordFields = recordForBreakdown.fields;
+    if (groupDataRecord) {
+      const recordFields = groupDataRecord.fields;
       
-      // Try to get budget breakdown from linked records or fields
-      const breakdownLinkFields = [
-        'Link to Budget Breakdown',
-        'Budget Breakdown',
-        'Breakdown',
+      // Try to get linked plans from Group Data
+      const planLinkFields = [
+        'Intake - Plan Data',
+        'Link to Intake - Plan Data',
+        'Link to Plan Data',
+        'Plan Data',
+        'Plans',
       ];
       
-      for (const linkField of breakdownLinkFields) {
-        const linkedBreakdown = recordFields[linkField];
-        if (Array.isArray(linkedBreakdown) && linkedBreakdown.length > 0) {
-          // TODO: Need to know the budget breakdown table ID to fetch linked records
-          // For now, breakdown remains empty until table structure is confirmed
+      let linkedPlanIds: string[] = [];
+      for (const linkField of planLinkFields) {
+        const linkedPlans = recordFields[linkField];
+        if (Array.isArray(linkedPlans) && linkedPlans.length > 0) {
+          linkedPlanIds = linkedPlans;
+          console.log(`[BenefitsAnalysisPage] Found ${linkedPlanIds.length} linked plan IDs in field "${linkField}"`);
           break;
         }
       }
+      
+      // Fetch plan records from Intake - Plan Data table using the "All Fields 1st Plan" view
+      // If no linked plans, try fetching all plans from the view and filter by company
+      const planTableId = 'tblPJjWgnbblYLym4'; // Intake - Plan Data
+      const planView = 'All Fields 1st Plan'; // Use the specific view
+      
+      let plansToProcess: any[] = [];
+      
+      if (linkedPlanIds.length > 0) {
+        console.log(`[BenefitsAnalysisPage] Fetching ${linkedPlanIds.length} plan records for budget breakdown...`);
+        
+        // Fetch each linked plan record
+        for (const planId of linkedPlanIds) {
+          try {
+            const planRecord = await fetchAirtableRecordById(planTableId, planId, { apiKey: token });
+            if (planRecord) {
+              plansToProcess.push(planRecord);
+            }
+          } catch (error) {
+            console.error(`[BenefitsAnalysisPage] Error fetching plan ${planId}:`, error);
+          }
+        }
+      } else {
+        // Fallback: Fetch all plans from the view and filter by company
+        console.log(`[BenefitsAnalysisPage] No linked plans found, fetching all plans from view "${planView}"...`);
+        try {
+          const allPlans = await fetchAirtableRecords(planTableId, {
+            apiKey: token,
+            maxRecords: 100,
+            view: planView,
+          });
+          
+          if (allPlans && allPlans.length > 0) {
+            // Filter plans linked to this company
+            const companyLinkFields = [
+              'Link to Intake - Group Data',
+              'Link to Intake Group Data',
+              'Link to Group Data',
+              'Company',
+              'Link to Company',
+            ];
+            
+            plansToProcess = allPlans.filter((planRecord: any) => {
+              for (const linkField of companyLinkFields) {
+                const linkedCompany = planRecord.fields[linkField];
+                if (Array.isArray(linkedCompany) && linkedCompany.includes(companyId)) {
+                  return true;
+                } else if (String(linkedCompany).trim() === String(companyId).trim()) {
+                  return true;
+                }
+              }
+              return false;
+            });
+            
+            console.log(`[BenefitsAnalysisPage] Found ${plansToProcess.length} plans from view "${planView}" linked to company`);
+          }
+        } catch (error) {
+          console.error(`[BenefitsAnalysisPage] Error fetching plans from view:`, error);
+        }
+      }
+      
+      // Process each plan
+      for (const planRecord of plansToProcess) {
+        try {
+          const planFields = planRecord.fields;
+              
+          // Log available fields for ALL plans to help with mapping
+          console.log(`[BenefitsAnalysisPage] ===== PLAN DATA RECORD ${breakdown.length + 1} =====`);
+          console.log(`[BenefitsAnalysisPage] Plan ID: ${planRecord.id}`);
+              console.log(`[BenefitsAnalysisPage] Plan Name:`, planFields['Plan Name (Client)'] || planFields['Plan Name'] || planFields['Name']);
+              console.log(`[BenefitsAnalysisPage] Benefit Type:`, planFields['Benefit Type'] || planFields['Category'] || planFields['Type']);
+              console.log(`[BenefitsAnalysisPage] Carrier:`, planFields['Carrier']);
+              
+              // Log ALL fields and their values for this plan
+              console.log(`[BenefitsAnalysisPage] ALL FIELDS AND VALUES:`);
+              Object.keys(planFields).forEach(fieldName => {
+                const value = planFields[fieldName];
+                // Only log non-empty values to reduce noise
+                if (value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0)) {
+                  console.log(`[BenefitsAnalysisPage]   "${fieldName}":`, value, `(type: ${typeof value})`);
+                }
+              });
+              
+              // Log all fields that might contain cost/participation data
+              const costRelatedFields = Object.keys(planFields).filter(key => 
+                  key.toLowerCase().includes('cost') ||
+                  key.toLowerCase().includes('month') ||
+                  key.toLowerCase().includes('annual') ||
+                  key.toLowerCase().includes('participation') ||
+                  key.toLowerCase().includes('enrolled') ||
+                  key.toLowerCase().includes('total') ||
+                  key.toLowerCase().includes('fte') ||
+                  key.toLowerCase().includes('spend') ||
+                  key.toLowerCase().includes('contribution') ||
+                  key.toLowerCase().includes('premium')
+              );
+              console.log(`[BenefitsAnalysisPage] Cost/participation related fields:`, costRelatedFields);
+              
+              // Log values for these fields
+              const costFieldValues: Record<string, any> = {};
+              costRelatedFields.forEach(field => {
+                costFieldValues[field] = planFields[field];
+              });
+              console.log(`[BenefitsAnalysisPage] Cost field values:`, JSON.stringify(costFieldValues, null, 2));
+              console.log(`[BenefitsAnalysisPage] ================================================`);
+              
+              // Determine benefit type - check multiple field name variations
+              // The view "All Fields 1st Plan" might have a specific field for benefit type
+              let benefitType = '';
+              const benefitTypeFields = [
+                'Benefit Type',
+                'Category',
+                'Type',
+                'Plan Category',
+                'Benefit Category',
+                'Medical/Dental/Vision',
+              ];
+              
+              for (const fieldName of benefitTypeFields) {
+                const value = planFields[fieldName];
+                if (value) {
+                  benefitType = String(value).trim();
+                  break;
+                }
+              }
+              
+              // If still not found, check if plan name or other fields indicate the type
+              if (!benefitType) {
+                const planName = String(planFields['Plan Name (Client)'] || planFields['Plan Name'] || planFields['Name'] || '').toLowerCase();
+                const carrier = String(planFields['Carrier'] || '').toLowerCase();
+                
+                if (planName.includes('dental') || carrier.includes('dental')) {
+                  benefitType = 'Dental';
+                } else if (planName.includes('vision') || carrier.includes('vision')) {
+                  benefitType = 'Vision';
+                } else {
+                  benefitType = 'Medical'; // Default
+                }
+              } else {
+                // Normalize the benefit type
+                const benefitTypeLower = benefitType.toLowerCase();
+                if (benefitTypeLower.includes('dental')) {
+                  benefitType = 'Dental';
+                } else if (benefitTypeLower.includes('vision')) {
+                  benefitType = 'Vision';
+                } else {
+                  benefitType = 'Medical'; // Default
+                }
+              }
+              
+              const benefit = benefitType;
+              
+              console.log(`[BenefitsAnalysisPage] Plan "${planFields['Plan Name (Client)'] || planFields['Plan Name'] || planFields['Name']}" - Benefit type: ${benefit}`);
+              
+              // Map plan fields to BudgetBreakdown - try multiple field name variations
+              // Try to find the actual field names by checking all fields that might match
+              const findFieldValue = (possibleNames: string[], defaultValue: any = 0): number => {
+                for (const name of possibleNames) {
+                  const value = planFields[name];
+                  if (value !== undefined && value !== null && value !== '') {
+                    const parsed = parseFloat(String(value));
+                    if (!isNaN(parsed)) {
+                      return parsed;
+                    }
+                  }
+                }
+                return typeof defaultValue === 'number' ? defaultValue : parseFloat(String(defaultValue)) || 0;
+              };
+
+              const findIntFieldValue = (possibleNames: string[], defaultValue: number = 0): number => {
+                for (const name of possibleNames) {
+                  const value = planFields[name];
+                  if (value !== undefined && value !== null && value !== '') {
+                    const parsed = parseInt(String(value));
+                    if (!isNaN(parsed)) {
+                      return parsed;
+                    }
+                  }
+                }
+                return defaultValue;
+              };
+
+              const breakdownItem: BudgetBreakdown = {
+                benefit: benefit,
+                carrier: String(planFields['Carrier'] || planFields['Carrier Name'] || ''),
+                participation: findIntFieldValue([
+                  'Participation',
+                  'Enrolled',
+                  '# Enrolled',
+                  'Enrollment',
+                  'Number Enrolled',
+                  'Enrolled Count',
+                  'Participants',
+                ]),
+                monthlyTotal: findFieldValue([
+                  'Monthly Total',
+                  'Total Monthly Cost',
+                  'Monthly Cost',
+                  'Total Monthly',
+                  'Monthly Spend',
+                ]),
+                annualTotal: findFieldValue([
+                  'Annual Total',
+                  'Total Annual Cost',
+                  'Annual Cost',
+                  'Yearly Total',
+                  'Total Annual',
+                  'Annual Spend',
+                ]),
+                erCostMonth: findFieldValue([
+                  'ER Cost/Month',
+                  'Employer Cost/Month',
+                  'ER Monthly Cost',
+                  'Monthly ER Cost',
+                  'ER Cost per Month',
+                  'Employer Monthly Cost',
+                  'Monthly Employer Cost',
+                ]),
+                eeCostMonth: findFieldValue([
+                  'EE Cost/Month',
+                  'Employee Cost/Month',
+                  'EE Monthly Cost',
+                  'Monthly EE Cost',
+                  'EE Cost per Month',
+                  'Employee Monthly Cost',
+                  'Monthly Employee Cost',
+                ]),
+                erCostEnrolled: findFieldValue([
+                  'ER Cost/Enrolled',
+                  'Employer Cost per Enrolled',
+                  'ER Cost per Enrolled',
+                  'Cost per Enrolled',
+                  'ER/Enrolled',
+                ]),
+                erCostFte: findFieldValue([
+                  'ER Cost/FTE',
+                  'Employer Cost per FTE',
+                  'ER Cost per FTE',
+                  'Cost per FTE',
+                  'ER/FTE',
+                ]),
+              };
+              
+              // Log the mapped values for debugging
+              if (breakdown.length === 0) {
+                console.log(`[BenefitsAnalysisPage] Mapped breakdown item:`, JSON.stringify(breakdownItem, null, 2));
+              }
+              
+          // Only add if we have meaningful data
+          if (breakdownItem.carrier || breakdownItem.participation > 0 || breakdownItem.monthlyTotal > 0) {
+            breakdown.push(breakdownItem);
+            console.log(`[BenefitsAnalysisPage] Added breakdown item: ${benefit} - ${breakdownItem.carrier}`);
+          }
+        } catch (error) {
+          console.error(`[BenefitsAnalysisPage] Error processing plan ${planRecord.id}:`, error);
+        }
+      }
+      
+      console.log(`[BenefitsAnalysisPage] Mapped ${breakdown.length} budget breakdown items from Plan Data`);
+    } else {
+      console.log('[BenefitsAnalysisPage] No linked plan records found in Group Data for budget breakdown');
     }
-    
-    // TODO: If breakdown is in a separate table, fetch from there
 
     // Get the Benefit Budget Report URL from Airtable
     // Try multiple field name variations

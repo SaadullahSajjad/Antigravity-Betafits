@@ -25,50 +25,156 @@ export default async function CompanyDetailsPage() {
   }
 
   try {
-    const tableId = 'tbliXJ7599ngxEriO'; // Intake - Group Data
-    const record = await fetchAirtableRecordById(tableId, companyId, {
+    const { fetchAirtableRecords, fetchAirtableRecordById } = await import('@/lib/airtable/fetch');
+    
+    // Fetch Group Data first
+    const groupDataTableId = 'tbliXJ7599ngxEriO'; // Intake - Group Data
+    const groupDataRecord = await fetchAirtableRecordById(groupDataTableId, companyId, {
       apiKey: token,
     });
 
-    if (!record) {
+    if (!groupDataRecord) {
       return <CompanyDetails data={null} />;
     }
 
-    const fields = record.fields;
+    const groupDataFields = groupDataRecord.fields;
+
+    // Try to fetch KPI Metrics record via linked record from Group Data
+    let kpiMetricsRecord: any = null;
+    const kpiMetricsTableId = 'tblMSbQDSGoiPBWxy'; // Intake - KPI Metrics
+    
+    // Check for link field in Group Data
+    const kpiMetricsLinkFields = [
+      'Intake - KPI Metrics',
+      'Link to Intake - KPI Metrics',
+      'Link to KPI Metrics',
+      'KPI Metrics',
+    ];
+    
+    let kpiMetricsRecordId: string | null = null;
+    for (const linkField of kpiMetricsLinkFields) {
+      const linkedKpi = groupDataFields[linkField];
+      if (Array.isArray(linkedKpi) && linkedKpi.length > 0) {
+        kpiMetricsRecordId = linkedKpi[0];
+        break;
+      } else if (linkedKpi) {
+        kpiMetricsRecordId = String(linkedKpi);
+        break;
+      }
+    }
+
+    // Fetch KPI Metrics record if we have the ID
+    if (kpiMetricsRecordId) {
+      try {
+        kpiMetricsRecord = await fetchAirtableRecordById(kpiMetricsTableId, kpiMetricsRecordId, {
+          apiKey: token,
+        });
+      } catch (error) {
+        console.log('[CompanyDetailsPage] Could not fetch KPI Metrics record:', error);
+      }
+    }
+
+    // Use KPI Metrics fields if available, otherwise fall back to Group Data
+    const kpiFields = kpiMetricsRecord?.fields || {};
+    const sourceFields = { ...groupDataFields, ...kpiFields }; // Merge, with KPI Metrics taking priority
+
+    // Helper to parse employee count (handles ranges)
+    const parseEmployeeCount = (value: any): string => {
+      if (!value) return '0';
+      const str = String(value).trim();
+      // Return as-is if it's already a good format, or parse ranges
+      const rangeMatch = str.match(/(\d+)\s*-\s*(\d+)/);
+      if (rangeMatch) {
+        return str; // Keep the range format
+      }
+      return str;
+    };
 
     const companyData: CompanyData = {
-      name: String(fields['Company Name'] || fields['Name'] || ''),
-      entityType: String(fields['Entity Type'] || ''),
-      legalName: String(fields['Entity Legal Name'] || fields['Legal Name'] || ''),
-      ein: String(fields['EIN'] || ''),
-      sicCode: String(fields['SIC Code'] || ''),
-      naicsCode: String(fields['NAICS Code'] || ''),
-      address: String(fields['HQ Address'] || fields['Address'] || ''),
-      renewalMonth: String(fields['Renewal Month'] || ''),
+      name: String(sourceFields['Company Name'] || sourceFields['Name'] || ''),
+      entityType: String(sourceFields['Entity Type'] || ''),
+      legalName: String(sourceFields['Entity Legal Name'] || sourceFields['Legal Name'] || ''),
+      ein: String(sourceFields['EIN'] || ''),
+      sicCode: String(sourceFields['SIC Code'] || ''),
+      naicsCode: String(sourceFields['NAICS Code'] || ''),
+      address: String(sourceFields['HQ Address'] || sourceFields['Address'] || ''),
+      renewalMonth: String(sourceFields['Renewal Month'] || ''),
       contact: {
-        firstName: String(fields['First Name'] || ''),
-        lastName: String(fields['Last Name'] || ''),
-        jobTitle: String(fields['Job Title'] || ''),
-        phone: String(fields['Phone Number'] || fields['Phone'] || ''),
-        email: String(fields['Work Email'] || fields['Email'] || ''),
+        firstName: String(sourceFields['First Name'] || ''),
+        lastName: String(sourceFields['Last Name'] || ''),
+        jobTitle: String(sourceFields['Job Title'] || ''),
+        phone: String(sourceFields['Phone Number'] || sourceFields['Phone'] || ''),
+        email: String(sourceFields['Work Email'] || sourceFields['Email'] || ''),
       },
       workforce: {
-        totalEmployees: String(fields['Total Employees'] || ''),
-        usHqEmployees: String(fields['U.S. HQ Employees'] || ''),
-        hqCity: String(fields['HQ City'] || ''),
-        otherUsCities: Array.isArray(fields['Other US Cities']) ? fields['Other US Cities'] : [],
-        otherCountries: Array.isArray(fields['Other Countries']) ? fields['Other Countries'] : [],
-        openJobs: String(fields['Open Jobs'] || ''),
-        linkedInUrl: String(fields['LinkedIn URL'] || ''),
+        // Use KPI Metrics fields: '# Eligible', 'Total EEs (Scraped)', 'US EEs (Scraped)'
+        totalEmployees: parseEmployeeCount(
+          kpiFields['# Eligible'] ||
+          kpiFields['Total EEs (Scraped)'] ||
+          sourceFields['Total Employees'] ||
+          '0'
+        ),
+        usHqEmployees: parseEmployeeCount(
+          kpiFields['US EEs (Scraped)'] ||
+          sourceFields['U.S. HQ Employees'] ||
+          '0'
+        ),
+        // Use KPI Metrics scraped fields
+        hqCity: String(
+          kpiFields['HQ City (Scraped)'] ||
+          sourceFields['HQ City'] ||
+          ''
+        ),
+        otherUsCities: Array.isArray(kpiFields['Other US Cities (Scraped)']) 
+          ? kpiFields['Other US Cities (Scraped)']
+          : Array.isArray(sourceFields['Other US Cities'])
+            ? sourceFields['Other US Cities']
+            : [],
+        otherCountries: Array.isArray(kpiFields['Other Countries (Scraped)'])
+          ? kpiFields['Other Countries (Scraped)']
+          : Array.isArray(sourceFields['Other Countries'])
+            ? sourceFields['Other Countries']
+            : [],
+        openJobs: String(sourceFields['Open Jobs'] || ''),
+        linkedInUrl: String(
+          kpiFields['LinkedIn URL (from Company)'] ||
+          sourceFields['LinkedIn URL'] ||
+          ''
+        ),
       },
       glassdoor: {
-        overallRating: parseFloat(String(fields['Glassdoor Overall Rating'] || '0')) || 0,
-        benefitsRating: parseFloat(String(fields['Glassdoor Benefits Rating'] || '0')) || 0,
-        healthInsuranceRating: parseFloat(String(fields['Glassdoor Health Insurance Rating'] || '0')) || 0,
-        retirementRating: parseFloat(String(fields['Glassdoor Retirement Rating'] || '0')) || 0,
-        overallReviews: parseInt(String(fields['Glassdoor Overall Reviews'] || '0')) || 0,
-        benefitsReviews: parseInt(String(fields['Glassdoor Benefits Reviews'] || '0')) || 0,
-        glassdoorUrl: String(fields['Glassdoor URL'] || ''),
+        // Use KPI Metrics Glassdoor fields
+        overallRating: parseFloat(String(
+          kpiFields['GD Overall Review'] ||
+          sourceFields['Glassdoor Overall Rating'] ||
+          '0'
+        )) || 0,
+        benefitsRating: parseFloat(String(
+          kpiFields['GD Benefits Review'] ||
+          sourceFields['Glassdoor Benefits Rating'] ||
+          '0'
+        )) || 0,
+        healthInsuranceRating: parseFloat(String(
+          kpiFields['GD Health Insurance Review'] ||
+          sourceFields['Glassdoor Health Insurance Rating'] ||
+          '0'
+        )) || 0,
+        retirementRating: parseFloat(String(sourceFields['Glassdoor Retirement Rating'] || '0')) || 0,
+        overallReviews: parseInt(String(
+          kpiFields['GD # of Reviews (Overall)'] ||
+          sourceFields['Glassdoor Overall Reviews'] ||
+          '0'
+        )) || 0,
+        benefitsReviews: parseInt(String(
+          kpiFields['GD # of Reviews (Benefits)'] ||
+          sourceFields['Glassdoor Benefits Reviews'] ||
+          '0'
+        )) || 0,
+        glassdoorUrl: String(
+          kpiFields['Glassdoor URL'] ||
+          sourceFields['Glassdoor URL'] ||
+          ''
+        ),
       },
     };
 

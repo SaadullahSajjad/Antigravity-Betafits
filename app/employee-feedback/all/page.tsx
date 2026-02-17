@@ -15,7 +15,7 @@ export default async function EmployeeFeedbackAllPage() {
 
     if (apiKey && companyId) {
         try {
-            // Fetch all Pulse Survey records and filter in code (ARRAYJOIN doesn't work reliably)
+            // Fetch feedback responses from EE Pulse Surveys table
             const allRecords = await fetchAirtableRecords('tbl28XVUekjvl2Ujn', {
                 apiKey,
                 maxRecords: 1000, // Fetch up to 1000 records
@@ -46,20 +46,63 @@ export default async function EmployeeFeedbackAllPage() {
                     return timeB - timeA; // Descending order (newest first)
                 });
 
+                // Helper to parse numeric field that can be null
+                const parseNumericFieldNullable = (fields: any, possibleNames: string[], defaultValue: number | null = null): number | null => {
+                    for (const name of possibleNames) {
+                        const value = fields[name];
+                        if (value !== undefined && value !== null && value !== '') {
+                            const parsed = Number(value);
+                            if (!isNaN(parsed)) {
+                                return parsed;
+                            }
+                        }
+                    }
+                    return defaultValue;
+                };
+
                 const mappedResponses: FeedbackResponse[] = sortedRecords.map(record => {
                     const fields = record.fields;
+                    
+                    // Get tier - try multiple field name variations (based on schema: efld_survey_medical_tier)
+                    let tierValue = 
+                        fields['Medical Tier'] ||
+                        fields['Tier (Medical)'] ||
+                        fields['Medical Coverage Tier'] ||
+                        fields['Coverage Tier'] || 
+                        fields['Tier'] || 
+                        fields['Coverage'] ||
+                        fields['Medical'] ||
+                        null;
+                    
+                    // Handle if tier is an array (multiple values)
+                    if (Array.isArray(tierValue)) {
+                        tierValue = tierValue.join(' ');
+                    }
+                    
+                    // Convert to string and clean up
+                    let tier = tierValue ? String(tierValue).trim() : '';
+                    
+                    // If tier is empty or just whitespace, use default
+                    if (!tier || tier === '') {
+                        tier = 'Individual Only';
+                    }
                     
                     // Map to new FeedbackResponse structure
                     return {
                         id: record.id,
                         submittedAt: String(fields['Created'] || record.createdTime || new Date().toISOString()).split('T')[0],
-                        tier: String(fields['Tier'] || fields['Coverage Tier'] || 'Individual Only'),
-                        overallRating: Number(fields['Overall Rating'] || fields['Rating'] || fields['Score'] || 0),
+                        tier: tier,
+                        overallRating: Number(fields['Overall'] || fields['Overall Rating'] || fields['Rating'] || fields['Score'] || fields['Overall Score'] || 0),
                         medicalOptions: Number(fields['Medical Options'] || fields['Medical Options Rating'] || 0),
                         medicalNetwork: Number(fields['Medical Network'] || fields['Medical Network Rating'] || 0),
                         medicalCost: Number(fields['Medical Cost'] || fields['Employee Cost'] || fields['Cost Rating'] || 0),
                         nonMedical: Number(fields['Non-Medical'] || fields['Non-Medical Rating'] || 0),
-                        comments: String(fields['Comments'] || fields['Text'] || ''),
+                        retirement: parseNumericFieldNullable(fields, [
+                            'Retirement',
+                            'Retirement Rating',
+                            'Retirement Score',
+                        ], null),
+                        comments: String(fields['Comments'] || fields['Text'] || fields['Comment'] || ''),
                     };
                 });
 

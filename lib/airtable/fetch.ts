@@ -23,6 +23,7 @@ export async function fetchAirtableRecords(
         maxRecords?: number;
         sort?: Array<{ field: string; direction: 'asc' | 'desc' }>;
         filterByFormula?: string;
+        view?: string;
     } = {}
 ): Promise<AirtableRecord[]> {
     const rawToken = options.apiKey || process.env.AIRTABLE_API_KEY;
@@ -33,7 +34,7 @@ export async function fetchAirtableRecords(
         return [];
     }
 
-    const { maxRecords, sort, filterByFormula } = options;
+    const { maxRecords, sort, filterByFormula, view } = options;
 
     const url = new URL(`https://api.airtable.com/v0/${baseId}/${tableId}`);
 
@@ -48,6 +49,10 @@ export async function fetchAirtableRecords(
 
     if (filterByFormula) {
         url.searchParams.append('filterByFormula', filterByFormula);
+    }
+
+    if (view) {
+        url.searchParams.append('view', view);
     }
 
     const allRecords: AirtableRecord[] = [];

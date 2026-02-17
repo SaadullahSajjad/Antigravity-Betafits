@@ -177,6 +177,7 @@ export interface FeedbackResponse {
   medicalNetwork: number;
   medicalCost: number;
   nonMedical: number;
+  retirement: number | null;
   comments?: string;
 }
 

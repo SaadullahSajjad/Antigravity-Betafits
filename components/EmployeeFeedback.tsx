@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { FeedbackStats, FeedbackResponse } from '@/types';
 
@@ -24,6 +24,100 @@ const StarRating: React.FC<{ rating: number; size?: string }> = ({ rating, size 
           <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
         </svg>
       ))}
+    </div>
+  );
+};
+
+const Tooltip: React.FC<{ text: string; children: React.ReactNode }> = ({ text, children }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const [tooltipPosition, setTooltipPosition] = useState<{ vertical: 'top' | 'bottom'; horizontal: 'left' | 'right' }>({ vertical: 'top', horizontal: 'left' });
+  const tooltipRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    if (isVisible && containerRef.current) {
+      // Check position immediately before rendering tooltip
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const viewportWidth = window.innerWidth;
+      const padding = 16; // 1rem
+      const estimatedTooltipHeight = 150; // Estimate tooltip height
+      
+      // Check vertical positioning - if near top of viewport (first row), show below
+      const spaceAbove = containerRect.top;
+      const spaceBelow = window.innerHeight - containerRect.bottom;
+      
+      let vertical: 'top' | 'bottom' = 'top';
+      // If container is near top (within 200px) or not enough space above, show below
+      if (spaceAbove < 200 || (spaceAbove < estimatedTooltipHeight + padding && spaceBelow >= estimatedTooltipHeight + padding)) {
+        vertical = 'bottom';
+      } else if (spaceAbove >= estimatedTooltipHeight + padding) {
+        vertical = 'top';
+      } else {
+        // Default to below if uncertain
+        vertical = 'bottom';
+      }
+      
+      // Check horizontal positioning - estimate based on container position
+      let horizontal: 'left' | 'right' = 'left';
+      const estimatedTooltipWidth = 320;
+      if (containerRect.right + estimatedTooltipWidth > viewportWidth - padding) {
+        // Would overflow on right - position from right
+        horizontal = 'right';
+      } else {
+        horizontal = 'left';
+      }
+      
+      setTooltipPosition({ vertical, horizontal });
+      
+      // After tooltip renders, fine-tune position
+      requestAnimationFrame(() => {
+        if (tooltipRef.current) {
+          const tooltipRect = tooltipRef.current.getBoundingClientRect();
+          
+          // Check if tooltip overflows horizontally
+          if (tooltipRect.right > viewportWidth - padding) {
+            setTooltipPosition(prev => ({ ...prev, horizontal: 'right' }));
+          } else if (tooltipRect.left < padding) {
+            setTooltipPosition(prev => ({ ...prev, horizontal: 'left' }));
+          }
+        }
+      });
+    }
+  }, [isVisible]);
+
+  return (
+    <div 
+      ref={containerRef}
+      className="relative inline-block max-w-full"
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+    >
+      {children}
+      {isVisible && (
+        <div 
+          ref={tooltipRef}
+          className={`absolute z-[9999] p-3 bg-gray-900 text-white text-[12px] font-medium rounded-md shadow-xl break-words whitespace-normal pointer-events-none ${
+            tooltipPosition.vertical === 'top' ? 'bottom-full mb-2' : 'top-full mt-2'
+          } ${
+            tooltipPosition.horizontal === 'right' ? 'right-0 left-auto' : 'left-0 right-auto'
+          }`}
+          style={{
+            maxWidth: 'min(320px, calc(100vw - 2rem))',
+            width: 'max-content',
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word',
+          }}
+        >
+          {text}
+          <div className={`absolute ${
+            tooltipPosition.vertical === 'top' ? 'top-full -mt-1' : 'bottom-full -mb-1 rotate-180'
+          } ${
+            tooltipPosition.horizontal === 'right' ? 'right-4' : 'left-4'
+          } border-4 border-transparent ${
+            tooltipPosition.vertical === 'top' ? 'border-t-gray-900' : 'border-b-gray-900'
+          }`}></div>
+        </div>
+      )}
     </div>
   );
 };
@@ -203,12 +297,12 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                         {row.submittedAt}
                       </td>
                       <td className="px-6 py-6">
-                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold border uppercase tracking-wider ${
+                        <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold border uppercase tracking-wider whitespace-nowrap ${
                           row.tier.includes('Family') ? 'bg-indigo-50 text-indigo-700 border-indigo-100' : 
                           row.tier.includes('Only') ? 'bg-blue-50 text-blue-700 border-blue-100' : 
                           'bg-slate-50 text-slate-700 border-slate-100'
                         }`}>
-                          {row.tier}
+                          {row.tier || 'Individual Only'}
                         </span>
                       </td>
                       <td className="px-6 py-6"><StarRating rating={row.overallRating} /></td>
@@ -216,17 +310,13 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                       <td className="px-6 py-6"><StarRating rating={row.medicalNetwork} /></td>
                       <td className="px-6 py-6"><StarRating rating={row.medicalCost} /></td>
                       <td className="px-6 py-6"><StarRating rating={row.nonMedical} /></td>
-                      <td className="px-6 py-6 min-w-[200px] relative">
+                      <td className="px-6 py-6 min-w-[200px]">
                         {row.comments ? (
-                          <div className="group/tooltip relative">
-                            <p className="text-[13px] text-gray-600 font-medium truncate max-w-[180px]">
+                          <Tooltip text={row.comments}>
+                            <p className="text-[13px] text-gray-600 font-medium truncate max-w-[180px] cursor-help">
                               {row.comments}
                             </p>
-                            <div className="invisible group-hover/tooltip:visible absolute z-50 bottom-full left-0 mb-2 w-64 p-3 bg-gray-900 text-white text-[12px] font-medium rounded-md shadow-xl animate-in fade-in slide-in-from-bottom-1">
-                              {row.comments}
-                              <div className="absolute top-full left-4 -mt-1 border-4 border-transparent border-t-gray-900"></div>
-                            </div>
-                          </div>
+                          </Tooltip>
                         ) : (
                           <div className="h-px w-4 bg-gray-100"></div>
                         )}
