@@ -59,14 +59,10 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown, repo
                 window.open(reportUrl, '_blank', 'noopener,noreferrer');
               } else {
                 console.warn('[BenefitsAnalysis] No report URL available');
+                alert('Report URL not found. Please check Airtable configuration.');
               }
             }}
-            disabled={!reportUrl}
-            className={`ml-4 px-5 py-2 rounded-md text-sm font-bold transition-colors shadow-sm ${
-              reportUrl 
-                ? 'bg-brand-500 text-white hover:bg-brand-600 shadow-brand-100 cursor-pointer' 
-                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-            }`}
+            className="ml-4 bg-brand-500 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-brand-600 transition-colors shadow-sm shadow-brand-100 cursor-pointer"
           >
             View Report
           </button>

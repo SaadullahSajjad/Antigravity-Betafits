@@ -86,7 +86,13 @@ export default async function BenefitsAnalysisPage() {
       'Report URL',
       'Budget Report URL',
       'Benefit Report URL',
+      'Budget Report',
+      'Report Link',
+      'Document URL',
     ];
+    
+    // Log all available fields for debugging
+    console.log('[BenefitsAnalysisPage] Available fields:', Object.keys(fields));
     
     let reportUrl: string | undefined;
     for (const fieldName of reportUrlFieldVariations) {
@@ -95,6 +101,27 @@ export default async function BenefitsAnalysisPage() {
         reportUrl = url.trim();
         console.log(`[BenefitsAnalysisPage] Found report URL in field "${fieldName}": ${reportUrl}`);
         break;
+      } else if (fields[fieldName]) {
+        console.log(`[BenefitsAnalysisPage] Field "${fieldName}" exists but value is:`, fields[fieldName], typeof fields[fieldName]);
+      }
+    }
+    
+    // If not found in direct fields, check if it's in linked Documents table
+    if (!reportUrl) {
+      const documentLinkFields = [
+        'Link to Intake Document Upload',
+        'Link to Intake - Document Upload',
+        'Documents',
+        'Link to Documents',
+      ];
+      
+      for (const linkField of documentLinkFields) {
+        const linkedDocs = fields[linkField];
+        if (Array.isArray(linkedDocs) && linkedDocs.length > 0) {
+          console.log(`[BenefitsAnalysisPage] Found linked documents in field "${linkField}":`, linkedDocs);
+          // TODO: Could fetch document records and find one with type "Benefit Budget Report"
+          // For now, we'll rely on the direct URL field
+        }
       }
     }
 
