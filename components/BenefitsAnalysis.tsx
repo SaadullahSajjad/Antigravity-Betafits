@@ -7,9 +7,10 @@ interface Props {
   demographics: DemographicInsights | null;
   kpis: FinancialKPIs | null;
   breakdown: BudgetBreakdown[];
+  reportUrl?: string;
 }
 
-const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) => {
+const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown, reportUrl }) => {
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
@@ -52,7 +53,21 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown }) =>
             <div className="text-[14px] font-bold text-gray-900 leading-tight">Benefit Budget Report</div>
             <div className="text-[12px] text-gray-400 font-medium">E$1,000 — (AA) • PDF</div>
           </div>
-          <button className="ml-4 bg-brand-500 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-brand-600 transition-colors shadow-sm shadow-brand-100">
+          <button 
+            onClick={() => {
+              if (reportUrl) {
+                window.open(reportUrl, '_blank', 'noopener,noreferrer');
+              } else {
+                console.warn('[BenefitsAnalysis] No report URL available');
+              }
+            }}
+            disabled={!reportUrl}
+            className={`ml-4 px-5 py-2 rounded-md text-sm font-bold transition-colors shadow-sm ${
+              reportUrl 
+                ? 'bg-brand-500 text-white hover:bg-brand-600 shadow-brand-100 cursor-pointer' 
+                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+            }`}
+          >
             View Report
           </button>
         </div>

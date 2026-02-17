@@ -11,17 +11,17 @@ export const dynamic = 'force-dynamic';
 export default async function BenefitsAnalysisPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
-    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} />;
+    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
   }
 
   const companyId = await getCompanyId();
   if (!companyId) {
-    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} />;
+    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
   }
 
   const token = process.env.AIRTABLE_API_KEY;
   if (!token) {
-    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} />;
+    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
   }
 
   try {
@@ -31,7 +31,7 @@ export default async function BenefitsAnalysisPage() {
     });
 
     if (!record) {
-      return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} />;
+      return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
     }
 
     const fields = record.fields;
@@ -78,9 +78,29 @@ export default async function BenefitsAnalysisPage() {
     
     // TODO: If breakdown is in a separate table, fetch from there
 
-    return <BenefitsAnalysis demographics={demographics} kpis={kpis} breakdown={breakdown} />;
+    // Get the Benefit Budget Report URL from Airtable
+    // Try multiple field name variations
+    const reportUrlFieldVariations = [
+      'ROI Workbook URL',
+      'Benefit Budget Report URL',
+      'Report URL',
+      'Budget Report URL',
+      'Benefit Report URL',
+    ];
+    
+    let reportUrl: string | undefined;
+    for (const fieldName of reportUrlFieldVariations) {
+      const url = fields[fieldName];
+      if (url && typeof url === 'string' && url.trim() !== '') {
+        reportUrl = url.trim();
+        console.log(`[BenefitsAnalysisPage] Found report URL in field "${fieldName}": ${reportUrl}`);
+        break;
+      }
+    }
+
+    return <BenefitsAnalysis demographics={demographics} kpis={kpis} breakdown={breakdown} reportUrl={reportUrl} />;
   } catch (error) {
     console.error('[BenefitsAnalysisPage] Error:', error);
-    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} />;
+    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
   }
 }
