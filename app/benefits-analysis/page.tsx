@@ -3,7 +3,7 @@ import BenefitsAnalysis from '@/components/BenefitsAnalysis';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth/authOptions';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
-import { fetchAirtableRecords } from '@/lib/airtable/fetch';
+import { fetchAirtableRecordById } from '@/lib/airtable/fetch';
 import { DemographicInsights, FinancialKPIs, BudgetBreakdown } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -26,17 +26,14 @@ export default async function BenefitsAnalysisPage() {
 
   try {
     const tableId = 'tbliXJ7599ngxEriO'; // Intake - Group Data
-    const records = await fetchAirtableRecords(tableId, {
+    const record = await fetchAirtableRecordById(tableId, companyId, {
       apiKey: token,
-      filterByFormula: `{Record ID} = '${companyId}'`,
-      maxRecords: 1,
     });
 
-    if (!records || records.length === 0) {
+    if (!record) {
       return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} />;
     }
 
-    const record = records[0];
     const fields = record.fields;
 
     // Map demographics from Airtable fields
@@ -56,8 +53,30 @@ export default async function BenefitsAnalysisPage() {
       erCostPerEligible: parseFloat(String(fields['ER Cost per Eligible'] || '0')) || 0,
     };
 
-    // Map budget breakdown - this might come from a separate table or be calculated
-    const breakdown: BudgetBreakdown[] = [];
+    // Map budget breakdown - try to extract from Group Data or calculate from existing fields
+    let breakdown: BudgetBreakdown[] = [];
+    
+    if (record) {
+      const fields = record.fields;
+      
+      // Try to get budget breakdown from linked records or fields
+      const breakdownLinkFields = [
+        'Link to Budget Breakdown',
+        'Budget Breakdown',
+        'Breakdown',
+      ];
+      
+      for (const linkField of breakdownLinkFields) {
+        const linkedBreakdown = fields[linkField];
+        if (Array.isArray(linkedBreakdown) && linkedBreakdown.length > 0) {
+          // TODO: Need to know the budget breakdown table ID to fetch linked records
+          // For now, breakdown remains empty until table structure is confirmed
+          break;
+        }
+      }
+    }
+    
+    // TODO: If breakdown is in a separate table, fetch from there
 
     return <BenefitsAnalysis demographics={demographics} kpis={kpis} breakdown={breakdown} />;
   } catch (error) {

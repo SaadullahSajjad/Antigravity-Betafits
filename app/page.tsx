@@ -2,7 +2,6 @@ import React from 'react';
 import AssignedForms from '@/components/AssignedForms';
 import AvailableForms from '@/components/AvailableForms';
 import DocumentsSection from '@/components/DocumentsSection';
-import DocumentUpload from '@/components/DocumentUpload';
 import ProgressSteps from '@/components/ProgressSteps';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { DocumentArtifact, AssignedForm, AvailableForm, DocumentStatus, FormStatus, ProgressStep, ProgressStatus } from '@/types';
@@ -443,12 +442,27 @@ export default async function HomePage() {
             console.log(`[Dashboard] Fetched ${allProgressSteps?.length || 0} total progress steps from Airtable`);
             
             if (allProgressSteps && allProgressSteps.length > 0) {
-                // Filter by company ID in code
+                // Filter by company ID - Progress Steps have "Link to Intake - Group Data" field
                 const companyProgressSteps = allProgressSteps.filter((record: any) => {
-                    const linkField = record.fields['Link to Intake - Group Data'];
-                    
-                    if (!linkField) {
+                    // Check visibility first
+                    const visibility = String(record.fields['Visibility - Progress Steps'] || '').toLowerCase();
+                    if (visibility === 'hide') {
                         return false;
+                    }
+                    
+                    // Filter by company link - try multiple field name variations
+                    const linkField = record.fields['Link to Intake - Group Data'] || 
+                                     record.fields['Link to Intake Group Data'] ||
+                                     record.fields['Link to Group Data'] ||
+                                     record.fields['Company'] ||
+                                     record.fields['Link to Company'] ||
+                                     record.fields['Group Data'];
+                    
+                    // If no link field exists, include it (might be a global step)
+                    // But if link field exists, it must match the company
+                    if (!linkField) {
+                        // No company link - might be a template/global step, include it
+                        return true;
                     }
                     
                     // Handle array of linked record IDs
@@ -465,7 +479,7 @@ export default async function HomePage() {
                     return String(linkField).trim() === String(companyId).trim();
                 });
                 
-                console.log(`[Dashboard] Filtered to ${companyProgressSteps.length} progress steps for company ${companyId}`);
+                console.log(`[Dashboard] Filtered to ${companyProgressSteps.length} progress steps for company ${companyId} (from ${allProgressSteps.length} total)`);
                 
                 // Map Airtable records to ProgressStep interface
                 progressSteps = companyProgressSteps.map((record: any) => {
@@ -475,7 +489,8 @@ export default async function HomePage() {
                     
                     switch (airtableStatus) {
                         case 'completed':
-                            mappedStatus = ProgressStatus.APPROVED;
+                        case 'approved':
+                            mappedStatus = ProgressStatus.APPROVED; // Will display as "Completed"
                             break;
                         case 'in review':
                         case 'in_review':
@@ -487,11 +502,11 @@ export default async function HomePage() {
                         case 'not started':
                         case 'not_started':
                         case 'missing':
-                            mappedStatus = ProgressStatus.MISSING;
+                            mappedStatus = ProgressStatus.MISSING; // Will display as "Not Started"
                             break;
                         case 'not requested':
                         case 'not_requested':
-                            mappedStatus = ProgressStatus.NOT_REQUESTED;
+                            mappedStatus = ProgressStatus.NOT_REQUESTED; // Will display as "Not Requested"
                             break;
                         case 'in progress':
                         case 'in_progress':
@@ -500,18 +515,29 @@ export default async function HomePage() {
                             break;
                     }
                     
-                    // Get category from "Description for Prospect (from Progress Steps/Automation Templates)" or "Category" field
-                    const category = String(
-                        record.fields['Category'] || 
-                        record.fields['Description for Prospect (from Progress Steps/Automation Templates)'] ||
-                        'General'
-                    );
+                    // Get category - handle array or string
+                    let category = 'General';
+                    const categoryField = record.fields['Category'];
+                    if (Array.isArray(categoryField) && categoryField.length > 0) {
+                        category = String(categoryField[0]);
+                    } else if (categoryField) {
+                        category = String(categoryField);
+                    }
                     
-                    // Get notes from "Notes" field
-                    const notes = String(record.fields['Notes'] || '');
+                    // Get notes from "Description for Prospect" or "Notes" field
+                    const descriptionField = record.fields['Description for Prospect (from Progress Steps/Automation Templates)'];
+                    let notes = '';
+                    if (Array.isArray(descriptionField) && descriptionField.length > 0) {
+                        notes = String(descriptionField[0]);
+                    } else if (descriptionField) {
+                        notes = String(descriptionField);
+                    } else {
+                        notes = String(record.fields['Notes'] || '');
+                    }
                     
-                    // Get last updated date
-                    const lastUpdated = record.fields['Last Updated'] || 
+                    // Get last updated date - use "Status Last Updated" field
+                    const lastUpdated = record.fields['Status Last Updated'] || 
+                                       record.fields['Last Updated'] || 
                                        record.fields['Last Modified'] || 
                                        record.lastModifiedTime ||
                                        record.createdTime;
@@ -521,9 +547,14 @@ export default async function HomePage() {
                         year: 'numeric' 
                     }) : undefined;
 
+                    // Get name and clean leading dashes/spaces
+                    let name = String(record.fields['Step Name'] || record.fields['Name'] || 'Untitled Step');
+                    // Remove leading dashes, spaces, and trim
+                    name = name.replace(/^[-\s]+/, '').trim();
+
                     return {
                         id: record.id,
-                        name: String(record.fields['Name'] || 'Untitled Step'),
+                        name: name,
                         category: category,
                         status: mappedStatus,
                         notes: notes || undefined,
@@ -553,12 +584,9 @@ export default async function HomePage() {
                     <AssignedForms forms={assignedForms} />
                 </div>
                 <div className="lg:col-span-4">
-                    <div className="mb-6 flex justify-between items-start">
-                        <div>
-                            <h2 className="text-2xl font-bold text-[#1c240f] tracking-tight">Your Documents</h2>
-                            <p className="text-[13px] text-gray-500 mt-0.5">Recently uploaded files and artifacts.</p>
-                        </div>
-                        <DocumentUpload />
+                    <div className="mb-6">
+                        <h2 className="text-2xl font-bold text-[#1c240f] tracking-tight">Your Documents</h2>
+                        <p className="text-[13px] text-gray-500 mt-0.5">Recently uploaded files and artifacts.</p>
                     </div>
                     <DocumentsSection documents={documents} />
                 </div>
@@ -574,11 +602,9 @@ export default async function HomePage() {
             </section>
 
             {/* Row 3: Available Forms (Full Width) */}
-            {availableForms.length > 0 && (
-                <section className="w-full">
-                    <AvailableForms forms={availableForms} />
-                </section>
-            )}
+            <section className="w-full">
+                <AvailableForms forms={availableForms} />
+            </section>
         </div>
     );
 }

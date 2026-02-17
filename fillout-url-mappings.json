@@ -1,0 +1,89 @@
+{
+  "generatedAt": "2026-02-08T12:16:42.593Z",
+  "totalMappings": 4,
+  "uniqueTemplates": 4,
+  "mappings": [
+    {
+      "fieldName": "Forms - Intake - Group Data - Update PEO/HR",
+      "fieldKey": "",
+      "filloutUrl": "https://betafits.fillout.com/t/gn6WNJPJKTus",
+      "templateId": "gn6WNJPJKTus",
+      "tableName": "",
+      "tableId": "",
+      "description": "\"\"formula\"\":\"\"\\\"\"https://betafits.fillout.com/t/gn6WNJPJKTus?id=\\\"\" & RECORD_ID()\"\""
+    },
+    {
+      "fieldName": "Forms - Intake - Group Data - Update Quickstart (w/ current benefits)",
+      "fieldKey": "",
+      "filloutUrl": "https://betafits.fillout.com/t/rZhiEaUEskus",
+      "templateId": "rZhiEaUEskus",
+      "tableName": "",
+      "tableId": "",
+      "description": "\"\"formula\"\":\"\"\\\"\"https://betafits.fillout.com/t/rZhiEaUEskus?id=\\\"\" & RECORD_ID()\"\""
+    },
+    {
+      "fieldName": "Forms - Intake - Group Data - Update Quick Start (Current Benefits) (Multi Page)",
+      "fieldKey": "",
+      "filloutUrl": "https://betafits.fillout.com/t/eBxXtLZdK4us",
+      "templateId": "eBxXtLZdK4us",
+      "tableName": "",
+      "tableId": "",
+      "description": "\"\"formula\"\":\"\"\\\"\"https://betafits.fillout.com/t/eBxXtLZdK4us?id=\\\"\" & RECORD_ID()\"\""
+    },
+    {
+      "fieldName": "Forms - Intake - Other Forms - Update Broker Role",
+      "fieldKey": "to_be_decided",
+      "filloutUrl": "https://betafits.fillout.com/t/urHF8xDu7eus",
+      "templateId": "urHF8xDu7eus",
+      "tableName": "",
+      "tableId": "9/15/2025 12:50pm",
+      "description": "\"\"formula\"\":\"\"\\\"\"https://betafits.fillout.com/t/urHF8xDu7eus?id=\\\"\" & RECORD_ID()\"\""
+    }
+  ],
+  "byTemplate": {
+    "gn6WNJPJKTus": [
+      {
+        "fieldName": "Forms - Intake - Group Data - Update PEO/HR",
+        "fieldKey": "",
+        "filloutUrl": "https://betafits.fillout.com/t/gn6WNJPJKTus",
+        "templateId": "gn6WNJPJKTus",
+        "tableName": "",
+        "tableId": "",
+        "description": "\"\"formula\"\":\"\"\\\"\"https://betafits.fillout.com/t/gn6WNJPJKTus?id=\\\"\" & RECORD_ID()\"\""
+      }
+    ],
+    "rZhiEaUEskus": [
+      {
+        "fieldName": "Forms - Intake - Group Data - Update Quickstart (w/ current benefits)",
+        "fieldKey": "",
+        "filloutUrl": "https://betafits.fillout.com/t/rZhiEaUEskus",
+        "templateId": "rZhiEaUEskus",
+        "tableName": "",
+        "tableId": "",
+        "description": "\"\"formula\"\":\"\"\\\"\"https://betafits.fillout.com/t/rZhiEaUEskus?id=\\\"\" & RECORD_ID()\"\""
+      }
+    ],
+    "eBxXtLZdK4us": [
+      {
+        "fieldName": "Forms - Intake - Group Data - Update Quick Start (Current Benefits) (Multi Page)",
+        "fieldKey": "",
+        "filloutUrl": "https://betafits.fillout.com/t/eBxXtLZdK4us",
+        "templateId": "eBxXtLZdK4us",
+        "tableName": "",
+        "tableId": "",
+        "description": "\"\"formula\"\":\"\"\\\"\"https://betafits.fillout.com/t/eBxXtLZdK4us?id=\\\"\" & RECORD_ID()\"\""
+      }
+    ],
+    "urHF8xDu7eus": [
+      {
+        "fieldName": "Forms - Intake - Other Forms - Update Broker Role",
+        "fieldKey": "to_be_decided",
+        "filloutUrl": "https://betafits.fillout.com/t/urHF8xDu7eus",
+        "templateId": "urHF8xDu7eus",
+        "tableName": "",
+        "tableId": "9/15/2025 12:50pm",
+        "description": "\"\"formula\"\":\"\"\\\"\"https://betafits.fillout.com/t/urHF8xDu7eus?id=\\\"\" & RECORD_ID()\"\""
+      }
+    ]
+  }
+}

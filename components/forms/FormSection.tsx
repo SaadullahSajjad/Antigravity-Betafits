@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { FormSectionData, FormValues } from '@/types/form';
 
 interface Props {
@@ -11,14 +11,43 @@ interface Props {
 }
 
 const FormSection: React.FC<Props> = ({ section, values, errors, onChange }) => {
-    return (
-        <div className="mb-8">
-            <h3 className="text-lg font-bold text-gray-900 mb-2">{section.title}</h3>
-            {section.description && (
-                <p className="text-sm text-gray-500 mb-4">{section.description}</p>
-            )}
+    const [isCollapsed, setIsCollapsed] = useState(section.defaultCollapsed ?? false);
 
-            <div className="space-y-5">
+    return (
+        <div className="mb-8 bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+            <div className="flex items-center justify-between mb-4">
+                <div>
+                    <h3 className="text-lg font-bold text-gray-900">{section.title}</h3>
+                    {section.description && (
+                        <p className="text-sm text-gray-500 mt-1">{section.description}</p>
+                    )}
+                </div>
+                {section.isCollapsible && (
+                    <button
+                        type="button"
+                        onClick={() => setIsCollapsed(!isCollapsed)}
+                        className="text-gray-500 hover:text-gray-700 transition-colors p-1"
+                        aria-label={isCollapsed ? 'Expand section' : 'Collapse section'}
+                    >
+                        <svg
+                            className={`w-5 h-5 transition-transform duration-200 ${isCollapsed ? '' : 'rotate-180'}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 9l-7 7-7-7"
+                            />
+                        </svg>
+                    </button>
+                )}
+            </div>
+
+            {!isCollapsed && (
+                <div className="space-y-5">
                 {section.questions.map((question) => (
                     <div key={question.id} className="flex flex-col">
                         <label htmlFor={question.id} className="text-[13px] font-semibold text-gray-700 mb-1.5 ml-0.5">
@@ -286,7 +315,8 @@ const FormSection: React.FC<Props> = ({ section, values, errors, onChange }) => 
                         )}
                     </div>
                 ))}
-            </div>
+                </div>
+            )}
         </div>
     );
 };

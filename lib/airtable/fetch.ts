@@ -80,3 +80,56 @@ export async function fetchAirtableRecords(
 
     return allRecords;
 }
+
+/**
+ * Fetch a single Airtable record by its record ID
+ * This is more efficient than using filterByFormula with RECORD_ID()
+ */
+export async function fetchAirtableRecordById(
+    tableId: string,
+    recordId: string,
+    options: {
+        apiKey?: string;
+    } = {}
+): Promise<AirtableRecord | null> {
+    const rawToken = options.apiKey || process.env.AIRTABLE_API_KEY;
+    const token = rawToken?.trim();
+
+    if (!token) {
+        console.warn('Missing AIRTABLE_API_KEY, fetchAirtableRecordById returning null');
+        return null;
+    }
+
+    if (!recordId) {
+        return null;
+    }
+
+    const url = `https://api.airtable.com/v0/${baseId}/${tableId}/${recordId}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (!response.ok) {
+            if (response.status === 404) {
+                // Record not found
+                return null;
+            }
+            const errorText = await response.text();
+            throw new Error(
+                `Airtable API error: ${response.status} ${response.statusText} - ${errorText}`
+            );
+        }
+
+        const data: AirtableRecord = await response.json();
+        return data;
+    } catch (error) {
+        console.error('[fetchAirtableRecordById] Error:', error);
+        return null;
+    }
+}

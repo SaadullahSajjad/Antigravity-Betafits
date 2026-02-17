@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { FeedbackStats, FeedbackResponse } from '@/types';
 
 interface Props {
@@ -29,7 +30,11 @@ const StarRating: React.FC<{ rating: number; size?: string }> = ({ rating, size 
 
 const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
   const [copied, setCopied] = useState(false);
-  const surveyUrl = "https://betafits.fillout.com/t/eQ7FVU76PDus";
+  // Use internal React form route instead of Fillout URL
+  const surveyFormRoute = '/forms/eq7fvu76pdus';
+  const surveyUrl = typeof window !== 'undefined' 
+    ? `${window.location.origin}${surveyFormRoute}`
+    : surveyFormRoute;
 
   const handleCopy = () => {
     navigator.clipboard.writeText(surveyUrl);
@@ -102,15 +107,13 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                   {copied ? 'Copied!' : 'Copy Link'}
                   {!copied && <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>}
                 </button>
-                <a 
-                  href={surveyUrl} 
-                  target="_blank" 
-                  rel="noreferrer"
+                <Link 
+                  href={surveyFormRoute}
                   className="py-3.5 border border-gray-200 rounded-md font-bold text-sm text-gray-700 hover:bg-gray-50 transition-all flex items-center justify-center gap-2"
                 >
                   Open Form
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

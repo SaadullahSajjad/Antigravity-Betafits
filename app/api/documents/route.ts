@@ -15,13 +15,32 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        // Filter documents by company ID
-        const records = await fetchAirtableRecords(tableId, {
+        // Fetch all documents and filter in code (more reliable than filterByFormula for linked records)
+        // Field: "Link to Intake - Group Data" (WITH hyphen)
+        const allRecords = await fetchAirtableRecords(tableId, {
             apiKey: process.env.AIRTABLE_API_KEY,
-            filterByFormula: `{Company} = '${companyId}'`,
-            sort: [{ field: 'Name', direction: 'desc' }],
-            maxRecords: 20,
+            maxRecords: 100,
         });
+
+        // Filter by company ID in code (more reliable than ARRAYJOIN)
+        const records = allRecords?.filter((record) => {
+            const linkField = record.fields['Link to Intake - Group Data'];
+            
+            if (!linkField) {
+                return false;
+            }
+            
+            // Handle array of linked record IDs
+            if (Array.isArray(linkField) && linkField.length > 0) {
+                return linkField.some((id: string) => String(id).trim() === String(companyId).trim());
+            }
+            
+            // Handle single linked record ID
+            return String(linkField).trim() === String(companyId).trim();
+        }) || [];
+
+        // Sort by most recent (by record ID descending - newer records first)
+        records.sort((a, b) => b.id.localeCompare(a.id));
 
         if (!records || records.length === 0) {
             return NextResponse.json([]);

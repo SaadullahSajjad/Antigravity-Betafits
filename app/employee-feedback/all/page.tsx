@@ -15,12 +15,28 @@ export default async function EmployeeFeedbackAllPage() {
 
     if (apiKey && companyId) {
         try {
-            // Fetch all Pulse Survey records (no limit, sorted by newest first)
-            const records = await fetchAirtableRecords('tbl28XVUekjvl2Ujn', {
+            // Fetch all Pulse Survey records and filter in code (ARRAYJOIN doesn't work reliably)
+            const allRecords = await fetchAirtableRecords('tbl28XVUekjvl2Ujn', {
                 apiKey,
-                filterByFormula: `FIND('${companyId}', ARRAYJOIN({Link to Intake - Group Data})) > 0`,
                 maxRecords: 1000, // Fetch up to 1000 records
             });
+
+            // Filter by company ID in code (more reliable than ARRAYJOIN)
+            const records = allRecords?.filter((record) => {
+                const linkField = record.fields['Link to Intake - Group Data'];
+                
+                if (!linkField) {
+                    return false;
+                }
+                
+                // Handle array of linked record IDs
+                if (Array.isArray(linkField) && linkField.length > 0) {
+                    return linkField.some((id: string) => String(id).trim() === String(companyId).trim());
+                }
+                
+                // Handle single linked record ID
+                return String(linkField).trim() === String(companyId).trim();
+            }) || [];
 
             if (records && records.length > 0) {
                 // Sort by createdTime (newest first) since we can't sort by it in the API

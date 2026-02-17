@@ -39,11 +39,10 @@ function AccessPageContent() {
                     setError(errorMessage);
                     setLoading(false);
                 } else if (result?.ok) {
-                    console.log("[Access Page] Authentication successful, redirecting...");
-                    // Check if user needs to change password
-                    // This will be handled by middleware or redirect logic
-                    router.push("/");
-                    router.refresh();
+                    console.log("[Access Page] Authentication successful, redirecting to dashboard...");
+                    // Use window.location for a hard redirect to ensure session is properly set
+                    // This ensures the middleware can properly read the session
+                    window.location.href = "/";
                 } else {
                     // No result - this shouldn't happen but handle it
                     setError("Authentication failed. Please try again.");

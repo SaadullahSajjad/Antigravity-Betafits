@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth/authOptions';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
-import { fetchAirtableRecords } from '@/lib/airtable/fetch';
+import { fetchAirtableRecordById } from '@/lib/airtable/fetch';
 import { CompanyData } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -26,17 +26,14 @@ export async function GET(request: NextRequest) {
 
     // Fetch company data from Intake - Group Data table
     const tableId = 'tbliXJ7599ngxEriO'; // Intake - Group Data
-    const records = await fetchAirtableRecords(tableId, {
+    const record = await fetchAirtableRecordById(tableId, companyId, {
       apiKey: token,
-      filterByFormula: `{Record ID} = '${companyId}'`,
-      maxRecords: 1,
     });
 
-    if (!records || records.length === 0) {
+    if (!record) {
       return NextResponse.json({ data: null }, { status: 200 });
     }
 
-    const record = records[0];
     const fields = record.fields;
 
     // Map Airtable fields to CompanyData interface

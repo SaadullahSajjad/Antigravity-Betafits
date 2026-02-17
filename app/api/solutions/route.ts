@@ -18,10 +18,35 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Airtable API key not configured' }, { status: 500 });
     }
 
-    // Fetch solutions from Airtable (if table exists)
-    // For now, return empty arrays - can be populated when solutions table is available
-    const solutions: Solution[] = [];
+    // Fetch solutions from Airtable
+    const tableId = 'tblyp74Xh14940523'; // Solutions / Ecosystem table
+    const records = await fetchAirtableRecords(tableId, {
+      apiKey: token,
+      maxRecords: 100,
+    });
+
+    let solutions: Solution[] = [];
     const categories: string[] = ['All Solutions'];
+
+    if (records && records.length > 0) {
+      solutions = records.map(record => {
+        const fields = record.fields;
+        return {
+          id: record.id,
+          name: String(fields['Name'] || fields['Solution Name'] || ''),
+          category: String(fields['Category'] || 'Other'),
+          color: String(fields['Color'] || '#97C25E'),
+          description: String(fields['Description'] || ''),
+          features: Array.isArray(fields['Features']) ? fields['Features'].map((f: any) => String(f)) : [],
+          websiteUrl: String(fields['Website URL'] || fields['URL'] || ''),
+          integrationType: String(fields['Integration Type'] || ''),
+        };
+      });
+
+      // Extract unique categories
+      const uniqueCategories = new Set(solutions.map(s => s.category));
+      categories.push(...Array.from(uniqueCategories));
+    }
 
     return NextResponse.json({
       solutions,

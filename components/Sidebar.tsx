@@ -94,7 +94,9 @@ const Sidebar: React.FC = () => {
           {!isCollapsed && (
             <div className="flex flex-col min-w-0">
               <span className="text-[11px] font-semibold text-gray-900 truncate tracking-tight">
-                {session?.user?.name || 'User'}
+                {session?.user?.name || 
+                 session?.user?.email?.split('@')[0] || 
+                 'User'}
               </span>
               <span className="text-[10px] text-gray-400 font-medium truncate">
                 {session?.user?.email || ''}

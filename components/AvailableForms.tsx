@@ -8,13 +8,17 @@ interface Props {
   forms: AvailableForm[];
 }
 
-const FormCard: React.FC<{ form: AvailableForm; onStart?: (form: AvailableForm) => void }> = ({ form, onStart }) => {
+const FormCard: React.FC<{ 
+  form: AvailableForm; 
+  onStart?: (form: AvailableForm) => void;
+  isAssigning?: boolean;
+}> = ({ form, onStart, isAssigning = false }) => {
   const router = useRouter();
 
   const handleOpen = () => {
-    if (onStart) {
+    if (onStart && !isAssigning) {
       onStart(form);
-    } else {
+    } else if (!onStart) {
       // Try to navigate to form if route exists
       const formRoute = `/forms/${form.id.toLowerCase()}`;
       router.push(formRoute);
@@ -36,9 +40,12 @@ const FormCard: React.FC<{ form: AvailableForm; onStart?: (form: AvailableForm) 
       <div className="flex-shrink-0 text-right">
         <button 
           onClick={handleOpen}
-          className="px-5 py-1.5 border border-brand-500 rounded-md text-[11px] font-semibold text-brand-500 hover:bg-brand-50 transition-all active:scale-95 uppercase tracking-wide"
+          disabled={isAssigning}
+          className={`px-5 py-1.5 border border-brand-500 rounded-md text-[11px] font-semibold text-brand-500 hover:bg-brand-50 transition-all active:scale-95 uppercase tracking-wide ${
+            isAssigning ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
         >
-          Open
+          {isAssigning ? 'Assigning...' : 'Open'}
         </button>
       </div>
     </div>
@@ -50,10 +57,12 @@ const AvailableForms: React.FC<Props> = ({ forms }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedForm, setSelectedForm] = useState<AvailableForm | null>(null);
   const [isAssigning, setIsAssigning] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleStartForm = async (form: AvailableForm) => {
     setSelectedForm(form);
     setIsAssigning(true);
+    setError(null);
 
     try {
       const response = await fetch('/api/forms/assign', {
@@ -62,17 +71,28 @@ const AvailableForms: React.FC<Props> = ({ forms }) => {
         body: JSON.stringify({ formId: form.id }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
+        // Success - refresh and redirect
         router.refresh();
         setTimeout(() => {
           window.location.href = '/';
         }, 300);
+      } else {
+        // Show error message
+        setError(data.error || 'Failed to assign form. Please try again.');
+        console.error('Error assigning form:', data);
       }
     } catch (error) {
       console.error('Error assigning form:', error);
+      setError('An error occurred while assigning the form. Please try again.');
     } finally {
       setIsAssigning(false);
-      setSelectedForm(null);
+      // Don't clear selectedForm immediately - keep it for error display
+      if (!error) {
+        setSelectedForm(null);
+      }
     }
   };
 
@@ -85,11 +105,49 @@ const AvailableForms: React.FC<Props> = ({ forms }) => {
           <h2 className="text-xl font-bold text-gray-900 tracking-tight">Available Forms</h2>
           <p className="text-sm text-gray-600 font-normal">Complete these forms to progress through your enrollment.</p>
         </div>
-        <div className="flex flex-col gap-3">
-          {visibleForms.map((form) => (
-            <FormCard key={form.id} form={form} onStart={handleStartForm} />
-          ))}
-        </div>
+
+        {/* Error Message */}
+        {error && (
+          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-300">
+            <div className="flex-shrink-0 mt-0.5">
+              <svg className="w-5 h-5 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-sm font-bold text-red-900 mb-1">Assignment Failed</h3>
+              <p className="text-sm text-red-700">{error}</p>
+            </div>
+            <button
+              onClick={() => {
+                setError(null);
+                setSelectedForm(null);
+              }}
+              className="flex-shrink-0 text-red-400 hover:text-red-600"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {forms.length === 0 ? (
+          <div className="bg-gray-50 border border-dashed border-gray-300 rounded-xl p-12 text-center">
+            <p className="text-gray-500 font-medium">No available forms at this time.</p>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {visibleForms.map((form) => (
+              <FormCard 
+                key={form.id} 
+                form={form} 
+                onStart={handleStartForm}
+                isAssigning={isAssigning && selectedForm?.id === form.id}
+              />
+            ))}
+          </div>
+        )}
         {forms.length > 5 && (
           <div className="mt-8 flex justify-center">
              <button 
@@ -117,7 +175,12 @@ const AvailableForms: React.FC<Props> = ({ forms }) => {
             </div>
             <div className="p-8 overflow-y-auto flex flex-col gap-3 bg-gray-50/30">
               {forms.map((form) => (
-                <FormCard key={form.id} form={form} onStart={handleStartForm} />
+                <FormCard 
+                  key={form.id} 
+                  form={form} 
+                  onStart={handleStartForm}
+                  isAssigning={isAssigning && selectedForm?.id === form.id}
+                />
               ))}
             </div>
             <div className="p-6 border-t border-gray-100 flex justify-end">

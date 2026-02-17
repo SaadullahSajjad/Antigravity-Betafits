@@ -97,24 +97,45 @@ export async function POST(request: NextRequest) {
         
         console.log(`[Send Magic Link API] Token generated: ${magicToken.substring(0, 10)}...`);
 
-        // Generate magic link URL - Always use production URL, never localhost
-        let baseUrl = process.env.PRODUCTION_URL;
+        // Generate magic link URL - Use local URL on local, production URL on production
+        // Priority:
+        // 1. Check request origin (for local development)
+        // 2. PRODUCTION_URL (for production)
+        // 3. NEXTAUTH_URL
+        // 4. Fallback to production URL
+        let baseUrl: string | undefined;
         
-        // If PRODUCTION_URL not set, try NEXTAUTH_URL (but skip if it's localhost)
-        if (!baseUrl) {
-            const nextAuthUrl = process.env.NEXTAUTH_URL;
-            if (nextAuthUrl && !nextAuthUrl.includes('localhost') && !nextAuthUrl.includes('127.0.0.1')) {
-                baseUrl = nextAuthUrl;
+        // Check if we're running locally by examining the request
+        const origin = request.headers.get('origin') || request.headers.get('host');
+        const isLocal = origin?.includes('localhost') || 
+                       origin?.includes('127.0.0.1') || 
+                       process.env.NODE_ENV === 'development';
+        
+        if (isLocal) {
+            // Use local URL
+            const host = request.headers.get('host') || 'localhost:3000';
+            baseUrl = `http://${host}`;
+            console.log(`[Send Magic Link API] Using local URL: ${baseUrl}`);
+        } else {
+            // Use production URL
+            baseUrl = process.env.PRODUCTION_URL;
+            
+            // If PRODUCTION_URL not set, try NEXTAUTH_URL
+            if (!baseUrl) {
+                baseUrl = process.env.NEXTAUTH_URL;
             }
-        }
-        
-        // Always use production URL, never localhost
-        if (!baseUrl || baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1')) {
-            baseUrl = "https://antigravity-betafits.vercel.app";
-        }
-        
-        if (baseUrl && !baseUrl.startsWith('http')) {
-            baseUrl = `https://${baseUrl}`;
+            
+            // Fallback to hardcoded production URL
+            if (!baseUrl) {
+                baseUrl = "https://antigravity-betafits.vercel.app";
+            }
+            
+            // Ensure baseUrl has protocol
+            if (baseUrl && !baseUrl.startsWith('http')) {
+                baseUrl = `https://${baseUrl}`;
+            }
+            
+            console.log(`[Send Magic Link API] Using production URL: ${baseUrl}`);
         }
         
         const magicLink = `${baseUrl}/access?token=${magicToken}`;
@@ -124,7 +145,8 @@ export async function POST(request: NextRequest) {
         const updateUrl = `https://api.airtable.com/v0/${baseId}/${usersTableId}/${userId}`;
         
         try {
-            await fetch(updateUrl, {
+            // Try to save all fields first
+            let updateResponse = await fetch(updateUrl, {
                 method: "PATCH",
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -138,7 +160,42 @@ export async function POST(request: NextRequest) {
                     },
                 }),
             });
-            console.log(`[Send Magic Link API] Token and magic link URL stored in Airtable for user: ${userId}`);
+            
+            if (!updateResponse.ok) {
+                const errorText = await updateResponse.text();
+                const errorJson = JSON.parse(errorText);
+                
+                // If error is about missing fields, try saving only Magic Link Url
+                if (errorJson.error?.type === "UNKNOWN_FIELD_NAME") {
+                    console.log("[Send Magic Link API] Some fields don't exist, trying to save only Magic Link Url...");
+                    
+                    // Fallback: save only Magic Link Url (which contains the token in the URL)
+                    updateResponse = await fetch(updateUrl, {
+                        method: "PATCH",
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            fields: {
+                                "Magic Link Url": magicLink,
+                            },
+                        }),
+                    });
+                    
+                    if (updateResponse.ok) {
+                        console.log(`[Send Magic Link API] ✓ Magic Link Url stored in Airtable for user: ${userId}`);
+                        console.log(`[Send Magic Link API] Token is embedded in URL: ${magicLink}`);
+                    } else {
+                        const fallbackError = await updateResponse.text();
+                        console.error(`[Send Magic Link API] Failed to store Magic Link Url:`, fallbackError);
+                    }
+                } else {
+                    console.error(`[Send Magic Link API] Failed to store token in Airtable:`, errorText);
+                }
+            } else {
+                console.log(`[Send Magic Link API] ✓ All fields stored in Airtable for user: ${userId}`);
+            }
         } catch (updateError: any) {
             console.error(`[Send Magic Link API] Failed to store token in Airtable:`, updateError);
             // Continue anyway - token is stored in memory

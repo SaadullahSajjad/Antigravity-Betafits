@@ -26,6 +26,8 @@ export interface FormSectionData {
     title: string;
     description?: string;
     questions: Question[];
+    isCollapsible?: boolean;
+    defaultCollapsed?: boolean;
 }
 
 export interface FormPageData {

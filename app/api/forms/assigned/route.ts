@@ -15,12 +15,29 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        // Filter forms by company ID using the correct field name
+        // Fetch all assigned forms and filter in code (ARRAYJOIN doesn't work reliably)
         // Field: "Link to Intake Group Data" (NO hyphen, as per debug_tables.txt)
-        const records = await fetchAirtableRecords(tableId, {
+        const allRecords = await fetchAirtableRecords(tableId, {
             apiKey: process.env.AIRTABLE_API_KEY,
-            filterByFormula: `FIND('${companyId}', ARRAYJOIN({Link to Intake Group Data})) > 0`,
+            maxRecords: 100,
         });
+
+        // Filter by company ID in code (more reliable than ARRAYJOIN)
+        const records = allRecords?.filter((record) => {
+            const linkField = record.fields['Link to Intake Group Data'];
+            
+            if (!linkField) {
+                return false;
+            }
+            
+            // Handle array of linked record IDs
+            if (Array.isArray(linkField) && linkField.length > 0) {
+                return linkField.some((id: string) => String(id).trim() === String(companyId).trim());
+            }
+            
+            // Handle single linked record ID
+            return String(linkField).trim() === String(companyId).trim();
+        }) || [];
 
         if (!records || records.length === 0) {
             return NextResponse.json([]);

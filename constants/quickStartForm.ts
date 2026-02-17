@@ -9,43 +9,72 @@ export const QUICK_START_FORM_DATA: FormDataDefinition = {
             name: 'Company Information',
             sections: [
                 {
-                    id: 'basic-details',
-                    title: 'Basic Details',
-                    description: 'Tell us a bit about your organization.',
+                    id: 'contact-info',
+                    title: 'Contact Information',
+                    questions: [
+                        {
+                            id: 'firstName',
+                            label: 'First Name',
+                            type: 'text',
+                            placeholder: 'Enter your first name',
+                            required: true,
+                            validation: [{ type: 'required', message: 'First Name is required' }]
+                        },
+                        {
+                            id: 'lastName',
+                            label: 'Last Name',
+                            type: 'text',
+                            placeholder: 'Enter your last name',
+                            required: true,
+                            validation: [{ type: 'required', message: 'Last Name is required' }]
+                        },
+                        {
+                            id: 'email',
+                            label: 'Email',
+                            type: 'email',
+                            placeholder: 'Enter your email address',
+                            required: true,
+                            validation: [
+                                { type: 'required', message: 'Email is required' },
+                                { type: 'pattern', value: '^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$', message: 'Please enter a valid email address' }
+                            ]
+                        },
+                        {
+                            id: 'phone',
+                            label: 'Phone',
+                            type: 'text',
+                            placeholder: 'Enter your phone number',
+                            required: true,
+                            validation: [{ type: 'required', message: 'Phone is required' }]
+                        }
+                    ]
+                },
+                {
+                    id: 'company-details',
+                    title: 'Company Details',
                     questions: [
                         {
                             id: 'companyName',
                             label: 'Company Name',
                             type: 'text',
-                            placeholder: 'Acme Corp',
+                            placeholder: 'Enter your company name',
                             required: true,
-                            validation: [{ type: 'required', message: 'Company name is required' }]
-                        },
-                        {
-                            id: 'industry',
-                            label: 'Industry',
-                            type: 'select',
-                            required: true,
-                            options: [
-                                { value: 'tech', label: 'Technology' },
-                                { value: 'healthcare', label: 'Healthcare' },
-                                { value: 'finance', label: 'Finance' },
-                                { value: 'retail', label: 'Retail' },
-                                { value: 'other', label: 'Other' }
-                            ]
+                            validation: [{ type: 'required', message: 'Company Name is required' }]
                         },
                         {
                             id: 'employeeCount',
                             label: 'Number of Employees',
                             type: 'number',
-                            required: true,
-                            validation: [{ type: 'min', value: 1, message: 'Must have at least 1 employee' }]
+                            placeholder: 'Enter number of employees',
+                            required: false
                         }
                     ]
                 },
                 {
                     id: 'location',
                     title: 'Primary Location',
+                    isCollapsible: true,
+                    defaultCollapsed: false,
                     questions: [
                         {
                             id: 'address',

@@ -3,7 +3,7 @@ import CompanyDetails from '@/components/CompanyDetails';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth/authOptions';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
-import { fetchAirtableRecords } from '@/lib/airtable/fetch';
+import { fetchAirtableRecordById } from '@/lib/airtable/fetch';
 import { CompanyData } from '@/types';
 
 export const dynamic = 'force-dynamic';
@@ -26,17 +26,14 @@ export default async function CompanyDetailsPage() {
 
   try {
     const tableId = 'tbliXJ7599ngxEriO'; // Intake - Group Data
-    const records = await fetchAirtableRecords(tableId, {
+    const record = await fetchAirtableRecordById(tableId, companyId, {
       apiKey: token,
-      filterByFormula: `{Record ID} = '${companyId}'`,
-      maxRecords: 1,
     });
 
-    if (!records || records.length === 0) {
+    if (!record) {
       return <CompanyDetails data={null} />;
     }
 
-    const record = records[0];
     const fields = record.fields;
 
     const companyData: CompanyData = {

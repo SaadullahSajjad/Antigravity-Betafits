@@ -24,11 +24,20 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
         }
     };
 
+    const getStatusLabel = (status: FormStatus) => {
+        switch (status) {
+            case FormStatus.IN_PROGRESS:
+                return 'Incomplete';
+            default:
+                return status;
+        }
+    };
+
     const getFormRoute = (formId: string, formName: string, description: string): string => {
         // Map all 17 forms by ID (most reliable)
         const formRouteMap: Record<string, string> = {
             // Fillout forms (4)
-            'eBxXtLZdK4us': '/forms/ebxxtlzdk4us',
+            'eBxXtLZdK4us': '/forms/quick-start', // Quick Start uses this route
             'rZhiEaUEskus': '/forms/rzhieaueskus',
             'gn6WNJPJKTus': '/forms/gn6wnjpjktus',
             'urHF8xDu7eus': '/forms/urhf8xdu7eus',
@@ -61,8 +70,11 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
         // Fallback: Map by form name (case-insensitive)
         const formNameLower = formName.toLowerCase();
         
-        // Quick Start forms
+        // Quick Start forms - prioritize by specific identifiers
         if (formNameLower.includes('quick start') && formNameLower.includes('multi-page')) {
+            return '/forms/ebxxtlzdk4us';
+        }
+        if (formNameLower.includes('quick start') && formNameLower.includes('current benefits')) {
             return '/forms/ebxxtlzdk4us';
         }
         if (formNameLower.includes('quick start') && formNameLower.includes('new benefits')) {
@@ -72,7 +84,8 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
             if (formNameLower.includes('update')) {
                 return '/forms/rzhieaueskus';
             }
-            return '/forms/recufwirusfarz9gg'; // Quick Start (alt)
+            // Default Quick Start should use the main form (eBxXtLZdK4us)
+            return '/forms/quick-start'; // This routes to /forms/quick-start which uses eBxXtLZdK4us
         }
         
         // PEO/HR form
@@ -176,20 +189,25 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
                     // Clean up form name - remove any unwanted suffixes, patterns, or email addresses
                     let displayName = form.name.trim();
                     
+                    // Remove leading dashes and spaces first
+                    displayName = displayName.replace(/^[-\s]+/, '');
+                    
                     // Remove "Assigned to:" prefix and email addresses
                     displayName = displayName.replace(/^Assigned to:\s*/i, '');
                     displayName = displayName.replace(/\bAssigned to:\s*/gi, '');
                     displayName = displayName.replace(/\b[\w\.-]+@[\w\.-]+\.\w+\b/g, '');
                     
-                    // Remove patterns like "(Original)", trailing dashes, or company name patterns
+                    // Remove patterns like "(Original)", trailing dashes
                     displayName = displayName.replace(/\s*\(Original\)\s*/gi, '');
-                    displayName = displayName.replace(/\s*-\s*$/, '');
-                    displayName = displayName.replace(/\s*\([^)]*\)\s*/g, ''); // Remove any text in parentheses
+                    displayName = displayName.replace(/\s*-\s*$/, ''); // Remove trailing dashes
+                    // Only remove specific unwanted patterns in parentheses, not all parentheses
+                    displayName = displayName.replace(/\s*\((Original|Copy|Duplicate)\)\s*/gi, '');
                     
                     // Remove common unwanted prefixes
                     displayName = displayName.replace(/^(Form|Survey|Intake):\s*/i, '');
                     
-                    displayName = displayName.trim();
+                    // Final cleanup - remove any remaining leading dashes or spaces
+                    displayName = displayName.replace(/^[-\s]+/, '').trim();
                     
                     // If name is empty after cleaning, use a fallback
                     if (!displayName || displayName.length === 0) {
@@ -206,23 +224,48 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
                                         </svg>
                                     </div>
                                     <span className={`text-[12px] font-semibold uppercase tracking-wider px-3 py-1 rounded-md border ${getStatusStyle(form.status)}`}>
-                                        {form.status}
+                                        {getStatusLabel(form.status)}
                                     </span>
                                 </div>
-                                <h3 className="text-[17px] font-bold text-gray-900 mb-2 leading-tight">{displayName || 'Untitled Form'}</h3>
-                                <p className="text-[14px] text-gray-500 mb-8 leading-relaxed font-medium">{form.description}</p>
+                                <h3 className="text-[17px] font-bold text-gray-900 mb-8 leading-tight">{displayName || 'Untitled Form'}</h3>
                             </div>
                             {isLink ? (
                                 formRoute.startsWith('http://') || formRoute.startsWith('https://') ? (
                                     <a href={formRoute} target="_blank" rel="noopener noreferrer" className="block">
-                                        <button className="w-full py-2.5 bg-brand-500 text-white rounded-md font-semibold text-[12px] hover:bg-brand-600 transition-all shadow-sm active:scale-[0.98]">
-                                            {form.status === FormStatus.NOT_STARTED ? 'Start Form' : 'Continue'}
+                                        <button 
+                                            className={`w-full py-2.5 rounded-md font-semibold text-[12px] transition-all shadow-sm active:scale-[0.98] ${
+                                                form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
+                                                    ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                                                    : 'bg-brand-500 text-white hover:bg-brand-600'
+                                            }`}
+                                            disabled={form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED}
+                                        >
+                                            {form.status === FormStatus.NOT_STARTED 
+                                                ? 'Start Form' 
+                                                : form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
+                                                    ? 'Already Submitted'
+                                                    : form.status === FormStatus.IN_PROGRESS
+                                                        ? 'Update'
+                                                        : 'Continue'}
                                         </button>
                                     </a>
                                 ) : (
                                     <Link href={formRoute} className="block">
-                                        <button className="w-full py-2.5 bg-brand-500 text-white rounded-md font-semibold text-[12px] hover:bg-brand-600 transition-all shadow-sm active:scale-[0.98]">
-                                            {form.status === FormStatus.NOT_STARTED ? 'Start Form' : 'Continue'}
+                                        <button 
+                                            className={`w-full py-2.5 rounded-md font-semibold text-[12px] transition-all shadow-sm active:scale-[0.98] ${
+                                                form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
+                                                    ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
+                                                    : 'bg-brand-500 text-white hover:bg-brand-600'
+                                            }`}
+                                            disabled={form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED}
+                                        >
+                                            {form.status === FormStatus.NOT_STARTED 
+                                                ? 'Start Form' 
+                                                : form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
+                                                    ? 'Already Submitted'
+                                                    : form.status === FormStatus.IN_PROGRESS
+                                                        ? 'Update'
+                                                        : 'Continue'}
                                         </button>
                                     </Link>
                                 )

@@ -417,6 +417,22 @@ export const authOptions: NextAuthOptions = {
                 (session.user as any).email = token.email;
                 (session.user as any).firstName = token.firstName;
                 (session.user as any).lastName = token.lastName;
+                // Combine firstName and lastName for the name field
+                const firstName = String(token.firstName || '');
+                const lastName = String(token.lastName || '');
+                let name = '';
+                if (firstName && lastName) {
+                    name = `${firstName} ${lastName}`.trim();
+                } else if (firstName) {
+                    name = firstName;
+                } else if (lastName) {
+                    name = lastName;
+                } else if (token.email) {
+                    name = token.email.split('@')[0];
+                } else {
+                    name = 'User';
+                }
+                session.user.name = name;
                 (session.user as any).companyId = token.companyId;
                 (session.user as any).role = token.role;
                 (session.user as any).portalMode = token.portalMode;

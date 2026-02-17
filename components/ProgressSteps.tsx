@@ -8,10 +8,22 @@ interface Props {
 const ProgressSteps: React.FC<Props> = ({ steps }) => {
   const getStatusStyle = (status: ProgressStatus) => {
     switch (status) {
-      case ProgressStatus.APPROVED: return 'bg-brand-50 text-brand-700 border-brand-100';
+      case ProgressStatus.APPROVED: return 'bg-blue-50 text-blue-700 border-blue-100'; // Completed - blue
       case ProgressStatus.IN_REVIEW: return 'bg-blue-50 text-blue-700 border-blue-100';
       case ProgressStatus.FLAGGED: return 'bg-red-50 text-red-700 border-red-100';
+      case ProgressStatus.MISSING: return 'bg-pink-50 text-pink-700 border-pink-100'; // Not Started - pink
+      case ProgressStatus.NOT_REQUESTED: return 'bg-orange-50 text-orange-700 border-orange-100'; // Not Requested - orange
       default: return 'bg-gray-50 text-gray-500 border-gray-200';
+    }
+  };
+  
+  // Map status enum to display text
+  const getStatusDisplay = (status: ProgressStatus): string => {
+    switch (status) {
+      case ProgressStatus.APPROVED: return 'Completed';
+      case ProgressStatus.MISSING: return 'Not Started';
+      case ProgressStatus.NOT_REQUESTED: return 'Not Requested';
+      default: return status;
     }
   };
 
@@ -40,7 +52,7 @@ const ProgressSteps: React.FC<Props> = ({ steps }) => {
                   </td>
                   <td className="px-8 py-5 whitespace-nowrap">
                     <span className={`px-3 py-1 rounded-lg text-[12px] font-bold border uppercase tracking-wide ${getStatusStyle(step.status)}`}>
-                      {step.status}
+                      {getStatusDisplay(step.status)}
                     </span>
                   </td>
                   <td className="px-8 py-5 whitespace-nowrap text-right text-[13px] text-gray-400 font-bold">
