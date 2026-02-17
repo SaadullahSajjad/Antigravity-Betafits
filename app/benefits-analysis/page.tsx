@@ -56,13 +56,7 @@ export default async function BenefitsAnalysisPage() {
     let kpiMetricsRecord = null;
     const { fetchAirtableRecords } = await import('@/lib/airtable/fetch');
     
-    // Try to find KPI Metrics table by fetching all records and filtering by company
-    // Common potential table IDs (we'll try to find the right one)
-    const potentialKpiTableIds = [
-      // Add known table IDs here if we find them
-    ];
-    
-    // Also try fetching via linked records from Group Data
+    // Try fetching via linked records from Group Data first
     const kpiMetricsLinkFields = [
       'Link to Intake - KPI Metrics',
       'Link to KPI Metrics',
@@ -74,12 +68,19 @@ export default async function BenefitsAnalysisPage() {
       const linkedKpi = fields[linkField];
       if (Array.isArray(linkedKpi) && linkedKpi.length > 0) {
         console.log(`[BenefitsAnalysisPage] Found linked KPI Metrics record ID: ${linkedKpi[0]} in field: ${linkField}`);
-        // If we have a linked record, we need the table ID to fetch it
-        // For now, log it so we can identify the table structure
+        // Try common KPI Metrics table IDs
+        const potentialKpiTableIds = [
+          'tbl...', // We'll need to identify the actual table ID
+        ];
+        // For now, we'll use Group Data fields and log what we find
       }
     }
 
-    // Use Group Data fields (we'll enhance this once we identify the KPI Metrics table)
+    // Also try to fetch all records from potential KPI Metrics tables and filter by company
+    // This is a fallback if the table exists but isn't linked
+    // We'll need the actual table ID to do this
+
+    // Use Group Data fields for now - the logging will help us identify the correct source
     const sourceFields = fields;
 
     // Map demographics from Airtable fields - try multiple field name variations
