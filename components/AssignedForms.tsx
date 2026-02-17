@@ -197,6 +197,25 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
                     displayName = displayName.replace(/\bAssigned to:\s*/gi, '');
                     displayName = displayName.replace(/\b[\w\.-]+@[\w\.-]+\.\w+\b/g, '');
                     
+                    // Remove company name prefixes (e.g., "Endue - Quick Start" -> "Quick Start")
+                    // Pattern: "CompanyName - FormName" or "CompanyName: FormName"
+                    // If name contains " - " (with spaces), split and take the part after the dash
+                    if (displayName.includes(' - ')) {
+                        const parts = displayName.split(' - ');
+                        if (parts.length > 1) {
+                            // Take the last part (the form name)
+                            displayName = parts[parts.length - 1].trim();
+                        }
+                    }
+                    // Also handle colon pattern: "CompanyName: FormName"
+                    if (displayName.includes(': ')) {
+                        const parts = displayName.split(': ');
+                        if (parts.length > 1) {
+                            // Take the last part (the form name)
+                            displayName = parts[parts.length - 1].trim();
+                        }
+                    }
+                    
                     // Remove patterns like "(Original)", trailing dashes
                     displayName = displayName.replace(/\s*\(Original\)\s*/gi, '');
                     displayName = displayName.replace(/\s*-\s*$/, ''); // Remove trailing dashes
