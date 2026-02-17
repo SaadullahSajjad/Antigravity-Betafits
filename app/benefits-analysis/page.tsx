@@ -25,73 +25,167 @@ export default async function BenefitsAnalysisPage() {
   }
 
   try {
-    const tableId = 'tbliXJ7599ngxEriO'; // Intake - Group Data
-    const record = await fetchAirtableRecordById(tableId, companyId, {
+    const { fetchAirtableRecords, fetchAirtableRecordById } = await import('@/lib/airtable/fetch');
+    
+    // First, try to get Group Data record to check for linked KPI Metrics
+    const groupDataTableId = 'tbliXJ7599ngxEriO'; // Intake - Group Data
+    const groupDataRecord = await fetchAirtableRecordById(groupDataTableId, companyId, {
       apiKey: token,
     });
 
-    if (!record) {
-      return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
-    }
+    let sourceFields: Record<string, any> = {};
+    let kpiMetricsRecord: any = null;
 
-    const fields = record.fields;
-
-    // Log all available fields for debugging
-    console.log('[BenefitsAnalysisPage] Available fields in Group Data:', Object.keys(fields));
-    console.log('[BenefitsAnalysisPage] Sample field values:', {
-      'Eligible Employees': fields['Eligible Employees'],
-      'Total Employees': fields['Total Employees'],
-      'Average Salary': fields['Average Salary'],
-      'Average Age': fields['Average Age'],
-      'Male Percentage': fields['Male Percentage'],
-      'Female Percentage': fields['Female Percentage'],
-      'Total Monthly Cost': fields['Total Monthly Cost'],
-      'Total Employer Contribution': fields['Total Employer Contribution'],
-      'Total Employee Contribution': fields['Total Employee Contribution'],
-      'ER Cost per Eligible': fields['ER Cost per Eligible'],
-    });
-
-    // Try to fetch from KPI Metrics table if it exists as a separate table
-    // Based on Softr config, data might be in "Intake - KPI Metrics" table
-    let kpiMetricsRecord = null;
-    const { fetchAirtableRecords } = await import('@/lib/airtable/fetch');
-    
-    // Try fetching via linked records from Group Data first
-    const kpiMetricsLinkFields = [
-      'Link to Intake - KPI Metrics',
-      'Link to KPI Metrics',
-      'KPI Metrics',
-      'Link to Intake KPI Metrics',
-    ];
-    
-    for (const linkField of kpiMetricsLinkFields) {
-      const linkedKpi = fields[linkField];
-      if (Array.isArray(linkedKpi) && linkedKpi.length > 0) {
-        console.log(`[BenefitsAnalysisPage] Found linked KPI Metrics record ID: ${linkedKpi[0]} in field: ${linkField}`);
-        // Try common KPI Metrics table IDs
-        const potentialKpiTableIds = [
-          'tbl...', // We'll need to identify the actual table ID
-        ];
-        // For now, we'll use Group Data fields and log what we find
+    // Try to fetch from KPI Metrics table - primary source based on Softr config
+    // First, try via linked records from Group Data
+    let kpiMetricsRecordId: string | null = null;
+    if (groupDataRecord) {
+      const fields = groupDataRecord.fields;
+      console.log('[BenefitsAnalysisPage] Available fields in Group Data:', Object.keys(fields));
+      
+      const kpiMetricsLinkFields = [
+        'Link to Intake - KPI Metrics',
+        'Link to KPI Metrics',
+        'KPI Metrics',
+        'Link to Intake KPI Metrics',
+      ];
+      
+      for (const linkField of kpiMetricsLinkFields) {
+        const linkedKpi = fields[linkField];
+        if (Array.isArray(linkedKpi) && linkedKpi.length > 0) {
+          kpiMetricsRecordId = linkedKpi[0];
+          console.log(`[BenefitsAnalysisPage] Found linked KPI Metrics record ID: ${kpiMetricsRecordId} in field: ${linkField}`);
+          break;
+        }
       }
     }
 
-    // Also try to fetch all records from potential KPI Metrics tables and filter by company
-    // This is a fallback if the table exists but isn't linked
-    // We'll need the actual table ID to do this
+    // Try to fetch KPI Metrics record - we need the table ID
+    // Common potential table IDs for KPI Metrics (we'll try them)
+    // Since we don't have the exact ID, let's try fetching all records from potential tables
+    // and filter by company ID or record ID
+    
+    // Try fetching all records from potential KPI Metrics tables and filter by company
+    // We'll try a few common table ID patterns or fetch and filter
+    const potentialKpiTableIds = [
+      // We'll need to identify this - for now try fetching and see what we get
+    ];
 
-    // Use Group Data fields for now - the logging will help us identify the correct source
-    const sourceFields = fields;
+    // Alternative approach: Fetch all records from tables that might be KPI Metrics
+    // and filter by company ID in code
+    // Since we have the record ID from the link, we can try fetching it directly
+    // But we need the table ID - let's try common patterns
+    
+    // For now, let's try to fetch from a potential KPI Metrics table
+    // We'll try fetching all records and filtering by company ID
+    if (kpiMetricsRecordId) {
+      // Try common table ID patterns for KPI Metrics
+      // Since we don't have the exact ID, we'll need to try a few
+      // Or fetch all records and find the one matching the record ID
+      console.log('[BenefitsAnalysisPage] Attempting to fetch KPI Metrics record with ID:', kpiMetricsRecordId);
+      
+      // Try fetching from potential table IDs
+      // We'll need the actual table ID - for now, log that we need it
+      console.log('[BenefitsAnalysisPage] Need KPI Metrics table ID to fetch record');
+    }
+
+    // Also try fetching all records from potential KPI Metrics tables and filter by company
+    // This is a fallback if we don't have a linked record
+    try {
+      // Try fetching from potential KPI Metrics tables
+      // We'll need to identify the table ID first
+      // For now, let's use Group Data and log what we find
+      console.log('[BenefitsAnalysisPage] Attempting to fetch from KPI Metrics table...');
+      
+      // TODO: Add actual KPI Metrics table ID here once identified
+      // const kpiMetricsTableId = 'tbl...';
+      // const allKpiRecords = await fetchAirtableRecords(kpiMetricsTableId, {
+      //   apiKey: token,
+      //   maxRecords: 1000,
+      // });
+      // 
+      // if (allKpiRecords) {
+      //   // Filter by company ID
+      //   const companyKpiRecord = allKpiRecords.find((record: any) => {
+      //     const linkFields = [
+      //       record.fields['Link to Intake - Group Data'],
+      //       record.fields['Link to Group Data'],
+      //       record.fields['Company'],
+      //     ];
+      //     return linkFields.some(link => 
+      //       (Array.isArray(link) && link.includes(companyId)) ||
+      //       (typeof link === 'string' && link === companyId)
+      //     );
+      //   });
+      //   
+      //   if (companyKpiRecord) {
+      //     kpiMetricsRecord = companyKpiRecord;
+      //     console.log('[BenefitsAnalysisPage] Found KPI Metrics record by company filter');
+      //   }
+      // }
+    } catch (error) {
+      console.log('[BenefitsAnalysisPage] Could not fetch from KPI Metrics table:', error);
+    }
+
+    // Use Group Data as fallback, but prioritize KPI Metrics if found
+    if (groupDataRecord) {
+      sourceFields = groupDataRecord.fields;
+      console.log('[BenefitsAnalysisPage] Using Group Data fields. Sample values:', {
+        'Eligible Employees': sourceFields['Eligible Employees'],
+        'Total Employees': sourceFields['Total Employees'],
+        'Benefit Eligible Employees': sourceFields['Benefit Eligible Employees'],
+        'Average Salary': sourceFields['Average Salary'],
+        'Average Age': sourceFields['Average Age'],
+        'Male Percentage': sourceFields['Male Percentage'],
+        'Female Percentage': sourceFields['Female Percentage'],
+      });
+    }
+
+    // If we found a KPI Metrics record, use that instead (it takes priority)
+    if (kpiMetricsRecord) {
+      sourceFields = kpiMetricsRecord.fields;
+      console.log('[BenefitsAnalysisPage] Using KPI Metrics fields (priority). Available fields:', Object.keys(sourceFields));
+    }
+
+    if (!groupDataRecord && !kpiMetricsRecord) {
+      console.warn('[BenefitsAnalysisPage] No records found in Group Data or KPI Metrics');
+      return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
+    }
+
+    // Helper function to parse employee count (handles ranges like "51-200")
+    const parseEmployeeCount = (value: any): number => {
+      if (!value) return 0;
+      const str = String(value).trim();
+      // Handle ranges like "51-200" - take the midpoint or first number
+      const rangeMatch = str.match(/(\d+)\s*-\s*(\d+)/);
+      if (rangeMatch) {
+        const min = parseInt(rangeMatch[1]);
+        const max = parseInt(rangeMatch[2]);
+        // Return midpoint for ranges, or you could return min/max
+        return Math.round((min + max) / 2);
+      }
+      // Try to extract first number if there's text
+      const numberMatch = str.match(/(\d+)/);
+      if (numberMatch) {
+        return parseInt(numberMatch[1]);
+      }
+      // Direct parse
+      const parsed = parseInt(str);
+      return isNaN(parsed) ? 0 : parsed;
+    };
 
     // Map demographics from Airtable fields - try multiple field name variations
     const demographics: DemographicInsights = {
-      eligibleEmployees: parseInt(String(
+      eligibleEmployees: parseEmployeeCount(
         sourceFields['Eligible Employees'] || 
         sourceFields['Total Employees'] || 
         sourceFields['Benefit Eligible Employees'] ||
         sourceFields['Eligible'] ||
+        sourceFields['Employee Count'] ||
+        sourceFields['Number of Employees'] ||
+        sourceFields['Headcount'] ||
         '0'
-      )) || 0,
+      ),
       averageSalary: parseFloat(String(
         sourceFields['Average Salary'] || 
         sourceFields['Avg Salary'] ||
@@ -152,8 +246,9 @@ export default async function BenefitsAnalysisPage() {
     // Map budget breakdown - try to extract from Group Data or calculate from existing fields
     let breakdown: BudgetBreakdown[] = [];
     
-    if (record) {
-      const fields = record.fields;
+    const recordForBreakdown = kpiMetricsRecord || groupDataRecord;
+    if (recordForBreakdown) {
+      const recordFields = recordForBreakdown.fields;
       
       // Try to get budget breakdown from linked records or fields
       const breakdownLinkFields = [
@@ -163,7 +258,7 @@ export default async function BenefitsAnalysisPage() {
       ];
       
       for (const linkField of breakdownLinkFields) {
-        const linkedBreakdown = fields[linkField];
+        const linkedBreakdown = recordFields[linkField];
         if (Array.isArray(linkedBreakdown) && linkedBreakdown.length > 0) {
           // TODO: Need to know the budget breakdown table ID to fetch linked records
           // For now, breakdown remains empty until table structure is confirmed
@@ -188,17 +283,17 @@ export default async function BenefitsAnalysisPage() {
     ];
     
     // Log all available fields for debugging
-    console.log('[BenefitsAnalysisPage] Available fields:', Object.keys(fields));
+    console.log('[BenefitsAnalysisPage] Available fields in source:', Object.keys(sourceFields));
     
     let reportUrl: string | undefined;
     for (const fieldName of reportUrlFieldVariations) {
-      const url = fields[fieldName];
+      const url = sourceFields[fieldName];
       if (url && typeof url === 'string' && url.trim() !== '') {
         reportUrl = url.trim();
         console.log(`[BenefitsAnalysisPage] Found report URL in field "${fieldName}": ${reportUrl}`);
         break;
-      } else if (fields[fieldName]) {
-        console.log(`[BenefitsAnalysisPage] Field "${fieldName}" exists but value is:`, fields[fieldName], typeof fields[fieldName]);
+      } else if (sourceFields[fieldName]) {
+        console.log(`[BenefitsAnalysisPage] Field "${fieldName}" exists but value is:`, sourceFields[fieldName], typeof sourceFields[fieldName]);
       }
     }
     
@@ -261,7 +356,7 @@ export default async function BenefitsAnalysisPage() {
       }
       
       // Get company name from Group Data for name-based matching (as shown in the condition)
-      const companyName = fields['Company Name'] || fields['Name'] || '';
+      const companyName = groupDataRecord?.fields['Company Name'] || groupDataRecord?.fields['Name'] || sourceFields['Company Name'] || sourceFields['Name'] || '';
       console.log(`[BenefitsAnalysisPage] Company name for matching: "${companyName}"`);
       
       // Filter documents linked to this company - try multiple field name variations
