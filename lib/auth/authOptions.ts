@@ -433,6 +433,7 @@ export const authOptions: NextAuthOptions = {
                     name = 'User';
                 }
                 session.user.name = name;
+                
                 (session.user as any).companyId = token.companyId;
                 (session.user as any).role = token.role;
                 (session.user as any).portalMode = token.portalMode;

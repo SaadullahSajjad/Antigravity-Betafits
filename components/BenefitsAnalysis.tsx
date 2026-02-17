@@ -3,14 +3,72 @@
 import React from 'react';
 import { DemographicInsights, FinancialKPIs, BudgetBreakdown } from '@/types';
 
+interface ReportType {
+  type: string;
+  documents: any[];
+}
+
 interface Props {
   demographics: DemographicInsights | null;
   kpis: FinancialKPIs | null;
   breakdown: BudgetBreakdown[];
   reportUrl?: string;
+  availableReportTypes?: ReportType[];
 }
 
-const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown, reportUrl }) => {
+const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown, reportUrl, availableReportTypes = [] }) => {
+  const [selectedReportType, setSelectedReportType] = React.useState<string>('');
+  const [selectedReportUrl, setSelectedReportUrl] = React.useState<string | undefined>(reportUrl);
+  
+  // Initialize with first available type or default
+  React.useEffect(() => {
+    if (availableReportTypes.length > 0 && !selectedReportType) {
+      // Prefer "Benefit Budget Report" or "Budget Report" if available, otherwise use first type
+      const preferredType = availableReportTypes.find(r => 
+        r.type.toLowerCase().includes('budget') || 
+        r.type.toLowerCase().includes('benefit budget')
+      );
+      const initialType = preferredType?.type || availableReportTypes[0].type;
+      setSelectedReportType(initialType);
+      updateReportUrl(initialType);
+    } else if (reportUrl && !selectedReportType) {
+      // Use the provided reportUrl if no types available
+      setSelectedReportUrl(reportUrl);
+    }
+  }, [availableReportTypes, reportUrl]);
+  
+  const updateReportUrl = (docType: string) => {
+    const reportType = availableReportTypes.find(r => r.type === docType);
+    if (reportType && reportType.documents.length > 0) {
+      const doc = reportType.documents[0]; // Get most recent document
+      const fileField = doc.fields['File'];
+      const fileAttachment = Array.isArray(fileField) && fileField.length > 0 ? (fileField[0] as any) : null;
+      
+      if (fileAttachment?.url) {
+        setSelectedReportUrl(fileAttachment.url);
+      } else {
+        const fileId = doc.fields['File ID'] || doc.fields['FileId'];
+        const fileUrl = doc.fields['File URL'] || doc.fields['FileUrl'];
+        
+        if (fileId && typeof fileId === 'string') {
+          const baseUrl = window.location.origin;
+          setSelectedReportUrl(`${baseUrl}/api/files/${fileId}`);
+        } else if (fileUrl && typeof fileUrl === 'string') {
+          setSelectedReportUrl(fileUrl);
+        } else {
+          setSelectedReportUrl(undefined);
+        }
+      }
+    } else {
+      setSelectedReportUrl(undefined);
+    }
+  };
+  
+  const handleReportTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const newType = e.target.value;
+    setSelectedReportType(newType);
+    updateReportUrl(newType);
+  };
   const formatCurrency = (val: number) => 
     new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(val);
 
@@ -36,8 +94,8 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown, repo
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
       {/* Header & Report Asset */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-        <div>
+      <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+        <div className="flex-1">
           <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">Benefits Analysis</h1>
           <p className="text-gray-500 font-medium max-w-2xl leading-relaxed">
             A strategic overview of workforce demographics, financial benchmarks, and budget distribution across your benefit ecosystem.
@@ -45,28 +103,57 @@ const BenefitsAnalysis: React.FC<Props> = ({ demographics, kpis, breakdown, repo
         </div>
         
         {/* Featured Report Card */}
-        <div className="flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 group cursor-pointer w-full md:w-auto">
-          <div className="w-12 h-12 bg-brand-50 rounded-md flex items-center justify-center text-brand-600 group-hover:scale-110 transition-transform">
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+        {availableReportTypes.length > 0 ? (
+          <div className="flex-shrink-0 bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-all flex items-center gap-4 w-full md:w-auto">
+            <div className="w-12 h-12 bg-brand-50 rounded-md flex items-center justify-center text-brand-600 group-hover:scale-110 transition-transform flex-shrink-0">
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[14px] font-bold text-gray-900 leading-tight mb-1">Benefit Budget Report</div>
+              <select
+                value={selectedReportType}
+                onChange={handleReportTypeChange}
+                className="text-[12px] text-gray-600 font-medium bg-transparent border-none p-0 cursor-pointer focus:outline-none focus:ring-0 w-full"
+              >
+                {availableReportTypes.map((reportType) => (
+                  <option key={reportType.type} value={reportType.type}>
+                    {reportType.type}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button 
+              onClick={() => {
+                const urlToOpen = selectedReportUrl || reportUrl;
+                if (urlToOpen) {
+                  window.open(urlToOpen, '_blank', 'noopener,noreferrer');
+                } else {
+                  console.warn('[BenefitsAnalysis] No report URL available');
+                  alert('Report not found. Please ensure the document is uploaded to Airtable in the "Intake - Document Upload" table.');
+                }
+              }}
+              disabled={!selectedReportUrl && !reportUrl}
+              className={`ml-4 px-5 py-2 rounded-md text-sm font-bold transition-colors shadow-sm flex-shrink-0 ${
+                selectedReportUrl || reportUrl
+                  ? 'bg-brand-500 text-white hover:bg-brand-600 cursor-pointer'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
+            >
+              View Report
+            </button>
           </div>
-          <div>
-            <div className="text-[14px] font-bold text-gray-900 leading-tight">Benefit Budget Report</div>
-            <div className="text-[12px] text-gray-400 font-medium">E$1,000 — (AA) • PDF</div>
+        ) : (
+          <div className="flex-shrink-0 bg-white border border-gray-200 rounded-xl p-6 shadow-sm w-full md:w-[320px]">
+            <div className="flex flex-col items-center justify-center text-center py-6">
+              <div className="w-12 h-12 bg-gray-50 rounded-lg flex items-center justify-center mb-3">
+                <svg className="w-6 h-6 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <p className="text-gray-500 font-medium text-sm">No results found, try adjusting your search and filters.</p>
+            </div>
           </div>
-          <button 
-            onClick={() => {
-              if (reportUrl) {
-                window.open(reportUrl, '_blank', 'noopener,noreferrer');
-              } else {
-                console.warn('[BenefitsAnalysis] No report URL available');
-                alert('Report URL not found. Please check Airtable configuration.');
-              }
-            }}
-            className="ml-4 bg-brand-500 text-white px-5 py-2 rounded-md text-sm font-bold hover:bg-brand-600 transition-colors shadow-sm shadow-brand-100 cursor-pointer"
-          >
-            View Report
-          </button>
-        </div>
+        )}
       </div>
 
       {/* Financial KPIs - Large Metric Row */}

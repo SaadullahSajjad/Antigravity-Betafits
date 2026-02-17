@@ -11,17 +11,17 @@ export const dynamic = 'force-dynamic';
 export default async function BenefitsAnalysisPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
-    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
+    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
   }
 
   const companyId = await getCompanyId();
   if (!companyId) {
-    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
+    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
   }
 
   const token = process.env.AIRTABLE_API_KEY;
   if (!token) {
-    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
+    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
   }
 
   try {
@@ -31,7 +31,7 @@ export default async function BenefitsAnalysisPage() {
     });
 
     if (!record) {
-      return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
+      return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
     }
 
     const fields = record.fields;
@@ -106,28 +106,309 @@ export default async function BenefitsAnalysisPage() {
       }
     }
     
-    // If not found in direct fields, check if it's in linked Documents table
-    if (!reportUrl) {
-      const documentLinkFields = [
-        'Link to Intake Document Upload',
-        'Link to Intake - Document Upload',
-        'Documents',
-        'Link to Documents',
+    // Initialize companyDocuments in outer scope
+    let companyDocuments: any[] = [];
+    
+    // Always fetch documents from Documents table for the dropdown (even if reportUrl was found)
+    try {
+      const documentsTableId = 'tblBgAZKJln76anVn'; // Documents / Intake - Document Upload
+      const { fetchAirtableRecords } = await import('@/lib/airtable/fetch');
+      
+      // Fetch more records to ensure we get all documents
+      const allDocuments = await fetchAirtableRecords(documentsTableId, {
+        apiKey: token,
+        maxRecords: 500, // Increased to catch more documents
+      });
+      
+      console.log(`[BenefitsAnalysisPage] Fetched ${allDocuments?.length || 0} total documents from Documents table`);
+      
+      // Define link field variations to check
+      const linkFieldVariations = [
+        'Link to Intake - Group Data',
+        'Link to Intake Group Data',
+        'Link to Group Data',
+        'Company',
+        'Link to Company',
       ];
       
-      for (const linkField of documentLinkFields) {
-        const linkedDocs = fields[linkField];
-        if (Array.isArray(linkedDocs) && linkedDocs.length > 0) {
-          console.log(`[BenefitsAnalysisPage] Found linked documents in field "${linkField}":`, linkedDocs);
-          // TODO: Could fetch document records and find one with type "Benefit Budget Report"
-          // For now, we'll rely on the direct URL field
+      // Debug: Check what link fields exist in documents
+      if (allDocuments && allDocuments.length > 0) {
+        const firstDoc = allDocuments[0];
+        console.log(`[BenefitsAnalysisPage] Sample document (first of ${allDocuments.length}):`, {
+          id: firstDoc.id,
+          name: firstDoc.fields['Name'] || firstDoc.fields['Extracted Document Title'],
+          allFields: Object.keys(firstDoc.fields),
+        });
+        
+        // Check all possible link field variations
+        const linkFieldChecks: Record<string, any> = {};
+        linkFieldVariations.forEach(fieldName => {
+          linkFieldChecks[fieldName] = firstDoc.fields[fieldName];
+        });
+        console.log(`[BenefitsAnalysisPage] Sample document link fields:`, linkFieldChecks);
+        
+        // Also log a few more documents to see if they have different structures
+        if (allDocuments.length > 1) {
+          console.log(`[BenefitsAnalysisPage] Checking first 5 documents for link fields...`);
+          allDocuments.slice(0, 5).forEach((doc, idx) => {
+            const name = doc.fields['Name'] || doc.fields['Extracted Document Title'] || 'Untitled';
+            let linkFieldValue = null;
+            for (const fieldName of linkFieldVariations) {
+              if (doc.fields[fieldName]) {
+                linkFieldValue = { field: fieldName, value: doc.fields[fieldName] };
+                break;
+              }
+            }
+            console.log(`[BenefitsAnalysisPage] Doc ${idx + 1}: "${name}" - Link field:`, linkFieldValue);
+          });
         }
       }
+      
+      // Get company name from Group Data for name-based matching (as shown in the condition)
+      const companyName = fields['Company Name'] || fields['Name'] || '';
+      console.log(`[BenefitsAnalysisPage] Company name for matching: "${companyName}"`);
+      
+      // Filter documents linked to this company - try multiple field name variations
+      companyDocuments = allDocuments?.filter((docRecord) => {
+        // First, try matching by linked record ID
+        for (const fieldName of linkFieldVariations) {
+          const linkField = docRecord.fields[fieldName];
+          if (!linkField) continue;
+          
+          if (Array.isArray(linkField)) {
+            const matches = linkField.some((id: string) => String(id).trim() === String(companyId).trim());
+            if (matches) {
+              console.log(`[BenefitsAnalysisPage] Document ${docRecord.id} matched via field "${fieldName}" (record ID)`);
+              return true;
+            }
+          } else {
+            const matches = String(linkField).trim() === String(companyId).trim();
+            if (matches) {
+              console.log(`[BenefitsAnalysisPage] Document ${docRecord.id} matched via field "${fieldName}" (record ID)`);
+              return true;
+            }
+          }
+        }
+        
+        // Fallback: Try matching by company name (as shown in the condition: "Company Name" includes "Company Name (from Intake - Group Data)")
+        if (companyName) {
+          const docCompanyName = docRecord.fields['Company Name (from Link to Intake - Group Data)'] || 
+                                docRecord.fields['Company Name'] ||
+                                docRecord.fields['Company'];
+          
+          if (docCompanyName) {
+            const docCompanyNameStr = String(docCompanyName).trim();
+            const companyNameStr = String(companyName).trim();
+            
+            // Check if company names match (case-insensitive, or if one includes the other)
+            if (docCompanyNameStr.toLowerCase() === companyNameStr.toLowerCase() ||
+                docCompanyNameStr.toLowerCase().includes(companyNameStr.toLowerCase()) ||
+                companyNameStr.toLowerCase().includes(docCompanyNameStr.toLowerCase())) {
+              console.log(`[BenefitsAnalysisPage] Document ${docRecord.id} matched via company name: "${docCompanyNameStr}" === "${companyNameStr}"`);
+              return true;
+            }
+          }
+        }
+        
+        return false;
+      }) || [];
+      
+      console.log(`[BenefitsAnalysisPage] Found ${companyDocuments.length} documents linked to company ${companyId}`);
+      
+      // Log all document names for debugging
+      companyDocuments.forEach((doc) => {
+        const name = String(doc.fields['Name'] || doc.fields['Extracted Document Title'] || 'Untitled');
+        console.log(`[BenefitsAnalysisPage] Document: "${name}" (ID: ${doc.id})`);
+      });
+      
+      // Look for a document with "Benefit Budget Report" in the name or Document Type (case-insensitive)
+      // Only if reportUrl wasn't already found
+      if (!reportUrl) {
+        const searchTerms = [
+          'benefit budget report',
+          'budget report',
+          'roi workbook',
+          'benefit report',
+          'benefits report',
+          'cost report',
+          'financial report',
+          'benefit analysis',
+          'budget analysis',
+          'workbook',
+        ];
+        
+        const reportDocument = companyDocuments.find((doc) => {
+          const name = String(doc.fields['Name'] || doc.fields['Extracted Document Title'] || '').toLowerCase();
+          const docType = String(doc.fields['Document Type'] || '').toLowerCase();
+          
+          // Check both name and document type
+          const nameMatch = searchTerms.some(term => name.includes(term));
+          const typeMatch = searchTerms.some(term => docType.includes(term));
+          
+          return nameMatch || typeMatch;
+        });
+        
+        // If still not found in company documents, search ALL documents by name/type
+        // (in case the document isn't properly linked to the company)
+        if (!reportDocument && allDocuments && allDocuments.length > 0) {
+          console.log(`[BenefitsAnalysisPage] Not found in company documents, searching all ${allDocuments.length} documents...`);
+          const allReportDocument = allDocuments.find((doc) => {
+            const name = String(doc.fields['Name'] || doc.fields['Extracted Document Title'] || '').toLowerCase();
+            const docType = String(doc.fields['Document Type'] || '').toLowerCase();
+            
+            const nameMatch = searchTerms.some(term => name.includes(term));
+            const typeMatch = searchTerms.some(term => docType.includes(term));
+            
+            return nameMatch || typeMatch;
+          });
+          
+          if (allReportDocument) {
+            console.log(`[BenefitsAnalysisPage] Found report document in all documents (not linked to company): "${allReportDocument.fields['Name'] || allReportDocument.fields['Extracted Document Title']}"`);
+            // Use this document even though it's not linked to the company
+            const finalReportDoc = allReportDocument;
+            
+            // Extract URL from this document
+            const fileField = finalReportDoc.fields['File'];
+            const fileAttachment = Array.isArray(fileField) && fileField.length > 0 ? (fileField[0] as any) : null;
+            
+            if (fileAttachment?.url) {
+              reportUrl = fileAttachment.url;
+              console.log(`[BenefitsAnalysisPage] Using Airtable attachment URL from all documents: ${reportUrl}`);
+            } else {
+              const fileId = finalReportDoc.fields['File ID'] || finalReportDoc.fields['FileId'] || finalReportDoc.fields['file_id'];
+              const fileUrl = finalReportDoc.fields['File URL'] || finalReportDoc.fields['FileUrl'] || finalReportDoc.fields['file_url'];
+              
+              if (fileId && typeof fileId === 'string') {
+                const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+                reportUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${fileId}`;
+                console.log(`[BenefitsAnalysisPage] Reconstructed URL from File ID (all documents): ${reportUrl}`);
+              } else if (fileUrl && typeof fileUrl === 'string') {
+                if (fileUrl.includes('/api/files/')) {
+                  const fileIdMatch = fileUrl.match(/\/api\/files\/([^\/\?]+)/);
+                  if (fileIdMatch) {
+                    const extractedFileId = fileIdMatch[1];
+                    const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+                    reportUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${extractedFileId}`;
+                    console.log(`[BenefitsAnalysisPage] Reconstructed URL from File URL field (all documents): ${reportUrl}`);
+                  } else {
+                    reportUrl = fileUrl;
+                    console.log(`[BenefitsAnalysisPage] Using File URL field directly (all documents): ${reportUrl}`);
+                  }
+                } else {
+                  reportUrl = fileUrl;
+                  console.log(`[BenefitsAnalysisPage] Using File URL field (all documents): ${reportUrl}`);
+                }
+              }
+            }
+          } else {
+            console.log(`[BenefitsAnalysisPage] No report document found in all ${allDocuments.length} documents`);
+            
+            // Log all document names and types to help identify the report
+            console.log(`[BenefitsAnalysisPage] All document names and types (first 20):`);
+            allDocuments.slice(0, 20).forEach((doc, idx) => {
+              const name = doc.fields['Name'] || doc.fields['Extracted Document Title'] || 'Untitled';
+              const docType = doc.fields['Document Type'] || 'No Type';
+              console.log(`[BenefitsAnalysisPage]   ${idx + 1}. "${name}" (Type: "${docType}")`);
+            });
+            
+            // Also check if there are any documents with "report" in the name (case-insensitive)
+            const reportLikeDocs = allDocuments.filter((doc) => {
+              const name = String(doc.fields['Name'] || doc.fields['Extracted Document Title'] || '').toLowerCase();
+              const docType = String(doc.fields['Document Type'] || '').toLowerCase();
+              return name.includes('report') || docType.includes('report');
+            });
+            
+            if (reportLikeDocs.length > 0) {
+              console.log(`[BenefitsAnalysisPage] Found ${reportLikeDocs.length} documents with "report" in name/type:`);
+              reportLikeDocs.forEach((doc, idx) => {
+                const name = doc.fields['Name'] || doc.fields['Extracted Document Title'] || 'Untitled';
+                const docType = doc.fields['Document Type'] || 'No Type';
+                console.log(`[BenefitsAnalysisPage]   ${idx + 1}. "${name}" (Type: "${docType}")`);
+              });
+            }
+          }
+        }
+        
+        // Process the report document if found in company documents
+        if (reportDocument) {
+          console.log(`[BenefitsAnalysisPage] Found matching document: "${reportDocument.fields['Name'] || reportDocument.fields['Extracted Document Title']}"`);
+          
+          // Get the file URL from the document (same logic as Documents API)
+          const fileField = reportDocument.fields['File'];
+          const fileAttachment = Array.isArray(fileField) && fileField.length > 0 ? (fileField[0] as any) : null;
+          
+          if (fileAttachment?.url) {
+            reportUrl = fileAttachment.url;
+            console.log(`[BenefitsAnalysisPage] Using Airtable attachment URL: ${reportUrl}`);
+          } else {
+            // Try File ID or File URL fields
+            const fileId = reportDocument.fields['File ID'] || reportDocument.fields['FileId'] || reportDocument.fields['file_id'];
+            const fileUrl = reportDocument.fields['File URL'] || reportDocument.fields['FileUrl'] || reportDocument.fields['file_url'];
+            
+            if (fileId && typeof fileId === 'string') {
+              const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+              reportUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${fileId}`;
+              console.log(`[BenefitsAnalysisPage] Reconstructed URL from File ID: ${reportUrl}`);
+            } else if (fileUrl && typeof fileUrl === 'string') {
+              if (fileUrl.includes('/api/files/')) {
+                const fileIdMatch = fileUrl.match(/\/api\/files\/([^\/\?]+)/);
+                if (fileIdMatch) {
+                  const extractedFileId = fileIdMatch[1];
+                  const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+                  reportUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${extractedFileId}`;
+                  console.log(`[BenefitsAnalysisPage] Reconstructed URL from File URL field: ${reportUrl}`);
+                } else {
+                  reportUrl = fileUrl;
+                  console.log(`[BenefitsAnalysisPage] Using File URL field directly: ${reportUrl}`);
+                }
+              } else {
+                reportUrl = fileUrl;
+                console.log(`[BenefitsAnalysisPage] Using File URL field: ${reportUrl}`);
+              }
+            }
+          }
+          
+          if (reportUrl) {
+            console.log(`[BenefitsAnalysisPage] ✓ Successfully found report URL: ${reportUrl}`);
+          } else {
+            console.warn(`[BenefitsAnalysisPage] Document found but no URL available. File field:`, fileField);
+          }
+        } else if (!reportUrl) {
+          console.log(`[BenefitsAnalysisPage] No "Benefit Budget Report" document found. Available company documents:`, 
+            companyDocuments.map(d => d.fields['Name'] || d.fields['Extracted Document Title'] || 'Untitled'));
+        }
+      }
+    } catch (docError) {
+      console.error('[BenefitsAnalysisPage] Error fetching documents:', docError);
     }
 
-    return <BenefitsAnalysis demographics={demographics} kpis={kpis} breakdown={breakdown} reportUrl={reportUrl} />;
+    // Get all available document types from company documents for the dropdown
+    let availableReportTypes: { type: string; documents: any[] }[] = [];
+    if (companyDocuments && companyDocuments.length > 0) {
+      // Group documents by Document Type
+      const documentsByType: Record<string, any[]> = {};
+      companyDocuments.forEach((doc) => {
+        const docType = String(doc.fields['Document Type'] || 'No Type').trim();
+        if (!documentsByType[docType]) {
+          documentsByType[docType] = [];
+        }
+        documentsByType[docType].push(doc);
+      });
+      
+      // Convert to array and sort by most recent document first
+      availableReportTypes = Object.entries(documentsByType)
+        .map(([type, docs]) => ({
+          type,
+          documents: docs.sort((a, b) => b.id.localeCompare(a.id)), // Most recent first
+        }))
+        .sort((a, b) => a.type.localeCompare(b.type)); // Sort types alphabetically
+      
+      console.log(`[BenefitsAnalysisPage] Found ${availableReportTypes.length} document types:`, availableReportTypes.map(r => r.type));
+    }
+
+    return <BenefitsAnalysis demographics={demographics} kpis={kpis} breakdown={breakdown} reportUrl={reportUrl} availableReportTypes={availableReportTypes} />;
   } catch (error) {
     console.error('[BenefitsAnalysisPage] Error:', error);
-    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} />;
+    return <BenefitsAnalysis demographics={null} kpis={null} breakdown={[]} reportUrl={undefined} availableReportTypes={[]} />;
   }
 }
