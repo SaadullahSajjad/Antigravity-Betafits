@@ -36,22 +36,117 @@ export default async function BenefitsAnalysisPage() {
 
     const fields = record.fields;
 
-    // Map demographics from Airtable fields
+    // Log all available fields for debugging
+    console.log('[BenefitsAnalysisPage] Available fields in Group Data:', Object.keys(fields));
+    console.log('[BenefitsAnalysisPage] Sample field values:', {
+      'Eligible Employees': fields['Eligible Employees'],
+      'Total Employees': fields['Total Employees'],
+      'Average Salary': fields['Average Salary'],
+      'Average Age': fields['Average Age'],
+      'Male Percentage': fields['Male Percentage'],
+      'Female Percentage': fields['Female Percentage'],
+      'Total Monthly Cost': fields['Total Monthly Cost'],
+      'Total Employer Contribution': fields['Total Employer Contribution'],
+      'Total Employee Contribution': fields['Total Employee Contribution'],
+      'ER Cost per Eligible': fields['ER Cost per Eligible'],
+    });
+
+    // Try to fetch from KPI Metrics table if it exists as a separate table
+    // Based on Softr config, data might be in "Intake - KPI Metrics" table
+    let kpiMetricsRecord = null;
+    const { fetchAirtableRecords } = await import('@/lib/airtable/fetch');
+    
+    // Try to find KPI Metrics table by fetching all records and filtering by company
+    // Common potential table IDs (we'll try to find the right one)
+    const potentialKpiTableIds = [
+      // Add known table IDs here if we find them
+    ];
+    
+    // Also try fetching via linked records from Group Data
+    const kpiMetricsLinkFields = [
+      'Link to Intake - KPI Metrics',
+      'Link to KPI Metrics',
+      'KPI Metrics',
+      'Link to Intake KPI Metrics',
+    ];
+    
+    for (const linkField of kpiMetricsLinkFields) {
+      const linkedKpi = fields[linkField];
+      if (Array.isArray(linkedKpi) && linkedKpi.length > 0) {
+        console.log(`[BenefitsAnalysisPage] Found linked KPI Metrics record ID: ${linkedKpi[0]} in field: ${linkField}`);
+        // If we have a linked record, we need the table ID to fetch it
+        // For now, log it so we can identify the table structure
+      }
+    }
+
+    // Use Group Data fields (we'll enhance this once we identify the KPI Metrics table)
+    const sourceFields = fields;
+
+    // Map demographics from Airtable fields - try multiple field name variations
     const demographics: DemographicInsights = {
-      eligibleEmployees: parseInt(String(fields['Eligible Employees'] || fields['Total Employees'] || '0')) || 0,
-      averageSalary: parseFloat(String(fields['Average Salary'] || '0')) || 0,
-      averageAge: parseFloat(String(fields['Average Age'] || '0')) || 0,
-      malePercentage: parseFloat(String(fields['Male Percentage'] || '0')) || 0,
-      femalePercentage: parseFloat(String(fields['Female Percentage'] || '0')) || 0,
+      eligibleEmployees: parseInt(String(
+        sourceFields['Eligible Employees'] || 
+        sourceFields['Total Employees'] || 
+        sourceFields['Benefit Eligible Employees'] ||
+        sourceFields['Eligible'] ||
+        '0'
+      )) || 0,
+      averageSalary: parseFloat(String(
+        sourceFields['Average Salary'] || 
+        sourceFields['Avg Salary'] ||
+        sourceFields['Salary'] ||
+        '0'
+      )) || 0,
+      averageAge: parseFloat(String(
+        sourceFields['Average Age'] || 
+        sourceFields['Avg Age'] ||
+        sourceFields['Age'] ||
+        '0'
+      )) || 0,
+      malePercentage: parseFloat(String(
+        sourceFields['Male Percentage'] || 
+        sourceFields['Male %'] ||
+        sourceFields['Male'] ||
+        '0'
+      )) || 0,
+      femalePercentage: parseFloat(String(
+        sourceFields['Female Percentage'] || 
+        sourceFields['Female %'] ||
+        sourceFields['Female'] ||
+        '0'
+      )) || 0,
     };
 
-    // Map financial KPIs from Airtable fields
+    // Map financial KPIs from Airtable fields - try multiple field name variations
     const kpis: FinancialKPIs = {
-      totalMonthlyCost: parseFloat(String(fields['Total Monthly Cost'] || '0')) || 0,
-      totalEmployerContribution: parseFloat(String(fields['Total Employer Contribution'] || '0')) || 0,
-      totalEmployeeContribution: parseFloat(String(fields['Total Employee Contribution'] || '0')) || 0,
-      erCostPerEligible: parseFloat(String(fields['ER Cost per Eligible'] || '0')) || 0,
+      totalMonthlyCost: parseFloat(String(
+        sourceFields['Total Monthly Cost'] || 
+        sourceFields['Monthly Cost'] ||
+        sourceFields['Total Cost'] ||
+        '0'
+      )) || 0,
+      totalEmployerContribution: parseFloat(String(
+        sourceFields['Total Employer Contribution'] || 
+        sourceFields['Employer Contribution'] ||
+        sourceFields['ER Contribution'] ||
+        '0'
+      )) || 0,
+      totalEmployeeContribution: parseFloat(String(
+        sourceFields['Total Employee Contribution'] || 
+        sourceFields['Employee Contribution'] ||
+        sourceFields['EE Contribution'] ||
+        '0'
+      )) || 0,
+      erCostPerEligible: parseFloat(String(
+        sourceFields['ER Cost per Eligible'] || 
+        sourceFields['Cost per Eligible'] ||
+        sourceFields['ER Cost/Eligible'] ||
+        '0'
+      )) || 0,
     };
+
+    console.log('[BenefitsAnalysisPage] Mapped demographics:', demographics);
+    console.log('[BenefitsAnalysisPage] Mapped KPIs:', kpis);
 
     // Map budget breakdown - try to extract from Group Data or calculate from existing fields
     let breakdown: BudgetBreakdown[] = [];
