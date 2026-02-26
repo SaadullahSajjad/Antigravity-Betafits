@@ -65,11 +65,11 @@ const Sidebar: React.FC = () => {
   };
 
   return (
-    <aside className={`${isCollapsed ? 'w-24' : 'w-72'} border-r border-gray-100 bg-white h-full hidden lg:flex flex-col flex-shrink-0 transition-all duration-300 relative`}>
+    <aside className={`${isCollapsed ? 'w-24' : 'w-72'} border-r border-neutral-100 bg-white h-full hidden lg:flex flex-col flex-shrink-0 transition-all duration-300 relative`}>
       {/* Toggle Button */}
       <button 
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="absolute -right-3 top-8 bg-white border border-gray-200 rounded-full p-1.5 shadow-sm hover:border-gray-300 transition-all z-20 text-gray-400 hover:text-gray-600"
+        className="absolute -right-3 top-4 bg-white border border-neutral-200 rounded-full p-1 shadow-card hover:border-neutral-300 transition-all z-20 text-neutral-400 hover:text-neutral-600"
       >
         <svg className={`w-3.5 h-3.5 transition-transform ${isCollapsed ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M15 19l-7-7 7-7" />
@@ -77,7 +77,7 @@ const Sidebar: React.FC = () => {
       </button>
 
       {/* Brand Header */}
-      <div className={`p-8 pb-4 flex items-center ${isCollapsed ? 'justify-center' : 'justify-start'}`}>
+      <div className={`p-4 pb-2 flex items-center ${isCollapsed ? 'justify-center' : 'justify-start'}`}>
         <Image 
           src="/betafits-logo.png" 
           alt="Betafits" 
@@ -89,29 +89,29 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Navigation */}
-      <div className="p-6 flex-1 overflow-y-auto pt-10 px-4">
-        <nav className="space-y-2">
+      <div className="p-3 flex-1 overflow-y-auto pt-5 px-2">
+        <nav className="space-y-1">
           {navItems.map((item) => {
             const active = isActive(item.path);
             return (
               <button
                 key={item.id}
                 onClick={() => handleNavigate(item.path)}
-                className={`w-full flex items-center ${isCollapsed ? 'justify-center px-0' : 'gap-3 px-5'} py-2.5 rounded-md transition-all duration-200 group font-semibold ${
+                className={`w-full h-10 flex items-center ${isCollapsed ? 'justify-center px-0' : 'gap-2 px-2'} rounded-medium transition-all duration-200 group font-semibold ${
                   active 
-                    ? 'bg-gray-100 text-gray-900' 
-                    : 'text-[#4b5563]/70 hover:bg-gray-50 hover:text-[#4b5563]'
+                    ? 'bg-neutral-100 text-neutral-900' 
+                    : 'text-neutral-500 hover:bg-neutral-50 hover:text-neutral-700'
                 }`}
               >
                 <svg 
-                  className={`w-5 h-5 flex-shrink-0 transition-colors ${active ? 'text-gray-900' : 'text-[#4b5563]/50 group-hover:text-[#4b5563]'}`} 
+                  className={`w-5 h-5 flex-shrink-0 transition-colors ${active ? 'text-neutral-900' : 'text-neutral-400 group-hover:text-neutral-600'}`} 
                   fill="none" 
                   viewBox="0 0 24 24" 
                   stroke="currentColor"
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={item.icon} />
                 </svg>
-                {!isCollapsed && <span className="text-[14px] tracking-tight">{item.name}</span>}
+                {!isCollapsed && <span className="text-body tracking-tight">{item.name}</span>}
               </button>
             );
           })}
@@ -119,29 +119,29 @@ const Sidebar: React.FC = () => {
       </div>
 
       {/* Footer Profile */}
-      <div className={`mt-auto p-6 border-t border-gray-100 ${isCollapsed ? 'flex justify-center' : ''} relative`} ref={profileMenuRef}>
+      <div className={`mt-auto p-3 border-t border-neutral-100 ${isCollapsed ? 'flex justify-center' : ''} relative`} ref={profileMenuRef}>
         <div 
           onClick={handleProfileClick}
-          className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-3 bg-gray-50/50 p-2 w-full border border-gray-100'} rounded-md transition-all cursor-pointer group hover:bg-gray-100`}
+          className={`flex items-center ${isCollapsed ? 'justify-center' : 'gap-2 bg-neutral-50 p-2 w-full border border-neutral-100'} rounded-medium transition-all cursor-pointer group hover:bg-neutral-100`}
         >
-          <div className="w-9 h-9 bg-brand-200 text-brand-800 flex items-center justify-center rounded-md font-bold text-[13px] flex-shrink-0">
+          <div className="w-9 h-9 bg-primary-200 text-primary-800 flex items-center justify-center rounded-medium font-bold text-label flex-shrink-0">
             {session?.user?.name?.charAt(0)?.toUpperCase() || session?.user?.email?.charAt(0)?.toUpperCase() || 'U'}
           </div>
           {!isCollapsed && (
             <div className="flex flex-col min-w-0 flex-1">
-              <span className="text-[11px] font-semibold text-gray-900 truncate tracking-tight">
+              <span className="text-small font-semibold text-neutral-900 truncate tracking-tight">
                 {session?.user?.name || 
                  session?.user?.email?.split('@')[0] || 
                  'User'}
               </span>
-              <span className="text-[10px] text-gray-400 font-medium truncate">
+              <span className="text-small text-neutral-400 font-normal truncate">
                 {session?.user?.email || ''}
               </span>
             </div>
           )}
           {!isCollapsed && (
             <svg 
-              className={`w-4 h-4 text-gray-400 transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} 
+              className={`w-4 h-4 text-neutral-400 transition-transform ${isProfileMenuOpen ? 'rotate-180' : ''}`} 
               fill="none" 
               viewBox="0 0 24 24" 
               stroke="currentColor"
@@ -153,21 +153,21 @@ const Sidebar: React.FC = () => {
 
         {/* Profile Dropdown Menu */}
         {isProfileMenuOpen && !isCollapsed && (
-          <div className="absolute bottom-full left-6 right-6 mb-2 bg-white border border-gray-200 rounded-md shadow-lg z-50 overflow-hidden">
+          <div className="absolute bottom-full left-3 right-3 mb-1 bg-white border border-neutral-200 rounded-medium shadow-elevated z-50 overflow-hidden">
             <button
               onClick={handleProfileSettings}
-              className="w-full px-4 py-2.5 text-left text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-3"
+              className="w-full h-10 px-2 text-left text-body text-neutral-700 hover:bg-neutral-50 transition-colors flex items-center gap-2"
             >
-              <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-neutral-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
               Profile Settings
             </button>
             <button
               onClick={handleSignOut}
-              className="w-full px-4 py-2.5 text-left text-sm text-red-600 hover:bg-red-50 transition-colors flex items-center gap-3 border-t border-gray-100"
+              className="w-full h-10 px-2 text-left text-body text-error-500 hover:bg-error-bg transition-colors flex items-center gap-2 border-t border-neutral-100"
             >
-              <svg className="w-4 h-4 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4 text-error-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
               </svg>
               Sign Out

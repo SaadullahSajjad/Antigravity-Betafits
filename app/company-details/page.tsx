@@ -97,7 +97,12 @@ export default async function CompanyDetailsPage() {
       ein: String(sourceFields['EIN'] || ''),
       sicCode: String(sourceFields['SIC Code'] || ''),
       naicsCode: String(sourceFields['NAICS Code'] || ''),
-      address: String(sourceFields['HQ Address'] || sourceFields['Address'] || ''),
+      address: String(
+        sourceFields['Street Address'] ||
+        sourceFields['HQ Address'] ||
+        sourceFields['Address'] ||
+        ''
+      ),
       renewalMonth: String(sourceFields['Renewal Month'] || ''),
       contact: {
         firstName: String(sourceFields['First Name'] || ''),
@@ -107,25 +112,29 @@ export default async function CompanyDetailsPage() {
         email: String(sourceFields['Work Email'] || sourceFields['Email'] || ''),
       },
       workforce: {
-        // Use KPI Metrics fields: '# Eligible', 'Total EEs (Scraped)', 'US EEs (Scraped)'
         totalEmployees: parseEmployeeCount(
           kpiFields['# Eligible'] ||
           kpiFields['Total EEs (Scraped)'] ||
+          sourceFields['Estimated Benefit-Eligible Employees'] ||
+          sourceFields['Benefit-Eligible US Employees Range'] ||
           sourceFields['Total Employees'] ||
+          sourceFields['Eligible Employees'] ||
           '0'
         ),
         usHqEmployees: parseEmployeeCount(
           kpiFields['US EEs (Scraped)'] ||
           sourceFields['U.S. HQ Employees'] ||
+          sourceFields['US HQ Employees'] ||
+          sourceFields['HQ Employees'] ||
           '0'
         ),
-        // Use KPI Metrics scraped fields
         hqCity: String(
           kpiFields['HQ City (Scraped)'] ||
           sourceFields['HQ City'] ||
+          sourceFields['City'] ||
           ''
         ),
-        otherUsCities: Array.isArray(kpiFields['Other US Cities (Scraped)']) 
+        otherUsCities: Array.isArray(kpiFields['Other US Cities (Scraped)'])
           ? kpiFields['Other US Cities (Scraped)']
           : Array.isArray(sourceFields['Other US Cities'])
             ? sourceFields['Other US Cities']
@@ -135,44 +144,58 @@ export default async function CompanyDetailsPage() {
           : Array.isArray(sourceFields['Other Countries'])
             ? sourceFields['Other Countries']
             : [],
-        openJobs: String(sourceFields['Open Jobs'] || ''),
+        openJobs: String(sourceFields['Open Jobs'] || sourceFields['Open Job Count'] || ''),
         linkedInUrl: String(
           kpiFields['LinkedIn URL (from Company)'] ||
           sourceFields['LinkedIn URL'] ||
+          sourceFields['LinkedIn'] ||
           ''
         ),
       },
       glassdoor: {
-        // Use KPI Metrics Glassdoor fields
         overallRating: parseFloat(String(
           kpiFields['GD Overall Review'] ||
+          kpiFields['Glassdoor Overall'] ||
           sourceFields['Glassdoor Overall Rating'] ||
+          sourceFields['Glassdoor Rating'] ||
+          sourceFields['Overall Rating'] ||
           '0'
         )) || 0,
         benefitsRating: parseFloat(String(
           kpiFields['GD Benefits Review'] ||
+          kpiFields['Glassdoor Benefits'] ||
           sourceFields['Glassdoor Benefits Rating'] ||
+          sourceFields['Benefits Rating'] ||
           '0'
         )) || 0,
         healthInsuranceRating: parseFloat(String(
           kpiFields['GD Health Insurance Review'] ||
           sourceFields['Glassdoor Health Insurance Rating'] ||
+          sourceFields['Health Insurance Rating'] ||
           '0'
         )) || 0,
-        retirementRating: parseFloat(String(sourceFields['Glassdoor Retirement Rating'] || '0')) || 0,
+        retirementRating: parseFloat(String(
+          kpiFields['GD Retirement'] ||
+          sourceFields['Glassdoor Retirement Rating'] ||
+          sourceFields['Retirement Rating'] ||
+          '0'
+        )) || 0,
         overallReviews: parseInt(String(
           kpiFields['GD # of Reviews (Overall)'] ||
           sourceFields['Glassdoor Overall Reviews'] ||
+          sourceFields['Overall Reviews'] ||
           '0'
         )) || 0,
         benefitsReviews: parseInt(String(
           kpiFields['GD # of Reviews (Benefits)'] ||
           sourceFields['Glassdoor Benefits Reviews'] ||
+          sourceFields['Benefits Reviews'] ||
           '0'
         )) || 0,
         glassdoorUrl: String(
           kpiFields['Glassdoor URL'] ||
           sourceFields['Glassdoor URL'] ||
+          sourceFields['Glassdoor Link'] ||
           ''
         ),
       },

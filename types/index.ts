@@ -25,6 +25,8 @@ export interface AssignedForm {
   name: string;
   status: FormStatus;
   description: string;
+  /** Linked Available Form record ID (e.g. eBxXtLZdK4us) for in-app routing */
+  availableFormId?: string;
 }
 
 export interface AvailableForm {

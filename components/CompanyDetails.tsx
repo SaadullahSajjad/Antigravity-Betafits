@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { CompanyData } from '@/types';
+import CompanyDetailsInfo from '@/components/CompanyDetailsInfo';
 
 interface Props {
   data: CompanyData | null;
@@ -80,6 +81,11 @@ const CompanyDetails: React.FC<Props> = ({ data }) => {
         <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">Company Insights</h1>
         <p className="text-gray-500 font-medium">Detailed firmographic profile and market reputation data.</p>
       </div>
+
+      {/* Legal & Contact – editable, persists to Airtable */}
+      {displayData && (
+        <CompanyDetailsInfo data={displayData} />
+      )}
 
       {/* 2x2 Grid Layout for the 4 Sections */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

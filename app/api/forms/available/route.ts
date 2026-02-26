@@ -66,7 +66,10 @@ export async function GET(request: NextRequest) {
             }
         }
 
-        // Filter: exclude "Coming Soon" and already assigned forms
+        // Filter: respect visibility controls - only show forms explicitly marked for prospect portal
+        const ADMIN_CATEGORIES = ['admin', 'system', 'system admin', 'administrator', 'internal only', 'admin only', 'internal'];
+        const ADMIN_ASSIGNMENT_TYPES = ['admin', 'system', 'admin only', 'system only', 'administrator'];
+        const RESTRICTED_VISIBILITY_KEYWORDS = ['admin', 'internal', 'hide', 'restricted', 'private', 'system', 'staff only', 'employees only'];
         const filteredRecords = allRecords.filter((record: any) => {
             // Filter out "Coming Soon" forms
             const status = String(record.fields['Status'] || '').toLowerCase();
@@ -74,14 +77,37 @@ export async function GET(request: NextRequest) {
             if (status.includes('coming soon') || name.includes('coming soon')) {
                 return false;
             }
-            
+            // Respect Show in Available Forms: exclude when No; require Yes when field exists
+            const showInAvailable = record.fields['Show in Available Forms'];
+            if (showInAvailable === false || showInAvailable === 'No' || showInAvailable === 'no') {
+                return false;
+            }
+            if (showInAvailable !== undefined && showInAvailable !== null) {
+                const isExplicitlyShown = showInAvailable === true || showInAvailable === 'Yes' || showInAvailable === 'yes' || (typeof showInAvailable === 'object' && showInAvailable?.label === 'Yes');
+                if (!isExplicitlyShown) return false;
+            }
+            // Respect Visibility Rules: exclude forms with restricted visibility
+            const visibilityRules = String(record.fields['Visibility Rules'] || '').toLowerCase().trim();
+            if (visibilityRules) {
+                const isRestricted = RESTRICTED_VISIBILITY_KEYWORDS.some((kw) => visibilityRules.includes(kw));
+                if (isRestricted) return false;
+            }
+            const assignmentType = String(record.fields['Assignment Type'] || '').toLowerCase().trim();
+            if (assignmentType && ADMIN_ASSIGNMENT_TYPES.includes(assignmentType)) {
+                return false;
+            }
+            const category = String(record.fields['Category'] || '').toLowerCase().trim();
+            if (category && ADMIN_CATEGORIES.includes(category)) {
+                return false;
+            }
             // Filter out forms that are already assigned to this company
             if (assignedAvailableFormIds.includes(record.id)) {
                 return false;
             }
-            
             return true;
         });
+
+        console.log(`[Available Forms API] Returning ${filteredRecords.length} user-assignable forms (excluded system admin actions)`);
 
         const forms: AvailableForm[] = filteredRecords.map((record) => ({
             id: record.id,

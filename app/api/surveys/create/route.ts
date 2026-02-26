@@ -25,7 +25,8 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const { title, description, questions } = await request.json();
+        const body = await request.json().catch(() => ({}));
+        const { title, description, questions } = body;
 
         const token = process.env.AIRTABLE_API_KEY;
         const baseId = "appdqgKk1fmhfaJoT";
@@ -41,17 +42,20 @@ export async function POST(request: NextRequest) {
         // Create survey record in Airtable
         const createUrl = `https://api.airtable.com/v0/${baseId}/${surveysTableId}`;
 
-        // Build fields object - match Softr's approach
-        // Softr likely only sets the required link field, and other fields are handled by Airtable/Softr
-        // "Name" field is computed in Airtable, so we can't set it directly
-        const fields: Record<string, any> = {
-            // Link to company (required) - this is the only field we know exists and can set
-            "Link to Intake - Group Data": [companyId],
+        // Only set fields that are writable. Never set "Name" or "Title" - they are computed in Airtable.
+        const COMPUTED_OR_READONLY_FIELDS = ["Name", "Title", "name", "title"];
+        const linkFieldName = "Link to Intake - Group Data"; // Primary; fallback: "Link to Intake Group Data"
+        const fields: Record<string, unknown> = {
+            [linkFieldName]: [companyId],
         };
-
-        // Try to add description if provided (but don't set Name/Title as they're computed)
-        if (description) {
-            fields["Description"] = description;
+        if (description && typeof description === "string" && description.trim()) {
+            fields["Description"] = description.trim();
+        }
+        // Ensure we never send computed/primary formula fields
+        for (const key of Object.keys(fields)) {
+            if (COMPUTED_OR_READONLY_FIELDS.includes(key)) {
+                delete fields[key];
+            }
         }
 
         let record;
@@ -95,28 +99,44 @@ export async function POST(request: NextRequest) {
                     );
                 }
 
-                // Handle unknown field names or computed fields
-                if (errorData.error?.type === 'UNKNOWN_FIELD_NAME' || errorData.error?.type === 'INVALID_VALUE_FOR_COLUMN') {
-                    // Extract the field name from error message
-                    const fieldMatch = errorData.error.message.match(/"([^"]+)"/);
-                    if (fieldMatch && fieldMatch[1]) {
-                        const invalidField = fieldMatch[1];
-                        console.warn(`[Create Survey API] Field "${invalidField}" is invalid (unknown or computed), removing it and retrying...`);
-                        skippedFields.push(invalidField);
-                        const { [invalidField]: removed, ...remainingFields } = fieldsToUpdate;
-                        fieldsToUpdate = remainingFields;
+                const errMsg = (errorData?.error?.message || "").toLowerCase();
+                const isComputedOrInvalid =
+                    errorData.error?.type === "UNKNOWN_FIELD_NAME" ||
+                    errorData.error?.type === "INVALID_VALUE_FOR_COLUMN" ||
+                    errMsg.includes("computed") ||
+                    errMsg.includes("formula") ||
+                    errMsg.includes("name is computed") ||
+                    errMsg.includes("cannot set");
 
-                        // Always keep the required link field
-                        if (!fieldsToUpdate["Link to Intake - Group Data"]) {
-                            fieldsToUpdate["Link to Intake - Group Data"] = [companyId];
-                        }
-
-                        retryCount++;
-                        continue;
+                if (isComputedOrInvalid) {
+                    // Try to extract the field name from the error message (e.g. "Name is computed")
+                    let invalidField: string | null = null;
+                    const quotedMatch = errorData.error?.message?.match(/"([^"]+)"/);
+                    if (quotedMatch?.[1]) {
+                        invalidField = quotedMatch[1];
+                    } else if (errMsg.includes("name")) {
+                        invalidField = "Name";
                     }
+                    if (invalidField) {
+                        console.warn(`[Create Survey API] Field "${invalidField}" is invalid (unknown or computed), removing and retrying...`);
+                        skippedFields.push(invalidField);
+                        const { [invalidField]: _removed, ...remaining } = fieldsToUpdate as Record<string, unknown>;
+                        fieldsToUpdate = remaining as Record<string, any>;
+                    }
+                    // Also strip any known computed fields before retry
+                    for (const key of COMPUTED_OR_READONLY_FIELDS) {
+                        if (key in fieldsToUpdate) {
+                            delete fieldsToUpdate[key];
+                            skippedFields.push(key);
+                        }
+                    }
+                    if (!fieldsToUpdate[linkFieldName] && !fieldsToUpdate["Link to Intake Group Data"]) {
+                        fieldsToUpdate[linkFieldName] = [companyId];
+                    }
+                    retryCount++;
+                    continue;
                 }
-                
-                // If error is not about unknown/computed fields, or we've exhausted retries, return error
+
                 return NextResponse.json(
                     { error: errorData?.error?.message || "Failed to create survey in Airtable" },
                     { status: 500 }

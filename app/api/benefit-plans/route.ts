@@ -37,7 +37,17 @@ export async function GET(request: NextRequest) {
         className: String(fields['Benefit Class'] || 'All Full-Time Employees'),
         waitingPeriod: String(fields['Waiting Period'] || ''),
         effectiveDate: String(fields['Effective Date'] || ''),
-        requiredHours: String(fields['Required Hours'] || '30 Hours per week'),
+        requiredHours: (() => {
+          const raw = fields['Weekly Hours Required for Eligibility'] ||
+            fields['Required Hours'] ||
+            fields['Hours Required'] ||
+            fields['Required Hours per Week'] ||
+            fields['Min Hours'] ||
+            '';
+          const val = String(raw || '').trim();
+          if (val.toLowerCase() === 'unknown') return '';
+          return val || '30 Hours per week';
+        })(),
       };
     }
 

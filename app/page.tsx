@@ -2,6 +2,7 @@ import React from 'react';
 import AssignedForms from '@/components/AssignedForms';
 import AvailableForms from '@/components/AvailableForms';
 import DocumentsSection from '@/components/DocumentsSection';
+import DocumentUpload from '@/components/DocumentUpload';
 import ProgressSteps from '@/components/ProgressSteps';
 import { fetchAirtableRecords } from '@/lib/airtable/fetch';
 import { DocumentArtifact, AssignedForm, AvailableForm, DocumentStatus, FormStatus, ProgressStep, ProgressStatus } from '@/types';
@@ -58,8 +59,10 @@ export default async function HomePage() {
                     // Filter documents by user email or company ID
                     // Priority: If company ID exists, filter by company. Otherwise, we'll need a user email field
                     // For now, if company ID exists, use it. Otherwise, show all user's documents (if we had a user field)
+                    // Documents table may use "Link to Intake - Group Data" or "Link to Intake Group Data"
+                    const docLinkFields = ['Link to Intake - Group Data', 'Link to Intake Group Data'];
                     docRecords = allRecords.filter((record) => {
-                        const linkField = record.fields['Link to Intake - Group Data'];
+                        const linkField = docLinkFields.map((f) => record.fields[f]).find((v) => v != null);
                         
                         // If company ID exists, filter by company
                         if (companyId) {
@@ -177,16 +180,19 @@ export default async function HomePage() {
                             const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
                             documentUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${fileId}`;
                             console.log(`[Dashboard] Reconstructed URL from stored fileId for document ${record.id}: ${documentUrl}`);
-                        } else if (storedFileUrl && typeof storedFileUrl === 'string' && storedFileUrl.includes('/api/files/')) {
-                            // Use stored file URL
-                            const fileIdMatch = storedFileUrl.match(/\/api\/files\/([^\/\?]+)/);
-                            if (fileIdMatch) {
-                                const extractedFileId = fileIdMatch[1];
-                                const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
-                                documentUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${extractedFileId}`;
-                                console.log(`[Dashboard] Reconstructed URL from stored File URL for document ${record.id}: ${documentUrl}`);
+                        } else if (storedFileUrl && typeof storedFileUrl === 'string' && storedFileUrl.trim()) {
+                            if (storedFileUrl.includes('/api/files/')) {
+                                const fileIdMatch = storedFileUrl.match(/\/api\/files\/([^\/\?]+)/);
+                                if (fileIdMatch) {
+                                    const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || 'http://localhost:3000';
+                                    documentUrl = `${baseUrl.replace(/\/$/, '')}/api/files/${fileIdMatch[1]}`;
+                                    console.log(`[Dashboard] Reconstructed URL from stored File URL for document ${record.id}: ${documentUrl}`);
+                                }
+                            } else {
+                                documentUrl = storedFileUrl.trim();
                             }
-                        } else {
+                        }
+                        if (!documentUrl) {
                             // No URL found - document might not have been properly attached
                             console.warn(`[Dashboard] Document ${record.id} has no file URL, fileId, or stored URL. File attachment:`, fileAttachment);
                             documentUrl = undefined;
@@ -298,7 +304,10 @@ export default async function HomePage() {
                     
                     console.log(`[Dashboard] Found ${assignedAvailableFormIds.length} available forms already assigned to company ${companyId}`);
                     
-                    // Filter: exclude "Coming Soon" and already assigned forms
+                    // Filter: respect visibility controls - only show forms explicitly marked for prospect portal
+                    const ADMIN_CATEGORIES = ['admin', 'system', 'system admin', 'administrator', 'internal only', 'admin only', 'internal'];
+                    const ADMIN_ASSIGNMENT_TYPES = ['admin', 'system', 'admin only', 'system only', 'administrator'];
+                    const RESTRICTED_VISIBILITY_KEYWORDS = ['admin', 'internal', 'hide', 'restricted', 'private', 'system', 'staff only', 'employees only'];
                     availableRecords = allAvailableRecords.filter((record: any) => {
                         // Filter out "Coming Soon" forms
                         const status = String(record.fields['Status'] || '').toLowerCase();
@@ -306,16 +315,37 @@ export default async function HomePage() {
                         if (status.includes('coming soon') || name.includes('coming soon')) {
                             return false;
                         }
-                        
+                        // Respect Show in Available Forms: exclude when No; require Yes when field exists
+                        const showInAvailable = record.fields['Show in Available Forms'];
+                        if (showInAvailable === false || showInAvailable === 'No' || showInAvailable === 'no') {
+                            return false;
+                        }
+                        if (showInAvailable !== undefined && showInAvailable !== null) {
+                            const isExplicitlyShown = showInAvailable === true || showInAvailable === 'Yes' || showInAvailable === 'yes' || (typeof showInAvailable === 'object' && showInAvailable?.label === 'Yes');
+                            if (!isExplicitlyShown) return false;
+                        }
+                        // Respect Visibility Rules: exclude forms with restricted visibility
+                        const visibilityRules = String(record.fields['Visibility Rules'] || '').toLowerCase().trim();
+                        if (visibilityRules) {
+                            const isRestricted = RESTRICTED_VISIBILITY_KEYWORDS.some((kw) => visibilityRules.includes(kw));
+                            if (isRestricted) return false;
+                        }
+                        const assignmentType = String(record.fields['Assignment Type'] || '').toLowerCase().trim();
+                        if (assignmentType && ADMIN_ASSIGNMENT_TYPES.includes(assignmentType)) {
+                            return false;
+                        }
+                        const category = String(record.fields['Category'] || '').toLowerCase().trim();
+                        if (category && ADMIN_CATEGORIES.includes(category)) {
+                            return false;
+                        }
                         // Filter out forms that are already assigned to this company
                         if (assignedAvailableFormIds.includes(record.id)) {
                             return false;
                         }
-                        
                         return true;
                     });
                     
-                    console.log(`[Dashboard] Filtered to ${availableRecords.length} available forms (excluding Coming Soon and already assigned)`);
+                    console.log(`[Dashboard] Filtered to ${availableRecords.length} available forms (user-assignable only; excluded Coming Soon, system admin actions, already assigned)`);
                 }
             } catch (error) {
                 console.error('[Dashboard] Error fetching available forms:', error);
@@ -410,11 +440,16 @@ export default async function HomePage() {
                         }
                     }
                     
+                    const linkToAvailable = record.fields['Link to Available Forms'];
+                    const availableFormId = linkToAvailable
+                        ? (Array.isArray(linkToAvailable) ? linkToAvailable[0] : linkToAvailable)
+                        : undefined;
                     return {
                         id: record.id,
                         name: formName,
                         status: (record.fields['Status'] as FormStatus) || FormStatus.NOT_STARTED,
                         description: String(record.fields['Assigned Form URL'] || ''),
+                        availableFormId: availableFormId ? String(availableFormId) : undefined,
                     };
                 });
                 console.log(`[Dashboard] Mapped ${assignedForms.length} assigned forms`);
@@ -574,19 +609,24 @@ export default async function HomePage() {
     return (
         <div className="space-y-12 animate-in fade-in duration-500">
             <header>
-                <h1 className="text-[24px] font-bold text-gray-900 tracking-tight leading-tight">Prospect Portal</h1>
-                <p className="text-[15px] text-gray-500 font-medium mt-1">Manage your intake workflow and document submissions with ease.</p>
+                <h1 className="text-h2 text-neutral-900 tracking-tight leading-tight">Prospect Portal</h1>
+                <p className="text-body text-neutral-500 font-medium mt-1">Manage your intake workflow and document submissions with ease.</p>
             </header>
 
             {/* Row 1: Assigned Forms & Documents */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
                 <div className="lg:col-span-8">
                     <AssignedForms forms={assignedForms} />
                 </div>
                 <div className="lg:col-span-4">
-                    <div className="mb-6">
-                        <h2 className="text-2xl font-bold text-[#1c240f] tracking-tight">Your Documents</h2>
-                        <p className="text-[13px] text-gray-500 mt-0.5">Recently uploaded files and artifacts.</p>
+                    <div className="mb-3 flex flex-col gap-2">
+                        <div className="flex items-center justify-between gap-2">
+                            <div>
+                                <h2 className="text-h2 text-neutral-900 tracking-tight">Your Documents</h2>
+                                <p className="text-label text-neutral-500 mt-1">Recently uploaded files and artifacts.</p>
+                            </div>
+                            <DocumentUpload />
+                        </div>
                     </div>
                     <DocumentsSection documents={documents} />
                 </div>
@@ -594,9 +634,9 @@ export default async function HomePage() {
 
             {/* Row 2: Process Tracking (Full Width / Stretched) */}
             <section className="w-full">
-                <div className="mb-6">
-                    <h2 className="text-xl font-bold text-gray-900 tracking-tight">Process Tracking</h2>
-                    <p className="text-[13px] text-gray-500 mt-0.5">Real-time status of your onboarding pipeline.</p>
+                <div className="mb-3">
+                    <h2 className="text-h3 text-neutral-900 tracking-tight">Process Tracking</h2>
+                    <p className="text-label text-neutral-500 mt-1">Real-time status of your onboarding pipeline.</p>
                 </div>
                 <ProgressSteps steps={progressSteps} />
             </section>

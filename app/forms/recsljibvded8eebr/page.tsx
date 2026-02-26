@@ -24,22 +24,37 @@ export default function DocumentUploaderFormPage() {
     }, []);
 
     const handleSave = async (values: FormValues) => {
-        localStorage.setItem('form_recsLJiBVdED8EEbr_progress', JSON.stringify(values));
+        const toSave = { ...values };
+        if (toSave.file instanceof File) delete toSave.file;
+        localStorage.setItem('form_recsLJiBVdED8EEbr_progress', JSON.stringify(toSave));
     };
 
     const handleSubmit = async (values: FormValues) => {
         setIsSubmitting(true);
         setSubmitError('');
-        
+
+        const file = values.file;
+        const isFile = file && typeof file === 'object' && file instanceof File;
+
+        if (!isFile) {
+            setSubmitError('Please select a file to upload.');
+            setIsSubmitting(false);
+            return;
+        }
+
         try {
-            const response = await fetch('/api/forms/submit', {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('name', file.name);
+            formData.append('documentType', String(values.documentType || 'Other'));
+            formData.append(
+                'documentTitle',
+                String(values.documentDescription || values.uploadNotes || file.name.replace(/\.[^/.]+$/, '') || file.name)
+            );
+
+            const response = await fetch('/api/documents/upload', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    formId: 'recsLJiBVdED8EEbr',
-                    formName: 'Document Uploader',
-                    values,
-                }),
+                body: formData,
             });
 
             const data = await response.json();
@@ -52,12 +67,12 @@ export default function DocumentUploaderFormPage() {
                     router.refresh();
                 }, 2000);
             } else {
-                setSubmitError(data.message || data.error || 'Failed to submit form. Please try again.');
+                setSubmitError(data.error || data.message || 'Failed to upload document. Please try again.');
                 setIsSubmitting(false);
             }
         } catch (error) {
             console.error('Form submission error:', error);
-            setSubmitError('An error occurred while submitting the form. Please try again.');
+            setSubmitError('An error occurred while uploading the document. Please try again.');
             setIsSubmitting(false);
         }
     };

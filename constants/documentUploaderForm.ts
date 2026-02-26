@@ -18,6 +18,15 @@ export const DOCUMENT_UPLOADER_FORM_DATA: FormDataDefinition = {
                     description: 'Please provide information about the documents you are uploading',
                     questions: [
                         {
+                            id: 'file',
+                            label: 'Select Document',
+                            type: 'file',
+                            required: true,
+                            placeholder: 'Choose a file to upload',
+                            accept: '.pdf,.doc,.docx,.xls,.xlsx,.txt,.jpg,.jpeg,.png',
+                            validation: [{ type: 'required', message: 'Please select a file to upload' }]
+                        },
+                        {
                             id: 'documentType',
                             label: 'Document Type',
                             type: 'select',

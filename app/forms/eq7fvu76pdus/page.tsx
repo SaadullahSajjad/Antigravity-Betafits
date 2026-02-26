@@ -6,21 +6,51 @@ import Link from 'next/link';
 import BenefitsPulseSurveyForm from '@/components/forms/BenefitsPulseSurveyForm';
 import { FormValues } from '@/types/form';
 
+// Airtable field name → form field id (for prefill from Group Data)
+const AIRTABLE_TO_FORM_FIELDS: Record<string, string> = {
+    'Company Name': 'company',
+    'Health Benefits Enrollment': 'healthBenefitsEnrollment',
+    'Overall Benefits Satisfaction': 'overallBenefitsPackage',
+    'Medical Benefits Satisfaction': 'medicalPlanOptions',
+};
+
+function mapGroupDataToFormValues(fields: Record<string, unknown>): FormValues {
+    const out: FormValues = {};
+    for (const [airtableField, value] of Object.entries(fields)) {
+        const formField = AIRTABLE_TO_FORM_FIELDS[airtableField];
+        if (formField != null && value !== undefined && value !== null && value !== '') {
+            out[formField] = value as string | number;
+        }
+    }
+    return out;
+}
+
 export default function BenefitsFeedbackFormPage() {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
     const [submitError, setSubmitError] = useState('');
+    const [initialValues, setInitialValues] = useState<FormValues>({});
 
     useEffect(() => {
         const saved = localStorage.getItem('form_eQ7FVU76PDus_progress');
         if (saved) {
             try {
-                JSON.parse(saved);
+                const parsed = JSON.parse(saved) as FormValues;
+                if (Object.keys(parsed).length > 0) {
+                    setInitialValues(parsed);
+                    return;
+                }
             } catch (e) {
                 console.error('Error loading saved progress:', e);
             }
         }
+        fetch('/api/forms/group-data', { credentials: 'include' })
+            .then(res => res.ok ? res.json() : null)
+            .then((data: { fields?: Record<string, unknown> } | null) => {
+                if (data?.fields) setInitialValues(mapGroupDataToFormValues(data.fields));
+            })
+            .catch(() => {});
     }, []);
 
     const handleSave = async (values: FormValues) => {
@@ -108,7 +138,7 @@ export default function BenefitsFeedbackFormPage() {
                 </div>
             )}
 
-            <BenefitsPulseSurveyForm onSave={handleSave} onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+            <BenefitsPulseSurveyForm onSave={handleSave} onSubmit={handleSubmit} isSubmitting={isSubmitting} initialValues={initialValues} />
         </div>
     );
 }

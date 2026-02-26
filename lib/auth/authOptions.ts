@@ -398,7 +398,13 @@ export const authOptions: NextAuthOptions = {
 
             return true;
         },
-        async jwt({ token, user, account }) {
+        async jwt({ token, user, account, trigger, session }) {
+            if (trigger === "update" && session) {
+                const s = session as any;
+                if (s.firstName !== undefined) token.firstName = s.firstName;
+                if (s.lastName !== undefined) token.lastName = s.lastName;
+                return { ...token };
+            }
             if (user) {
                 token.id = user.id;
                 token.email = user.email;

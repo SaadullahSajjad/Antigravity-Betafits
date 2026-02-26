@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { storeFile } from "@/lib/fileStorage";
+import { put } from "@vercel/blob";
 
 export const dynamic = "force-dynamic";
 
@@ -23,28 +23,17 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Generate unique file ID
-        const fileId = `${Date.now()}_${Math.random().toString(36).substring(7)}`;
-        
-        // Convert file to buffer
-        const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
+        const pathname = `uploads/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
 
-        // Store in memory (for development)
-        // In production, upload to cloud storage and get URL
-        storeFile(fileId, {
-            buffer,
-            filename: file.name,
-            mimeType: file.type || "application/octet-stream",
+        const blob = await put(pathname, file, {
+            access: "public",
+            addRandomSuffix: true,
+            contentType: file.type || undefined,
         });
-
-        // Return the file serving URL
-        const baseUrl = process.env.NEXTAUTH_URL || process.env.VERCEL_URL || "http://localhost:3000";
-        const fileUrl = `${baseUrl}/api/files/${fileId}`;
 
         return NextResponse.json({
             success: true,
-            url: fileUrl,
+            url: blob.url,
             filename: file.name,
         });
     } catch (error) {

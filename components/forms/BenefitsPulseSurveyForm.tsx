@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormValues } from '@/types/form';
 import { BENEFITS_PULSE_SURVEY_FORM_DATA } from '@/constants/benefitsPulseSurveyForm';
 import FormSection from './FormSection';
@@ -9,12 +9,22 @@ interface Props {
     onSave: (values: FormValues) => Promise<void>;
     onSubmit: (values: FormValues) => Promise<void>;
     isSubmitting?: boolean;
+    /** Prefill from Airtable (Airtable → portal sync) */
+    initialValues?: FormValues;
 }
 
-const BenefitsPulseSurveyForm: React.FC<Props> = ({ onSave, onSubmit, isSubmitting = false }) => {
+const BenefitsPulseSurveyForm: React.FC<Props> = ({ onSave, onSubmit, isSubmitting = false, initialValues }) => {
     const [currentPage, setCurrentPage] = useState(0);
-    const [values, setValues] = useState<FormValues>({});
+    const [values, setValues] = useState<FormValues>(initialValues || {});
     const [errors, setErrors] = useState<Record<string, string>>({});
+    const [hasMergedInitial, setHasMergedInitial] = useState(false);
+
+    useEffect(() => {
+        if (!hasMergedInitial && initialValues && Object.keys(initialValues).length > 0) {
+            setValues(prev => ({ ...initialValues, ...prev }));
+            setHasMergedInitial(true);
+        }
+    }, [initialValues, hasMergedInitial]);
 
     const pages = BENEFITS_PULSE_SURVEY_FORM_DATA.pages;
     const currentPageData = pages[currentPage];

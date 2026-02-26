@@ -1,8 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth/authOptions';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { updateAirtableRecord } from '@/lib/airtable/update';
+import { createAirtableRecord } from '@/lib/airtable/create';
+
+/** Alternate Airtable field names for Group Data (try when primary fails) */
+const GROUP_DATA_FIELD_ALTERNATIVES: Record<string, string[]> = {
+    'Estimated Benefit-Eligible Employees': ['Estimated Benefit-Eligible Employees', 'Estimated Benefit Eligible EEs', 'Benefit Eligible Employees', 'Benefit-Eligible US Employees Range'],
+    'Estimated Benefit Eligible EEs': ['Estimated Benefit Eligible EEs', 'Estimated Benefit-Eligible Employees', 'Benefit Eligible Employees'],
+    'Company Name': ['Company Name', 'Name'],
+    'Phone Number': ['Phone Number', 'Phone'],
+    'Expected Start Month': ['Expected Start Month', 'Expected Benefit Start Month', 'Current Start Month'],
+    'Currently with a PEO': ['Currently with a PEO', 'Medical Coinsurance'],
+    'Ideal Number of Medical Plan Options': ['Ideal Number of Medical Plan Options', 'Additional Notes'],
+    'Expected Plan Types': ['Expected plan types', 'Expected Plan Types', 'Additional Notes'],
+};
 
 /**
  * Submit form data to Airtable
@@ -23,8 +37,9 @@ export async function POST(request: NextRequest) {
 
         const companyId = await getCompanyId();
         if (!companyId) {
+            console.error('[Form Submit] Company ID not found - user may not be linked to a company in Airtable (Intake - Users → Intake - Group Data)');
             return NextResponse.json(
-                { error: 'Company ID not found' },
+                { error: 'Company not found. Please ensure your account is linked to a company in the portal.' },
                 { status: 400 }
             );
         }
@@ -39,33 +54,90 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Map form ID to Airtable table (all forms go to Group Data table)
+        // Benefits Pulse Survey creates NEW record in EE Pulse Surveys (not Group Data)
+        const EE_PULSE_SURVEYS_TABLE = 'tbl28XVUekjvl2Ujn';
+        const GROUP_DATA_TABLE = 'tbliXJ7599ngxEriO';
+
+        if (formId === 'recmB9IdRhtgckvaY') {
+            const apiKey = process.env.AIRTABLE_API_KEY;
+            if (!apiKey) {
+                return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
+            }
+            const MEDICAL_TIER_LABELS: Record<string, string> = {
+                employee_only: 'Employee Only',
+                employee_spouse: 'Employee + Spouse',
+                employee_children: 'Employee + Child(ren)',
+                family: 'Family',
+                waived: 'Waived',
+                not_eligible: 'Not Eligible',
+            };
+            const fields: Record<string, unknown> = {
+                'Link to Intake - Group Data': [companyId],
+            };
+            if (values.company) fields['Company'] = String(values.company);
+            if (values.healthBenefitsEnrollment) {
+                const tier = MEDICAL_TIER_LABELS[String(values.healthBenefitsEnrollment)] || String(values.healthBenefitsEnrollment);
+                fields['Medical Tier'] = tier;
+            }
+            const overallVal = values.overallBenefitsPackage ?? values.overallSatisfaction;
+            if (overallVal !== undefined && overallVal !== null && overallVal !== '') {
+                const n = Number(overallVal);
+                if (!isNaN(n)) fields['Overall'] = n <= 5 ? n : Math.round((n / 10) * 5) || 1;
+            }
+            const medicalVal = values.medicalPlanOptions ?? values.medicalSatisfaction;
+            if (medicalVal !== undefined && medicalVal !== null && medicalVal !== '') {
+                const n = Number(medicalVal);
+                if (!isNaN(n)) fields['Medical Options'] = n <= 5 ? n : Math.round((n / 10) * 5) || 1;
+            }
+            if (values.surveyComments) fields['Comments'] = String(values.surveyComments);
+            if (values.dentalSatisfaction !== undefined && values.dentalSatisfaction !== null && values.dentalSatisfaction !== '') {
+                const n = Number(values.dentalSatisfaction);
+                if (!isNaN(n)) fields['Non-Medical'] = n <= 5 ? n : Math.round((n / 10) * 5) || 1;
+            }
+            if (values.visionSatisfaction !== undefined && values.visionSatisfaction !== null && values.visionSatisfaction !== '') {
+                const n = Number(values.visionSatisfaction);
+                if (!isNaN(n) && !fields['Non-Medical']) fields['Non-Medical'] = n <= 5 ? n : Math.round((n / 10) * 5) || 1;
+            }
+            try {
+                const record = await createAirtableRecord(EE_PULSE_SURVEYS_TABLE, { apiKey, fields: fields as Record<string, any> });
+                revalidatePath('/employee-feedback');
+                revalidatePath('/');
+                return NextResponse.json({ success: true, message: 'Survey submitted successfully', recordId: record.id });
+            } catch (err: any) {
+                console.error('[Form Submit] Benefits Pulse Survey create error:', err);
+                return NextResponse.json(
+                    { success: false, error: err?.message || 'Failed to save survey. Please try again or contact support.' },
+                    { status: 500 }
+                );
+            }
+        }
+
+        // Map form ID to Airtable table (all other forms update Group Data)
         const formTableMap: Record<string, string> = {
-            // All forms map to Intake - Group Data table
-            'eBxXtLZdK4us': 'tbliXJ7599ngxEriO',
-            'rZhiEaUEskus': 'tbliXJ7599ngxEriO',
-            'gn6WNJPJKTus': 'tbliXJ7599ngxEriO',
-            'urHF8xDu7eus': 'tbliXJ7599ngxEriO',
-            'rec4V98J6aPaM3u9H': 'tbliXJ7599ngxEriO',
-            'rec7NfuiBQ8wrEmu7': 'tbliXJ7599ngxEriO',
-            'recFVcfdoXkUjIcod': 'tbliXJ7599ngxEriO',
-            'recFxyNqTLDdrxXN2': 'tbliXJ7599ngxEriO',
-            'recGrsR8Sdx96pckJ': 'tbliXJ7599ngxEriO',
-            'recKzuznmqq29uASl': 'tbliXJ7599ngxEriO',
-            'recOE9pVakkobVzU7': 'tbliXJ7599ngxEriO',
-            'recOt6cX0t1DksDFT': 'tbliXJ7599ngxEriO',
-            'recUnTZFK5UyfWqzm': 'tbliXJ7599ngxEriO',
-            'recdjXjySYuYUGkdP': 'tbliXJ7599ngxEriO',
-            'rechTHxZIxS3bBcqF': 'tbliXJ7599ngxEriO',
-            'reclUQ6KhVzCssuVl': 'tbliXJ7599ngxEriO',
-            'recmB9IdRhtgckvaY': 'tbliXJ7599ngxEriO',
-            'recsLJiBVdED8EEbr': 'tbliXJ7599ngxEriO',
-            'recufWIRuSFArZ9GG': 'tbliXJ7599ngxEriO',
-            'recxH9Jrk10bbqU58': 'tbliXJ7599ngxEriO',
-            'recySUNj6jv47SOKr': 'tbliXJ7599ngxEriO',
+            'eBxXtLZdK4us': GROUP_DATA_TABLE,
+            'rZhiEaUEskus': GROUP_DATA_TABLE,
+            'gn6WNJPJKTus': GROUP_DATA_TABLE,
+            'urHF8xDu7eus': GROUP_DATA_TABLE,
+            'rec4V98J6aPaM3u9H': GROUP_DATA_TABLE,
+            'rec7NfuiBQ8wrEmu7': GROUP_DATA_TABLE,
+            'recFVcfdoXkUjIcod': GROUP_DATA_TABLE,
+            'recFxyNqTLDdrxXN2': GROUP_DATA_TABLE,
+            'recGrsR8Sdx96pckJ': GROUP_DATA_TABLE,
+            'recKzuznmqq29uASl': GROUP_DATA_TABLE,
+            'recOE9pVakkobVzU7': GROUP_DATA_TABLE,
+            'recOt6cX0t1DksDFT': GROUP_DATA_TABLE,
+            'recUnTZFK5UyfWqzm': GROUP_DATA_TABLE,
+            'recdjXjySYuYUGkdP': GROUP_DATA_TABLE,
+            'rechTHxZIxS3bBcqF': GROUP_DATA_TABLE,
+            'reclUQ6KhVzCssuVl': GROUP_DATA_TABLE,
+            'recsLJiBVdED8EEbr': GROUP_DATA_TABLE,
+            'recufWIRuSFArZ9GG': GROUP_DATA_TABLE,
+            'recxH9Jrk10bbqU58': GROUP_DATA_TABLE,
+            'recySUNj6jv47SOKr': GROUP_DATA_TABLE,
         };
 
-        const tableId = formTableMap[formId] || 'tbliXJ7599ngxEriO';
+        const tableId = formTableMap[formId] || GROUP_DATA_TABLE;
+        console.log(`[Form Submit] formId=${formId}, companyId=${companyId}, tableId=${tableId}`);
 
         // Map form values to Airtable field names for all 17 forms
         // Common field mappings (used across multiple forms)
@@ -249,7 +321,8 @@ export async function POST(request: NextRequest) {
             },
             'reclUQ6KhVzCssuVl': {
                 ...commonFields,
-                'benefitsNeeded': 'Expected Benefit Offering',
+                'employeeCount': 'Estimated Benefit Eligible EEs', // Group Data uses this name; fallback in retry: Estimated Benefit-Eligible Employees
+                'benefitsNeeded': 'New Benefits Additional Info', // Textarea; Expected Benefit Offering is single-select
                 'targetStartDate': 'Expected Start Month',
                 'benefitsNotes': 'New Benefits Additional Info',
             },
@@ -289,7 +362,75 @@ export async function POST(request: NextRequest) {
             },
         };
 
-        const mapping = fieldMappings[formId] || {};
+        // Quick Start (eBxXtLZdK4us) form sends Fillout question IDs; map ALL to Airtable field names
+        const quickStartQuestionIdToAirtable: Record<string, string> = {
+            // Contact & Company Info
+            '3khn37NbHQYb7CN6NPgrx2': 'Last Name',
+            'qYvbJrrJqLQjqQnVip6c3N': 'First Name',
+            '2d65uNNeKNqSmZT1k2WVRq': 'Job Title',
+            'jZa7ip7oU533vM2qLWCkZj': 'Phone Number',
+            'ckkAfnKZoQag2Kqf7j71Cq': 'Work Email',
+            '2UCyRd53bWrtdKXAK1XMy6': 'Company Name',
+            'ayXo': 'Street Address',
+            'fT94': 'City',
+            'hmTa': 'State / Province',
+            'wLev': 'ZIP Code',
+            'r1TkXLw3QBZBCkoRHidEPs': 'Year Company Founded',
+            'uTuDTocoypgCbQCkcHWUXN': 'EIN',
+            'hf2rRXr8RmGS1o5PFoFJJn': 'Preferred SIC Code',
+            'xfBVQncwKZoTzx4FDeHDLR': 'Preferred NAICS Code',
+            'jMkzWAv3b9K5VCyGHPsZmw': 'Benefit-Eligible US Employees Range',
+            '87fD37dczxpgzodHMWgvWT': 'Estimated Medical Enrolled EEs',
+            'onbhhvHYbup9VUBE6eAAaz': 'Estimated Benefit Eligible EEs',
+            'xcqpaj6Sfv98YJFAUiCZ4z': 'Expected Headcount Growth (next 12 months)',
+            'opsQwCsEVnschNufM581ph': 'NDA Required',
+            '6eWgGjt7iTjtYcnZRfnCjm': 'Additional Notes',
+            '8xGZP1oCmeWgPa2GhFquPc': 'Additional Notes',
+            'tP2QxuesGXQswTM8r8LNeV': 'Additional Notes',
+            '4eLaFN3YpBRxS1gqEFhqG8': 'Additional Notes',
+            'aE23zBVWqLxxKfyZAacKm3': 'Additional Notes',
+            '6jRhRnuZ2kzaWXQEYjccAQ': 'Additional Notes',
+            '52iYqLmZqi87WApC4ZUuM1': 'Additional Notes',
+            '89C6yaJhUwD2hLhed5Pd9R': 'Additional Notes',
+            'uJTQWkaMyr8daPGbwKfGJt': 'Additional Notes',
+            // Benefits Overview
+            'd4wVEowxCpRtdsXr81nFnF': 'Offered Benefits',
+            'iHxYYn5HYHDvKGH7Ec9Z5L': 'Current Start Month',
+            'gSmJUwa363oWH5x2Q68ojZ': 'Expected Start Month',
+            '62Sic2EiCFMVuxwFUM9L1k': 'Medical Offering Type',
+            '7XiD4e9FAysNviYb9ocJQd': 'Medical Contribution Strategy',
+            'hRA1LaWSMrrX2irz3r6XXd': 'Additional Notes',
+            'aJ5QJvpDNyhXNMvoSmVEoT': 'Additional Notes',
+            'uaFGXRZwNyovwuXGKsCgDf': 'Additional Notes',
+            'aByPiuEENQzRDaTFecMkKT': 'Medical Buy-Up Strategy',
+            'b5zjBDR1YeKTq9GaVxQYWv': 'Currently with a PEO',
+            'mM5ZyS9KeVz83eeqfdHoRn': 'Current PEO',
+            'vPgLS18szbAabJNGiwDnev': 'Evaluated PEOs',
+            'kewbuyogJjkbbQNNXpbtxe': 'HR Software Used',
+            'i5Cg': 'Predominant Payroll Frequency',
+            'eKX8': 'Deduction Frequency',
+            '1DzLVcVYD9X23eBWJguR2p': 'Additional Notes',
+            'iUedSGbFvtuwGorGfJLmoU': 'Additional Notes',
+            // Benefit Preference
+            'hkZ8KcqU7mWUPnJK3WBybe': 'Ideal Number of Medical Plan Options',
+            'qjLXquRvoppwrWfFrFNEnf': 'Expected Plan Types',
+            'h5JdKC6cUHMWkD1NSFtJE4': 'Additional Notes',
+            'qLpBxT2RxYU81MgD6Qb48P': 'Additional Notes',
+            'pmcR22jTVUgcBSXBKQGMJq': 'Additional Notes',
+            'awX85gzf6ywgCQsnu1HAKr': 'Additional Notes',
+            // Document upload section (non-file text fields -> Additional Notes)
+            'kHhRbt6vRBSRSj6TLwbLBc': 'Additional Notes',
+            '5gwf': 'Additional Notes',
+            '8bvEVKyaGbAv564V7oZ81f': 'Additional Notes',
+            'gGmnnURpgpAkzaSHN7W3rs': 'Additional Notes',
+            // Ending (thank you - skip saving, map to avoid unknown field error)
+            'kTCf1qrYPJsrHcdx1PifGR': 'Additional Notes',
+        };
+
+        const baseMapping = fieldMappings[formId] || {};
+        const mapping = formId === 'eBxXtLZdK4us'
+            ? { ...baseMapping, ...quickStartQuestionIdToAirtable }
+            : baseMapping;
         const airtableFields: Record<string, any> = {};
         // Note: We're updating the Group Data table directly, so we don't need to link to it
         // The "Link to Intake - Group Data" field is used in OTHER tables to link TO Group Data
@@ -328,8 +469,27 @@ export async function POST(request: NextRequest) {
         // Map form values to Airtable fields
         // Filter out system fields that shouldn't be sent to Airtable
         const systemFields = ['error', 'confirmAccuracy']; // Fields to skip
+
+        // Quick Start (New Benefits): merge benefits text and convert date to month name
+        const valuesToMap = { ...values };
+        if (formId === 'reclUQ6KhVzCssuVl') {
+            const benefitsParts = [
+                values.benefitsNeeded,
+                values.benefitsNotes,
+            ].filter((v) => v != null && v !== '');
+            if (benefitsParts.length > 0) {
+                valuesToMap.benefitsNotes = benefitsParts.join('\n\n');
+            }
+            if (values.targetStartDate) {
+                const d = new Date(String(values.targetStartDate));
+                if (!isNaN(d.getTime())) {
+                    const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                    valuesToMap.targetStartDate = months[d.getMonth()];
+                }
+            }
+        }
         
-        for (const [formField, value] of Object.entries(values)) {
+        for (const [formField, value] of Object.entries(valuesToMap)) {
             // Skip system fields and empty values
             if (systemFields.includes(formField)) {
                 continue;
@@ -391,28 +551,33 @@ export async function POST(request: NextRequest) {
                     if (fieldMatch && fieldMatch[1]) {
                         const problematicField = fieldMatch[1];
                         const errorType = errorMessage.includes('UNKNOWN_FIELD_NAME') ? 'does not exist' : 'cannot accept the provided value';
-                        console.warn(`[Form Submit] Field "${problematicField}" ${errorType} in Airtable, removing it and retrying...`);
+                        console.warn(`[Form Submit] Field "${problematicField}" ${errorType} in Airtable`);
                         console.warn(`[Form Submit] Field value was:`, fieldsToUpdate[problematicField], `(type: ${typeof fieldsToUpdate[problematicField]})`);
-                        
-                        // Remove the problematic field and retry
-                        const { [problematicField]: removed, ...remainingFields } = fieldsToUpdate;
+
+                        // Try alternate field name before removing (Group Data table may use different names)
+                        const alternatives = GROUP_DATA_FIELD_ALTERNATIVES[problematicField];
+                        const savedValue = fieldsToUpdate[problematicField];
+                        const { [problematicField]: _removed, ...remainingFields } = fieldsToUpdate;
                         fieldsToUpdate = remainingFields;
+
+                        if (alternatives && alternatives.length > 1 && savedValue !== undefined) {
+                            const idx = alternatives.indexOf(problematicField);
+                            const nextName = alternatives[idx + 1];
+                            if (nextName) {
+                                console.warn(`[Form Submit] Retrying with alternate field name "${nextName}"`);
+                                fieldsToUpdate = { ...fieldsToUpdate, [nextName]: savedValue };
+                                retryCount++;
+                                continue;
+                            }
+                        }
                         
                         if (Object.keys(fieldsToUpdate).length === 0) {
-                            // If all fields were problematic, log a warning but don't fail
-                            // This allows forms to submit successfully even if field mappings need to be updated
-                            console.warn(`[Form Submit] All fields for form ${formId} were problematic. Form submitted but no data was saved to Airtable.`);
-                            console.warn(`[Form Submit] Fields attempted:`, Object.keys(airtableFields));
-                            console.warn(`[Form Submit] Please verify field mappings and data types in app/api/forms/submit/route.ts`);
-                            
-                            // Return success anyway - the form was submitted, just not saved to Airtable
-                            // This prevents blocking the user experience while field mappings are being fixed
+                            console.error(`[Form Submit] No fields could be saved for form ${formId}. Fields attempted:`, Object.keys(airtableFields));
                             return NextResponse.json({
-                                success: true,
-                                recordId: companyId,
-                                message: 'Form submitted successfully (some fields may not have been saved - check logs)',
-                                warning: 'Some fields could not be saved to Airtable. Please contact support if this persists.',
-                            });
+                                success: false,
+                                error: 'Form data could not be saved to the database. Please try again or contact support.',
+                                details: process.env.NODE_ENV === 'development' ? { attemptedFields: Object.keys(airtableFields) } : undefined,
+                            }, { status: 502 });
                         }
                         
                         retryCount++;
@@ -429,15 +594,12 @@ export async function POST(request: NextRequest) {
         }
         
         if (!record) {
-            // If all fields were unknown, log a warning but don't fail
-            // This allows forms to submit successfully even if field mappings need to be updated
-            console.warn(`[Form Submit] All fields for form ${formId} were unknown. Form submitted but no data was saved to Airtable.`);
-            console.warn(`[Form Submit] Fields attempted:`, Object.keys(airtableFields));
-            console.warn(`[Form Submit] Please verify field mappings in app/api/forms/submit/route.ts`);
-            
-            // Don't return early - continue to update the form status below
-            // Create a dummy record object so the code continues
-            record = { id: companyId, fields: {}, createdTime: new Date().toISOString() };
+            console.error(`[Form Submit] No record updated for form ${formId}. Fields attempted:`, Object.keys(airtableFields));
+            return NextResponse.json({
+                success: false,
+                error: 'Form data could not be saved to the database. Please try again or contact support.',
+                details: process.env.NODE_ENV === 'development' ? { attemptedFields: Object.keys(airtableFields) } : undefined,
+            }, { status: 502 });
         }
 
         // Update the assigned form status to "Submitted" or "Completed"
@@ -532,6 +694,15 @@ export async function POST(request: NextRequest) {
         } catch (statusError) {
             console.error('[Form Submit] Error updating form status:', statusError);
             // Don't fail the submission if status update fails
+        }
+
+        // Revalidate so dashboard and other pages show fresh Airtable data (two-way sync)
+        try {
+            revalidatePath('/');
+            revalidatePath('/company-details');
+            revalidatePath('/benefits-analysis');
+        } catch (e) {
+            console.warn('[Form Submit] revalidatePath failed:', e);
         }
 
         return NextResponse.json({

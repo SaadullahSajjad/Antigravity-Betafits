@@ -45,7 +45,7 @@ const FormCard: React.FC<{
             isAssigning ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {isAssigning ? 'Assigning...' : 'Open'}
+          {isAssigning ? 'Assigning...' : 'Assign Form'}
         </button>
       </div>
     </div>

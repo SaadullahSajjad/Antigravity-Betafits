@@ -1,6 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { CompanyData } from '@/types';
 
 interface Props {
@@ -8,10 +9,20 @@ interface Props {
 }
 
 export default function CompanyDetailsInfo({ data }: Props) {
+    const router = useRouter();
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState(data);
+    const [isSaving, setIsSaving] = useState(false);
+    const [saveSuccess, setSaveSuccess] = useState(false);
+
+    useEffect(() => {
+        setEditedData(data);
+    }, [data]);
 
     const handleSave = async () => {
+        if (isSaving) return;
+        setIsSaving(true);
+        setSaveSuccess(false);
         try {
             const response = await fetch('/api/company/update', {
                 method: 'PATCH',
@@ -19,18 +30,21 @@ export default function CompanyDetailsInfo({ data }: Props) {
                 body: JSON.stringify(editedData),
             });
 
-            const data = await response.json();
+            const res = await response.json().catch(() => ({}));
 
-            if (response.ok) {
+            if (response.ok && res.success !== false) {
                 setIsEditing(false);
-                // Refresh the page to show updated data
-                window.location.reload();
+                setSaveSuccess(true);
+                router.refresh();
+                setTimeout(() => setSaveSuccess(false), 3000);
             } else {
-                alert(data.error || 'Failed to update company details');
+                alert(res.error || 'Failed to update company details');
             }
         } catch (error) {
             console.error('Error updating company details:', error);
             alert('An error occurred while updating company details');
+        } finally {
+            setIsSaving(false);
         }
     };
 
@@ -49,21 +63,28 @@ export default function CompanyDetailsInfo({ data }: Props) {
                         Edit
                     </button>
                 ) : (
-                    <div className="flex gap-2">
+                    <div className="flex items-center gap-2">
+                        {saveSuccess && (
+                            <span className="text-[13px] font-medium text-green-600">Saved</span>
+                        )}
                         <button
                             onClick={() => {
-                                setIsEditing(false);
-                                setEditedData(data);
+                                if (!isSaving) {
+                                    setIsEditing(false);
+                                    setEditedData(data);
+                                }
                             }}
-                            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-[13px] font-bold hover:bg-gray-200 transition-colors"
+                            disabled={isSaving}
+                            className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-[13px] font-bold hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleSave}
-                            className="px-4 py-2 bg-brand-600 text-white rounded-lg text-[13px] font-bold hover:bg-brand-700 transition-colors"
+                            disabled={isSaving}
+                            className="px-4 py-2 bg-brand-600 text-white rounded-lg text-[13px] font-bold hover:bg-brand-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                            Save
+                            {isSaving ? 'Saving…' : 'Save'}
                         </button>
                     </div>
                 )}
@@ -117,6 +138,51 @@ export default function CompanyDetailsInfo({ data }: Props) {
                 </div>
                 <div>
                     <label className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
+                        Legal Name
+                    </label>
+                    {isEditing ? (
+                        <input
+                            type="text"
+                            value={editedData.legalName}
+                            onChange={(e) => setEditedData({ ...editedData, legalName: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                        />
+                    ) : (
+                        <p className="text-[16px] font-medium text-gray-900">{data.legalName || '-'}</p>
+                    )}
+                </div>
+                <div>
+                    <label className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
+                        SIC Code
+                    </label>
+                    {isEditing ? (
+                        <input
+                            type="text"
+                            value={editedData.sicCode}
+                            onChange={(e) => setEditedData({ ...editedData, sicCode: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                        />
+                    ) : (
+                        <p className="text-[16px] font-medium text-gray-900">{data.sicCode || '-'}</p>
+                    )}
+                </div>
+                <div>
+                    <label className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
+                        NAICS Code
+                    </label>
+                    {isEditing ? (
+                        <input
+                            type="text"
+                            value={editedData.naicsCode}
+                            onChange={(e) => setEditedData({ ...editedData, naicsCode: e.target.value })}
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg text-[15px] focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+                        />
+                    ) : (
+                        <p className="text-[16px] font-medium text-gray-900">{data.naicsCode || '-'}</p>
+                    )}
+                </div>
+                <div>
+                    <label className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
                         Phone Number
                     </label>
                     {isEditing ? (
@@ -132,6 +198,12 @@ export default function CompanyDetailsInfo({ data }: Props) {
                     ) : (
                         <p className="text-[16px] font-medium text-gray-900">{data.contact.phone || '-'}</p>
                     )}
+                </div>
+                <div>
+                    <label className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">
+                        Contact email
+                    </label>
+                    <p className="text-[16px] font-medium text-gray-900">{data.contact.email || '-'}</p>
                 </div>
                 <div className="md:col-span-2">
                     <label className="text-[13px] font-semibold text-gray-500 uppercase tracking-wider block mb-2">

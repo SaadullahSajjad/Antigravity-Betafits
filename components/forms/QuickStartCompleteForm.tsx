@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FormValues } from '@/types/form';
 import { QUICK_START_COMPLETE_FORM_DATA } from '@/constants/quickStartFormComplete';
 import FormSection from './FormSection';
@@ -9,11 +9,21 @@ interface Props {
     onSave: (values: FormValues) => Promise<void>;
     onSubmit: (values: FormValues) => Promise<void>;
     isSubmitting?: boolean;
+    /** Prefill from Airtable (Group Data) for Airtable → portal sync */
+    initialValues?: FormValues;
 }
 
-const QuickStartCompleteForm: React.FC<Props> = ({ onSave, onSubmit, isSubmitting = false }) => {
+const QuickStartCompleteForm: React.FC<Props> = ({ onSave, onSubmit, isSubmitting = false, initialValues }) => {
     const [currentPage, setCurrentPage] = useState(0);
-    const [values, setValues] = useState<FormValues>({});
+    const [values, setValues] = useState<FormValues>(initialValues || {});
+    const [hasMergedInitial, setHasMergedInitial] = useState(false);
+
+    useEffect(() => {
+        if (!hasMergedInitial && initialValues && Object.keys(initialValues).length > 0) {
+            setValues(prev => ({ ...initialValues, ...prev }));
+            setHasMergedInitial(true);
+        }
+    }, [initialValues, hasMergedInitial]);
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const pages = QUICK_START_COMPLETE_FORM_DATA?.pages || [];

@@ -297,11 +297,11 @@ const BenefitPlans: React.FC<Props> = ({ eligibility, strategies, plans }) => {
   const displayEligibility = eligibility || defaultEligibility;
 
   return (
-    <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-20">
+    <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-8">
       {/* Header Section */}
       <div className="flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-900 tracking-tight mb-2">Benefit Plans</h1>
-        <p className="text-gray-500 font-medium max-w-2xl leading-relaxed">
+        <h1 className="text-h1 text-neutral-900 tracking-tight mb-1">Benefit Plans</h1>
+        <p className="text-neutral-500 text-body font-medium max-w-2xl leading-relaxed">
           Review your organization's benefit ecosystem, from coverage rules to employer contribution strategies.
         </p>
       </div>
@@ -329,7 +329,7 @@ const BenefitPlans: React.FC<Props> = ({ eligibility, strategies, plans }) => {
                   </div>
                   <div className="flex-1 border-b border-gray-50 pb-2 group-last:border-0 group-last:pb-0">
                     <div className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">{item.label}</div>
-                    <div className="text-[16px] font-bold text-gray-900 tracking-tight">{item.value}</div>
+                    <div className="text-[16px] font-bold text-gray-900 tracking-tight">{item.value || '-'}</div>
                   </div>
                 </div>
               ))}

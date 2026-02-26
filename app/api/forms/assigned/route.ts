@@ -43,12 +43,19 @@ export async function GET(request: NextRequest) {
             return NextResponse.json([]);
         }
 
-        const forms: AssignedForm[] = records.map((record) => ({
-            id: record.id,
-            name: String(record.fields['Name'] || ''),
-            status: (record.fields['Status'] as FormStatus) || FormStatus.NOT_STARTED,
-            description: String(record.fields['Assigned Form URL'] || ''),
-        }));
+        const forms: AssignedForm[] = records.map((record) => {
+            const linkToAvailable = record.fields['Link to Available Forms'];
+            const availableFormId = linkToAvailable
+                ? (Array.isArray(linkToAvailable) ? linkToAvailable[0] : linkToAvailable)
+                : undefined;
+            return {
+                id: record.id,
+                name: String(record.fields['Name'] || ''),
+                status: (record.fields['Status'] as FormStatus) || FormStatus.NOT_STARTED,
+                description: String(record.fields['Assigned Form URL'] || ''),
+                availableFormId: availableFormId ? String(availableFormId) : undefined,
+            };
+        });
 
         console.log(`[Assigned Forms API] Fetched ${forms.length} forms for company ${companyId}`);
         return NextResponse.json(forms);

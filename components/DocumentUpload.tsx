@@ -3,6 +3,13 @@
 import React, { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 
+const DOCUMENT_TYPES = [
+    'Benefit Guide',
+    'SBC / Plan Summaries',
+    'Census',
+    'Other',
+] as const;
+
 interface DocumentUploadProps {
     onUploadComplete?: () => void;
 }
@@ -10,7 +17,10 @@ interface DocumentUploadProps {
 export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [documentType, setDocumentType] = useState<string>(DOCUMENT_TYPES[0]);
+    const [documentTitle, setDocumentTitle] = useState('');
     const [uploading, setUploading] = useState(false);
+    const [success, setSuccess] = useState(false);
     const [error, setError] = useState('');
     const fileInputRef = useRef<HTMLInputElement>(null);
     const router = useRouter();
@@ -18,13 +28,14 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
     const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
-            // Validate file size (max 10MB)
             if (file.size > 10 * 1024 * 1024) {
                 setError('File size must be less than 10MB');
                 return;
             }
             setSelectedFile(file);
+            setDocumentTitle(file.name.replace(/\.[^/.]+$/, '') || file.name);
             setError('');
+            setSuccess(false);
             setIsModalOpen(true);
         }
     };
@@ -39,6 +50,8 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
             const formData = new FormData();
             formData.append('file', selectedFile);
             formData.append('name', selectedFile.name);
+            formData.append('documentType', documentType);
+            formData.append('documentTitle', documentTitle.trim() || selectedFile.name);
 
             const response = await fetch('/api/documents/upload', {
                 method: 'POST',
@@ -48,22 +61,20 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
             const data = await response.json();
 
             if (response.ok) {
-                setIsModalOpen(false);
-                setSelectedFile(null);
-                if (fileInputRef.current) {
-                    fileInputRef.current.value = '';
-                }
-                // Wait a moment for Airtable to process, then refresh
-                // Also store the fileId and fileUrl in the response for immediate access
+                setSuccess(true);
                 if (data.fileId && data.fileUrl) {
                     console.log('[DocumentUpload] File uploaded successfully. FileId:', data.fileId, 'FileUrl:', data.fileUrl);
                 }
                 setTimeout(() => {
+                    setIsModalOpen(false);
+                    setSelectedFile(null);
+                    setDocumentTitle('');
+                    setDocumentType(DOCUMENT_TYPES[0]);
+                    setSuccess(false);
+                    if (fileInputRef.current) fileInputRef.current.value = '';
                     router.refresh();
-                    if (onUploadComplete) {
-                        onUploadComplete();
-                    }
-                }, 1500); // Increased delay to allow Airtable to process
+                    if (onUploadComplete) onUploadComplete();
+                }, 1800);
             } else {
                 setError(data.error || 'Failed to upload document');
             }
@@ -100,10 +111,42 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
                     <div className="bg-white rounded-xl max-w-md w-full p-6 shadow-2xl">
                         <h3 className="text-lg font-bold text-gray-900 mb-4">Upload Document</h3>
                         
+                        {success ? (
+                            <div className="py-6 text-center">
+                                <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <svg className="w-6 h-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </div>
+                                <p className="text-base font-semibold text-gray-900">Document uploaded successfully</p>
+                                <p className="text-sm text-gray-500 mt-1">It will appear in your list shortly.</p>
+                            </div>
+                        ) : (
+                            <>
                         <div className="mb-4">
-                            <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                File Name
-                            </label>
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Document type</label>
+                            <select
+                                value={documentType}
+                                onChange={(e) => setDocumentType(e.target.value)}
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-gray-900 bg-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+                            >
+                                {DOCUMENT_TYPES.map((t) => (
+                                    <option key={t} value={t}>{t}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">Document title</label>
+                            <input
+                                type="text"
+                                value={documentTitle}
+                                onChange={(e) => setDocumentTitle(e.target.value)}
+                                placeholder="e.g. Q4 Benefit Guide"
+                                className="w-full px-4 py-2.5 border border-gray-200 rounded-lg text-gray-900 placeholder-gray-400 focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-semibold text-gray-700 mb-2">File</label>
                             <div className="px-4 py-3 bg-gray-50 rounded-lg border border-gray-200 text-gray-900">
                                 {selectedFile.name}
                             </div>
@@ -141,6 +184,8 @@ export default function DocumentUpload({ onUploadComplete }: DocumentUploadProps
                                 {uploading ? 'Uploading...' : 'Upload'}
                             </button>
                         </div>
+                            </>
+                        )}
                     </div>
                 </div>
             )}

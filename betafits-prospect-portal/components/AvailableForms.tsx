@@ -20,7 +20,7 @@ const FormCard: React.FC<{ form: AvailableForm }> = ({ form }) => (
     </div>
     <div className="flex-shrink-0 text-right">
       <button className="px-5 py-1.5 border border-brand-500 rounded-md text-[11px] font-semibold text-brand-500 hover:bg-brand-50 transition-all active:scale-95 uppercase tracking-wide">
-        Open
+        Assign Form
       </button>
     </div>
   </div>

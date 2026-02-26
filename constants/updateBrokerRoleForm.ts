@@ -240,6 +240,13 @@ export const UPDATE_BROKER_ROLE_FORM_DATA: FormDataDefinition = {
                             ],
                             validation: [{ type: 'required', message: 'Please rate strategic value' }],
                             helperText: '1 = Just a vendor, 10 = Trusted strategic advisor'
+                        },
+                        {
+                            id: 'brokerEvaluationNotes',
+                            label: 'Broker Evaluation Notes',
+                            type: 'textarea',
+                            required: false,
+                            placeholder: 'Any additional comments about your broker'
                         }
                     ]
                 }

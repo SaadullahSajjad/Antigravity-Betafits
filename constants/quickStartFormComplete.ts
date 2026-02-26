@@ -21,21 +21,21 @@ export const QUICK_START_COMPLETE_FORM_DATA: FormDataDefinition = {
                     title: 'Contact Information',
                     questions: [
                         {
-                            id: '3khn37NbHQYb7CN6NPgrx2',
-                            label: 'Last Name',
-                            type: 'text',
-                            required: true,
-                            validation: [
-                                { type: 'required', message: 'Last Name is required' },
-                            ]
-                        },
-                        {
                             id: 'qYvbJrrJqLQjqQnVip6c3N',
                             label: 'First Name',
                             type: 'text',
                             required: true,
                             validation: [
                                 { type: 'required', message: 'First Name is required' },
+                            ]
+                        },
+                        {
+                            id: '3khn37NbHQYb7CN6NPgrx2',
+                            label: 'Last Name',
+                            type: 'text',
+                            required: true,
+                            validation: [
+                                { type: 'required', message: 'Last Name is required' },
                             ]
                         },
                         {
@@ -58,8 +58,8 @@ export const QUICK_START_COMPLETE_FORM_DATA: FormDataDefinition = {
                         },
                         {
                             id: 'ckkAfnKZoQag2Kqf7j71Cq',
-                            label: 'Email',
-                            type: 'text',
+                            label: 'Work Email',
+                            type: 'email',
                             required: true,
                             validation: [
                                 { type: 'required', message: 'Email is required' },
@@ -82,7 +82,7 @@ export const QUICK_START_COMPLETE_FORM_DATA: FormDataDefinition = {
                         },
                         {
                             id: 'ayXo',
-                            label: 'Address',
+                            label: 'Your address',
                             type: 'text',
                             required: false,
                         },
@@ -152,19 +152,19 @@ export const QUICK_START_COMPLETE_FORM_DATA: FormDataDefinition = {
                         },
                         {
                             id: 'wLev',
-                            label: 'ZIP Code',
-                            type: 'text',
-                            required: false,
-                        },
-                        {
-                            id: 'r1TkXLw3QBZBCkoRHidEPs',
-                            label: 'Year company founded',
+                            label: 'ZIP / Postal code',
                             type: 'text',
                             required: false,
                         },
                         {
                             id: 'uTuDTocoypgCbQCkcHWUXN',
                             label: 'Employer Identification Number (EIN)',
+                            type: 'text',
+                            required: false,
+                        },
+                        {
+                            id: 'r1TkXLw3QBZBCkoRHidEPs',
+                            label: 'Year company founded',
                             type: 'text',
                             required: false,
                         },
@@ -201,14 +201,14 @@ export const QUICK_START_COMPLETE_FORM_DATA: FormDataDefinition = {
                             ]
                         },
                         {
-                            id: '87fD37dczxpgzodHMWgvWT',
-                            label: 'Estimated Medical Enrolled EEs',
+                            id: 'onbhhvHYbup9VUBE6eAAaz',
+                            label: 'Estimated Benefit Eligible EEs',
                             type: 'number',
                             required: false,
                         },
                         {
-                            id: 'onbhhvHYbup9VUBE6eAAaz',
-                            label: 'Estimated Benefit Eligible EEs',
+                            id: '87fD37dczxpgzodHMWgvWT',
+                            label: 'Estimated Medical Enrolled EEs',
                             type: 'number',
                             required: false,
                         },
@@ -692,30 +692,35 @@ export const QUICK_START_COMPLETE_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'mkmsft5lrxqeachdcnimpm',
                     title: 'Document Uploader',
+                    description: 'To upload a document, click the + Upload button below. We recommend uploading your Benefit Guide, SBC/Plan Summaries, Employee Census, and any other relevant documents.',
                     questions: [
                         {
-                            id: 'kHhRbt6vRBSRSj6TLwbLBc',
-                            label: 'Untitled Alert field',
-                            type: 'text',
+                            id: 'benefitGuide',
+                            label: 'Benefit Guide',
+                            type: 'file',
                             required: false,
+                            placeholder: 'Upload your benefit guide (PDF, DOC, etc.)',
                         },
                         {
-                            id: '5gwf',
-                            label: 'To upload a document, click the + Upload button below.',
-                            type: 'text',
+                            id: 'sbcPlanSummaries',
+                            label: 'SBC / Plan Summaries',
+                            type: 'file',
                             required: false,
+                            placeholder: 'Upload SBC or plan summary documents',
                         },
                         {
-                            id: '8bvEVKyaGbAv564V7oZ81f',
-                            label: 'Untitled Divider field',
-                            type: 'text',
+                            id: 'census',
+                            label: 'Employee Census',
+                            type: 'file',
                             required: false,
+                            placeholder: 'Upload your employee census file',
                         },
                         {
-                            id: 'gGmnnURpgpAkzaSHN7W3rs',
-                            label: 'Untitled Divider field',
-                            type: 'text',
+                            id: 'otherDocuments',
+                            label: 'Other Documents',
+                            type: 'file',
                             required: false,
+                            placeholder: 'Insurance invoices, broker fee disclosure, or other benefit documents',
                         },
                     ]
                 },

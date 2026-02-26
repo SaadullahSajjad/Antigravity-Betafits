@@ -78,6 +78,35 @@ export const BENEFITS_PULSE_SURVEY_FORM_DATA: FormDataDefinition = {
                                 { type: 'min', value: 1, message: 'Rating must be at least 1' },
                                 { type: 'max', value: 10, message: 'Rating must be at most 10' }
                             ]
+                        },
+                        {
+                            id: 'dentalSatisfaction',
+                            label: 'Satisfaction with Dental Benefits',
+                            type: 'number',
+                            required: false,
+                            placeholder: 'Rate from 1-10',
+                            validation: [
+                                { type: 'min', value: 1, message: 'Rating must be at least 1' },
+                                { type: 'max', value: 10, message: 'Rating must be at most 10' }
+                            ]
+                        },
+                        {
+                            id: 'visionSatisfaction',
+                            label: 'Satisfaction with Vision Benefits',
+                            type: 'number',
+                            required: false,
+                            placeholder: 'Rate from 1-10',
+                            validation: [
+                                { type: 'min', value: 1, message: 'Rating must be at least 1' },
+                                { type: 'max', value: 10, message: 'Rating must be at most 10' }
+                            ]
+                        },
+                        {
+                            id: 'surveyComments',
+                            label: 'Additional Comments',
+                            type: 'textarea',
+                            required: false,
+                            placeholder: 'Any additional feedback about your benefits'
                         }
                     ]
                 }

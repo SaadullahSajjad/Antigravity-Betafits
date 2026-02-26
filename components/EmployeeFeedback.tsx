@@ -126,9 +126,40 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
   const [copied, setCopied] = useState(false);
   // Use internal React form route instead of Fillout URL
   const surveyFormRoute = '/forms/eq7fvu76pdus';
-  const surveyUrl = typeof window !== 'undefined' 
+  const surveyUrl = typeof window !== 'undefined'
     ? `${window.location.origin}${surveyFormRoute}`
     : surveyFormRoute;
+
+  const escapeCsv = (v: string | number | null | undefined): string => {
+    const s = v === null || v === undefined ? '' : String(v);
+    if (s.includes('"') || s.includes(',') || s.includes('\n') || s.includes('\r')) {
+      return `"${s.replace(/"/g, '""')}"`;
+    }
+    return s;
+  };
+
+  const handleExportCsv = () => {
+    const headers = ['Submitted', 'Coverage Tier', 'Overall', 'Options', 'Network', 'Cost', 'Non-Med', 'Retirement', 'Comments'];
+    const rows = responses.map((r) => [
+      r.submittedAt,
+      r.tier,
+      r.overallRating,
+      r.medicalOptions,
+      r.medicalNetwork,
+      r.medicalCost,
+      r.nonMedical,
+      r.retirement ?? '',
+      r.comments ?? '',
+    ]);
+    const csv = [headers.join(','), ...rows.map((row) => row.map(escapeCsv).join(','))].join('\r\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `feedback-history-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const handleCopy = () => {
     navigator.clipboard.writeText(surveyUrl);
@@ -263,7 +294,12 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
             <h2 className="text-xl font-bold text-gray-900 tracking-tight">Feedback History</h2>
             <p className="text-sm text-gray-500 font-medium mt-1">Detailed review of all employee survey submissions.</p>
           </div>
-          <button className="text-[12px] font-bold text-brand-600 flex items-center gap-1.5 hover:underline">
+          <button
+            type="button"
+            onClick={handleExportCsv}
+            disabled={responses.length === 0}
+            className="text-[12px] font-bold text-brand-600 flex items-center gap-1.5 hover:underline disabled:opacity-50 disabled:cursor-not-allowed disabled:no-underline"
+          >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
             Export to CSV
           </button>
@@ -281,6 +317,7 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                   <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Network</th>
                   <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Cost</th>
                   <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Non-Med</th>
+                  <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">Retirement</th>
                   <th className="px-6 py-5 text-left text-[11px] font-bold text-gray-400 uppercase tracking-widest whitespace-nowrap">
                     <div className="flex items-center gap-1.5">
                       <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 6h16M4 12h16m-7 6h7" /></svg>
@@ -310,6 +347,13 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                       <td className="px-6 py-6"><StarRating rating={row.medicalNetwork} /></td>
                       <td className="px-6 py-6"><StarRating rating={row.medicalCost} /></td>
                       <td className="px-6 py-6"><StarRating rating={row.nonMedical} /></td>
+                      <td className="px-6 py-6">
+                        {row.retirement != null ? (
+                          <StarRating rating={row.retirement} />
+                        ) : (
+                          <span className="text-[13px] text-gray-400">—</span>
+                        )}
+                      </td>
                       <td className="px-6 py-6 min-w-[200px]">
                         {row.comments ? (
                           <Tooltip text={row.comments}>
@@ -325,7 +369,7 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={8} className="px-8 py-12">
+                    <td colSpan={9} className="px-8 py-12">
                       <div className="flex items-center justify-center">
                         <div className="text-center">
                           <div className="w-16 h-16 bg-gray-50 rounded-lg flex items-center justify-center mx-auto mb-4">
@@ -343,9 +387,12 @@ const EmployeeFeedback: React.FC<Props> = ({ stats, responses }) => {
           </div>
           {responses.length > 0 && (
             <div className="p-4 bg-gray-50/50 border-t border-gray-50 text-center">
-              <button className="text-[11px] font-bold text-gray-400 uppercase tracking-widest hover:text-brand-600 transition-colors py-2">
+              <Link
+                href="/employee-feedback/all"
+                className="inline-block text-[11px] font-bold text-gray-400 uppercase tracking-widest hover:text-brand-600 transition-colors py-2"
+              >
                 Show More History
-              </button>
+              </Link>
             </div>
           )}
         </div>

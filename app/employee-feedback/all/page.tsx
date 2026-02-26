@@ -188,7 +188,7 @@ export default async function EmployeeFeedbackAllPage() {
                                         {response.submittedAt}
                                     </span>
                                 </div>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                                <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-4">
                                     <div>
                                         <span className="text-[11px] text-gray-500 font-medium">Options</span>
                                         <div className="text-[14px] font-bold text-gray-900">{response.medicalOptions}/5</div>
@@ -204,6 +204,10 @@ export default async function EmployeeFeedbackAllPage() {
                                     <div>
                                         <span className="text-[11px] text-gray-500 font-medium">Non-Medical</span>
                                         <div className="text-[14px] font-bold text-gray-900">{response.nonMedical}/5</div>
+                                    </div>
+                                    <div>
+                                        <span className="text-[11px] text-gray-500 font-medium">Retirement</span>
+                                        <div className="text-[14px] font-bold text-gray-900">{response.retirement != null ? `${response.retirement}/5` : '—'}</div>
                                     </div>
                                 </div>
                                 {response.comments && (

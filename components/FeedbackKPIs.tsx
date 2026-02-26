@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { FeedbackStats } from '@/types';
-import CreateSurveyButton from './CreateSurveyButton';
 
 interface Props {
     stats: FeedbackStats;
@@ -50,8 +49,18 @@ export default function FeedbackKPIs({ stats }: Props) {
                     <span className="text-[13px] text-gray-400 mb-1.5">/ 5.0</span>
                 </div>
             </div>
-            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-center items-center text-center">
-                <CreateSurveyButton variant="card" />
+            <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                <span className="text-[13px] font-semibold text-gray-400 uppercase tracking-wider block mb-2">
+                    Retirement
+                </span>
+                <div className="flex items-end gap-2">
+                    <span className="text-[32px] font-bold text-gray-900">
+                        {stats.retirement != null ? stats.retirement : '—'}
+                    </span>
+                    {stats.retirement != null && (
+                        <span className="text-[13px] text-gray-400 mb-1.5">/ 5</span>
+                    )}
+                </div>
             </div>
         </div>
     );

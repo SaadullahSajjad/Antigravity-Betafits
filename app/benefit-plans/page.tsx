@@ -1,4 +1,5 @@
 import React from 'react';
+import { unstable_noStore } from 'next/cache';
 import BenefitPlans from '@/components/BenefitPlans';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/lib/auth/authOptions';
@@ -9,6 +10,7 @@ import { BenefitEligibilityData, ContributionStrategy, BenefitPlan } from '@/typ
 export const dynamic = 'force-dynamic';
 
 export default async function BenefitPlansPage() {
+  unstable_noStore();
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return <BenefitPlans eligibility={null} strategies={[]} plans={[]} />;
@@ -34,21 +36,62 @@ export default async function BenefitPlansPage() {
     if (groupRecord) {
       const fields = groupRecord.fields;
       eligibility = {
-        className: String(fields['Benefit Class'] || 'All Full-Time Employees'),
-        waitingPeriod: String(fields['Waiting Period'] || ''),
-        effectiveDate: String(fields['Effective Date'] || ''),
-        requiredHours: String(fields['Required Hours'] || '30 Hours per week'),
+        className: String(
+          fields['Benefit Class'] ||
+          fields['Eligibility Class'] ||
+          fields['Benefit Class Name'] ||
+          'All Full-Time Employees'
+        ),
+        waitingPeriod: String(
+          fields['Waiting Period'] ||
+          fields['Waiting Period (Days)'] ||
+          fields['Eligibility Waiting Period'] ||
+          ''
+        ),
+        effectiveDate: String(
+          fields['Effective Date'] ||
+          fields['Effective Date Rule'] ||
+          fields['Eligibility Effective Date'] ||
+          ''
+        ),
+        requiredHours: (() => {
+          const raw = fields['Weekly Hours Required for Eligibility'] ||
+            fields['Required Hours'] ||
+            fields['Hours Required'] ||
+            fields['Required Hours per Week'] ||
+            fields['Min Hours'] ||
+            '';
+          const val = String(raw || '').trim();
+          // Normalize "Unknown" from Airtable single-select to empty (UI shows "-")
+          if (val.toLowerCase() === 'unknown') return '';
+          return val || '30 Hours per week';
+        })(),
       };
     }
 
-    // Fetch contribution strategies - try from Group Data record first
+    // Fetch contribution strategies - from Group Data first, then from Plan Data
     let strategies: ContributionStrategy[] = [];
-    
     if (groupRecord) {
       const fields = groupRecord.fields;
-      
+      const strategyFromGroup = (label: string, benefit: 'Medical' | 'Dental' | 'Vision') => {
+        const v = fields[label];
+        if (v && String(v).trim()) {
+          strategies.push({
+            benefit,
+            strategyType: String(v).trim(),
+            flatAmount: '',
+            eePercent: '',
+            depPercent: '',
+            buyUpStrategy: '',
+          });
+        }
+      };
+      strategyFromGroup('Medical Contribution Strategy', 'Medical');
+      if (!fields['Medical Contribution Strategy']) strategyFromGroup('Contribution Strategy', 'Medical');
+      strategyFromGroup('Dental Contribution Strategy', 'Dental');
+      strategyFromGroup('Vision Contribution Strategy', 'Vision');
     }
-    
+
     // Fetch Contribution Strategies from Plan Data table
     // Each plan record has its own contribution strategy fields
     if (groupRecord) {
@@ -203,6 +246,7 @@ export default async function BenefitPlansPage() {
         const allPlans = await fetchAirtableRecords(planTableId, {
           apiKey: token,
           maxRecords: 100,
+          view: 'All Fields 1st Plan',
         });
         
         console.log(`[BenefitPlansPage] Fetched ${allPlans?.length || 0} total plans from table for filtering`);

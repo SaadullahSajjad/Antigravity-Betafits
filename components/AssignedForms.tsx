@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { AssignedForm, FormStatus } from '@/types';
 
@@ -9,6 +9,14 @@ interface Props {
 }
 
 const AssignedForms: React.FC<Props> = ({ forms }) => {
+    const [currentPage, setCurrentPage] = useState(1);
+    const formsPerPage = 5;
+    
+    // Calculate pagination
+    const totalPages = Math.ceil(forms.length / formsPerPage);
+    const startIndex = (currentPage - 1) * formsPerPage;
+    const endIndex = startIndex + formsPerPage;
+    const currentForms = forms.slice(startIndex, endIndex);
 
     const getStatusStyle = (status: FormStatus) => {
         switch (status) {
@@ -33,8 +41,9 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
         }
     };
 
-    const getFormRoute = (formId: string, formName: string, description: string): string => {
-        // Map all 17 forms by ID (most reliable)
+    const getFormRoute = (form: AssignedForm): string => {
+        const { id: formId, name: formName, description, availableFormId } = form;
+        // Map all 17 forms by template/available form ID (most reliable for in-app routes)
         const formRouteMap: Record<string, string> = {
             // Fillout forms (4)
             'eBxXtLZdK4us': '/forms/quick-start', // Quick Start uses this route
@@ -62,7 +71,18 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
             'recySUNj6jv47SOKr': '/forms/recysunj6jv47sokr',
         };
 
-        // First try direct ID mapping
+        // Prefer linked Available Form ID (template ID) so we always use in-app route, not external URL
+        if (availableFormId && formRouteMap[availableFormId]) {
+            return formRouteMap[availableFormId];
+        }
+        // Extract Fillout template ID from description URL so we never open raw URL when we have in-app form
+        if (description && (description.includes('fillout.com/t/') || description.includes('fillout.com/'))) {
+            const templateIdMatch = description.match(/fillout\.com\/t\/([a-zA-Z0-9]+)/);
+            if (templateIdMatch && formRouteMap[templateIdMatch[1]]) {
+                return formRouteMap[templateIdMatch[1]];
+            }
+        }
+        // Assigned form record ID usually doesn't match; keep for any direct mapping
         if (formRouteMap[formId]) {
             return formRouteMap[formId];
         }
@@ -145,42 +165,27 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
             return '/forms/recysunj6jv47sokr';
         }
         
-        // Map by Fillout template ID if description contains it
-        if (description && description.includes('fillout.com/t/')) {
-            const templateIdMatch = description.match(/fillout\.com\/t\/([a-zA-Z0-9]+)/);
-            if (templateIdMatch) {
-                const templateId = templateIdMatch[1];
-                if (formRouteMap[templateId]) {
-                    return formRouteMap[templateId];
-                }
-            }
-        }
-        
-        // Check if description contains a URL
+        // Never use external URL as route when we have in-app forms; only use internal paths
         if (description && description.trim() && !description.startsWith('?id=')) {
-            // If description is a URL, use it
-            if (description.startsWith('http://') || description.startsWith('https://')) {
-                return description;
-            }
-            // If description starts with /, treat as internal route
             if (description.startsWith('/')) {
                 return description;
             }
+            // Do not return http(s) URL - we already tried to resolve via template ID above
         }
         
-        // Default: return form ID route (lowercase)
+        // Default: try form ID route (lowercase)
         return `/forms/${formId.toLowerCase()}`;
     };
 
     return (
         <section>
             <div className="mb-6">
-                <h2 className="text-xl font-bold text-gray-900 tracking-tight">Assigned Forms</h2>
-                <p className="text-[13px] text-gray-500 mt-0.5">Core tasks required for your enrollment profile.</p>
+                <h2 className="text-h3 text-neutral-900 tracking-tight">Assigned Forms</h2>
+                <p className="text-label text-neutral-500 mt-1">Core tasks required for your enrollment profile.</p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {forms.map((form) => {
-                    const formRoute = getFormRoute(form.id, form.name, form.description);
+                {currentForms.map((form) => {
+                    const formRoute = getFormRoute(form);
                     // Check if it's a valid route (not empty and not just company ID)
                     const isLink = formRoute !== '#' && 
                                    formRoute !== `/forms/${form.id}` && 
@@ -188,7 +193,13 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
 
                     // Clean up form name - remove any unwanted suffixes, patterns, or email addresses
                     let displayName = form.name.trim();
-                    
+                    // If name is a URL (e.g. Assigned Form URL stored in Name), use friendly name from route
+                    if (displayName.startsWith('http://') || displayName.startsWith('https://')) {
+                        const templateMatch = displayName.match(/fillout\.com\/t\/([a-zA-Z0-9]+)/);
+                        if (templateMatch && templateMatch[1] === 'eBxXtLZdK4us') displayName = 'Quick Start';
+                        else if (form.availableFormId === 'eBxXtLZdK4us') displayName = 'Quick Start';
+                        else displayName = 'Form';
+                    }
                     // Remove leading dashes and spaces first
                     displayName = displayName.replace(/^[-\s]+/, '');
                     
@@ -234,77 +245,121 @@ const AssignedForms: React.FC<Props> = ({ forms }) => {
                     }
 
                     return (
-                        <div key={form.id} className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm flex flex-col justify-between hover:border-gray-300 transition-colors">
-                            <div>
+                        <div key={form.id} className="bg-white border border-neutral-200 rounded-large p-6 shadow-card flex flex-col hover:border-neutral-300 transition-colors">
+                            <div className="flex-1">
                                 <div className="flex justify-between items-start mb-5">
-                                    <div className="w-11 h-11 bg-gray-50 rounded-md flex items-center justify-center text-gray-400 border border-gray-100">
+                                    <div className="w-11 h-11 bg-neutral-50 rounded-medium flex items-center justify-center text-neutral-400 border border-neutral-100">
                                         <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                         </svg>
                                     </div>
-                                    <span className={`text-[12px] font-semibold uppercase tracking-wider px-3 py-1 rounded-md border ${getStatusStyle(form.status)}`}>
+                                    <span className={`text-small font-semibold uppercase tracking-wider px-3 py-1 rounded-small border ${getStatusStyle(form.status)}`}>
                                         {getStatusLabel(form.status)}
                                     </span>
                                 </div>
-                                <h3 className="text-[17px] font-bold text-gray-900 mb-8 leading-tight">{displayName || 'Untitled Form'}</h3>
+                                <h3 className="text-h3 text-neutral-900 leading-tight">{displayName || 'Untitled Form'}</h3>
                             </div>
-                            {isLink ? (
-                                formRoute.startsWith('http://') || formRoute.startsWith('https://') ? (
-                                    <a href={formRoute} target="_blank" rel="noopener noreferrer" className="block">
-                                        <button 
-                                            className={`w-full py-2.5 rounded-md font-semibold text-[12px] transition-all shadow-sm active:scale-[0.98] ${
-                                                form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
-                                                    ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
-                                                    : 'bg-brand-500 text-white hover:bg-brand-600'
-                                            }`}
-                                            disabled={form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED}
-                                        >
-                                            {form.status === FormStatus.NOT_STARTED 
-                                                ? 'Start Form' 
-                                                : form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
-                                                    ? 'Already Submitted'
-                                                    : form.status === FormStatus.IN_PROGRESS
-                                                        ? 'Update'
-                                                        : 'Continue'}
-                                        </button>
-                                    </a>
+                            <div className="mt-6">
+                                {isLink ? (
+                                    formRoute.startsWith('http://') || formRoute.startsWith('https://') ? (
+                                        <a href={formRoute} target="_blank" rel="noopener noreferrer" className="block">
+                                            <button 
+                                                className={`w-full h-10 rounded-medium font-semibold text-label transition-all shadow-card active:scale-[0.98] ${
+                                                    form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
+                                                        ? 'bg-neutral-100 text-neutral-500 cursor-not-allowed'
+                                                        : 'bg-primary-500 text-white hover:bg-primary-600'
+                                                }`}
+                                                disabled={form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED}
+                                            >
+                                                {form.status === FormStatus.NOT_STARTED 
+                                                    ? 'Start Form' 
+                                                    : form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
+                                                        ? 'Already Submitted'
+                                                        : form.status === FormStatus.IN_PROGRESS
+                                                            ? 'Update'
+                                                            : 'Continue'}
+                                            </button>
+                                        </a>
+                                    ) : (
+                                        <Link href={formRoute} className="block">
+                                            <button 
+                                                className={`w-full h-10 rounded-medium font-semibold text-label transition-all shadow-card active:scale-[0.98] ${
+                                                    form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
+                                                        ? 'bg-neutral-100 text-neutral-500 cursor-not-allowed'
+                                                        : 'bg-primary-500 text-white hover:bg-primary-600'
+                                                }`}
+                                                disabled={form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED}
+                                            >
+                                                {form.status === FormStatus.NOT_STARTED 
+                                                    ? 'Start Form' 
+                                                    : form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
+                                                        ? 'Already Submitted'
+                                                        : form.status === FormStatus.IN_PROGRESS
+                                                            ? 'Update'
+                                                            : 'Continue'}
+                                            </button>
+                                        </Link>
+                                    )
                                 ) : (
-                                    <Link href={formRoute} className="block">
-                                        <button 
-                                            className={`w-full py-2.5 rounded-md font-semibold text-[12px] transition-all shadow-sm active:scale-[0.98] ${
-                                                form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
-                                                    ? 'bg-gray-100 text-gray-500 cursor-not-allowed'
-                                                    : 'bg-brand-500 text-white hover:bg-brand-600'
-                                            }`}
-                                            disabled={form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED}
-                                        >
-                                            {form.status === FormStatus.NOT_STARTED 
-                                                ? 'Start Form' 
-                                                : form.status === FormStatus.SUBMITTED || form.status === FormStatus.COMPLETED
-                                                    ? 'Already Submitted'
-                                                    : form.status === FormStatus.IN_PROGRESS
-                                                        ? 'Update'
-                                                        : 'Continue'}
-                                        </button>
-                                    </Link>
-                                )
-                            ) : (
-                                <button
-                                    className="w-full py-2.5 bg-gray-100 text-gray-400 rounded-md font-semibold text-[12px] cursor-not-allowed"
-                                    disabled
-                                >
-                                    Coming Soon
-                                </button>
-                            )}
+                                    <button
+                                        className="w-full h-10 bg-neutral-100 text-neutral-400 rounded-medium font-semibold text-label cursor-not-allowed"
+                                        disabled
+                                    >
+                                        Coming Soon
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     );
                 })}
                 {forms.length === 0 && (
-                    <div className="col-span-full bg-gray-50 border border-dashed border-gray-300 rounded-xl p-12 text-center">
-                        <p className="text-gray-500 font-medium">No forms currently assigned.</p>
+                    <div className="col-span-full bg-neutral-50 border border-dashed border-neutral-300 rounded-large p-6 text-center">
+                        <p className="text-neutral-500 font-medium text-body">No forms currently assigned.</p>
                     </div>
                 )}
             </div>
+
+            {/* Pagination */}
+            {forms.length > formsPerPage && (
+                <div className="mt-6 flex items-center justify-between border-t border-neutral-100 pt-4">
+                    <div className="text-label text-neutral-500">
+                        Showing {startIndex + 1} to {Math.min(endIndex, forms.length)} of {forms.length} forms
+                    </div>
+                    <div className="flex items-center gap-1">
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                            className="h-10 px-2 rounded-medium border border-neutral-200 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                            <button
+                                key={page}
+                                onClick={() => setCurrentPage(page)}
+                                className={`h-10 px-3 rounded-medium text-label font-semibold transition-colors ${
+                                    currentPage === page
+                                        ? 'bg-primary-500 text-white'
+                                        : 'border border-neutral-200 text-neutral-700 hover:bg-neutral-50'
+                                }`}
+                            >
+                                {page}
+                            </button>
+                        ))}
+                        <button
+                            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                            disabled={currentPage === totalPages}
+                            className="h-10 px-2 rounded-medium border border-neutral-200 text-neutral-700 hover:bg-neutral-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        >
+                            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            )}
         </section>
     );
 };

@@ -7,6 +7,41 @@ import QuickStartCompleteForm from '@/components/forms/QuickStartCompleteForm';
 import { FormValues } from '@/types/form';
 import { FormStatus } from '@/types';
 
+// Airtable Group Data field name → Quick Start form question ID (for prefill / Airtable sync)
+const AIRTABLE_TO_QUICK_START: Record<string, string> = {
+    'First Name': 'qYvbJrrJqLQjqQnVip6c3N',
+    'Last Name': '3khn37NbHQYb7CN6NPgrx2',
+    'Job Title': '2d65uNNeKNqSmZT1k2WVRq',
+    'Phone Number': 'jZa7ip7oU533vM2qLWCkZj',
+    'Work Email': 'ckkAfnKZoQag2Kqf7j71Cq',
+    'Company Name': '2UCyRd53bWrtdKXAK1XMy6',
+    'Street Address': 'ayXo',
+    'City': 'fT94',
+    'State / Province': 'hmTa',
+    'ZIP Code': 'wLev',
+    'Year Company Founded': 'r1TkXLw3QBZBCkoRHidEPs',
+    'EIN': 'uTuDTocoypgCbQCkcHWUXN',
+    'Preferred SIC Code': 'hf2rRXr8RmGS1o5PFoFJJn',
+    'Preferred NAICS Code': 'xfBVQncwKZoTzx4FDeHDLR',
+    'Benefit-Eligible US Employees Range': 'jMkzWAv3b9K5VCyGHPsZmw',
+    'Estimated Medical Enrolled EEs': '87fD37dczxpgzodHMWgvWT',
+    'Estimated Benefit Eligible EEs': 'onbhhvHYbup9VUBE6eAAaz',
+    'Expected Headcount Growth (next 12 months)': 'xcqpaj6Sfv98YJFAUiCZ4z',
+    'NDA Required': 'opsQwCsEVnschNufM581ph',
+    'Additional Notes': '6eWgGjt7iTjtYcnZRfnCjm',
+};
+
+function mapGroupDataToFormValues(fields: Record<string, unknown>): FormValues {
+    const out: FormValues = {};
+    for (const [airtableField, value] of Object.entries(fields)) {
+        const questionId = AIRTABLE_TO_QUICK_START[airtableField];
+        if (questionId != null && value !== undefined && value !== null && value !== '') {
+            out[questionId] = value as string | number;
+        }
+    }
+    return out;
+}
+
 export default function QuickStartFormPage() {
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -14,10 +49,11 @@ export default function QuickStartFormPage() {
     const [submitError, setSubmitError] = useState('');
     const [formStatus, setFormStatus] = useState<FormStatus | null>(null);
     const [isCheckingStatus, setIsCheckingStatus] = useState(true);
+    const [initialValues, setInitialValues] = useState<FormValues>({});
 
     const formId = 'eBxXtLZdK4us';
 
-    // Check form status on load
+    // Check form status and load saved progress or Airtable prefill
     useEffect(() => {
         const checkFormStatus = async () => {
             try {
@@ -37,17 +73,29 @@ export default function QuickStartFormPage() {
         };
 
         checkFormStatus();
+    }, [formId]);
 
-        // Load saved progress only if form is not submitted
+    // Prefill: prefer localStorage; if none, load from Airtable (group-data) for Airtable → portal sync
+    useEffect(() => {
         const saved = localStorage.getItem(`form_${formId}_progress`);
         if (saved) {
             try {
-                JSON.parse(saved);
+                const parsed = JSON.parse(saved) as FormValues;
+                if (Object.keys(parsed).length > 0) {
+                    setInitialValues(parsed);
+                    return;
+                }
             } catch (e) {
                 console.error('Error loading saved progress:', e);
             }
         }
-    }, [formId]);
+        fetch('/api/forms/group-data', { credentials: 'include' })
+            .then(res => (res.ok ? res.json() : null))
+            .then((data: { fields?: Record<string, unknown> } | null) => {
+                if (data?.fields) setInitialValues(mapGroupDataToFormValues(data.fields));
+            })
+            .catch(() => {});
+    }, []);
 
     const handleSave = async (values: FormValues) => {
         // Filter out File objects (they can't be serialized to JSON)
@@ -86,6 +134,8 @@ export default function QuickStartFormPage() {
                             const formData = new FormData();
                             formData.append('file', fileValue);
                             formData.append('name', fileValue.name);
+                            formData.append('documentTitle', fileValue.name.replace(/\.[^/.]+$/, '') || fileValue.name);
+                            formData.append('documentType', fieldId === 'benefitGuide' ? 'Benefit Guide' : fieldId === 'sbcPlanSummaries' ? 'SBC Plan Summaries' : fieldId === 'census' ? 'Census' : 'Other');
                             
                             const uploadResponse = await fetch('/api/documents/upload', {
                                 method: 'POST',
@@ -108,6 +158,8 @@ export default function QuickStartFormPage() {
                                 const formData = new FormData();
                                 formData.append('file', file);
                                 formData.append('name', file.name);
+                                formData.append('documentTitle', file.name.replace(/\.[^/.]+$/, '') || file.name);
+                                formData.append('documentType', fieldId === 'benefitGuide' ? 'Benefit Guide' : fieldId === 'sbcPlanSummaries' ? 'SBC Plan Summaries' : fieldId === 'census' ? 'Census' : 'Other');
                                 
                                 const uploadResponse = await fetch('/api/documents/upload', {
                                     method: 'POST',
@@ -247,7 +299,7 @@ export default function QuickStartFormPage() {
 
             {/* Show form only if not submitted and not checking status */}
             {!isCheckingStatus && formStatus !== FormStatus.SUBMITTED && formStatus !== FormStatus.COMPLETED && (
-                <QuickStartCompleteForm onSave={handleSave} onSubmit={handleSubmit} isSubmitting={isSubmitting} />
+                <QuickStartCompleteForm onSave={handleSave} onSubmit={handleSubmit} isSubmitting={isSubmitting} initialValues={initialValues} />
             )}
         </div>
     );
