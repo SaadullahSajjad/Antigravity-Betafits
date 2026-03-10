@@ -1,0 +1,3324 @@
+{
+  "generatedAt": "2026-02-08T12:15:39.590Z",
+  "totalForms": 17,
+  "forms": [
+    {
+      "formId": "rec4V98J6aPaM3u9H",
+      "formName": "Medical Coverage Survey",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Intro Text",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "rec7NfuiBQ8wrEmu7",
+      "formName": "Workers Compensation",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Show in Available Forms",
+        "Visibility Rules",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recFVcfdoXkUjIcod",
+      "formName": "Add New Group",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recFxyNqTLDdrxXN2",
+      "formName": "Benefits Administration",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Show in Available Forms",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recGrsR8Sdx96pckJ",
+      "formName": "Benefits Compliance",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Show in Available Forms",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recKzuznmqq29uASl",
+      "formName": "PEO/EOR  Assessment",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Visibility Rules",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recOE9pVakkobVzU7",
+      "formName": "Appoint Betafits",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Assignment Type",
+        "Show in Available Forms",
+        "Assignment",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recOt6cX0t1DksDFT",
+      "formName": "HR Tech",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Visibility Rules",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recUnTZFK5UyfWqzm",
+      "formName": "Comprehensive Intake",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Visibility Rules",
+        "Forms URL",
+        "Required Documents",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recdjXjySYuYUGkdP",
+      "formName": "Premiums / Contribution Strategy",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "rechTHxZIxS3bBcqF",
+      "formName": "Basic Intake Form",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Visibility Rules",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "reclUQ6KhVzCssuVl",
+      "formName": "Quick Start (New Benefits)",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Forms URL",
+        "Required Documents",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recmB9IdRhtgckvaY",
+      "formName": "Benefits Pulse Survey",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recsLJiBVdED8EEbr",
+      "formName": "Document Uploader",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Visibility Rules",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recufWIRuSFArZ9GG",
+      "formName": "Quick Start",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Forms URL",
+        "Required Documents",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order",
+        "Imported - Yagnesh and afolabi test"
+      ]
+    },
+    {
+      "formId": "recxH9Jrk10bbqU58",
+      "formName": "Broker Role",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Show in Available Forms",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    },
+    {
+      "formId": "recySUNj6jv47SOKr",
+      "formName": "NDA",
+      "pages": [],
+      "airtableFields": [
+        "Name",
+        "Description",
+        "Link to Intake - Assigned Forms",
+        "Stage Use",
+        "Assignment Type",
+        "Triggers",
+        "Visibility Rules",
+        "Forms URL",
+        "Link to Intake Group Data (from Link to intake - Assigned Forms)",
+        "Assignment",
+        "Intro Text",
+        "Display Name",
+        "Sort Order"
+      ]
+    }
+  ],
+  "fieldMappings": {
+    "Forms - Intake - Group Data - Enr ES": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Medical Rating": {
+      "key": "medical_rating",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Last Name": {
+      "key": "last_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Company Name": {
+      "key": "company_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Job Title": {
+      "key": "job_title",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Phone Number": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Work Email": {
+      "key": "work_email",
+      "type": "",
+      "options": "[]"
+    },
+    "Forms - Intake - Group Data - Street Address": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - City": {
+      "key": "city",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - State / Province": {
+      "key": "state_province",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Alabama\"\""
+    },
+    "Forms - Intake - Group Data - ZIP Code": {
+      "key": "zip_code",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Country": {
+      "key": "",
+      "type": "",
+      "options": "{}"
+    },
+    "Forms - Intake - Group Data - Benefits (In Your Own Words)": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Transcript": {
+      "key": "transcript",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Business Address in other states?": {
+      "key": "business_address_in_other_states",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Other States": {
+      "key": "other_states",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Year Company Founded": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Offering Health Insurance Benefits?": {
+      "key": "offering_health_insurance_benefits",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Benefit Eligible Employees": {
+      "key": "benefit_eligible_employees",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Estimated Benefit-Eligible Employees": {
+      "key": "estimated_benefit_eligible_employees",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Estimated Medical-Enrolled Employees": {
+      "key": "estimated_medical_enrolled_employees",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Expected Headcount Growth": {
+      "key": "expected_headcount_growth",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Workforce Types": {
+      "key": "workforce_types",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Full-Time Salaried\"\""
+    },
+    "Forms - Intake - Group Data - Hours/wk for Eligibility": {
+      "key": "",
+      "type": "",
+      "options": "{}"
+    },
+    "Forms - Intake - Group Data - Same or Different Eligibility Classes": {
+      "key": "same_or_different_eligibility_classes",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Same class\"\""
+    },
+    "Forms - Intake - Group Data - Classes Exist For": {
+      "key": "classes_exist_for",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Waiting Periods\"\""
+    },
+    "Forms - Intake - Group Data - Eligibility Class Name": {
+      "key": "eligibility_class_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Domestic Partners Eligibile": {
+      "key": "domestic_partners_eligible",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes (Recommended)\"\""
+    },
+    "Forms - Intake - Group Data - NDA Required": {
+      "key": "nda_required",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - NDA Effective Date": {
+      "key": "nda_effective_date",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Entity Legal Name": {
+      "key": "entity_legal_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - State of Formation": {
+      "key": "state_of_formation",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Alabama\"\""
+    },
+    "Forms - Intake - Group Data - Entity Type": {
+      "key": "entity_type",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Corporation\"\""
+    },
+    "Forms - Intake - Group Data - Tax Structure": {
+      "key": "tax_structure",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"C-Corporation\"\""
+    },
+    "Forms - Intake - Group Data - NDA Signed by This User?": {
+      "key": "nda_signed_by_this_user",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Alternate NDA Signer Name": {
+      "key": "alternate_nda_signer_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Alternate NDA Signer Title": {
+      "key": "alternate_nda_signer_title",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Alternate NDA Signer Email": {
+      "key": "alternate_nda_signer_email",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - EIN": {
+      "key": "ein",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - SIC Code": {
+      "key": "sic_code",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - NAICS Code": {
+      "key": "naics_code",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Expected Benefit Offering": {
+      "key": "expected_benefit_offering",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Medical\"\""
+    },
+    "Forms - Intake - Group Data - Current Benefit Offering": {
+      "key": "current_benefit_offering",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Medical\"\""
+    },
+    "Forms - Intake - Group Data - Same Contribution strategy for all Benefits?": {
+      "key": "same_contribution_strategy_for_all_benefits",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Current Start Month": {
+      "key": "current_start_month",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"January\"\""
+    },
+    "Forms - Intake - Group Data - Expected Start Month": {
+      "key": "expected_start_month",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"January\"\""
+    },
+    "Forms - Intake - Group Data - Do any of the following apply to your company or benefits package?": {
+      "key": "do_any_of_the_following_apply_to_your_company_or_benefits_package",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Additional Entities\"\""
+    },
+    "Forms - Intake - Group Data - How do you currently offer medical benefits?": {
+      "key": "how_do_you_currently_offer_medical_benefits",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Fully Insured\"\""
+    },
+    "Forms - Intake - Group Data - Medical Coinsurance": {
+      "key": "currently_with_a_peo",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Current PEO": {
+      "key": "current_peo",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Justworks\"\""
+    },
+    "Forms - Intake - Group Data - Evaluated PEOs": {
+      "key": "evaluated_peos",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Justworks\"\""
+    },
+    "Forms - Intake - Group Data - Medical Rx": {
+      "key": "payroll_provider",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Rippling\"\""
+    },
+    "Forms - Intake - Group Data - HR Software Used": {
+      "key": "hr_software_used",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"HR/Onboarding\"\""
+    },
+    "Forms - Intake - Group Data - Medical OON Deductible": {
+      "key": "do_you_use_eor_services",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Which EOR do you use": {
+      "key": "which_eor_do_you_use",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Deel\"\""
+    },
+    "Forms - Intake - Group Data - Predominant Payroll Frequency": {
+      "key": "predominant_payroll_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Weekly\"\""
+    },
+    "Forms - Intake - Group Data - Same Payroll Cycle for All Employees?": {
+      "key": "same_payroll_cycle_for_all_employees",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Alternate Payroll Frequency": {
+      "key": "alternate_payroll_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Weekly\"\""
+    },
+    "Forms - Intake - Group Data - Deduction Frequency": {
+      "key": "deduction_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly\"\""
+    },
+    "Forms - Intake - Group Data - Benefit deduction frequency same as payroll frequency?": {
+      "key": "benefit_deduction_frequency_same_as_payroll_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Same as payroll frequency\"\""
+    },
+    "Forms - Intake - Group Data - Plan Year": {
+      "key": "plan_year",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Additional Company or Benefits Info": {
+      "key": "additional_company_or_benefits_info",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Benefit Waiting Period": {
+      "key": "benefit_waiting_period",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Benefits Enrollment Effective Date": {
+      "key": "benefits_enrollment_effective_date",
+      "type": "",
+      "options": "[]"
+    },
+    "Forms - Intake - Group Data - Effective Date": {
+      "key": "effective_date",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - End Date": {
+      "key": "end_date",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Minimum Age for Benefits Eligibility": {
+      "key": "minimum_age_for_benefits_eligibility",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Domestic Partners Eligible": {
+      "key": "domestic_partners_eligible",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Maximum Dependent Age": {
+      "key": "maximum_dependent_age",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Individual Health Questionnaires": {
+      "key": "individual_health_questionnaires",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"We have done this before and would do it again\"\""
+    },
+    "Forms - Intake - Group Data - Benefits Feedback": {
+      "key": "benefits_feedback",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"If it is an easy process let's do that now\"\""
+    },
+    "Forms - Intake - Group Data - Ideal Number of Medical Plan Options": {
+      "key": "ideal_number_of_medical_plan_options",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"1\"\""
+    },
+    "Forms - Intake - Group Data - Expected plan types": {
+      "key": "expected_plan_types",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"HDHP with HSA (Bronze)\"\""
+    },
+    "Forms - Intake - Group Data - Medical Funding": {
+      "key": "medical_funding",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Small Group ACA\"\""
+    },
+    "Forms - Intake - Group Data - Medical Refund": {
+      "key": "like_about_current_broker",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Manages deductions\"\""
+    },
+    "Forms - Intake - Group Data - Preferred Contribution Strategy": {
+      "key": "preferred_contribution_strategy",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Flat dollar contribution per employee\"\""
+    },
+    "Forms - Intake - Group Data - Medical ER Contribution Strategy": {
+      "key": "medical_er_contribution_strategy",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Flat Dollar Employer Contribution\"\""
+    },
+    "Forms - Intake - Group Data - Medical Hospital": {
+      "key": "medical_employee_contribution_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Medical Dep %": {
+      "key": "medical_dep_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - ER Contribution $": {
+      "key": "",
+      "type": "",
+      "options": "{}"
+    },
+    "Forms - Intake - Group Data - Medical Specialist": {
+      "key": "medical_buy_up_strategy",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - ER Pct. Contribution to EE tier Medical": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"precision\"\":0}\""
+    },
+    "Forms - Intake - Group Data - ER Pct. Contribution to ES tier Medical": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"precision\"\":0}\""
+    },
+    "Forms - Intake - Group Data - ER Pct. Contribution to EC tier Medical": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"precision\"\":0}\""
+    },
+    "Forms - Intake - Group Data - ER Pct. Contribution to EF tier Medical": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"precision\"\":0}\""
+    },
+    "Forms - Intake - Group Data - Medical Urgent Care": {
+      "key": "dental_er_contribution_strategy",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Flat Dollar Employer Contribution\"\""
+    },
+    "Forms - Intake - Group Data - ER Pct. Contribution to EE tier Dental": {
+      "key": "",
+      "type": "",
+      "options": "{}"
+    },
+    "Forms - Intake - Group Data - Dental Dep %": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Medical Office": {
+      "key": "vision_ee_percentage",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - ER Pct. Contribution to EF tier Dental": {
+      "key": "",
+      "type": "",
+      "options": "{}"
+    },
+    "Forms - Intake - Group Data - Vision ER Contribution Strategy": {
+      "key": "vision_er_contribution_strategy",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Flat Dollar Employer Contribution\"\""
+    },
+    "Forms - Intake - Group Data - ER Pct. Contribution to EE tier Vision": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"precision\"\":0}\""
+    },
+    "Forms - Intake - Group Data - Vision Dep %": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Vision Flat $": {
+      "key": "vision_flat_dollar",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Vision Buyup Strategy": {
+      "key": "vision_buyup_strategy",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Base Plan-Only Contribution Strategy?": {
+      "key": "base_plan_only_contribution_strategy",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Importance of Total Cost": {
+      "key": "importance_of_total_cost",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Not Important\"\""
+    },
+    "Forms - Intake - Group Data - Importance of Value For Money": {
+      "key": "importance_of_value_for_money",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Not Important\"\""
+    },
+    "Forms - Intake - Group Data - Importance of Market Share": {
+      "key": "importance_of_market_share",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Not Important\"\""
+    },
+    "Forms - Intake - Group Data - Importance of Size of Network": {
+      "key": "importance_of_size_of_network",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Not Important\"\""
+    },
+    "Forms - Intake - Group Data - Importance of Healthcare Navigation": {
+      "key": "importance_of_healthcare_navigation",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Not Important\"\""
+    },
+    "Forms - Intake - Group Data - Importance of Mental Health Resources": {
+      "key": "importance_of_mental_health_resources",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Not Important\"\""
+    },
+    "Forms - Intake - Group Data - Enr EC": {
+      "key": "importance_of_telemedicine_access",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Not Important\"\""
+    },
+    "Forms - Intake - Group Data - Importance of Modern Technology and Support": {
+      "key": "importance_of_modern_technology_and_support",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Not Important\"\""
+    },
+    "Forms - Intake - Group Data - Current Medical Plan Rating Type": {
+      "key": "current_medical_plan_rating_type",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Age-Banded\"\""
+    },
+    "Forms - Intake - Group Data - Medical OOPM": {
+      "key": "module_selection",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Document Uploader*\"\""
+    },
+    "Forms - Intake - Group Data - Benefit Pain Points": {
+      "key": "benefit_pain_points",
+      "type": "",
+      "options": "\"[{\"\"id\"\":\"\"selWOGLYn9BgwQ4Xs\"\""
+    },
+    "Forms - Intake - Group Data - Ways to reinvest savings": {
+      "key": "ways_to_reinvest_savings",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Increase 401(k) contributions\"\""
+    },
+    "Forms - Intake - Group Data - Audit Invoices": {
+      "key": "audit_invoices",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly\"\""
+    },
+    "Forms - Intake - Group Data - Type of Broker": {
+      "key": "type_of_broker",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Small Firm\"\""
+    },
+    "Forms - Intake - Group Data - Medical Deductible": {
+      "key": "broker_contact_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly\"\""
+    },
+    "Forms - Intake - Group Data - Broker Meet Frequency": {
+      "key": "broker_meet_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly\"\""
+    },
+    "Forms - Intake - Group Data - Broker Service Agreement?": {
+      "key": "broker_service_agreement",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Service Agreement Upload": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Broker Subsidize Cost?": {
+      "key": "broker_subsidize_cost",
+      "type": "",
+      "options": "[]"
+    },
+    "Forms - Intake - Group Data - Broker Fees": {
+      "key": "broker_fees",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Additional Info": {
+      "key": "additional_info",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Census Upload": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Benefit Summary Upload": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Invoice Upload": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Total Enr": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Quarterly Payroll Filings": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Voided Check": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Latest Updated Through": {
+      "key": "latest_updated_through",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update Link Sent": {
+      "key": "update_link_sent",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Checked\"\""
+    },
+    "Forms - Intake - Group Data - Update Comprehensive": {
+      "key": "update_comprehensive",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update Basic": {
+      "key": "update_basic",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update NDA": {
+      "key": "update_nda",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update PEO/HR": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Group Data - Update Quickstart (w/ current benefits)": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Group Data - Update Quick Start (Current Benefits) (Multi Page)": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Group Data - Link to Intake - Plan Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Intake - Benefits": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblD3qSyh4bbUBEV7\"\""
+    },
+    "Forms - Intake - Group Data - Intake - Broker Role": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbltNeSN4uM8tAvIk\"\""
+    },
+    "Forms - Intake - Group Data - Link to Users": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblU9oY6xmTcCuACh\"\""
+    },
+    "Forms - Intake - Group Data - Date Modified": {
+      "key": "date_modified",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - ROI Workbook URL": {
+      "key": "roi_workbook_url",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Link to Intake Document Upload": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblBgAZKJln76anVn\"\""
+    },
+    "Forms - Intake - Group Data - BG Deduction Frequency": {
+      "key": "bg_deduction_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly\"\""
+    },
+    "Forms - Intake - Group Data - Intake - Configurations": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblZO4k1aCz0dN2Dp\"\""
+    },
+    "Forms - Intake - Group Data - Medical ER": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblbtLkv8l4uAm5h6\"\""
+    },
+    "Forms - Intake - Group Data - Link to Assigned Forms": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblNeyKm9sKAKZq9n\"\""
+    },
+    "Forms - Intake - Group Data - Enr EF": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblsqoMIT7RHsC9Kg\"\""
+    },
+    "Forms - Intake - Group Data - Record ID": {
+      "key": "record_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Plan Name (Formula) T": {
+      "key": "to_be_decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Link to Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Intake - Plan Data - Record ID (from Link to Group Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Plan Data - Plan Name (Formula)": {
+      "key": "plan_name_formula",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Company Name": {
+      "key": "company_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Benefit": {
+      "key": "benefit",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Medical\"\""
+    },
+    "Forms - Intake - Plan Data - Medical Plan Type": {
+      "key": "medical_plan_type",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"EPO + HDHP\"\""
+    },
+    "Forms - Intake - Plan Data - Plan Number": {
+      "key": "plan_number",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Plan Name (Client)": {
+      "key": "plan_name_client",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Plan Name (Carrier)": {
+      "key": "plan_name_carrier",
+      "type": "",
+      "options": "[]"
+    },
+    "Forms - Intake - Plan Data - Carrier": {
+      "key": "carrier",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Metallic Level": {
+      "key": "metallic_level",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Bronze\"\""
+    },
+    "Forms - Intake - Plan Data - Enrollment-EE": {
+      "key": "enrollment_ee",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Enrollment-ES": {
+      "key": "enrollment_es",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Enrollment-EC": {
+      "key": "enrollment_ec",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Enrollment-EF": {
+      "key": "enrollment_ef",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Premium - EE": {
+      "key": "premium_ee",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Premium - ES": {
+      "key": "premium_es",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Premium - EC": {
+      "key": "premium_ec",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Premium - EF": {
+      "key": "premium_ef",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE Con (BG) - EE": {
+      "key": "ee_con_bg_ee",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE Con (BG) - ES": {
+      "key": "ee_con_bg_es",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE Con (BG) - EC": {
+      "key": "ee_con_bg_ec",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE Con (BG) - EF": {
+      "key": "ee_con_bg_ef",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - BG Deduction Frequency (from Link to Group Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Weekly\"\""
+    },
+    "Forms - Intake - Plan Data - Deduction Frequency (from Link to Group Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Same as payroll frequency\"\""
+    },
+    "Forms - Intake - Plan Data - BG Deduction Frequency (Plan Specific Exceptions)": {
+      "key": "bg_deduction_frequency_plan_specific_exceptions",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly\"\""
+    },
+    "Forms - Intake - Plan Data - EE Con (Monthly) - EE": {
+      "key": "ee_con_monthly_ee",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE Con (Monthly) - ES": {
+      "key": "ee_con_monthly_es",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE Con (Monthly) - EC": {
+      "key": "ee_con_monthly_ec",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE Con (Monthly) - EF": {
+      "key": "ee_con_monthly_ef",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - ER Contribution - EE": {
+      "key": "er_contribution_ee",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - ER Contribution - ES": {
+      "key": "er_contribution_es",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - ER Contribution - EC": {
+      "key": "er_contribution_ec",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - ER Contribution - EF": {
+      "key": "er_contribution_ef",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Net ER % - EE": {
+      "key": "net_er_percent_ee",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Net ER % - ES": {
+      "key": "net_er_percent_es",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Net ER % - EC": {
+      "key": "net_er_percent_ec",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Net ER % - EF": {
+      "key": "net_er_percent_ef",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - Deductible (Single)": {
+      "key": "medical_deductible_single",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - Deductible (Family)": {
+      "key": "medical_deductible_family",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical OOPM (Single)": {
+      "key": "medical_oopm_single",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical OOPM (Family)": {
+      "key": "medical_oopm_family",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical OOPM (Single) (OON)": {
+      "key": "medical_oopm_single_oon",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical OOPM (Family) (OON)": {
+      "key": "medical_oopm_family_oon",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical Deductible OON (Single)": {
+      "key": "medical_deductible_oon_single",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical Deductible OON (Family)": {
+      "key": "medical_deductible_oon_family",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - Office Visit": {
+      "key": "medical_office_visit",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - Coinsurance": {
+      "key": "medical_coinsurance",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - Urgent Care": {
+      "key": "medical_urgent_care",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - Emergency Room": {
+      "key": "medical_emergency_room",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical- Hospital": {
+      "key": "medical_hospital",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - Labs & Xray": {
+      "key": "medical_labs_xray",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - Rx (Combined)": {
+      "key": "medical_rx_combined",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Annual Maximum": {
+      "key": "dental_annual_maximum",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental Plan Type": {
+      "key": "dental_plan_type",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"DHMO\"\""
+    },
+    "Forms - Intake - Plan Data - Dental Enrollment Type": {
+      "key": "dental_enrollment_type",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Non-Contributory\"\""
+    },
+    "Forms - Intake - Plan Data - Dental - Deductible Individual": {
+      "key": "dental_deductible_individual",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Deductible Family": {
+      "key": "dental_deductible_family",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Preventive %": {
+      "key": "dental_preventive_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Major %": {
+      "key": "dental_major_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Endo %": {
+      "key": "dental_endo_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Perio %": {
+      "key": "dental_perio_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Oral Surgery %": {
+      "key": "dental_oral_surgery_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Ortho (Yes/No)": {
+      "key": "dental_ortho_yes_no",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Plan Data - Dental - Ortho %": {
+      "key": "dental_ortho_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Ortho Eligible": {
+      "key": "dental_ortho_eligible",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Ortho Lifetime Max": {
+      "key": "dental_ortho_lifetime_max",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - OON": {
+      "key": "dental_oon",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"MAC\"\""
+    },
+    "Forms - Intake - Plan Data - Vision - Exam Copay": {
+      "key": "vision_exam_copay",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Vision - Materials Copay": {
+      "key": "vision_materials_copay",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Vision - Lens Allowance": {
+      "key": "vision_lens_allowance",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Vision - Frame Allowance": {
+      "key": "vision_frame_allowance",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Vision - Contacts Frequency": {
+      "key": "vision_contacts_frequency",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dental - Waiting Period": {
+      "key": "dental_waiting_period",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"None\"\""
+    },
+    "Forms - Intake - Plan Data - Last modified": {
+      "key": "last_modified",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Plan_ID (generated)": {
+      "key": "plan_id_generated",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Plan Score (logits)": {
+      "key": "plan_score_logits",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Plan Score (ML)": {
+      "key": "plan_score_ml",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Done": {
+      "key": "done",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Checked\"\""
+    },
+    "Forms - Intake - Plan Data - Plan Value Score": {
+      "key": "plan_value_score",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Medical - HSA-Qualified?": {
+      "key": "medical_hsa_qualified",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Plan Data - Predicted Metal Tier": {
+      "key": "predicted_metal_tier",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Intake - Automations": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblsqoMIT7RHsC9Kg\"\""
+    },
+    "Forms - Intake - Plan Data - ER - EE Custom/Current": {
+      "key": "er_ee_custom_current",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - ER - ES Custom/Current": {
+      "key": "er_es_custom_current",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - ER - EC Custom/Current": {
+      "key": "er_ec_custom_current",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - ER - EF Custom/Current": {
+      "key": "er_ef_custom_current",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE - EE Custom/Current": {
+      "key": "ee_ee_custom_current",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE - ES Custom/Current": {
+      "key": "ee_es_custom_current",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE - EC Custom/Current": {
+      "key": "ee_ec_custom_current",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE - EF Custom/Current": {
+      "key": "ee_ef_custom_current",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Prem Age 21": {
+      "key": "prem_age_21",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Document Upload ID": {
+      "key": "document_upload_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Intake - Document Upload": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblBgAZKJln76anVn\"\""
+    },
+    "Forms - Intake - Plan Data - Unique ID": {
+      "key": "unique_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Vision - Exam Frequency": {
+      "key": "Vision_Exam_Frequency",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Vision – Lens Frequency": {
+      "key": "vision_lens_frequency",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Vision - Lens Frequency": {
+      "key": "Vision_Lens_Frequency",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Vision - Frame Frequency": {
+      "key": "vision_frame_frequency",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - Name": {
+      "key": "name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - QA Pass/Fail": {
+      "key": "qa_pass_fail",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Pass\"\""
+    },
+    "Forms - Intake - QA - Intake - Automations": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblsqoMIT7RHsC9Kg\"\""
+    },
+    "Forms - Intake - QA - Intake - Group Data (from Intake - Automations)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - QA - Linked Document Types (from Intake - Automations)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - QA - Link to Intake - Document Upload (from Intake - Automations)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - QA - File (from Link to Intake - Document Upload) (from Intake - Automations)": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - QA - Error Found": {
+      "key": "error_found",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - Source of Error": {
+      "key": "source_of_error",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - Possible Solution": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - Outcome": {
+      "key": "outcome",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - Solution Status": {
+      "key": "solution_status",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Fail\"\""
+    },
+    "Forms - Intake - QA - Source File": {
+      "key": "source_file",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"https://drive.google.com/file/d/1BnJKE-NesN5LVKUH_EqzMJaY9XNsbVkR/view?usp=drive_link\"\""
+    },
+    "Forms - Intake - QA - Carrier": {
+      "key": "carrier",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Cigna\"\""
+    },
+    "Forms - Intake - QA - Notes": {
+      "key": "notes",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - Prompt": {
+      "key": "prompt",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - Attachment Summary": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - QA - Automation Name": {
+      "key": "automation_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Automations - Name": {
+      "key": "name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Automations - Record ID (Automation)": {
+      "key": "record_id_automation",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Automations - Intake - Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\": \"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Intake - Automations - Record ID (from Intake - Group Data)": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Automations - Intake - Plan Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblPJjWgnbblYLym4\"\""
+    },
+    "Forms - Intake - Automations - Link to Intake - Document Upload": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblBgAZKJln76anVn\"\""
+    },
+    "Forms - Intake - Automations - Invoice Reconciliation (Invoices)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblm3fmjCORXSJUns\"\""
+    },
+    "Forms - Intake - Automations - Linked Files Count": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Automations - File (from Link to Intake - Document Upload)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Automations - ROI Workbook URL (from Intake - Group Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Automations - AI Audit URL (from Intake - Group Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Automations - Plan Number (from Intake - Plan Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Automations - Status Formula": {
+      "key": "status_formula",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Automations - Parent Record": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblsqoMIT7RHsC9Kg\"\""
+    },
+    "Forms - Intake - Automations - From field: Parent Record": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblsqoMIT7RHsC9Kg\"\""
+    },
+    "Forms - Intake - Automations - Go/ No Go": {
+      "key": "go_no_go",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Go\"\""
+    },
+    "Forms - Intake - Automations - Processed Date/Time": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Automations - Reset Automation - (Beta)": {
+      "key": "",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Checked\"\""
+    },
+    "Forms - Intake - Automations - Review Complete": {
+      "key": "review_complete",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Checked\"\""
+    },
+    "Forms - Intake - Automations - Intake - QA": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblqeV0XooGbktyN5\"\""
+    },
+    "Forms - Intake - Automations - Outcome (from Intake - QA)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Automations - Trigger": {
+      "key": "trigger",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Automations - Output Format Needed": {
+      "key": "output_format_needed",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Automations - Override Group ID": {
+      "key": "override_group_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Document Upload - Name": {
+      "key": "name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Document Upload - Link to Intake - Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Intake - Document Upload - Record ID (Automation) (from Intake - Automations)": {
+      "key": "",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Document Upload - Company Name (from Link to Intake - Group Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Document Upload - Link to Intake - Plan Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblPJjWgnbblYLym4\"\""
+    },
+    "Forms - Intake - Document Upload - Document Title": {
+      "key": "document_title",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Document Upload - File": {
+      "key": "To be decided",
+      "type": "",
+      "options": "To be decided"
+    },
+    "Forms - Intake - Document Upload - Trigger Workflow": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Document Upload - Trigger Test Workflow": {
+      "key": "trigger_test_workflow",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"True\"\""
+    },
+    "Forms - Intake - Document Upload - Status": {
+      "key": "status",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Not Processed\"\""
+    },
+    "Forms - Intake - Progress Steps - Intake Status": {
+      "key": "intake_status",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Pending\"\""
+    },
+    "Forms - Intake - Group Data - Do other Entities use this FEIN": {
+      "key": "do_other_entities_use_this_fein",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"No\"\""
+    },
+    "Forms - Intake - Group Data - Primary Contact Name": {
+      "key": "primary_contact_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Primary Contact Email": {
+      "key": "primary_contact_email",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Fax": {
+      "key": "fax",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Mailing Address": {
+      "key": "mailing_address",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - City (Mail Address)": {
+      "key": "city_mail_address",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - State (Mail Address)": {
+      "key": "state_mail_address",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"North Carolina\"\""
+    },
+    "Forms - Intake - Group Data - Zip (Mail Address)": {
+      "key": "zip_mail_address",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Medical Employee Contribution (%)": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Weekly Hours Required for Eligibility": {
+      "key": "weekly_hours_required_for_eligibility",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Group Renewal date": {
+      "key": "group_renewal_date",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Dental EE %": {
+      "key": "dental_ee_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Vision EE %": {
+      "key": "",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Record ID": {
+      "key": "record_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Record ID (from Intake - Group Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Other Forms - Intake - Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Intake - Other Forms - Link to Assigned Forms": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblNeyKm9sKAKZq9n\"\""
+    },
+    "Forms - Intake - Other Forms - Link to Available Forms (from Link to Assigned Forms)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Other Forms - Update Broker Role": {
+      "key": "to_be_decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Other Forms - Update Benefits Administration": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Update Benefits Compliance": {
+      "key": "update_benefits_compliance",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Broker Type": {
+      "key": "broker_type",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Small Firm\"\""
+    },
+    "Forms - Intake - Other Forms - Broker Separate Fees": {
+      "key": "broker_separate_fees",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - Broker Subsidized Services a": {
+      "key": "broker_subsidized_services_a",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"HR Support Line\"\""
+    },
+    "Forms - Intake - Other Forms - Broker Support Areas": {
+      "key": "broker_support_areas",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Renewal negotiations\"\""
+    },
+    "Forms - Intake - Other Forms - Benefit Onboarding Email Sender": {
+      "key": "benefit_onboarding_email_sender",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"HR team\"\""
+    },
+    "Forms - Intake - Other Forms - Ideal Broker partner": {
+      "key": "ideal_broker_partner",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Pre-Tax Benefit Plans Offered": {
+      "key": "pre_tax_benefit_plans_offered",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"FSA (Flexible Spending Account)\"\""
+    },
+    "Forms - Intake - Other Forms - Benefits Manager": {
+      "key": "benefits_manager",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"A benefits platform (e.g."
+    },
+    "Forms - Intake - Other Forms - Outsourced Administration": {
+      "key": "outsourced_administration",
+      "type": "",
+      "options": "[]"
+    },
+    "Forms - Intake - Other Forms - COBRA Administration Method": {
+      "key": "cobra_administration_method",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"It’s handled internally by HR\"\""
+    },
+    "Forms - Intake - Other Forms - HRA Deductible Payment Order": {
+      "key": "hra_deductible_payment_order",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"The HRA pays first\"\""
+    },
+    "Forms - Intake - Other Forms - Company Contributes to HRA?": {
+      "key": "company_contributes_to_hra",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - HRA Contribution Amount": {
+      "key": "hra_contribution_amount",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - HRA Administration Method": {
+      "key": "hra_administration_method",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"In-house without software\"\""
+    },
+    "Forms - Intake - Other Forms - Payroll Benefit Deduction Updates": {
+      "key": "payroll_benefit_deduction_updates",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"HR enters them manually\"\""
+    },
+    "Forms - Intake - Other Forms - Payroll Deduction Review Frequency": {
+      "key": "payroll_deduction_review_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Weekly\"\""
+    },
+    "Forms - Intake - Other Forms - Insurance Invoice Reconciliation Frequency": {
+      "key": "insurance_invoice_reconciliation_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Monthly\"\""
+    },
+    "Forms - Intake - Other Forms - Carrier Invoice Reconciliation Lead": {
+      "key": "carrier_invoice_reconciliation_lead",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Our HR or finance team\"\""
+    },
+    "Forms - Intake - Other Forms - Enrollment and Payroll Records": {
+      "key": "enrollment_and_payroll_records",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes – we keep them in-house\"\""
+    },
+    "Forms - Intake - Other Forms - Compliance Document Preparation": {
+      "key": "compliance_document_preparation",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Benefits broker\"\""
+    },
+    "Forms - Intake - Other Forms - Benefit Guide Distribution": {
+      "key": "benefit_guide_distribution",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes"
+    },
+    "Forms - Intake - Other Forms - Open Enrollment Meeting Format": {
+      "key": "open_enrollment_meeting_format",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Live in-person\"\""
+    },
+    "Forms - Intake - Other Forms - Open Enrollment Communication Quality": {
+      "key": "open_enrollment_communication_quality",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes"
+    },
+    "Forms - Intake - Other Forms - Compliance Guidance Providers": {
+      "key": "compliance_guidance_providers",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Internal HR or Legal team\"\""
+    },
+    "Forms - Intake - Other Forms - Do you use a system to track compliance requirements and deadlines?": {
+      "key": "do_you_use_a_system_to_track_compliance_requirements_and_deadlines",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - What system or tool do you use?": {
+      "key": "what_system_or_tool_do_you_use",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Do you currently have an ERISA wrap document?": {
+      "key": "do_you_currently_have_an_erisa_wrap_document",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - Do you have a Section 125 POP (Premium Only Plan) document?": {
+      "key": "do_you_have_a_section_125_pop_premium_only_plan_document",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - Does your broker or a third party assist with ACA filings?": {
+      "key": "does_your_broker_or_a_third_party_assist_with_aca_filings",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - Do you file Form 5500?": {
+      "key": "do_you_file_form_5500",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "\"Forms - Intake - Other Forms - Do you offer state-mandated benefits (e.g.": {
+      "key": "Forms - Intake - Other Forms",
+      "type": "\"Do you offer state-mandated benefits (e.g.",
+      "options": " CA PFL"
+    },
+    "Forms - Intake - Other Forms - Do you operate in multiple states?": {
+      "key": "do_you_operate_in_multiple_states",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - Do you comply with HIPAA privacy requirements?": {
+      "key": "do_you_comply_with_hipaa_privacy_requirements",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - Do you have an Employee Handbook?": {
+      "key": "do_you_have_an_employee_handbook",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "\"Forms - Intake - Other Forms - How is leave management (e.g.": {
+      "key": "0",
+      "type": "FMLA",
+      "options": " state leave) tracked and administered?\""
+    },
+    "Forms - Intake - Other Forms - Form 5500 Preparation": {
+      "key": "form_5500_preparation",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Benefits Broker\"\""
+    },
+    "Forms - Intake - Other Forms - Would you like help with any of the following compliance documents?": {
+      "key": "would_you_like_help_with_any_of_the_following_compliance_documents",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"ERISA Wrap document\"\""
+    },
+    "Forms - Intake - Other Forms - Users": {
+      "key": "users",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Signed Agreement Upload": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Rec ID": {
+      "key": "rec_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Complete Address": {
+      "key": "complete_address",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Link to Intake - Other Form Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblaFUw6vBgpIBWIw\"\""
+    },
+    "Forms - Intake - Group Data - AI Audit URL": {
+      "key": "ai_audit_url",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - ROI Workbook ID": {
+      "key": "roi_workbook_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - AI Audit ID": {
+      "key": "ai_audit_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update Quick Start": {
+      "key": "update_quick_start",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update Quick Start (New Benefits)": {
+      "key": "update_quick_start_new_benefits",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - New User form": {
+      "key": "new_user_form",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update Workers' Compensation": {
+      "key": "update_workers_compensation",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update PEO/EOR Questions": {
+      "key": "update_peo_eor_questions",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Update Broker Role (from Link to Intake - Other Form Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Group Data - Update Benefits Administration (from Link to Intake - Other Form Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Group Data - Update Benefits Compliance (from Link to Intake - Other Form Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Group Data - Medical Contribution (Flat $)": {
+      "key": "medical_contribution_flat_dollars",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Dental Flat $": {
+      "key": "dental_flat_dollar",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Dental Buyup Strategy": {
+      "key": "dental_buyup_strategy",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Open Feedback Question 2": {
+      "key": "open_feedback_question_2",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Open Feedback Question 1": {
+      "key": "open_feedback_question_1",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Open Feedback Question 3": {
+      "key": "open_feedback_question_3",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Created date": {
+      "key": "created_date",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Number of Employees by State": {
+      "key": "number_of_employees_by_state",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Business Operations Description": {
+      "key": "business_operations_description",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Email": {
+      "key": "email",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Website": {
+      "key": "website",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Doing Business As (DBA)": {
+      "key": "doing_business_as_dba",
+      "type": "",
+      "options": ""
+    },
+    "\"Forms - Intake - Group Data - Do your employees handle any type of product": {
+      "key": "etc?\"",
+      "type": "0",
+      "options": "\"Do your employees handle any type of product"
+    },
+    "Forms - Intake - Group Data - What state are you incorporated in?": {
+      "key": "what_state_are_you_incorporated_in",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"AL\"\""
+    },
+    "Forms - Intake - Group Data - What kind of equipment is used?": {
+      "key": "what_kind_of_equipment_is_used",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - In Business Since (YYYY)": {
+      "key": "in_business_since_yyyy",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Additional Company Name": {
+      "key": "additional_company_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Hours of Operation": {
+      "key": "hours_of_operation",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Use Alternative Address": {
+      "key": "use_alternative_address",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Current Payroll Provider": {
+      "key": "current_payroll_provider",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Upload Workers’ Compensation Policy": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Upload Payroll Report": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Upload 3-5 Year Loss Runs": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Upload Current Insurance Policy": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Temp - Move Attachments": {
+      "key": "temp_move_attachments",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Intake - Quote Requests": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblBEwUsCeA7meOec\"\""
+    },
+    "Forms - Intake - Group Data - Plan Type (from Intake - Plan Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Medical\"\""
+    },
+    "Forms - Intake - Group Data - Intake - Plan Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblPJjWgnbblYLym4\"\""
+    },
+    "Forms - Intake - Group Data - Headquarters Location (Country)": {
+      "key": "headquarters_location_country",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Headquarters Location (Country)\"\""
+    },
+    "Forms - Intake - Group Data - Do you currently use an EOR?": {
+      "key": "do_you_currently_use_an_eor",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - EOR Vendors You’ve Used": {
+      "key": "eor_vendors_youve_used",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Deel\"\""
+    },
+    "Forms - Intake - Group Data - Are you exploring a new country?": {
+      "key": "are_you_exploring_a_new_country",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Click below to enter country-specific worker details": {
+      "key": "click_below_to_enter_country_specific_worker_details",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Priority Timeline": {
+      "key": "priority_timeline",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Immediately\"\""
+    },
+    "Forms - Intake - Group Data - Additional Notes (Optional)": {
+      "key": "additional_notes_optional",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Total Number of 1099 Contractors": {
+      "key": "total_number_of_1099_contractors",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Intake - EOR Countries": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblRRR1LCWJEHbjcF\"\""
+    },
+    "Forms - Intake - Group Data - Upload PEO or EOR Invoices": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Number of W-2 Employees": {
+      "key": "number_of_w_2_employees",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Do you hire seasonal workers?": {
+      "key": "do_you_hire_seasonal_workers",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Are there any union employees?": {
+      "key": "are_there_any_union_employees",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Payroll Frequency": {
+      "key": "payroll_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly\"\""
+    },
+    "Forms - Intake - Group Data - Do you process garnishments or child support payments?": {
+      "key": "do_you_process_garnishments_or_child_support_payments",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Do you use a time-tracking system?": {
+      "key": "do_you_use_a_time_tracking_system",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Do you need help with HR compliance and support?": {
+      "key": "do_you_need_help_with_hr_compliance_and_support",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Target Go-Live Date": {
+      "key": "target_go_live_date",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"ASAP\"\""
+    },
+    "Forms - Intake - Group Data - Please describe your reason": {
+      "key": "please_describe_your_reason",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Current Workers’ Comp Declaration Page": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Upload EOR Invoice": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Global HQ": {
+      "key": "global_hq",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"United States\"\""
+    },
+    "Forms - Intake - Group Data - Upload PEO Invoice": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Would you be open to switching to another PEO or to a payroll-only solution?": {
+      "key": "would_you_be_open_to_switching_to_another_peo_or_to_a_payroll_only_solution",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Group Data - Document Upload ID": {
+      "key": "document_upload_id",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Proposal Name": {
+      "key": "proposal_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Completed and signed RFP (Request for Proposal)": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Temporary Test for ML Pipeline": {
+      "key": "temporary_test_for_ml_pipeline",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Available Forms - Name": {
+      "key": "name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Show in Available Forms": {
+      "key": "show_in_available_forms",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Progress Steps - Assignment Type": {
+      "key": "assignment_type",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Available Forms - Visibility Rules": {
+      "key": "visibility_rules",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Available Forms - Description": {
+      "key": "description",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Available Forms - Forms URL": {
+      "key": "forms_url",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Available Forms - Forms Assigned": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Available Forms - Stage Use": {
+      "key": "stage_use",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Triggers": {
+      "key": "triggers",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Automation": {
+      "key": "automation",
+      "type": "",
+      "options": "[]"
+    },
+    "Forms - Intake - Other Forms - Name": {
+      "key": "to_be_decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Signed Service Agreement": {
+      "key": "signed_service_agreement",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - Broker Meeting Frequency": {
+      "key": "broker_meeting_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly or more\"\""
+    },
+    "Forms - Intake - Other Forms - Broker Contact Frequency": {
+      "key": "broker_contact_frequency",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Weekly or more\"\""
+    },
+    "Forms - Intake - Other Forms - Broker Likes": {
+      "key": "broker_likes",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Employees Receive Healthcare Debit Card?": {
+      "key": "employees_receive_healthcare_debit_card",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Other Forms - Broker Responsiveness Rating": {
+      "key": "broker_responsiveness_rating",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Broker Renewal Strategy Rating": {
+      "key": "broker_renewal_strategy_rating",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Broker Compliance Support Rating": {
+      "key": "broker_compliance_support_rating",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Broker Admin Support Rating": {
+      "key": "broker_admin_support_rating",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - broker documentation": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Other Forms - Broker Strategic Value Rating": {
+      "key": "broker_strategic_value_rating",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Users - Name": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Users - Last Name": {
+      "key": "last_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Users - First Name": {
+      "key": "first_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Users - Title": {
+      "key": "title",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Users - Email": {
+      "key": "email",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Users - Link to Assigned Forms": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\": \"\"To be decided\"\"}\""
+    },
+    "Forms - Users - Company Name (from Intake - Group Data)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Users - Intake - Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Users - Record ID of Intake - Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Users - Logo": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Users - Magic link": {
+      "key": "magic_link",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Users - Created date": {
+      "key": "created_date",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - EOR Countries - Name": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - EOR Countries - Company Name (Formula) (from Country)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - EOR Countries - Link to Intake - Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Intake - EOR Countries - Country": {
+      "key": "country",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Afghanistan\"\""
+    },
+    "Forms - Intake - EOR Countries - Number of Employees (FT/PT)": {
+      "key": "number_of_employees_ft_pt",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - EOR Countries - Current EOR (if applicable)": {
+      "key": "current_eor_if_applicable",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Todo\"\""
+    },
+    "Forms - Intake - EOR Countries - Number of Contractors": {
+      "key": "number_of_contractors",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - EOR Countries - Currency Paid In": {
+      "key": "currency_paid_in",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - EOR Countries - Current Monthly Cost per EE/CT": {
+      "key": "current_monthly_cost_per_ee_ct",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - EOR Countries - Notes or Issues in that Country": {
+      "key": "notes_or_issues_in_that_country",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Assigned Forms - Name": {
+      "key": "to_be_decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Assigned Forms - Link to Available Forms": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblZVnNaE4y8e56fa\"\""
+    },
+    "Forms - Assigned Forms - Link to Intake Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Assigned Forms - Other Forms": {
+      "key": "other_forms",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Assigned Forms - Link to Intake - Other Form Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblaFUw6vBgpIBWIw\"\""
+    },
+    "Forms - Assigned Forms - Record ID formula": {
+      "key": "to_be_decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Assigned Forms - Record ID (from Group Name)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Assigned Forms - URL (from Available Forms)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Assigned Forms - Record ID (from Intake - Other Forms)": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Assigned Forms - Assigned Form URL": {
+      "key": "assigned_form_url",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Assigned Forms - Assigned?": {
+      "key": "assigned",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Assigned Forms - Submitted": {
+      "key": "submitted",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Checked\"\""
+    },
+    "Forms - Assigned Forms - Created Time": {
+      "key": "created_time",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Assigned Forms - Submitted Time": {
+      "key": "submitted_time",
+      "type": "",
+      "options": "\"{\"\"dateFormat\"\":{\"\"name\"\":\"\"local\"\""
+    },
+    "Forms - Assigned Forms - Status": {
+      "key": "status",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Not Started\"\""
+    },
+    "Forms - Intake - Group Data - Invoice Month": {
+      "key": "Jan",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Invoice Reconciliation (Invoices) - Invoice Month": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Invoice Reconciliation (Invoices) - Record ID": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Invoice Reconciliation (Invoices) - Workbook URL": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Reasons not using PEO": {
+      "key": "reasons_not_using_peo",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Cost (too expensive)\"\""
+    },
+    "Forms - Intake - Group Data - PEO/EOR Table Data": {
+      "key": "peo_eor_table_data",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Specify other vendor(s)": {
+      "key": "specify_other_vendors",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Policy Number #1": {
+      "key": "policy_number_1",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Policy Carrier #1": {
+      "key": "policy_carrier_1",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Policy Carrier #2": {
+      "key": "policy_carrier_2",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - Policy Number #2": {
+      "key": "policy_number_2",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Group Data - AI Audit Month": {
+      "key": "ai_audit_month",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Jan\"\""
+    },
+    "Forms - Intake - Group Data - Intake - Onboarding Steps": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbl5KoDB657pRju5x\"\""
+    },
+    "Forms - Intake - Plan Data - Contribution Strategy": {
+      "key": "contribution_strategy",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Employer Percentage\"\""
+    },
+    "Forms - Intake - Plan Data - Flat Amount": {
+      "key": "flat_amount",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - EE": {
+      "key": "ee",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Dep": {
+      "key": "dep",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Plan Data - Is base plan?": {
+      "key": "is_base_plan",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Checked\"\""
+    },
+    "Forms - Intake - Plan Data - Buy-Up Strategy": {
+      "key": "buy_up_strategy",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"All Plans\"\""
+    },
+    "Forms - Assigned Forms - Company Name": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Assigned Forms - Last Modified Time": {
+      "key": "last_modified_time",
+      "type": "",
+      "options": "\"{\"\"dateFormat\"\":{\"\"name\"\":\"\"local\"\""
+    },
+    "Forms - Intake - Progress Steps - Name": {
+      "key": "name",
+      "type": "formula",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Link to Intake - Group Data": {
+      "key": "To be decided",
+      "type": "multipleRecordLinks",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Intake - Progress Steps - Status": {
+      "key": "status",
+      "type": "Single Select",
+      "options": "\"[{\"\"label\"\": \"\"Not Started\"\""
+    },
+    "Forms - Intake - Progress Steps - Date": {
+      "key": "date",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Attachments": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Notes": {
+      "key": "notes",
+      "type": "multilineText",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Attachment Summary": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Configurations - Name": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Configurations - Intake - Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Intake - Configurations - Form 5500": {
+      "key": "form_5500",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Checked\"\""
+    },
+    "Forms - Intake - Configurations - LinkedIn/Glassdoor": {
+      "key": "linkedin_glassdoor",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"True\"\""
+    },
+    "Forms - Intake - Configurations - KPI Metrics": {
+      "key": "kpi_metrics",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Yes\"\""
+    },
+    "Forms - Intake - Configurations - AI Audit": {
+      "key": "ai_audit",
+      "type": "",
+      "options": "\"{\"\"icon\"\":\"\"check\"\""
+    },
+    "Forms - Intake - Configurations - Benefits Budget": {
+      "key": "benefits_budget",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Configurations - Employee Pulse Surveys": {
+      "key": "employee_pulse_surveys",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Checked\"\""
+    },
+    "Forms - Intake - Configurations - Retirement Plans": {
+      "key": "retirement_plans",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Yes\"\""
+    },
+    "Forms - Intake - Configurations - Notes": {
+      "key": "notes",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - Name": {
+      "key": "to_be_decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - EE Pulse Surveys": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbl28XVUekjvl2Ujn\"\""
+    },
+    "Forms - Company x Year - Intake - Group Data": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Company x Year - Company": {
+      "key": "company",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - Year": {
+      "key": "year",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"2024\"\""
+    },
+    "Forms - Company x Year - Form URL": {
+      "key": "form_url",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - Tiny Url": {
+      "key": "tiny_url_review: true",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - With Parameters": {
+      "key": "with_parameters",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - Eligible": {
+      "key": "eligible",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - Responses": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Company x Year - Overall": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Company x Year - Survey Participation": {
+      "key": "survey_participation",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - Medical Options": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Company x Year - Employee Cost": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - Medical Network": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Company x Year - Non-Medical": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Company x Year - Retirement": {
+      "key": "to_be_decided",
+      "type": "",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - EE Pulse Surveys - Name": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - EE Pulse Surveys - Link to Company x Year": {
+      "key": "To be decided",
+      "type": "",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblbtLkv8l4uAm5h6\"\""
+    },
+    "Forms - EE Pulse Surveys - Company": {
+      "key": "company",
+      "type": "",
+      "options": ""
+    },
+    "Forms - EE Pulse Surveys - Entry": {
+      "key": "entry",
+      "type": "",
+      "options": ""
+    },
+    "Forms - EE Pulse Surveys - Benefit Year": {
+      "key": "benefit_year",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"2023\"\""
+    },
+    "Forms - EE Pulse Surveys - Medical Tier": {
+      "key": "medical_tier",
+      "type": "",
+      "options": "\"[{\"\"label\"\":\"\"Employee Only\"\""
+    },
+    "Forms - EE Pulse Surveys - Overall": {
+      "key": "overall",
+      "type": "",
+      "options": "\"{\"\"icon\"\":\"\"star\"\""
+    },
+    "Forms - EE Pulse Surveys - Medical Network": {
+      "key": "medical_network",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"1\"\""
+    },
+    "Forms - EE Pulse Surveys - Medical Options": {
+      "key": "medical_options",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"1 star\"\""
+    },
+    "Forms - EE Pulse Surveys - Medical Cost": {
+      "key": "medical_cost",
+      "type": "",
+      "options": "\"{\"\"icon\"\":\"\"star\"\""
+    },
+    "Forms - EE Pulse Surveys - Non-Medical": {
+      "key": "non_medical",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"1 star\"\""
+    },
+    "Forms - EE Pulse Surveys - Comments": {
+      "key": "comments",
+      "type": "",
+      "options": ""
+    },
+    "Forms - EE Pulse Surveys - Retirement": {
+      "key": "retirement",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"1\"\""
+    },
+    "Forms - EE Pulse Surveys - Export Comment": {
+      "key": "export_comment",
+      "type": "",
+      "options": "\"[{\"\"label\"\": \"\"Checked\"\""
+    },
+    "Forms - EE Pulse Surveys - Submitted": {
+      "key": "submitted",
+      "type": "",
+      "options": ""
+    },
+    "Forms - EE Pulse Surveys - Employee Name": {
+      "key": "employee_name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - EE Pulse Surveys - Medical Plan": {
+      "key": "medical_plan",
+      "type": "",
+      "options": "[]"
+    },
+    "Forms - ROI Analysis - Name": {
+      "key": "name",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Link to Benefits": {
+      "key": "To be decided",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Total Eligible": {
+      "key": "total_eligible",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Avg Age": {
+      "key": "avg_age",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Med Enrolled": {
+      "key": "med_enrolled",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - StdDev Age": {
+      "key": "stddev_age",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Avg Salary": {
+      "key": "avg_salary",
+      "type": "",
+      "options": "\"{\"\"precision\"\":2"
+    },
+    "Forms - ROI Analysis - StdDev Salary": {
+      "key": "stddev_salary",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Med Part %": {
+      "key": "med_part_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Den Part %": {
+      "key": "den_part_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Vis Part %": {
+      "key": "vis_part_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - ER $ / Elig": {
+      "key": "er_dollar_elig",
+      "type": "",
+      "options": "\"{\"\"precision\"\":2"
+    },
+    "Forms - ROI Analysis - ER $ / Med Enr": {
+      "key": "er_dollar_med_enr",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - ER $ / Payroll": {
+      "key": "er_payroll",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - ER Med Total %": {
+      "key": "er_med_total_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Medical Plan Scores": {
+      "key": "medical_plan_scores",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - EE Med Total %": {
+      "key": "ee_med_total_percent",
+      "type": "",
+      "options": "\"{\"\"precision\"\":2"
+    },
+    "Forms - ROI Analysis - EF Base Cost": {
+      "key": "ef_base_cost",
+      "type": "",
+      "options": "\"{\"\"precision\"\":2"
+    },
+    "Forms - ROI Analysis - EE Base Cost": {
+      "key": "ee_base_cost",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - EE Buyup %": {
+      "key": "ee_buyup_percent",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Medical Plans (Rollup)": {
+      "key": "medical_plans_rollup",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Overall Package (Rollup)": {
+      "key": "overall_package_rollup",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Medical Network (Rollup)": {
+      "key": "medical_network_rollup",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Non-Medical (Rollup)": {
+      "key": "non_medical_rollup",
+      "type": "",
+      "options": ""
+    },
+    "Forms - ROI Analysis - Medical Cost (Rollup)": {
+      "key": "medical_cost_rollup",
+      "type": "",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Progress Steps/Automation Templates": {
+      "key": "To be decided",
+      "type": "multipleRecordLinks",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblKbQ7v3V78osHJR\"\""
+    },
+    "Forms - Intake - Progress Steps - Step Number": {
+      "key": "To be decided",
+      "type": "number",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Progress Steps - Description for Prospect (from Progress Steps/Automation Templates)": {
+      "key": "To be decided",
+      "type": "multipleLookupValues",
+      "options": "\"{\"\"isValid\"\":true"
+    },
+    "Forms - Intake - Progress Steps - Category": {
+      "key": "To be decided",
+      "type": "multipleLookupValues",
+      "options": "\"[{\"\"label\"\": \"\"Form\"\""
+    },
+    "Forms - Intake - Progress Steps - Status Last Updated": {
+      "key": "status_last_updated",
+      "type": "lastModifiedTime",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Company Name": {
+      "key": "company_name",
+      "type": "singleLineText",
+      "options": ""
+    },
+    "Forms - Imported - Yagnesh and afolabi test - Name": {
+      "key": "name",
+      "type": "singleLineText",
+      "options": ""
+    },
+    "Forms - Imported - Yagnesh and afolabi test - Notes": {
+      "key": "notes",
+      "type": "multilineText",
+      "options": ""
+    },
+    "Forms - Imported - Yagnesh and afolabi test - wonderful meeting": {
+      "key": "wonderful_meeting",
+      "type": "singleLineText",
+      "options": ""
+    },
+    "Forms - Imported - Yagnesh and afolabi test - Wonderful meeting test": {
+      "key": "wonderful_meeting_test",
+      "type": "singleLineText",
+      "options": ""
+    },
+    "Forms - Imported - Yagnesh and afolabi test - PCF": {
+      "key": "To be decided",
+      "type": "multipleRecordLinks",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tbliXJ7599ngxEriO\"\""
+    },
+    "Forms - Imported - Yagnesh and afolabi test - TESTOPP": {
+      "key": "To be decided",
+      "type": "multipleRecordLinks",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblPJjWgnbblYLym4\"\""
+    },
+    "Forms - Imported - Yagnesh and afolabi test - shi": {
+      "key": "shi",
+      "type": "singleLineText",
+      "options": ""
+    },
+    "Forms - Imported - Yagnesh and afolabi test - kito": {
+      "key": "To be decided",
+      "type": "multipleRecordLinks",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblZVnNaE4y8e56fa\"\""
+    },
+    "Forms - Intake - Progress Steps - Intake - Configurations": {
+      "key": "To be decided",
+      "type": "multipleRecordLinks",
+      "options": "\"{\"\"linkedTableId\"\":\"\"tblZO4k1aCz0dN2Dp\"\""
+    },
+    "Forms - Intake - Progress Steps - Visibility - Progress Steps": {
+      "key": "visibility_progress_steps",
+      "type": "formula",
+      "options": ""
+    },
+    "Forms - Intake - Progress Steps - Lookup - Progress Steps": {
+      "key": "To be decided",
+      "type": "multipleLookupValues",
+      "options": "\"{\"\"isValid\"\":true"
+    }
+  },
+  "nextSteps": [
+    "1. Manually inspect each Fillout form to extract field structure",
+    "2. Map Fillout fields to Airtable fields using the field mappings",
+    "3. Generate React form components based on the structure",
+    "4. Implement validation and conditional logic"
+  ]
+}

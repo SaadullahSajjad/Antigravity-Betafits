@@ -1,0 +1,314 @@
+{
+  "version": "3.0",
+  "design_system": {
+    "id": "betafits_design_authority_v1.1",
+    "name": "Betafits Design Authority v1.1",
+    "created_by": "Fahad - UX Designer",
+    "dated": "24 Feb 2026",
+    "base": "Tailwind Scale + shadcn Structure",
+    "mode": "Light Only",
+    "style": "Neutral SaaS, Medium Soft Rounded",
+    "core_principles": [
+      "Clean neutral SaaS aesthetic",
+      "Brand expressed only through primary color",
+      "Neutral UI surfaces",
+      "Medium-soft rounded corners",
+      "Minimal shadows, clear separation through stroke",
+      "8px spacing grid only",
+      "Strict token discipline — no custom inline values",
+      "Clear visual hierarchy using contrast, not decoration",
+      "Accessible contrast for text and states"
+    ],
+    "colors": {
+      "primary": {
+        "50": "#F4F8EC",
+        "100": "#E6F0D7",
+        "200": "#CFE1AE",
+        "300": "#B8D285",
+        "400": "#A5C66C",
+        "500": "#94BA5A",
+        "600": "#7EA246",
+        "700": "#688733",
+        "800": "#526B25",
+        "900": "#3B4D19",
+        "usage": {
+          "button": "500",
+          "hover": "600",
+          "focus_ring": "300",
+          "subtle_bg": "50"
+        }
+      },
+      "neutral": {
+        "50": "#FAFAFA",
+        "100": "#F4F4F5",
+        "200": "#E4E4E7",
+        "300": "#D4D4D8",
+        "400": "#A1A1AA",
+        "500": "#71717A",
+        "600": "#52525B",
+        "700": "#3F3F46",
+        "800": "#27272A",
+        "900": "#18181B",
+        "950": "#111111",
+        "usage": {
+          "app_background": "50",
+          "section_background": "#FFFFFF",
+          "subtle_section": "100",
+          "card_background": "#FFFFFF",
+          "border_default": "200",
+          "strong_divider": "300"
+        }
+      },
+      "semantic": {
+        "success": { "500": "#22C55E", "bg": "#DCFCE7" },
+        "error": { "500": "#EF4444", "bg": "#FEE2E2" },
+        "warning": { "500": "#F59E0B", "bg": "#FEF3C7" },
+        "info": { "500": "#3B82F6", "bg": "#DBEAFE" }
+      }
+    },
+    "border": {
+      "default": "1px solid neutral-200",
+      "interactive_focus": "1px solid primary-500",
+      "error": "1px solid #EF4444"
+    },
+    "typography": {
+      "font": "Inter",
+      "h1": { "size": "28px", "weight": "600", "line_height": "1.3" },
+      "h2": { "size": "22px", "weight": "600", "line_height": "1.35" },
+      "h3": { "size": "18px", "weight": "600" },
+      "body": { "size": "14px", "weight": "400", "line_height": "1.6" },
+      "small": { "size": "12px", "weight": "400" },
+      "label": { "size": "13px", "weight": "500" },
+      "text_colors": {
+        "primary": "neutral-900",
+        "secondary": "neutral-600",
+        "muted": "neutral-500",
+        "disabled": "neutral-400"
+      }
+    },
+    "spacing": {
+      "base_unit": "8px",
+      "allowed": [8, 16, 24, 32, 40, 48, 64],
+      "card_padding": "24px",
+      "section_spacing": "32px",
+      "page_horizontal_padding": "32px",
+      "form_field_spacing": "16px",
+      "label_to_input": "8px"
+    },
+    "border_radius": {
+      "small": "6px",
+      "medium": "10px",
+      "large": "14px",
+      "usage": {
+        "buttons": "medium",
+        "inputs": "medium",
+        "cards": "large",
+        "badges": "small",
+        "modals": "large"
+      }
+    },
+    "shadows": {
+      "card": "0 1px 2px rgba(0,0,0,0.05)",
+      "elevated": "0 4px 6px rgba(0,0,0,0.08)",
+      "modal": "0 10px 25px rgba(0,0,0,0.15)"
+    },
+    "components": {
+      "buttons": {
+        "height": "40px",
+        "padding_horizontal": "16px",
+        "radius": "medium",
+        "primary": { "bg": "primary-500", "text": "white", "hover": "primary-600" },
+        "secondary": { "bg": "white", "border": "neutral-300", "text": "neutral-900" },
+        "disabled": { "bg": "neutral-200", "text": "neutral-400" }
+      },
+      "inputs": {
+        "height": "40px",
+        "radius": "medium",
+        "border": "neutral-300",
+        "focus_border": "primary-500",
+        "focus_ring": "2px primary-300"
+      },
+      "cards": {
+        "bg": "white",
+        "border": "neutral-200",
+        "radius": "large",
+        "padding": "24px",
+        "shadow": "card"
+      },
+      "badges": {
+        "height": "24px",
+        "padding_horizontal": "8px",
+        "radius": "small"
+      }
+    },
+    "not_allowed": [
+      "Gradients",
+      "Glassmorphism",
+      "Random drop shadows",
+      "Custom hex values outside tokens",
+      "Additional font sizes",
+      "Arbitrary spacing values",
+      "Decorative outlines"
+    ],
+    "ai_instruction": "Use Betafits Design Authority v1.1. Follow all token definitions for color, neutral scale, spacing, border, stroke, typography, and layout rules. Do not introduce new styling values."
+  },
+  "portals": [
+    {
+      "id": "portal_prospect",
+      "name": "Betafits Prospect Portal",
+      "key": "prospect-portal",
+      "description": "Prospect-facing portal for onboarding, benefits review, budget estimation, and feedback collection.",
+      "tech_stack": {
+        "framework": "Next.js 14 (App Router)",
+        "language": "TypeScript (Strict)",
+        "styling": "Tailwind CSS + Betafits Design Authority v1.1",
+        "state_management": "React Context + Server Components"
+      },
+      "repository_path": ".",
+      "base_url": "prospect.betafits.com"
+    }
+  ],
+  "pages": [
+    {"id": "pg_prospect_home", "portal_id": "portal_prospect", "name": "Prospect Portal - Home", "route_path": "/", "file_path": "app/page.tsx", "render_strategy": "ServerComponent", "entity_context": null, "description": "Home dashboard for prospect onboarding and required actions."},
+    {"id": "pg_benefit_plans", "portal_id": "portal_prospect", "name": "Benefit Plans", "route_path": "/benefit-plans", "file_path": "app/benefit-plans/page.tsx", "render_strategy": "ServerComponent", "entity_context": "ent_intake_plan_data", "description": "Overview of benefit plans, eligibility, and contributions."},
+    {"id": "pg_employee_feedback", "portal_id": "portal_prospect", "name": "Employee Feedback", "route_path": "/employee-feedback", "file_path": "app/employee-feedback/page.tsx", "render_strategy": "ServerComponent", "entity_context": "ent_ee_pulse_surveys", "description": "Employee survey sharing, scores, and responses."},
+    {"id": "pg_solutions_catalog", "portal_id": "portal_prospect", "name": "Solutions Catalog", "route_path": "/solutions-catalog", "file_path": "app/solutions-catalog/page.tsx", "render_strategy": "ServerComponent", "entity_context": "ent_ecosystem", "description": "Discover benefit providers and technology partners."},
+    {"id": "pg_company_details", "portal_id": "portal_prospect", "name": "Company Details", "route_path": "/company-details", "file_path": "app/company-details/page.tsx", "render_strategy": "ServerComponent", "entity_context": "ent_intake_group_data", "description": "Manage and review company information, eligibility, forms, and configurations."},
+    {"id": "pg_benefit_budget", "portal_id": "portal_prospect", "name": "Benefit Budget", "route_path": "/benefit-budget", "file_path": "app/benefit-budget/page.tsx", "render_strategy": "ServerComponent", "entity_context": "ent_budget_summary", "description": "Financial overview and cost breakdown of benefits."},
+    {"id": "pg_benefits_analysis", "portal_id": "portal_prospect", "name": "Benefits Analysis", "route_path": "/benefits-analysis", "file_path": "app/benefits-analysis/page.tsx", "render_strategy": "ServerComponent", "entity_context": "ent_intake_group_data", "description": "Strategic overview of demographics, benchmarks, and budget."},
+    {"id": "pg_faq", "portal_id": "portal_prospect", "name": "FAQ", "route_path": "/faq", "file_path": "app/faq/page.tsx", "render_strategy": "ServerComponent", "entity_context": "ent_faq", "description": "Answer common onboarding and portal questions."},
+    {"id": "pg_account_settings", "portal_id": "portal_prospect", "name": "Account Settings", "route_path": "/account-settings", "file_path": "app/account-settings/page.tsx", "render_strategy": "ServerComponent", "entity_context": null, "description": "Manage user account and profile."},
+    {"id": "pg_login", "portal_id": "portal_prospect", "name": "Login", "route_path": "/login", "file_path": "app/login/page.tsx", "render_strategy": "ClientComponent", "entity_context": null, "description": "User authentication."}
+  ],
+  "components": [
+    {"id": "cmp_sidebar", "portal_id": "portal_prospect", "name": "Sidebar", "type": "Organism", "render_strategy": "ClientComponent", "category": "layout", "dependencies": ["next/link", "next/navigation"], "description": "Navigation sidebar with collapsible menu and user profile.", "file_path": "components/Sidebar.tsx"},
+    {"id": "cmp_assigned_forms", "portal_id": "portal_prospect", "name": "AssignedForms", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/forms", "dependencies": ["next/link"], "description": "List of required assigned forms with status and pagination (5 per page).", "file_path": "components/AssignedForms.tsx"},
+    {"id": "cmp_documents_section", "portal_id": "portal_prospect", "name": "DocumentsSection", "type": "Organism", "render_strategy": "ServerComponent", "category": "features/documents", "dependencies": [], "description": "Displays uploaded documents.", "file_path": "components/DocumentsSection.tsx"},
+    {"id": "cmp_document_upload", "portal_id": "portal_prospect", "name": "DocumentUpload", "type": "Molecule", "render_strategy": "ClientComponent", "category": "features/documents", "dependencies": [], "description": "Document upload interface.", "file_path": "components/DocumentUpload.tsx"},
+    {"id": "cmp_progress_steps", "portal_id": "portal_prospect", "name": "ProgressSteps", "type": "Organism", "render_strategy": "ServerComponent", "category": "features/home", "dependencies": [], "description": "Onboarding steps and progress tracking.", "file_path": "components/ProgressSteps.tsx"},
+    {"id": "cmp_available_forms", "portal_id": "portal_prospect", "name": "AvailableForms", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/forms", "dependencies": [], "description": "List of optional available forms with Assign Form CTA.", "file_path": "components/AvailableForms.tsx"},
+    {"id": "cmp_account_settings", "portal_id": "portal_prospect", "name": "AccountSettingsClient", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/account", "dependencies": ["next-auth/react"], "description": "Account settings with name/email and session-persisted updates.", "file_path": "components/AccountSettingsClient.tsx"},
+    {"id": "cmp_company_details", "portal_id": "portal_prospect", "name": "CompanyDetails", "type": "Organism", "render_strategy": "ServerComponent", "category": "features/company", "dependencies": [], "description": "Company information with tabs and details.", "file_path": "components/CompanyDetails.tsx"},
+    {"id": "cmp_company_details_info", "portal_id": "portal_prospect", "name": "CompanyDetailsInfo", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/company", "dependencies": [], "description": "Legal and contact info with edit capabilities.", "file_path": "components/CompanyDetailsInfo.tsx"},
+    {"id": "cmp_company_summary_card", "portal_id": "portal_prospect", "name": "CompanySummaryCard", "type": "Molecule", "render_strategy": "ServerComponent", "category": "features/company", "dependencies": [], "description": "High-level company snapshot.", "file_path": "components/CompanySummaryCard.tsx"},
+    {"id": "cmp_workforce_overview", "portal_id": "portal_prospect", "name": "WorkforceOverview", "type": "Organism", "render_strategy": "ServerComponent", "category": "features/company", "dependencies": [], "description": "Workforce distribution insights.", "file_path": "components/WorkforceOverview.tsx"},
+    {"id": "cmp_glassdoor_insights", "portal_id": "portal_prospect", "name": "GlassdoorInsights", "type": "Organism", "render_strategy": "ServerComponent", "category": "features/company", "dependencies": [], "description": "External Glassdoor ratings and reputation.", "file_path": "components/GlassdoorInsights.tsx"},
+    {"id": "cmp_benefit_plans", "portal_id": "portal_prospect", "name": "BenefitPlans", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/benefits", "dependencies": [], "description": "Benefit plans with eligibility, contribution strategy, and plan cards.", "file_path": "components/BenefitPlans.tsx"},
+    {"id": "cmp_benefit_eligibility_card", "portal_id": "portal_prospect", "name": "BenefitEligibilityCard", "type": "Molecule", "render_strategy": "ServerComponent", "category": "features/benefits", "dependencies": [], "description": "Benefit eligibility rules summary.", "file_path": "components/BenefitEligibilityCard.tsx"},
+    {"id": "cmp_benefits_analysis", "portal_id": "portal_prospect", "name": "BenefitsAnalysis", "type": "Organism", "render_strategy": "ServerComponent", "category": "features/benefits", "dependencies": [], "description": "Demographics, financial KPIs, budget breakdown.", "file_path": "components/BenefitsAnalysis.tsx"},
+    {"id": "cmp_employee_feedback", "portal_id": "portal_prospect", "name": "EmployeeFeedback", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/feedback", "dependencies": [], "description": "Feedback collection, scores, and response history.", "file_path": "components/EmployeeFeedback.tsx"},
+    {"id": "cmp_faq", "portal_id": "portal_prospect", "name": "FAQ", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/support", "dependencies": [], "description": "FAQ with accordion interface.", "file_path": "components/FAQ.tsx"},
+    {"id": "cmp_solutions_catalog", "portal_id": "portal_prospect", "name": "SolutionsCatalog", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/solutions", "dependencies": [], "description": "Grid of solutions.", "file_path": "components/SolutionsCatalog.tsx"},
+    {"id": "cmp_solution_detail", "portal_id": "portal_prospect", "name": "SolutionDetail", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/solutions", "dependencies": [], "description": "Detailed solution view.", "file_path": "components/SolutionDetail.tsx"},
+    {"id": "cmp_conditional_layout", "portal_id": "portal_prospect", "name": "ConditionalLayout", "type": "Layout", "render_strategy": "ClientComponent", "category": "layout", "dependencies": [], "description": "Layout wrapper with sidebar when authenticated.", "file_path": "components/ConditionalLayout.tsx"},
+    {"id": "cmp_dashboard_header", "portal_id": "portal_prospect", "name": "DashboardHeader", "type": "Molecule", "render_strategy": "ClientComponent", "category": "layout", "dependencies": [], "description": "Page header with title and subtitle.", "file_path": "components/DashboardHeader.tsx"},
+    {"id": "cmp_budget_summary_kpis", "portal_id": "portal_prospect", "name": "BudgetSummaryKPIs", "type": "Molecule", "render_strategy": "ServerComponent", "category": "features/budget", "dependencies": [], "description": "Financial overview of benefits costs.", "file_path": "components/BudgetSummaryKPIs.tsx"},
+    {"id": "cmp_demographic_insights", "portal_id": "portal_prospect", "name": "DemographicInsights", "type": "Organism", "render_strategy": "ServerComponent", "category": "features/budget", "dependencies": [], "description": "Demographic drivers of budget.", "file_path": "components/DemographicInsights.tsx"},
+    {"id": "cmp_financial_benchmarks", "portal_id": "portal_prospect", "name": "FinancialBenchmarks", "type": "Molecule", "render_strategy": "ServerComponent", "category": "features/budget", "dependencies": [], "description": "PEPM and industry benchmarks.", "file_path": "components/FinancialBenchmarks.tsx"},
+    {"id": "cmp_budget_distribution", "portal_id": "portal_prospect", "name": "BudgetDistribution", "type": "Organism", "render_strategy": "ServerComponent", "category": "features/budget", "dependencies": [], "description": "Budget breakdown by category.", "file_path": "components/BudgetDistribution.tsx"},
+    {"id": "cmp_budget_breakdown_table", "portal_id": "portal_prospect", "name": "BudgetBreakdownTable", "type": "Organism", "render_strategy": "ClientComponent", "category": "features/budget", "dependencies": [], "description": "Detailed budget breakdown by benefit type.", "file_path": "components/BudgetBreakdownTable.tsx"}
+  ],
+  "component_tree": [
+    {"id": "node_layout", "page_id": null, "parent_id": null, "component_id": "cmp_conditional_layout", "slot": "layout", "order": 0, "conditions": null},
+    {"id": "node_home_assigned", "page_id": "pg_prospect_home", "parent_id": null, "component_id": "cmp_assigned_forms", "slot": "main", "order": 1, "conditions": null},
+    {"id": "node_home_documents", "page_id": "pg_prospect_home", "parent_id": null, "component_id": "cmp_documents_section", "slot": "main", "order": 2, "conditions": null},
+    {"id": "node_home_document_upload", "page_id": "pg_prospect_home", "parent_id": null, "component_id": "cmp_document_upload", "slot": "main", "order": 3, "conditions": null},
+    {"id": "node_home_progress", "page_id": "pg_prospect_home", "parent_id": null, "component_id": "cmp_progress_steps", "slot": "main", "order": 4, "conditions": null},
+    {"id": "node_home_available", "page_id": "pg_prospect_home", "parent_id": null, "component_id": "cmp_available_forms", "slot": "main", "order": 5, "conditions": null},
+    {"id": "node_company_main", "page_id": "pg_company_details", "parent_id": null, "component_id": "cmp_company_details", "slot": "main", "order": 0, "conditions": null},
+    {"id": "node_benefit_plans_main", "page_id": "pg_benefit_plans", "parent_id": null, "component_id": "cmp_benefit_plans", "slot": "main", "order": 0, "conditions": null},
+    {"id": "node_benefits_analysis_main", "page_id": "pg_benefits_analysis", "parent_id": null, "component_id": "cmp_benefits_analysis", "slot": "main", "order": 0, "conditions": null},
+    {"id": "node_benefit_budget_header", "page_id": "pg_benefit_budget", "parent_id": null, "component_id": "cmp_dashboard_header", "slot": "header", "order": 1, "conditions": null},
+    {"id": "node_benefit_budget_kpis", "page_id": "pg_benefit_budget", "parent_id": null, "component_id": "cmp_budget_summary_kpis", "slot": "main", "order": 1, "conditions": null},
+    {"id": "node_benefit_budget_demographics", "page_id": "pg_benefit_budget", "parent_id": null, "component_id": "cmp_demographic_insights", "slot": "main", "order": 2, "conditions": null},
+    {"id": "node_benefit_budget_benchmarks", "page_id": "pg_benefit_budget", "parent_id": null, "component_id": "cmp_financial_benchmarks", "slot": "main", "order": 3, "conditions": null},
+    {"id": "node_benefit_budget_distribution", "page_id": "pg_benefit_budget", "parent_id": null, "component_id": "cmp_budget_distribution", "slot": "main", "order": 4, "conditions": null},
+    {"id": "node_benefit_budget_breakdown", "page_id": "pg_benefit_budget", "parent_id": null, "component_id": "cmp_budget_breakdown_table", "slot": "main", "order": 5, "conditions": null},
+    {"id": "node_employee_feedback_main", "page_id": "pg_employee_feedback", "parent_id": null, "component_id": "cmp_employee_feedback", "slot": "main", "order": 0, "conditions": null},
+    {"id": "node_solutions_catalog_main", "page_id": "pg_solutions_catalog", "parent_id": null, "component_id": "cmp_solutions_catalog", "slot": "main", "order": 0, "conditions": null},
+    {"id": "node_faq_main", "page_id": "pg_faq", "parent_id": null, "component_id": "cmp_faq", "slot": "main", "order": 0, "conditions": null},
+    {"id": "node_account_settings_main", "page_id": "pg_account_settings", "parent_id": null, "component_id": "cmp_account_settings", "slot": "main", "order": 0, "conditions": null}
+  ],
+  "entities": [
+    {"id": "ent_intake_group_data", "portal_id": "portal_prospect", "logical_name": "Intake Group Data", "physical_table_id": "tbliXJ7599ngxEriO", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Intake - Group Data"}, "description": "Company-level intake information and firmographic data"},
+    {"id": "ent_intake_plan_data", "portal_id": "portal_prospect", "logical_name": "Intake Plan Data", "physical_table_id": "tblPJjWgnbblYLym4", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Intake - Plan Data"}, "description": "Benefit plan details and configurations"},
+    {"id": "ent_assigned_forms", "portal_id": "portal_prospect", "logical_name": "Assigned Forms", "physical_table_id": "tblNeyKm9sKAKZq9n", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Assigned Forms"}, "description": "Forms assigned to prospect companies during onboarding"},
+    {"id": "ent_available_forms", "portal_id": "portal_prospect", "logical_name": "Available Forms", "physical_table_id": "tblZVnNaE4y8e56fa", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Available Forms"}, "description": "Optional forms available to prospects (visibility: Show in Available Forms, Visibility Rules)"},
+    {"id": "ent_intake_document_upload", "portal_id": "portal_prospect", "logical_name": "Documents", "physical_table_id": "tblBgAZKJln76anVn", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Documents"}, "description": "Documents uploaded by prospects (Vercel Blob for storage)"},
+    {"id": "ent_ee_pulse_surveys", "portal_id": "portal_prospect", "logical_name": "EE Pulse Surveys", "physical_table_id": "tbl28XVUekjvl2Ujn", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "EE Pulse Surveys"}, "description": "Employee feedback and pulse survey responses"},
+    {"id": "ent_ecosystem", "portal_id": "portal_prospect", "logical_name": "Ecosystem", "physical_table_id": "tblyp74Xh14940523", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Ecosystem"}, "description": "Benefit providers and technology partners"},
+    {"id": "ent_budget_summary", "portal_id": "portal_prospect", "logical_name": "Budget Summary", "physical_table_id": "tbliXJ7599ngxEriO", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Intake - Group Data"}, "description": "Benefits budget summary"},
+    {"id": "ent_process_steps", "portal_id": "portal_prospect", "logical_name": "Progress Steps", "physical_table_id": "tbl5KoDB657pRju5x", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Intake - Progress Steps"}, "description": "Onboarding process tracking steps"},
+    {"id": "ent_faq", "portal_id": "portal_prospect", "logical_name": "FAQ", "physical_table_id": "tblFAQPlaceholder", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "FAQ Content"}, "description": "Frequently asked questions"},
+    {"id": "ent_users", "portal_id": "portal_prospect", "logical_name": "Users", "physical_table_id": "tblU9oY6xmTcCuACh", "source_config": {"provider": "Airtable", "base_id": "appdqgKk1fmhfaJoT", "table_name": "Intake - Users"}, "description": "User accounts (NextAuth + Airtable)"}
+  ],
+  "entity_fields": [
+    {"id": "efld_company_name", "entity_id": "ent_intake_group_data", "name": "company_name", "label": "Company Name", "data_type": "string", "required": true, "description": "The official name of the company or organization providing employee benefits services."},
+    {"id": "efld_phone_number", "entity_id": "ent_intake_group_data", "name": "phone_number", "label": "Phone Number", "data_type": "string", "required": false, "description": "The contact phone number associated with an employee or client."},
+    {"id": "efld_state_province", "entity_id": "ent_intake_group_data", "name": "state_province", "label": "State / Province", "data_type": "enum", "enum_values": ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware","Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico","New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania","Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont","Virginia","Washington","West Virginia","Wisconsin","Wyoming","District Of Columbia"], "required": true, "description": "The U.S. state or province where the employee is located."},
+    {"id": "efld_eligibility_class", "entity_id": "ent_intake_group_data", "name": "benefit_class", "label": "Benefit Class", "data_type": "string", "required": false, "description": "Eligibility class for benefits (e.g., All Full-Time Employees)."},
+    {"id": "efld_eligibility_waiting_period", "entity_id": "ent_intake_group_data", "name": "waiting_period", "label": "Waiting Period", "data_type": "string", "required": false, "description": "Waiting period before benefits start."},
+    {"id": "efld_eligibility_effective_date", "entity_id": "ent_intake_group_data", "name": "effective_date_rule", "label": "Effective Date Rule", "data_type": "string", "required": false, "description": "Rule for when coverage becomes effective."},
+    {"id": "efld_eligible_employees", "entity_id": "ent_intake_group_data", "name": "eligible_employees", "label": "Eligible Employees", "data_type": "integer", "required": false, "description": "Number of eligible employees."},
+    {"id": "efld_average_age", "entity_id": "ent_intake_group_data", "name": "average_age", "label": "Average Age", "data_type": "number", "required": false, "description": "Average age of workforce."},
+    {"id": "efld_average_salary", "entity_id": "ent_intake_group_data", "name": "average_salary", "label": "Average Salary", "data_type": "currency", "required": false, "description": "Average employee salary."},
+    {"id": "efld_plan_name_client", "entity_id": "ent_intake_plan_data", "name": "plan_name_client", "label": "Plan Name (Client)", "data_type": "string", "required": true, "description": "The name of the employee benefits plan as specified by the client."},
+    {"id": "efld_carrier", "entity_id": "ent_intake_plan_data", "name": "carrier", "label": "Carrier", "data_type": "string", "required": true, "description": "The insurance company or provider administering benefits plans."},
+    {"id": "efld_medical_plan_type", "entity_id": "ent_intake_plan_data", "name": "medical_plan_type", "label": "Medical Plan Type", "data_type": "enum", "enum_values": ["EPO + HDHP","PPO + HDHP","EPO","PPO","RBP","POS","Indemnity","APO","HSA + POS","HMO","N/A","HSA","HDHP","HSA + HDHP"], "required": false, "description": "Type of medical insurance plan."},
+    {"id": "efld_medical_deductible_single", "entity_id": "ent_intake_plan_data", "name": "medical_deductible_single", "label": "Medical - Deductible (Single)", "data_type": "currency", "required": false, "description": "The deductible amount for individual medical plans."},
+    {"id": "efld_medical_deductible_family", "entity_id": "ent_intake_plan_data", "name": "medical_deductible_family", "label": "Medical - Deductible (Family)", "data_type": "currency", "required": false, "description": "The family deductible amount."},
+    {"id": "efld_medical_oopm_single", "entity_id": "ent_intake_plan_data", "name": "medical_oopm_single", "label": "Medical OOPM (Single)", "data_type": "currency", "required": false, "description": "Out-of-pocket maximum for single coverage."},
+    {"id": "efld_medical_oopm_family", "entity_id": "ent_intake_plan_data", "name": "medical_oopm_family", "label": "Medical OOPM (Family)", "data_type": "currency", "required": false, "description": "Out-of-pocket maximum for family."},
+    {"id": "efld_dental_plan_type", "entity_id": "ent_intake_plan_data", "name": "dental_plan_type", "label": "Dental Plan Type", "data_type": "enum", "enum_values": ["DHMO","PPO"], "required": false, "description": "Type of dental insurance plan."},
+    {"id": "efld_dental_deductible_individual", "entity_id": "ent_intake_plan_data", "name": "dental_deductible_individual", "label": "Dental - Deductible Individual", "data_type": "currency", "required": false, "description": "Individual deductible for dental coverage."},
+    {"id": "efld_vision_exam_copay", "entity_id": "ent_intake_plan_data", "name": "vision_exam_copay", "label": "Vision - Exam Copay", "data_type": "currency", "required": false, "description": "The copay amount for a vision exam."},
+    {"id": "efld_contribution_model", "entity_id": "ent_intake_plan_data", "name": "contribution_model", "label": "Contribution Model", "data_type": "enum", "enum_values": ["Employer %","Flat Amount","Employee Pays All"], "required": false, "description": "Employer contribution model type."},
+    {"id": "efld_employee_pct_covered", "entity_id": "ent_intake_plan_data", "name": "employee_pct_covered", "label": "Employee % Covered", "data_type": "number", "required": false, "description": "Percentage of employee premium covered by employer."},
+    {"id": "efld_dependent_pct_covered", "entity_id": "ent_intake_plan_data", "name": "dependent_pct_covered", "label": "Dependent % Covered", "data_type": "number", "required": false, "description": "Percentage of dependent premium covered by employer."},
+    {"id": "efld_assigned_form_status", "entity_id": "ent_assigned_forms", "name": "status", "label": "Status", "data_type": "enum", "enum_values": ["Not Started","In Progress","Submitted","Completed"], "required": true, "description": "Current progress stage of the assigned form."},
+    {"id": "efld_assigned_form_name", "entity_id": "ent_assigned_forms", "name": "name", "label": "Form Name", "data_type": "string", "required": true, "description": "Name of the assigned form."},
+    {"id": "efld_available_form_name", "entity_id": "ent_available_forms", "name": "name", "label": "Form Name", "data_type": "string", "required": true, "description": "Name of the available form."},
+    {"id": "efld_available_form_show", "entity_id": "ent_available_forms", "name": "show_in_available_forms", "label": "Show in Available Forms", "data_type": "boolean", "required": false, "description": "Whether to display in prospect portal Available Forms list."},
+    {"id": "efld_available_form_visibility", "entity_id": "ent_available_forms", "name": "visibility_rules", "label": "Visibility Rules", "data_type": "string", "required": false, "description": "Visibility rules; excludes admin/internal/restricted."},
+    {"id": "efld_document_name", "entity_id": "ent_intake_document_upload", "name": "name", "label": "Document Name", "data_type": "string", "required": true, "description": "Name of the uploaded document."},
+    {"id": "efld_document_file", "entity_id": "ent_intake_document_upload", "name": "file", "label": "File", "data_type": "file", "required": true, "description": "File attachment (stored via Vercel Blob)."},
+    {"id": "efld_feedback_avg_score", "entity_id": "ent_ee_pulse_surveys", "name": "average_score", "label": "Average Score", "data_type": "number", "required": false, "description": "Average survey score out of 5."},
+    {"id": "efld_feedback_participation", "entity_id": "ent_ee_pulse_surveys", "name": "participation_rate", "label": "Participation Rate", "data_type": "number", "required": false, "description": "Survey participation percentage."},
+    {"id": "efld_feedback_total_responses", "entity_id": "ent_ee_pulse_surveys", "name": "total_responses", "label": "Total Responses", "data_type": "integer", "required": false, "description": "Total number of survey responses."},
+    {"id": "efld_feedback_comment", "entity_id": "ent_ee_pulse_surveys", "name": "comment", "label": "Comment", "data_type": "string", "required": false, "description": "Survey comment text."},
+    {"id": "efld_feedback_sentiment", "entity_id": "ent_ee_pulse_surveys", "name": "sentiment", "label": "Sentiment", "data_type": "enum", "enum_values": ["Positive","Neutral","Negative"], "required": false, "description": "Sentiment classification of feedback."},
+    {"id": "efld_solution_name", "entity_id": "ent_ecosystem", "name": "name", "label": "Solution Name", "data_type": "string", "required": true, "description": "Name of the solution provider."},
+    {"id": "efld_solution_category", "entity_id": "ent_ecosystem", "name": "primary_category", "label": "Category", "data_type": "enum", "enum_values": ["401(k)","Analytics","Ancillary","Apps / Navigation","COBRA / HRA / FSA","HCM / Payroll","HSA","Lifestyle","National Carriers","PBM"], "required": true, "description": "Primary category of the solution."},
+    {"id": "efld_solution_description", "entity_id": "ent_ecosystem", "name": "description_short", "label": "Description", "data_type": "string", "required": false, "description": "Short description of the solution."},
+    {"id": "efld_solution_website", "entity_id": "ent_ecosystem", "name": "website_url", "label": "Website", "data_type": "url", "required": false, "description": "Solution provider website URL."},
+    {"id": "efld_solution_logo", "entity_id": "ent_ecosystem", "name": "logo_url", "label": "Logo", "data_type": "url", "required": false, "description": "Solution provider logo URL."},
+    {"id": "efld_budget_total_monthly", "entity_id": "ent_budget_summary", "name": "total_monthly_cost", "label": "Total Monthly Cost", "data_type": "currency", "required": false, "description": "Total monthly benefits cost."},
+    {"id": "efld_budget_employer_contrib", "entity_id": "ent_budget_summary", "name": "total_employer_contribution", "label": "Employer Contribution", "data_type": "currency", "required": false, "description": "Total monthly employer contribution."},
+    {"id": "efld_budget_employee_contrib", "entity_id": "ent_budget_summary", "name": "total_employee_contribution", "label": "Employee Contribution", "data_type": "currency", "required": false, "description": "Total monthly employee contribution."},
+    {"id": "efld_budget_pepm", "entity_id": "ent_budget_summary", "name": "pepm_cost", "label": "PEPM Cost", "data_type": "currency", "required": false, "description": "Per-employee-per-month cost."},
+    {"id": "efld_budget_annual_spend", "entity_id": "ent_budget_summary", "name": "annual_spend", "label": "Annual Spend", "data_type": "currency", "required": false, "description": "Total annual benefits spend."},
+    {"id": "efld_total_monthly_cost", "entity_id": "ent_budget_summary", "name": "total_monthly_cost", "label": "Total Monthly Cost", "data_type": "currency", "required": false, "description": "Total monthly cost for benefits."},
+    {"id": "efld_employer_contribution", "entity_id": "ent_budget_summary", "name": "employer_contribution", "label": "Employer Contribution", "data_type": "currency", "required": false, "description": "Total employer contribution."},
+    {"id": "efld_process_step_name", "entity_id": "ent_process_steps", "name": "step_name", "label": "Step", "data_type": "string", "required": true, "description": "Name of the process step."},
+    {"id": "efld_process_status", "entity_id": "ent_process_steps", "name": "status", "label": "Status", "data_type": "enum", "enum_values": ["Pending","In Progress","Completed","Approved","In Review","Flagged","Missing","Not Requested"], "required": true, "description": "Current status of the process step."},
+    {"id": "efld_faq_question", "entity_id": "ent_faq", "name": "question", "label": "Question", "data_type": "string", "required": true, "description": "The FAQ question text."},
+    {"id": "efld_faq_answer", "entity_id": "ent_faq", "name": "answer", "label": "Answer", "data_type": "string", "required": true, "description": "The FAQ answer text."},
+    {"id": "efld_user_email", "entity_id": "ent_users", "name": "email", "label": "Email", "data_type": "string", "required": true, "description": "User email address."},
+    {"id": "efld_user_first_name", "entity_id": "ent_users", "name": "first_name", "label": "First Name", "data_type": "string", "required": false, "description": "User first name."},
+    {"id": "efld_user_last_name", "entity_id": "ent_users", "name": "last_name", "label": "Last Name", "data_type": "string", "required": false, "description": "User last name."},
+    {"id": "efld_user_status", "entity_id": "ent_users", "name": "status", "label": "Status", "data_type": "enum", "enum_values": ["active","inactive"], "required": false, "description": "User account status."}
+  ],
+  "global_store": [
+    {"id": "gs_current_user", "portal_id": "portal_prospect", "state_key": "currentUser", "ts_type": "User | null", "default_value": null, "persistence": {"type": "none", "key": null}, "description": "Currently authenticated user (NextAuth session)"},
+    {"id": "gs_sidebar_collapsed", "portal_id": "portal_prospect", "state_key": "sidebarCollapsed", "ts_type": "boolean", "default_value": false, "persistence": {"type": "localStorage", "key": "betafits_sidebar_collapsed"}, "description": "Sidebar collapse state"}
+  ],
+  "authentication": [
+    {"id": "auth_nextauth", "portal_id": "portal_prospect", "name": "NextAuth", "type": "credentials_oauth", "file_location": "lib/auth/authOptions.ts", "config": {"providers": ["Credentials", "Google", "Magic Link"], "session_strategy": "jwt", "session_update_support": true}, "description": "NextAuth with JWT, credentials, Google SSO, magic link"},
+    {"id": "auth_airtable", "portal_id": "portal_prospect", "name": "Airtable API Key", "type": "api_key", "file_location": "lib/airtable/fetch.ts", "config": {"key_source": "env:AIRTABLE_API_KEY"}, "description": "Airtable backend data"}
+  ],
+  "permissions": [
+    {"id": "perm_assigned_forms_read", "portal_id": "portal_prospect", "resource_type": "entity", "resource_id": "ent_assigned_forms", "action": "read", "allowed_roles": ["prospect", "admin"], "conditions": {"user_can_read_own_forms": true}, "description": "Prospects can read forms assigned to their company"},
+    {"id": "perm_available_forms_visibility", "portal_id": "portal_prospect", "resource_type": "entity", "resource_id": "ent_available_forms", "action": "read", "allowed_roles": ["prospect"], "conditions": {"show_in_available_forms": "Yes", "visibility_rules_excludes_admin_internal": true}, "description": "Available forms respect Show in Available Forms and Visibility Rules"},
+    {"id": "perm_account_update", "portal_id": "portal_prospect", "resource_type": "entity", "resource_id": "ent_users", "action": "update", "allowed_roles": ["prospect", "admin"], "conditions": {"user_updates_own_profile": true}, "description": "Users can update own account (name); session persisted via JWT update trigger"}
+  ]
+}
