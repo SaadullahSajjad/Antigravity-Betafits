@@ -1,0 +1,456 @@
+{
+  "rec4V98J6aPaM3u9H": {
+    "id": "rec4V98J6aPaM3u9H",
+    "name": "Medical Coverage Survey",
+    "fields": {
+      "Name": "Medical Coverage Survey",
+      "Description": "Collects detailed information on current medical coverage, including plan types, carriers, and renewal dates for benefits comparison.",
+      "Link to Intake - Assigned Forms": [
+        "reckj9XsoNPph7SgZ",
+        "recMAp7TLXv6pSlV4",
+        "recMnrc4xYy4ytw0i"
+      ],
+      "Forms URL": "https://betafits.fillout.com/t/199DTBMrsLus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recs6fNGFrjBDCdbO",
+        "recbxnQPB5uvVzTdV",
+        "recIPF1qjiG2H7rfT"
+      ],
+      "Intro Text": "Provide details about your company’s medical plans, including coverage levels, contributions, and carrier information to give us a clear view of your plan structure.\n",
+      "Sort Order": 10
+    }
+  },
+  "rec7NfuiBQ8wrEmu7": {
+    "id": "rec7NfuiBQ8wrEmu7",
+    "name": "Workers Compensation",
+    "fields": {
+      "Name": "Workers Compensation",
+      "Description": "Provide information about your workers' compensation coverage, payroll, and loss history to confirm your current policies.",
+      "Link to Intake - Assigned Forms": [
+        "recarSK0ezy1risPJ",
+        "recRka6CGV6vNMDCT",
+        "recI3E40uj0qkqz8x"
+      ],
+      "Stage Use": "Client/Prospect",
+      "Assignment Type": "Assigned by Admin",
+      "Triggers": "If WC applicable by size or industry",
+      "Show in Available Forms": true,
+      "Visibility Rules": "Show if Company Size > 2 or Industry = High Risk",
+      "Forms URL": "https://betafits.fillout.com/t/tE2Bb3x71Cus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recbxnQPB5uvVzTdV",
+        "recbxnQPB5uvVzTdV",
+        "recIPF1qjiG2H7rfT"
+      ],
+      "Intro Text": "Provide your company’s workers’ compensation details, such as coverage information and main contact for this policy.\n",
+      "Display Name": "Workers Compensation",
+      "Sort Order": 7
+    }
+  },
+  "recFVcfdoXkUjIcod": {
+    "id": "recFVcfdoXkUjIcod",
+    "name": "Add New Group",
+    "fields": {
+      "Name": "Add New Group",
+      "Description": "Used internally to add a new employer group record, capturing key contact, setup, and eligibility details for onboarding.",
+      "Link to Intake - Assigned Forms": [
+        "rec5Cl6FBZ9qbbk2c",
+        "recmHLehJFKpc7xHO",
+        "recliKAqfcGBIakuR"
+      ],
+      "Stage Use": "New Client",
+      "Forms URL": "https://betafits.fillout.com/t/xn4WCJ9D8pus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recbxnQPB5uvVzTdV",
+        "recIPF1qjiG2H7rfT",
+        "rec7RSTRkORCDQQmm"
+      ],
+      "Assignment": "Admin Form",
+      "Display Name": "Add New Group",
+      "Sort Order": 12
+    }
+  },
+  "recFxyNqTLDdrxXN2": {
+    "id": "recFxyNqTLDdrxXN2",
+    "name": "Benefits Administration",
+    "fields": {
+      "Name": "Benefits Administration",
+      "Description": "Describe how your company manages benefits, including who handles enrollments, payroll deductions, and COBRA.",
+      "Link to Intake - Assigned Forms": [
+        "reciaHXHCmnhFyhlA",
+        "recTgdQsPrpiEcqeN",
+        "recTEgp9BbwTkgc1I",
+        "recAZFv5ER2LlxOwm"
+      ],
+      "Show in Available Forms": true,
+      "Forms URL": "https://betafits.fillout.com/t/fYJ3MNj7VQus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recbxnQPB5uvVzTdV",
+        "recbxnQPB5uvVzTdV",
+        "recIPF1qjiG2H7rfT",
+        "recT4pXh7VLg3cF8V"
+      ],
+      "Assignment": "Self Assigned",
+      "Intro Text": "Tell us how your company manages benefit enrollments, payroll deductions, and employee updates to keep your administration accurate and efficient.\n",
+      "Display Name": "Benefits Administration",
+      "Sort Order": 5
+    }
+  },
+  "recGrsR8Sdx96pckJ": {
+    "id": "recGrsR8Sdx96pckJ",
+    "name": "Benefits Compliance",
+    "fields": {
+      "Name": "Benefits Compliance",
+      "Description": "Outline how your company manages benefits compliance, including who provides guidance, what systems you use, and how compliance requirements are tracked.",
+      "Link to Intake - Assigned Forms": [
+        "recZklbRBjbtDwa8l",
+        "recgfUAZLoFCCKot9",
+        "rec5ANmyj1YxNoCNP"
+      ],
+      "Stage Use": "New Client",
+      "Assignment Type": "Assigned by Admin",
+      "Triggers": "During onboarding or compliance phase",
+      "Show in Available Forms": true,
+      "Forms URL": "https://betafits.fillout.com/t/ujTSx72pr5us",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recVSd9DZU6LCrT1B",
+        "recbxnQPB5uvVzTdV",
+        "recIPF1qjiG2H7rfT"
+      ],
+      "Assignment": "Self Assigned",
+      "Intro Text": "Share how your company handles benefits compliance and required documents to confirm everything meets current standards.\n",
+      "Display Name": "Benefits Compliance",
+      "Sort Order": 6
+    }
+  },
+  "recKzuznmqq29uASl": {
+    "id": "recKzuznmqq29uASl",
+    "name": "PEO/EOR  Assessment",
+    "fields": {
+      "Name": "PEO/EOR  Assessment",
+      "Description": "Indicate whether you work with a PEO or EOR and share key details to help us understand your current setup.",
+      "Link to Intake - Assigned Forms": [
+        "recQcqagj8jy5hGLM",
+        "recVXQfVktbh5daZs",
+        "rec0mdSrP1ZxFrSB1",
+        "recia92nkdm9KTh0v",
+        "reccr5teshPMjqSu7"
+      ],
+      "Stage Use": "Client/Prospect",
+      "Assignment Type": "Assigned by Admin",
+      "Triggers": "Mention of PEO in discovery",
+      "Visibility Rules": "Show if PEO = Yes",
+      "Forms URL": "https://betafits.fillout.com/t/cqBbC1vEUcus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recrAM81ra6lYbDNT",
+        "recLJWVYRNftucNHS",
+        "recv0Irs6QuYisj6n",
+        "recIPF1qjiG2H7rfT",
+        "recT4pXh7VLg3cF8V",
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Assignment": "Admin/Self Assigned",
+      "Intro Text": "Provide details about your current or previous PEO or EOR arrangement, including provider and services, to help us assess your structure and next steps.\n",
+      "Display Name": "PEO/EOR  Assessment",
+      "Sort Order": 3
+    }
+  },
+  "recOE9pVakkobVzU7": {
+    "id": "recOE9pVakkobVzU7",
+    "name": "Appoint Betafits",
+    "fields": {
+      "Name": "Appoint Betafits",
+      "Link to Intake - Assigned Forms": [
+        "recs1MV05tT4q6xZq",
+        "recpaZnfPDKDpfQpw"
+      ],
+      "Assignment Type": "Self-Assigned or Admin Recommended",
+      "Show in Available Forms": true,
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recIPF1qjiG2H7rfT",
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Assignment": "Self Assigned",
+      "Display Name": "Appoint Betafits",
+      "Sort Order": 17
+    }
+  },
+  "recOt6cX0t1DksDFT": {
+    "id": "recOt6cX0t1DksDFT",
+    "name": "HR Tech",
+    "fields": {
+      "Name": "HR Tech",
+      "Description": "Identify which HR or payroll systems your company uses so we can align them with your onboarding process.",
+      "Link to Intake - Assigned Forms": [
+        "recX0RYR0I9igzcaA"
+      ],
+      "Stage Use": "New Client",
+      "Assignment Type": "Assigned by Admin",
+      "Triggers": "During onboarding or HR system setup",
+      "Visibility Rules": "Show if Setting up Ease, Gusto, etc.",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Intro Text": "Tell us which HR or payroll systems your company uses and how benefits are managed within them to understand how your current systems connect.\n",
+      "Display Name": "HR Tech",
+      "Sort Order": 16
+    }
+  },
+  "recUnTZFK5UyfWqzm": {
+    "id": "recUnTZFK5UyfWqzm",
+    "name": "Comprehensive Intake",
+    "fields": {
+      "Name": "Comprehensive Intake",
+      "Description": "Share detailed information about your company, HR, and benefits setup so we can understand your current structure and needs.",
+      "Link to Intake - Assigned Forms": [
+        "rec9bTuSLs6fcSv28"
+      ],
+      "Stage Use": "New Client",
+      "Assignment Type": "Assigned by Admin",
+      "Triggers": "After BOR / Close Won",
+      "Visibility Rules": "Show if Client Status = “Client”",
+      "Forms URL": "https://betafits.fillout.com/t/wpjffs7r5pus",
+      "Required Documents": "Benefit Guides,SBC's,Invoice",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Assignment": "Self Assigned",
+      "Intro Text": "Complete your company and benefits setup details so we can finalize your onboarding and ensure all information is accurate.\n",
+      "Display Name": "Comprehensive Intake",
+      "Sort Order": 14
+    }
+  },
+  "recdjXjySYuYUGkdP": {
+    "id": "recdjXjySYuYUGkdP",
+    "name": "Premiums / Contribution Strategy",
+    "fields": {
+      "Name": "Premiums / Contribution Strategy",
+      "Description": "Outline how you share benefit costs between your company and employees, including premiums and contributions.",
+      "Link to Intake - Assigned Forms": [
+        "rec2jpPmfeGYyLxfG",
+        "recYxnf3cyZIgUAQk",
+        "recEEzhwfCn7ZedVe"
+      ],
+      "Forms URL": "https://betafits.fillout.com/t/jgaiJJZJvjus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recjB0BcWIExTE1Sd",
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Assignment": "Admin Assigned",
+      "Intro Text": "Outline your company’s premium structure and contribution approach for each benefit plan to ensure accurate planning and reporting.\n",
+      "Display Name": "Premiums / Contribution Strategy",
+      "Sort Order": 13
+    }
+  },
+  "rechTHxZIxS3bBcqF": {
+    "id": "rechTHxZIxS3bBcqF",
+    "name": "Basic Intake Form",
+    "fields": {
+      "Name": "Basic Intake Form",
+      "Description": "Captures essential employer information to initiate the intake process and route to the appropriate onboarding workflow.",
+      "Link to Intake - Assigned Forms": [
+        "rec7DrBd3nWZPbhF8",
+        "rec7UgiarAejNTRYZ",
+        "recqPdXx2uhSMRcPe"
+      ],
+      "Stage Use": "Small Group Prospect",
+      "Assignment Type": "Self-Assigned or Admin Recommended",
+      "Triggers": "If group size < 5 or client is urgent",
+      "Visibility Rules": "Show if Group Size < 5",
+      "Forms URL": "https://betafits.fillout.com/t/ns4TDz7ssbus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recbxnQPB5uvVzTdV",
+        "recIPF1qjiG2H7rfT"
+      ],
+      "Intro Text": "Enter your company’s key details and benefits information to help us set up your account quickly and accurately.\n",
+      "Display Name": "Basic Intake Form",
+      "Sort Order": 15
+    }
+  },
+  "reclUQ6KhVzCssuVl": {
+    "id": "reclUQ6KhVzCssuVl",
+    "name": "Quick Start (New Benefits)",
+    "fields": {
+      "Name": "Quick Start (New Benefits)",
+      "Description": "Provide your company details and benefits goals so we can gather information to help design your new program.",
+      "Link to Intake - Assigned Forms": [
+        "rec0z2MmIUKjhyY9D",
+        "recXRVQQ7kZ97qZno",
+        "recr5B355Qf7kKBJd",
+        "recxPNyaoTwm123dV"
+      ],
+      "Stage Use": "Prospect",
+      "Assignment Type": "Self-Assigned or Admin Recommended",
+      "Triggers": "VC sends a rec",
+      "Forms URL": "https://betafits.fillout.com/t/jLwpyNvuB2us",
+      "Required Documents": "Benefit Guides,SBC's,Invoice",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "reciyw8K3Qv23m3G7",
+        "recS7oapHuTVB3OrF",
+        "recbxnQPB5uvVzTdV",
+        "recIPF1qjiG2H7rfT"
+      ],
+      "Assignment": "Admin Assigned",
+      "Intro Text": "Welcome! Share your company information and benefits preferences so we can plan your onboarding and coverage setup effectively.\n",
+      "Display Name": "Quick Start",
+      "Sort Order": 2
+    }
+  },
+  "recmB9IdRhtgckvaY": {
+    "id": "recmB9IdRhtgckvaY",
+    "name": "Benefits Pulse Survey",
+    "fields": {
+      "Name": "Benefits Pulse Survey",
+      "Description": "Share quick feedback on your benefits experience so we can better understand your needs and improve our support.",
+      "Link to Intake - Assigned Forms": [
+        "recjJ7CcscoXt1rIu",
+        "recaZhB6AUZEXBhVf"
+      ],
+      "Forms URL": "https://betafits.fillout.com/t/eQ7FVU76PDus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recIPF1qjiG2H7rfT",
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Intro Text": "Share feedback about your current health benefits enrollment and overall benefits package to help identify areas for improvement.\n",
+      "Display Name": "Benefits Pulse Survey",
+      "Sort Order": 11
+    }
+  },
+  "recsLJiBVdED8EEbr": {
+    "id": "recsLJiBVdED8EEbr",
+    "name": "Document Uploader",
+    "fields": {
+      "Name": "Document Uploader",
+      "Description": "Upload your census, plan, invoice, or other required documents so we can review and process your information.",
+      "Link to Intake - Assigned Forms": [
+        "recfhqyPPln8Gxvo5",
+        "recyfQg2WcNSyhrEB",
+        "recFdcyuIAwDOgmao"
+      ],
+      "Stage Use": "Client/Prospect",
+      "Assignment Type": "Sub-Form (Cannot be Assigned)",
+      "Triggers": "Anytime",
+      "Visibility Rules": "Always visible to Admin or Assigned Rep",
+      "Forms URL": "https://betafits.fillout.com/t/aTDkqH7zTmus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recIPF1qjiG2H7rfT",
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Assignment": "Widget",
+      "Intro Text": "\n",
+      "Display Name": "Document Uploader",
+      "Sort Order": 9
+    }
+  },
+  "recufWIRuSFArZ9GG": {
+    "id": "recufWIRuSFArZ9GG",
+    "name": "Quick Start",
+    "fields": {
+      "Name": "Quick Start",
+      "Description": "Share your company and benefits information so we can understand your setup and collect the details needed to begin.",
+      "Link to Intake - Assigned Forms": [
+        "recQZFuw1OxxGfR5Z",
+        "rec0kB3G3yep9hXum",
+        "rec3rsVXAjXzGHZZ0",
+        "recmBsuRVojY6p9kD",
+        "recdn4fpGQuFQhl9x",
+        "recmpwC0Ssg5FnIMh",
+        "rec6blJC1Hc3vfoxh",
+        "reczUlzfrcfxtprkJ",
+        "recCAzobrLNomyqO8",
+        "recFJD5f1fBGF5eBb",
+        "recOH36XMS7giVPpC",
+        "recNNIfSq7vbLDbxP",
+        "recnyig0id7me9v82",
+        "recIyEYwGUk3crgE1",
+        "reclHFYlKelUzGeUa",
+        "recvbhCqepmP4LzuQ",
+        "recEev2AavTqSAFSJ",
+        "recdJChmfCEkD3Qxg",
+        "rec5xhDhKL4L5ywer",
+        "recCOe2F71BKVggzf",
+        "recTPp93hgsu9E8He"
+      ],
+      "Stage Use": "Prospect",
+      "Assignment Type": "Self-Assigned or Admin Recommended",
+      "Triggers": "VC sends a rec",
+      "Forms URL": "https://betafits.fillout.com/t/eBxXtLZdK4us",
+      "Required Documents": "Benefit Guides,SBC's,Invoice",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recqHJeLwMOExvK5m",
+        "recNKC4EbXcIwMtxv",
+        "recLJWVYRNftucNHS",
+        "recv0Irs6QuYisj6n",
+        "recjB0BcWIExTE1Sd",
+        "recIPF1qjiG2H7rfT",
+        "recopGVrpSm6VPfya",
+        "recM9i6FLW7rUDno6",
+        "recTpCc3dmUdEHfvJ",
+        "recKK7Wpr1jCOjTHN",
+        "recbxnQPB5uvVzTdV",
+        "recT4pXh7VLg3cF8V",
+        "recEKg72HLv4tEQsJ",
+        "rec7RSTRkORCDQQmm",
+        "recQ4x4UVfo6ILsIl"
+      ],
+      "Assignment": "Admin Assigned",
+      "Intro Text": "Welcome! Let’s begin by collecting your company and benefits details to prepare your onboarding and ensure a smooth setup.\n",
+      "Display Name": "Quick Start",
+      "Sort Order": 1,
+      "Imported - Yagnesh and afolabi test": [
+        "recOe8vpN8MU0nfQ7"
+      ]
+    }
+  },
+  "recxH9Jrk10bbqU58": {
+    "id": "recxH9Jrk10bbqU58",
+    "name": "Broker Role",
+    "fields": {
+      "Name": "Broker Role",
+      "Description": "Outline your broker's role, including their type, agreements, and any fees or subsidies they provide.",
+      "Link to Intake - Assigned Forms": [
+        "reca6RLN7g80UW6cz",
+        "rec0GLnlWe8BACkpO"
+      ],
+      "Stage Use": "New Client",
+      "Assignment Type": "Assigned by Admin",
+      "Triggers": "During onboarding",
+      "Show in Available Forms": true,
+      "Forms URL": "https://betafits.fillout.com/t/urHF8xDu7eus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recLJWVYRNftucNHS",
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Assignment": "Self Assigned",
+      "Intro Text": "Describe your current broker’s role, agreements, and support so we can better understand your existing relationship.\n",
+      "Display Name": "Broker Role",
+      "Sort Order": 4
+    }
+  },
+  "recySUNj6jv47SOKr": {
+    "id": "recySUNj6jv47SOKr",
+    "name": "NDA",
+    "fields": {
+      "Name": "NDA",
+      "Description": "Sign your NDA so we can formally exchange confidential company and employee information.",
+      "Link to Intake - Assigned Forms": [
+        "recXKLgjo9P8GCp6Y",
+        "rec8QIhRHF1w8VcWE",
+        "recGQDeWi7qmER5xA"
+      ],
+      "Stage Use": "Partner/Prospect",
+      "Assignment Type": "Sub-Form (Cannot be Assigned)",
+      "Triggers": "Before sensitive data exchange",
+      "Visibility Rules": "Show if NDA Required = Yes",
+      "Forms URL": "ttps://betafits.fillout.com/t/6eUGSndhtYus",
+      "Link to Intake Group Data (from Link to intake - Assigned Forms)": [
+        "recIPF1qjiG2H7rfT",
+        "recbxnQPB5uvVzTdV"
+      ],
+      "Assignment": "Widget",
+      "Intro Text": "\n",
+      "Display Name": "NDA",
+      "Sort Order": 8
+    }
+  }
+}

@@ -80,7 +80,7 @@ export const QUICK_START_NEW_BENEFITS_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'benefits-info',
                     title: 'New Benefits Information',
-                    description: 'Tell us about the new benefits you want to set up',
+                    description: 'Welcome! Share your company information and benefits preferences so we can plan your onboarding and coverage setup effectively.',
                     questions: [
                         {
                             id: 'benefitsNeeded',

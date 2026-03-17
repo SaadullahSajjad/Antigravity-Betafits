@@ -15,7 +15,7 @@ export const HR_TECH_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'tech-details',
                     title: 'HR Technology Details',
-                    description: 'Please provide information about your HR technology',
+                    description: 'Tell us which HR or payroll systems your company uses and how benefits are managed within them to understand how your current systems connect.',
                     questions: [
                         {
                             id: 'currentHRSystem',

@@ -15,7 +15,7 @@ export const MEDICAL_COVERAGE_SURVEY_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'coverage-details',
                     title: 'Current Medical Coverage',
-                    description: 'Please provide information about your current medical coverage',
+                    description: 'Provide details about your company’s medical plans, including coverage levels, contributions, and carrier information to give us a clear view of your plan structure.',
                     questions: [
                         {
                             id: 'hasMedicalCoverage',

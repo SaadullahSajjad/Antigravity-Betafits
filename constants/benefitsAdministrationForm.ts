@@ -15,7 +15,7 @@ export const BENEFITS_ADMINISTRATION_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'admin-details',
                     title: 'Benefits Administration Details',
-                    description: 'Please provide information about your benefits administration',
+                    description: 'Tell us how your company manages benefit enrollments, payroll deductions, and employee updates to keep your administration accurate and efficient.',
                     questions: [
                         {
                             id: 'currentAdmin',

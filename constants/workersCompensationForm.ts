@@ -15,7 +15,7 @@ export const WORKERS_COMPENSATION_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'comp-details',
                     title: 'Workers Compensation Details',
-                    description: 'Please provide information about your workers compensation coverage',
+                    description: 'Provide your company’s workers’ compensation details, such as coverage information and main contact for this policy.',
                     questions: [
                         {
                             id: 'hasWorkersComp',
