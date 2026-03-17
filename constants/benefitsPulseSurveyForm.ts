@@ -14,8 +14,8 @@ import { FormDataDefinition } from '@/types/form';
  * - Additional fields may be present below
  */
 export const BENEFITS_PULSE_SURVEY_FORM_DATA: FormDataDefinition = {
-    id: 'eQ7FVU76PDus',
-    title: 'Benefits Feedback Form',
+    id: 'recmB9IdRhtgckvaY',
+    title: 'Benefits Pulse Survey',
     pages: [
         {
             id: 'survey-questions',
@@ -24,7 +24,7 @@ export const BENEFITS_PULSE_SURVEY_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'basic-info',
                     title: 'Basic Information',
-                    description: 'Please provide your information',
+                    description: 'Share feedback about your current health benefits enrollment and overall benefits package to help identify areas for improvement.',
                     questions: [
                         {
                             id: 'company',

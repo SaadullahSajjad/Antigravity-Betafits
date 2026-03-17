@@ -4,7 +4,11 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import MedicalCoverageSurveyForm from '@/components/forms/MedicalCoverageSurveyForm';
+import { MEDICAL_COVERAGE_SURVEY_FORM_DATA } from '@/constants/medicalCoverageSurveyForm';
 import { FormValues } from '@/types/form';
+
+const FORM_ID = MEDICAL_COVERAGE_SURVEY_FORM_DATA.id;
+const FORM_TITLE = MEDICAL_COVERAGE_SURVEY_FORM_DATA.title;
 
 export default function MedicalCoverageSurveyFormPage() {
     const router = useRouter();
@@ -13,7 +17,7 @@ export default function MedicalCoverageSurveyFormPage() {
     const [submitError, setSubmitError] = useState('');
 
     useEffect(() => {
-        const saved = localStorage.getItem('form_rec4V98J6aPaM3u9H_progress');
+        const saved = localStorage.getItem(`form_${FORM_ID}_progress`);
         if (saved) {
             try {
                 JSON.parse(saved);
@@ -24,7 +28,7 @@ export default function MedicalCoverageSurveyFormPage() {
     }, []);
 
     const handleSave = async (values: FormValues) => {
-        localStorage.setItem('form_rec4V98J6aPaM3u9H_progress', JSON.stringify(values));
+        localStorage.setItem(`form_${FORM_ID}_progress`, JSON.stringify(values));
     };
 
     const handleSubmit = async (values: FormValues) => {
@@ -36,8 +40,8 @@ export default function MedicalCoverageSurveyFormPage() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    formId: 'rec4V98J6aPaM3u9H',
-                    formName: 'Medical Coverage Survey',
+                    formId: FORM_ID,
+                    formName: FORM_TITLE,
                     values,
                 }),
             });
@@ -45,7 +49,7 @@ export default function MedicalCoverageSurveyFormPage() {
             const data = await response.json();
 
             if (response.ok) {
-                localStorage.removeItem('form_rec4V98J6aPaM3u9H_progress');
+                localStorage.removeItem(`form_${FORM_ID}_progress`);
                 setIsSuccess(true);
                 setTimeout(() => {
                     router.push('/?formSubmitted=true');
@@ -67,12 +71,12 @@ export default function MedicalCoverageSurveyFormPage() {
             <div className="mb-6 flex items-center gap-2 text-[13px] font-medium text-gray-500">
                 <Link href="/" className="hover:text-brand-600 transition-colors">Dashboard</Link>
                 <span className="text-gray-300">/</span>
-                <span className="text-gray-900">Medical Coverage Survey</span>
+                <span className="text-gray-900">{FORM_TITLE}</span>
             </div>
 
             <header className="mb-8">
                 <h1 className="text-[32px] font-bold text-gray-900 tracking-tight leading-tight mb-2">
-                    Medical Coverage Survey
+                    {FORM_TITLE}
                 </h1>
                 <p className="text-[16px] text-gray-500 font-medium">
                     Please complete this form to proceed.

@@ -15,7 +15,7 @@ export const PREMIUMS_CONTRIBUTION_STRATEGY_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'premiums-details',
                     title: 'Premium and Contribution Details',
-                    description: 'Please provide information about your premium and contribution strategy',
+                    description: 'Outline your company’s premium structure and contribution approach for each benefit plan to ensure accurate planning and reporting.',
                     questions: [
                         {
                             id: 'currentPremium',

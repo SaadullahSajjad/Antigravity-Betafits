@@ -75,71 +75,41 @@ async function analyzeFilloutForms() {
 
     console.log('🔍 Starting Fillout Form Analysis...\n');
 
-    // Step 1: Fetch Available Forms from Airtable
+    // Step 1: Fetch Available Forms and Fillout IDs (shared with fetch-fillout-form-structure and getFilloutFormIds)
     console.log('📋 Step 1: Fetching Available Forms from Airtable...');
-    const availableFormsTableId = 'tblZVnNaE4y8e56fa';
-    
-    let availableForms: any[] = [];
+    const { getFilloutFormIdsFromAirtable } = await import('../lib/airtable/getFilloutFormIds');
+    let formAnalysesRaw: Awaited<ReturnType<typeof getFilloutFormIdsFromAirtable>>;
     try {
-        availableForms = await fetchAirtableRecords(availableFormsTableId, {
-            apiKey,
-            maxRecords: 100,
-        });
-        console.log(`✅ Fetched ${availableForms.length} available forms\n`);
+        formAnalysesRaw = await getFilloutFormIdsFromAirtable({ apiKey, maxRecords: 100 });
+        console.log(`✅ Fetched ${formAnalysesRaw.length} available forms\n`);
     } catch (error) {
         console.error('❌ Error fetching available forms:', error);
         process.exit(1);
     }
 
-    // Step 2: Extract Fillout URLs and analyze
+    // Step 2: Build form analyses (need Airtable field names — re-fetch records for that)
     console.log('🔗 Step 2: Extracting Fillout URLs...\n');
-    
-    const formAnalyses: FilloutFormAnalysis[] = [];
-    
-    for (const form of availableForms) {
-        const formName = String(form.fields['Name'] || 'Unknown Form');
-        const formId = form.id;
-        
-        // Try to find Fillout URL in various fields
-        const filloutUrl = String(
-            form.fields['Fillout URL'] || 
-            form.fields['Form URL'] || 
-            form.fields['URL'] ||
-            form.fields['Link'] ||
-            form.fields['Assigned Form URL'] ||
-            ''
-        );
-
-        // Extract template ID from URL (e.g., https://betafits.fillout.com/t/eBxXtLZdK4us)
-        let filloutTemplateId: string | undefined;
-        if (filloutUrl.includes('fillout.com/t/')) {
-            const match = filloutUrl.match(/fillout\.com\/t\/([a-zA-Z0-9]+)/);
-            if (match) {
-                filloutTemplateId = match[1];
-            }
-        }
-
-        console.log(`📝 Form: ${formName}`);
-        console.log(`   ID: ${formId}`);
-        if (filloutUrl) {
-            console.log(`   Fillout URL: ${filloutUrl}`);
-        }
-        if (filloutTemplateId) {
-            console.log(`   Template ID: ${filloutTemplateId}`);
-        }
-        console.log('');
-
-        // Get all Airtable field names for this form
-        const airtableFields = Object.keys(form.fields);
-        
-        formAnalyses.push({
-            formId,
-            formName,
-            filloutUrl: filloutUrl || undefined,
-            filloutTemplateId,
-            pages: [], // Will be populated by manual inspection or API
+    const availableFormsTableId = 'tblZVnNaE4y8e56fa';
+    const availableForms = await fetchAirtableRecords(availableFormsTableId, { apiKey, maxRecords: 100 });
+    const formAnalyses: FilloutFormAnalysis[] = formAnalysesRaw.map((row) => {
+        const record = availableForms.find((r) => r.id === row.airtableId);
+        const airtableFields = record ? Object.keys(record.fields) : [];
+        return {
+            formId: row.airtableId,
+            formName: row.name,
+            filloutUrl: row.filloutUrl,
+            filloutTemplateId: row.filloutTemplateId ?? undefined,
+            pages: [],
             airtableFields,
-        });
+        };
+    });
+
+    for (const f of formAnalyses) {
+        console.log(`📝 Form: ${f.formName}`);
+        console.log(`   ID: ${f.formId}`);
+        if (f.filloutUrl) console.log(`   Fillout URL: ${f.filloutUrl}`);
+        if (f.filloutTemplateId) console.log(`   Template ID: ${f.filloutTemplateId}`);
+        console.log('');
     }
 
     // Step 3: Load Airtable field mappings from Data Dictionary

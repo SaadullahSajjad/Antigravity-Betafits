@@ -1,14 +1,21 @@
 /**
- * Fetch exact form structure from Fillout
- * 
- * This script fetches the actual form structure from Fillout's API or by analyzing the form
- * and generates/updates the form definition to match exactly.
- * 
+ * Fetch exact form structure (fields) from Fillout for one or more forms.
+ *
+ * Uses Fillout REST API: GET /v1/api/forms/{formId}
+ * https://www.fillout.com/help/api-reference/get-form-metadata
+ *
  * Usage:
- *   npx tsx scripts/fetch-fillout-form-structure.ts <templateId>
- * 
- * Example:
+ *   npx tsx scripts/fetch-fillout-form-structure.ts <formId1> [formId2] [formId3] ...
+ *   npx tsx scripts/fetch-fillout-form-structure.ts --from-airtable   # use Fillout IDs from Available Forms (Airtable)
+ *   npx tsx scripts/fetch-fillout-form-structure.ts --json <formId1> [formId2] ...   # only write JSON
+ *
+ * Example (single):
  *   npx tsx scripts/fetch-fillout-form-structure.ts eBxXtLZdK4us
+ *
+ * Example (multiple):
+ *   npx tsx scripts/fetch-fillout-form-structure.ts eBxXtLZdK4us recOE9pVakkobVzU7 recmb9idrhtgckvay
+ *
+ * Requires FILLOUT_API_KEY in .env.local. --from-airtable also needs AIRTABLE_API_KEY.
  */
 
 import * as fs from 'fs';
@@ -16,6 +23,26 @@ import * as path from 'path';
 
 require('dotenv').config({ path: '.env.local' });
 
+/** Fillout API: FormMetadata.questions[]. See Get Form Metadata docs. */
+interface FilloutQuestion {
+    id: string;
+    name: string;
+    type: string;
+}
+
+/** Fillout API: Get Form Metadata response */
+interface FilloutFormMetadata {
+    id: string;
+    name: string;
+    questions: FilloutQuestion[];
+    calculations?: unknown[];
+    urlParameters?: unknown[];
+    scheduling?: unknown[];
+    payments?: unknown[];
+    quiz?: unknown;
+}
+
+/** Internal: one form's parsed structure for codegen */
 interface FilloutFormField {
     id: string;
     label: string;
@@ -23,8 +50,6 @@ interface FilloutFormField {
     required: boolean;
     placeholder?: string;
     options?: Array<{ value: string; label: string }>;
-    validation?: any;
-    conditionalLogic?: any;
 }
 
 interface FilloutFormPage {
@@ -44,68 +69,145 @@ interface FilloutFormStructure {
     pages: FilloutFormPage[];
 }
 
+const FILLOUT_API_BASE = 'https://api.fillout.com/v1/api';
+
 /**
- * Fetch form structure from Fillout API
- * Note: This requires Fillout API credentials
+ * Fetch form metadata (exact fields) from Fillout API for a single form.
+ * GET /forms/{formId} → FormMetadata with id, name, questions[]
  */
-async function fetchFromFilloutAPI(templateId: string): Promise<FilloutFormStructure | null> {
+async function fetchFormMetadata(formId: string): Promise<FilloutFormMetadata | null> {
     const filloutApiKey = process.env.FILLOUT_API_KEY;
-    
     if (!filloutApiKey) {
-        console.log('⚠️  FILLOUT_API_KEY not found. Using alternative method...');
+        console.error('FILLOUT_API_KEY not set in .env.local');
         return null;
     }
 
+    const url = `${FILLOUT_API_BASE}/forms/${formId}`;
     try {
-        // Fillout API endpoint (adjust based on actual API documentation)
-        const response = await fetch(`https://api.fillout.com/v1/forms/${templateId}`, {
+        const response = await fetch(url, {
             headers: {
-                'Authorization': `Bearer ${filloutApiKey}`,
+                Authorization: `Bearer ${filloutApiKey}`,
                 'Content-Type': 'application/json',
             },
         });
 
         if (!response.ok) {
-            console.log(`⚠️  Fillout API returned ${response.status}. Using alternative method...`);
+            console.error(`Fillout API ${response.status} for ${formId}: ${response.statusText}`);
             return null;
         }
 
-        const data = await response.json();
-        return parseFilloutAPIResponse(data, templateId);
+        const data = (await response.json()) as FilloutFormMetadata;
+        if (!data.id || !data.questions || !Array.isArray(data.questions)) {
+            console.error(`Unexpected response shape for ${formId}`);
+            return null;
+        }
+        return data;
     } catch (error) {
-        console.log('⚠️  Error fetching from Fillout API:', error);
+        console.error(`Error fetching ${formId}:`, error);
         return null;
     }
 }
 
 /**
- * Parse Fillout API response
+ * Convert Fillout FormMetadata (flat questions) into our multi-page structure
+ * for generateFormDefinition. Puts all questions in one page, one section.
  */
-function parseFilloutAPIResponse(data: any, templateId: string): FilloutFormStructure {
-    // This structure depends on Fillout's actual API response format
-    // Adjust based on their documentation
+function metadataToFormStructure(meta: FilloutFormMetadata): FilloutFormStructure {
+    const fields: FilloutFormField[] = meta.questions
+        .filter((q) => isInputType(q.type))
+        .map((q) => ({
+            id: q.id,
+            label: q.name,
+            type: mapFilloutTypeToReactType(q.type),
+            required: false,
+        }));
+
     return {
-        templateId,
-        title: data.name || data.title || 'Form',
-        pages: data.pages || [],
+        templateId: meta.id,
+        title: meta.name,
+        pages: [
+            {
+                id: 'main',
+                name: meta.name,
+                sections: [
+                    {
+                        id: 'main',
+                        title: meta.name,
+                        fields,
+                    },
+                ],
+            },
+        ],
     };
 }
 
+/** Skip non-input widgets (e.g. Paragraph, Image, Button). */
+function isInputType(filloutType: string): boolean {
+    const skip = new Set([
+        'Paragraph', 'Image', 'Button', 'Header', 'Divider', 'Video', 'Embed',
+        'Calcom', 'Calendly', 'Captcha',
+    ]);
+    return !skip.has(filloutType);
+}
+
 /**
- * Alternative: Fetch by analyzing the form HTML/JavaScript
- * This uses the public form URL to extract structure
+ * Map Fillout API question types to our form field types.
+ * API uses e.g. ShortAnswer, LongAnswer, EmailInput, DatePicker, FileUpload.
+ */
+function mapFilloutTypeToReactType(filloutType: string): string {
+    const typeMap: Record<string, string> = {
+        ShortAnswer: 'text',
+        LongAnswer: 'textarea',
+        EmailInput: 'email',
+        PhoneNumber: 'text',
+        NumberInput: 'number',
+        CurrencyInput: 'number',
+        DatePicker: 'date',
+        DateRange: 'text',
+        DateTimePicker: 'text',
+        TimePicker: 'text',
+        Dropdown: 'select',
+        MultipleChoice: 'radio',
+        MultiSelect: 'select',
+        Checkbox: 'checkbox',
+        Checkboxes: 'checkbox',
+        FileUpload: 'file',
+        URLInput: 'url',
+        Address: 'text',
+        Signature: 'text',
+        Slider: 'number',
+        StarRating: 'number',
+        OpinionScale: 'number',
+        Switch: 'checkbox',
+        Table: 'text',
+        RecordPicker: 'text',
+        SubmissionPicker: 'text',
+        Subform: 'text',
+        Payment: 'text',
+        Password: 'text',
+        ColorPicker: 'text',
+        ImagePicker: 'file',
+        LocationCoordinates: 'text',
+        Ranking: 'text',
+        Matrix: 'text',
+        AudioRecording: 'file',
+    };
+    return typeMap[filloutType] ?? 'text';
+}
+
+/** Legacy: single-form fetch that returns our internal structure (for backward compat). */
+async function fetchFromFilloutAPI(templateId: string): Promise<FilloutFormStructure | null> {
+    const meta = await fetchFormMetadata(templateId);
+    if (!meta) return null;
+    return metadataToFormStructure(meta);
+}
+
+/**
+ * Alternative: Fetch by analyzing the form HTML/JavaScript (fallback when API not available).
  */
 async function fetchFromFormURL(templateId: string): Promise<FilloutFormStructure | null> {
-    const formUrl = `https://betafits.fillout.com/t/${templateId}`;
-    
-    console.log(`\n📋 Fetching form structure from: ${formUrl}`);
-    console.log('⚠️  This method requires manual inspection or browser automation.');
-    console.log('   For now, please manually verify the form and update the definition.\n');
-    
-    // Option 1: Use Puppeteer/Playwright to scrape the form
-    // Option 2: Manual inspection and update
-    // Option 3: Use Fillout's embed API if available
-    
+    console.log(`\n📋 Form URL: https://betafits.fillout.com/t/${templateId}`);
+    console.log('   Use FILLOUT_API_KEY in .env.local to fetch via API.\n');
     return null;
 }
 
@@ -156,7 +258,7 @@ export const FORM_DATA: FormDataDefinition = {
                         {
                             id: '${field.id}',
                             label: '${field.label.replace(/'/g, "\\'")}',
-                            type: '${mapFilloutTypeToReactType(field.type)}',
+                            type: '${field.type}',
                             required: ${field.required},`;
                 
                 if (field.placeholder) {
@@ -177,7 +279,7 @@ export const FORM_DATA: FormDataDefinition = {
                 
                 if (field.required) {
                     output += `
-                            validation: [{ type: 'required', message: '${field.label} is required' }]`;
+                            validation: [{ type: 'required', message: '${field.label.replace(/'/g, "\\'")} is required' }]`;
                 }
                 
                 output += `
@@ -203,83 +305,141 @@ export const FORM_DATA: FormDataDefinition = {
 }
 
 /**
- * Map Fillout field types to React form types
- */
-function mapFilloutTypeToReactType(filloutType: string): string {
-    const typeMap: Record<string, string> = {
-        'text': 'text',
-        'email': 'email',
-        'phone': 'text',
-        'number': 'number',
-        'textarea': 'textarea',
-        'select': 'select',
-        'radio': 'radio',
-        'checkbox': 'checkbox',
-        'date': 'date',
-        'file': 'file',
-        'url': 'url',
-    };
-    
-    return typeMap[filloutType.toLowerCase()] || 'text';
-}
-
-/**
- * Main execution
+ * Main: fetch exact fields for one or more forms.
+ * With --from-airtable and no FILLOUT_API_KEY: fetches form list and all Airtable fields only (no Fillout API).
  */
 async function main() {
-    const templateId = process.argv[2];
-    
-    if (!templateId) {
-        console.error('❌ Error: Template ID is required');
+    const argv = process.argv.slice(2);
+    const jsonOnly = argv[0] === '--json';
+    const rawArgs = jsonOnly ? argv.slice(1) : argv;
+    const fromAirtable = rawArgs[0] === '--from-airtable';
+    const hasFilloutKey = Boolean(process.env.FILLOUT_API_KEY);
+
+    // ---- Airtable-only path: no Fillout API key, just fetch from Airtable ----
+    if (fromAirtable && !hasFilloutKey) {
+        try {
+            const { getAvailableFormsWithAllFields } = await import('../lib/airtable/getFilloutFormIds');
+            const forms = await getAvailableFormsWithAllFields();
+            if (forms.length === 0) {
+                console.warn('⚠️  No records in Available Forms table.');
+                process.exit(1);
+            }
+            console.log(`\n🔍 Fetched ${forms.length} form(s) from Airtable (Available Forms). No Fillout API key — using Airtable fields only.\n`);
+            for (const form of forms) {
+                const name = String((form.fields as Record<string, unknown>)['Name'] ?? 'Unknown');
+                const fieldCount = Object.keys(form.fields).length;
+                console.log(`✅ ${form.id}: "${name}" — ${fieldCount} Airtable fields`);
+            }
+            const outDir = path.join(process.cwd(), 'scripts', 'fillout-fields');
+            if (!fs.existsSync(outDir)) {
+                fs.mkdirSync(outDir, { recursive: true });
+            }
+            const jsonPath = path.join(outDir, `forms-from-airtable-${Date.now()}.json`);
+            const output = forms.reduce<Record<string, { id: string; name: string; fields: Record<string, unknown> }>>((acc, form) => {
+                const fields = form.fields as Record<string, unknown>;
+                acc[form.id] = {
+                    id: form.id,
+                    name: String(fields['Name'] ?? 'Unknown'),
+                    fields,
+                };
+                return acc;
+            }, {});
+            fs.writeFileSync(jsonPath, JSON.stringify(output, null, 2), 'utf-8');
+            console.log(`\n📄 Exact fields (from Airtable) written to: ${jsonPath}`);
+
+            // Sync Airtable metadata (id, title, description) into constants so React forms are updated
+            try {
+                const { execSync } = await import('child_process');
+                console.log('\n🔄 Syncing form constants (id, title, description) from Airtable...');
+                execSync('npx tsx scripts/sync-forms-from-airtable.ts', {
+                    cwd: process.cwd(),
+                    stdio: 'inherit',
+                });
+            } catch (syncErr) {
+                console.warn('⚠️  Sync step failed (constants may be unchanged):', syncErr);
+            }
+            console.log('\n✨ Done!');
+            return;
+        } catch (err) {
+            console.error('❌ Failed to fetch from Airtable:', err);
+            process.exit(1);
+        }
+    }
+
+    // ---- Fillout API path: need form IDs and FILLOUT_API_KEY ----
+    let formIds: string[];
+    if (fromAirtable) {
+        try {
+            const { getFilloutTemplateIdsOnly } = await import('../lib/airtable/getFilloutFormIds');
+            formIds = await getFilloutTemplateIdsOnly();
+            if (formIds.length === 0) {
+                console.warn('⚠️  No Fillout template IDs in Available Forms (no fillout.com/t/ URLs). Use --from-airtable without FILLOUT_API_KEY to fetch Airtable fields only.');
+                process.exit(1);
+            }
+        } catch (err) {
+            console.error('❌ Failed to fetch form IDs from Airtable:', err);
+            process.exit(1);
+        }
+    } else {
+        formIds = rawArgs.filter((a) => a !== '--from-airtable');
+    }
+
+    if (formIds.length === 0) {
+        console.error('❌ At least one form ID is required, or use --from-airtable');
         console.log('\nUsage:');
-        console.log('  npx tsx scripts/fetch-fillout-form-structure.ts <templateId>');
-        console.log('\nExample:');
-        console.log('  npx tsx scripts/fetch-fillout-form-structure.ts eBxXtLZdK4us');
+        console.log('  npx tsx scripts/fetch-fillout-form-structure.ts --from-airtable   # Airtable only (no Fillout API key needed)');
+        console.log('  npx tsx scripts/fetch-fillout-form-structure.ts <formId1> [formId2] ...   # needs FILLOUT_API_KEY');
         process.exit(1);
     }
-    
-    console.log(`\n🔍 Fetching form structure for: ${templateId}\n`);
-    
-    // Try API first, then fallback to URL analysis
-    let structure = await fetchFromFilloutAPI(templateId);
-    
-    if (!structure) {
-        structure = await fetchFromFormURL(templateId);
-    }
-    
-    if (!structure) {
-        console.log('\n❌ Could not fetch form structure automatically.');
-        console.log('\n📝 Manual Steps:');
-        console.log('1. Open the form in browser: https://betafits.fillout.com/t/' + templateId);
-        console.log('2. Inspect the form fields using browser DevTools');
-        console.log('3. Check the network tab for API calls that return form structure');
-        console.log('4. Update the form definition file manually');
-        console.log('\n💡 Alternative: Use Fillout API if you have credentials');
-        console.log('   Add FILLOUT_API_KEY to .env.local');
+
+    if (!hasFilloutKey) {
+        console.error('❌ FILLOUT_API_KEY not set. Use --from-airtable to fetch from Airtable only (no Fillout API).');
         process.exit(1);
     }
-    
-    // Generate form definition
-    const formDefinition = generateFormDefinition(structure);
-    
-    // Determine output file based on template ID
-    const outputFile = path.join(
-        process.cwd(),
-        'constants',
-        `form_${templateId.toLowerCase()}.ts`
-    );
-    
-    // Write to file
-    fs.writeFileSync(outputFile, formDefinition, 'utf-8');
-    
-    console.log(`\n✅ Form structure fetched and saved to: ${outputFile}`);
-    console.log(`\n📋 Form Structure:`);
-    console.log(`   Title: ${structure.title}`);
-    console.log(`   Pages: ${structure.pages.length}`);
-    structure.pages.forEach((page, index) => {
-        const totalFields = page.sections.reduce((sum, section) => sum + section.fields.length, 0);
-        console.log(`   Page ${index + 1}: ${page.name} (${page.sections.length} sections, ${totalFields} fields)`);
-    });
+
+    if (fromAirtable) {
+        console.log(`\n🔍 Fetched ${formIds.length} Fillout form ID(s) from Airtable.\n`);
+    }
+    console.log(`\n🔍 Fetching exact fields for ${formIds.length} form(s): ${formIds.join(', ')}\n`);
+
+    const results: Record<string, FilloutFormMetadata> = {};
+    const failed: string[] = [];
+
+    for (const formId of formIds) {
+        const meta = await fetchFormMetadata(formId);
+        if (meta) {
+            results[formId] = meta;
+            const count = meta.questions.length;
+            const inputCount = meta.questions.filter((q) => isInputType(q.type)).length;
+            console.log(`✅ ${formId}: "${meta.name}" — ${count} questions (${inputCount} input fields)`);
+        } else {
+            failed.push(formId);
+        }
+    }
+
+    if (failed.length > 0) {
+        console.log(`\n⚠️  Failed: ${failed.join(', ')}`);
+    }
+
+    const outDir = path.join(process.cwd(), 'scripts', 'fillout-fields');
+    if (!fs.existsSync(outDir)) {
+        fs.mkdirSync(outDir, { recursive: true });
+    }
+
+    const jsonPath = path.join(outDir, `forms-${Date.now()}.json`);
+    fs.writeFileSync(jsonPath, JSON.stringify(results, null, 2), 'utf-8');
+    console.log(`\n📄 Exact fields (raw API response) written to: ${jsonPath}`);
+
+    if (!jsonOnly) {
+        for (const [formId, meta] of Object.entries(results)) {
+            const structure = metadataToFormStructure(meta);
+            const formDefinition = generateFormDefinition(structure);
+            const outputFile = path.join(process.cwd(), 'constants', `form_${formId.toLowerCase()}.ts`);
+            fs.writeFileSync(outputFile, formDefinition, 'utf-8');
+            console.log(`   Generated: ${outputFile}`);
+        }
+    }
+
     console.log('\n✨ Done!');
 }
 
@@ -288,4 +448,12 @@ if (require.main === module) {
     main().catch(console.error);
 }
 
-export { fetchFromFilloutAPI, fetchFromFormURL, generateFormDefinition };
+export {
+    fetchFormMetadata,
+    fetchFromFilloutAPI,
+    fetchFromFormURL,
+    generateFormDefinition,
+    metadataToFormStructure,
+    mapFilloutTypeToReactType,
+};
+export type { FilloutFormMetadata, FilloutQuestion, FilloutFormStructure };

@@ -15,7 +15,7 @@ export const BENEFITS_COMPLIANCE_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'compliance-details',
                     title: 'Benefits Compliance Details',
-                    description: 'Please provide information about your benefits compliance',
+                    description: 'Share how your company handles benefits compliance and required documents to confirm everything meets current standards.',
                     questions: [
                         {
                             id: 'complianceConcerns',

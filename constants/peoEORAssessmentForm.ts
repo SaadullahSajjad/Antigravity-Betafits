@@ -6,7 +6,7 @@ import { FormDataDefinition } from '@/types/form';
  */
 export const PEO_EOR_ASSESSMENT_FORM_DATA: FormDataDefinition = {
     id: 'recKzuznmqq29uASl',
-    title: 'PEO/EOR Assessment',
+    title: 'PEO/EOR  Assessment',
     pages: [
         {
             id: 'peo-assessment',
@@ -15,7 +15,7 @@ export const PEO_EOR_ASSESSMENT_FORM_DATA: FormDataDefinition = {
                 {
                     id: 'assessment-details',
                     title: 'Assessment Information',
-                    description: 'Please provide information for the PEO/EOR assessment',
+                    description: 'Provide details about your current or previous PEO or EOR arrangement, including provider and services, to help us assess your structure and next steps.',
                     questions: [
                         {
                             id: 'currentPEO',
