@@ -28,6 +28,7 @@ interface FilloutQuestion {
     id: string;
     name: string;
     type: string;
+    options?: Array<{ id?: string; value: string; label: string }>;
 }
 
 /** Fillout API: Get Form Metadata response */
@@ -111,16 +112,25 @@ async function fetchFormMetadata(formId: string): Promise<FilloutFormMetadata | 
 /**
  * Convert Fillout FormMetadata (flat questions) into our multi-page structure
  * for generateFormDefinition. Puts all questions in one page, one section.
+ *
+ * Note: Fillout's public API returns a flat question list (no page/section
+ * breaks). For proper multi-page parity you'd need the unofficial published-form
+ * JSON (see scripts/extract-fillout-advanced.js).
  */
 function metadataToFormStructure(meta: FilloutFormMetadata): FilloutFormStructure {
     const fields: FilloutFormField[] = meta.questions
         .filter((q) => isInputType(q.type))
-        .map((q) => ({
-            id: q.id,
-            label: q.name,
-            type: mapFilloutTypeToReactType(q.type),
-            required: false,
-        }));
+        .map((q) => {
+            const reactType = mapFilloutTypeToReactType(q.type);
+            const options = buildOptionsForQuestion(q);
+            return {
+                id: q.id,
+                label: q.name,
+                type: reactType,
+                required: false,
+                ...(options ? { options } : {}),
+            };
+        });
 
     return {
         templateId: meta.id,
@@ -139,6 +149,30 @@ function metadataToFormStructure(meta: FilloutFormMetadata): FilloutFormStructur
             },
         ],
     };
+}
+
+/**
+ * Build the options list the React renderer expects.
+ * - For choice-based Fillout types (Dropdown, MultipleChoice, Checkboxes,
+ *   MultiSelect) we pass through the API's options verbatim.
+ * - For rating-scale types (OpinionScale, Slider, StarRating) the public API
+ *   doesn't return option items, but our FormSection.tsx has a dedicated
+ *   1–10 rating-button path that triggers when a radio has exactly 10 options
+ *   labelled 1..10 — so synthesize those here.
+ */
+function buildOptionsForQuestion(
+    q: FilloutQuestion,
+): Array<{ value: string; label: string }> | undefined {
+    if (Array.isArray(q.options) && q.options.length > 0) {
+        return q.options.map((o) => ({ value: String(o.value), label: String(o.label) }));
+    }
+    if (q.type === 'OpinionScale' || q.type === 'Slider' || q.type === 'StarRating') {
+        return Array.from({ length: 10 }, (_, i) => {
+            const v = String(i + 1);
+            return { value: v, label: v };
+        });
+    }
+    return undefined;
 }
 
 /** Skip non-input widgets (e.g. Paragraph, Image, Button). */
@@ -168,16 +202,16 @@ function mapFilloutTypeToReactType(filloutType: string): string {
         TimePicker: 'text',
         Dropdown: 'select',
         MultipleChoice: 'radio',
-        MultiSelect: 'select',
+        MultiSelect: 'checkbox',
         Checkbox: 'checkbox',
         Checkboxes: 'checkbox',
         FileUpload: 'file',
-        URLInput: 'url',
+        URLInput: 'text',
         Address: 'text',
         Signature: 'text',
-        Slider: 'number',
-        StarRating: 'number',
-        OpinionScale: 'number',
+        Slider: 'radio',
+        StarRating: 'radio',
+        OpinionScale: 'radio',
         Switch: 'checkbox',
         Table: 'text',
         RecordPicker: 'text',
@@ -216,88 +250,89 @@ async function fetchFromFormURL(templateId: string): Promise<FilloutFormStructur
  */
 function generateFormDefinition(structure: FilloutFormStructure): string {
     const { templateId, title, pages } = structure;
-    
+    const s = (v: string) => JSON.stringify(v);
+
     let output = `import { FormDataDefinition } from '@/types/form';
 
 /**
- * ${title}
+ * ${title.replace(/\*\//g, '*\\/')}
  * Template ID: ${templateId}
  * URL: https://betafits.fillout.com/t/${templateId}
- * 
- * Auto-generated from Fillout form structure
+ *
+ * Auto-generated from Fillout form structure.
  * Last updated: ${new Date().toISOString()}
  */
 export const FORM_DATA: FormDataDefinition = {
-    id: '${templateId}',
-    title: '${title}',
+    id: ${s(templateId)},
+    title: ${s(title)},
     pages: [`;
 
     pages.forEach((page, pageIndex) => {
         output += `
         {
-            id: '${page.id}',
-            name: '${page.name}',
+            id: ${s(page.id)},
+            name: ${s(page.name)},
             sections: [`;
-        
+
         page.sections.forEach((section, sectionIndex) => {
             output += `
                 {
-                    id: '${section.id}',
-                    title: '${section.title}',`;
-            
+                    id: ${s(section.id)},
+                    title: ${s(section.title)},`;
+
             if (section.description) {
                 output += `
-                    description: '${section.description}',`;
+                    description: ${s(section.description)},`;
             }
-            
+
             output += `
                     questions: [`;
-            
+
             section.fields.forEach((field) => {
                 output += `
                         {
-                            id: '${field.id}',
-                            label: '${field.label.replace(/'/g, "\\'")}',
-                            type: '${field.type}',
+                            id: ${s(field.id)},
+                            label: ${s(field.label)},
+                            type: ${s(field.type)},
                             required: ${field.required},`;
-                
+
                 if (field.placeholder) {
                     output += `
-                            placeholder: '${field.placeholder.replace(/'/g, "\\'")}',`;
+                            placeholder: ${s(field.placeholder)},`;
                 }
-                
+
                 if (field.options && field.options.length > 0) {
                     output += `
                             options: [`;
                     field.options.forEach((opt) => {
                         output += `
-                                { value: '${opt.value}', label: '${opt.label.replace(/'/g, "\\'")}' },`;
+                                { value: ${s(opt.value)}, label: ${s(opt.label)} },`;
                     });
                     output += `
                             ],`;
                 }
-                
+
                 if (field.required) {
                     output += `
-                            validation: [{ type: 'required', message: '${field.label.replace(/'/g, "\\'")} is required' }]`;
+                            validation: [{ type: 'required', message: ${s(`${field.label} is required`)} }],`;
                 }
-                
+
                 output += `
                         },`;
             });
-            
+
             output += `
-                    ]
+                    ],
                 }${sectionIndex < page.sections.length - 1 ? ',' : ''}`;
         });
-        
+
         output += `
-            ]
+            ],
         }${pageIndex < pages.length - 1 ? ',' : ''}`;
     });
-    
+
     output += `
-    ]
+    ],
 };
 `;
 

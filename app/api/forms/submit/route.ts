@@ -5,6 +5,11 @@ import { authOptions } from '@/lib/auth/authOptions';
 import { getCompanyId } from '@/lib/auth/getCompanyId';
 import { updateAirtableRecord } from '@/lib/airtable/update';
 import { createAirtableRecord } from '@/lib/airtable/create';
+import {
+    FILLOUT_QUESTION_ID_TO_AIRTABLE_FIELD,
+    FILLOUT_QUESTION_ID_TO_LABEL,
+    GROUP_DATA_FALLBACK_FIELD,
+} from '@/lib/airtable/filloutQuestionMappings';
 
 /** Alternate Airtable field names for Group Data (try when primary fails) */
 const GROUP_DATA_FIELD_ALTERNATIVES: Record<string, string[]> = {
@@ -70,34 +75,61 @@ export async function POST(request: NextRequest) {
                 family: 'Family',
                 waived: 'Waived',
                 not_eligible: 'Not Eligible',
+                'Employee Only': 'Employee Only',
+                'Employee + Spouse': 'Employee + Spouse',
+                'Employee + Child(ren)': 'Employee + Child(ren)',
+                Family: 'Family',
+                Waived: 'Waived',
+                'Not Eligible': 'Not Eligible',
             };
             const fields: Record<string, unknown> = {
                 'Link to Intake - Group Data': [companyId],
             };
-            if (values.company) fields['Company'] = String(values.company);
-            if (values.healthBenefitsEnrollment) {
-                const tier = MEDICAL_TIER_LABELS[String(values.healthBenefitsEnrollment)] || String(values.healthBenefitsEnrollment);
-                fields['Medical Tier'] = tier;
+
+            // Project incoming values (keyed by either Fillout question IDs
+            // after sync, or the legacy semantic keys) onto Airtable field names
+            // using the eQ7FVU76PDus mapping, so the rest of this block can
+            // reference Airtable names directly.
+            const pulseMap = FILLOUT_QUESTION_ID_TO_AIRTABLE_FIELD['eQ7FVU76PDus'] || {};
+            const legacyToAirtable: Record<string, string> = {
+                company: 'Company',
+                healthBenefitsEnrollment: 'Medical Tier',
+                overallBenefitsPackage: 'Overall',
+                overallSatisfaction: 'Overall',
+                medicalPlanOptions: 'Medical Options',
+                medicalSatisfaction: 'Medical Options',
+                surveyComments: 'Comments',
+                dentalSatisfaction: 'Non-Medical',
+                visionSatisfaction: 'Non-Medical',
+            };
+            const byAirtable: Record<string, unknown> = {};
+            for (const [k, v] of Object.entries(values || {})) {
+                if (v === null || v === undefined || v === '') continue;
+                const target = pulseMap[k] || legacyToAirtable[k];
+                if (!target) continue;
+                // First non-empty value wins for deterministic behaviour.
+                if (byAirtable[target] === undefined) byAirtable[target] = v;
             }
-            const overallVal = values.overallBenefitsPackage ?? values.overallSatisfaction;
-            if (overallVal !== undefined && overallVal !== null && overallVal !== '') {
-                const n = Number(overallVal);
-                if (!isNaN(n)) fields['Overall'] = n <= 5 ? n : Math.round((n / 10) * 5) || 1;
+
+            if (byAirtable['Company']) fields['Company'] = String(byAirtable['Company']);
+            if (byAirtable['Medical Tier']) {
+                const raw = String(byAirtable['Medical Tier']);
+                fields['Medical Tier'] = MEDICAL_TIER_LABELS[raw] || raw;
             }
-            const medicalVal = values.medicalPlanOptions ?? values.medicalSatisfaction;
-            if (medicalVal !== undefined && medicalVal !== null && medicalVal !== '') {
-                const n = Number(medicalVal);
-                if (!isNaN(n)) fields['Medical Options'] = n <= 5 ? n : Math.round((n / 10) * 5) || 1;
-            }
-            if (values.surveyComments) fields['Comments'] = String(values.surveyComments);
-            if (values.dentalSatisfaction !== undefined && values.dentalSatisfaction !== null && values.dentalSatisfaction !== '') {
-                const n = Number(values.dentalSatisfaction);
-                if (!isNaN(n)) fields['Non-Medical'] = n <= 5 ? n : Math.round((n / 10) * 5) || 1;
-            }
-            if (values.visionSatisfaction !== undefined && values.visionSatisfaction !== null && values.visionSatisfaction !== '') {
-                const n = Number(values.visionSatisfaction);
-                if (!isNaN(n) && !fields['Non-Medical']) fields['Non-Medical'] = n <= 5 ? n : Math.round((n / 10) * 5) || 1;
-            }
+            // Ratings: accept 1-10 or 1-5 input; Airtable expects 1-5.
+            const toFiveScale = (v: unknown): number | null => {
+                if (v === null || v === undefined || v === '') return null;
+                const n = Number(v);
+                if (!isFinite(n)) return null;
+                return n <= 5 ? n : Math.max(1, Math.round((n / 10) * 5));
+            };
+            const overall = toFiveScale(byAirtable['Overall']);
+            if (overall !== null) fields['Overall'] = overall;
+            const medOpts = toFiveScale(byAirtable['Medical Options']);
+            if (medOpts !== null) fields['Medical Options'] = medOpts;
+            if (byAirtable['Comments']) fields['Comments'] = String(byAirtable['Comments']);
+            const nonMedical = toFiveScale(byAirtable['Non-Medical']);
+            if (nonMedical !== null) fields['Non-Medical'] = nonMedical;
             try {
                 const record = await createAirtableRecord(EE_PULSE_SURVEYS_TABLE, { apiKey, fields: fields as Record<string, any> });
                 revalidatePath('/employee-feedback');
@@ -427,14 +459,32 @@ export async function POST(request: NextRequest) {
             'kTCf1qrYPJsrHcdx1PifGR': 'Additional Notes',
         };
 
+        // -----------------------------------------------------------------
+        // Build the source-key -> Airtable-field mapping.
+        //
+        // After scripts/sync-handwritten-from-fillout.ts the React forms key
+        // their values by Fillout question IDs. FILLOUT_QUESTION_ID_TO_AIRTABLE_FIELD
+        // (auto-generated) covers every Fillout question, including a safe
+        // `Additional Notes (Optional)` fallback for anything not yet matched
+        // to a dedicated Airtable column.
+        //
+        // The legacy semantic maps (firstName, brokerResponsiveness, …) are
+        // kept as a fallback so the unsynced forms (hrTechForm, appointBetafitsForm)
+        // still work, and so anyone manually calling /api/forms/submit with
+        // semantic keys continues to round-trip.
+        // -----------------------------------------------------------------
+        const filloutMap = FILLOUT_QUESTION_ID_TO_AIRTABLE_FIELD[formId] || {};
+        const labelMap = FILLOUT_QUESTION_ID_TO_LABEL[formId] || {};
         const baseMapping = fieldMappings[formId] || {};
-        const mapping = formId === 'eBxXtLZdK4us'
-            ? { ...baseMapping, ...quickStartQuestionIdToAirtable }
-            : baseMapping;
+        const mapping =
+            formId === 'eBxXtLZdK4us'
+                ? { ...baseMapping, ...quickStartQuestionIdToAirtable, ...filloutMap }
+                : { ...baseMapping, ...filloutMap };
         const airtableFields: Record<string, any> = {};
-        // Note: We're updating the Group Data table directly, so we don't need to link to it
-        // The "Link to Intake - Group Data" field is used in OTHER tables to link TO Group Data
-        // Since we're updating the Group Data record itself, we just update its fields directly
+        // Values flowing into GROUP_DATA_FALLBACK_FIELD need to be concatenated so
+        // multiple questions mapping to the same Additional Notes column don't
+        // clobber each other. Format: "Question label: answer".
+        const fallbackEntries: string[] = [];
 
         // Define number fields that need conversion from string to number
         // These are Airtable field names that expect number type
@@ -490,26 +540,35 @@ export async function POST(request: NextRequest) {
         }
         
         for (const [formField, value] of Object.entries(valuesToMap)) {
-            // Skip system fields and empty values
-            if (systemFields.includes(formField)) {
+            if (systemFields.includes(formField)) continue;
+            if (value === null || value === undefined || value === '') continue;
+
+            const airtableField = mapping[formField] || formField;
+
+            // Many questions may be routed into the single catch-all column;
+            // buffer them and write once as a formatted block below.
+            if (airtableField === GROUP_DATA_FALLBACK_FIELD) {
+                const label = labelMap[formField] || formField;
+                const rendered = Array.isArray(value) ? value.join(', ') : String(value);
+                fallbackEntries.push(`${label}: ${rendered}`);
                 continue;
             }
-            
-            const airtableField = mapping[formField] || formField;
-            if (value !== null && value !== undefined && value !== '') {
-                // Convert number fields from string to number if needed
-                if (numberFields.has(airtableField)) {
-                    const numValue = typeof value === 'string' ? parseFloat(value) : Number(value);
-                    if (!isNaN(numValue)) {
-                        airtableFields[airtableField] = numValue;
-                    } else {
-                        // If conversion fails, skip this field
-                        console.warn(`[Form Submit] Could not convert "${airtableField}" to number, skipping:`, value);
-                    }
+
+            if (numberFields.has(airtableField)) {
+                const numValue = typeof value === 'string' ? parseFloat(value) : Number(value);
+                if (!isNaN(numValue)) {
+                    airtableFields[airtableField] = numValue;
                 } else {
-                    airtableFields[airtableField] = value;
+                    console.warn(`[Form Submit] Could not convert "${airtableField}" to number, skipping:`, value);
                 }
+            } else {
+                airtableFields[airtableField] = value;
             }
+        }
+
+        // Flush concatenated catch-all entries into the fallback column.
+        if (fallbackEntries.length > 0) {
+            airtableFields[GROUP_DATA_FALLBACK_FIELD] = fallbackEntries.join('\n\n');
         }
 
         // Create or update record in Airtable

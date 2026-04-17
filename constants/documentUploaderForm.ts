@@ -1,85 +1,16 @@
 import { FormDataDefinition } from '@/types/form';
+import { FORM_DATA } from './form_atdkqh7ztmus';
 
 /**
- * Document Uploader Form
- * Form ID: recsLJiBVdED8EEbr
+ * Auto-synced from Fillout. DO NOT EDIT DIRECTLY.
+ *
+ * Source: https://betafits.fillout.com/t/aTDkqH7zTmus
+ * Regenerate:
+ *   npx tsx scripts/fetch-fillout-form-structure.ts --from-airtable
+ *   npx tsx scripts/sync-handwritten-from-fillout.ts
+ *
+ * Fillout's public API does not return page breaks, section headings, required
+ * flags, placeholders, or conditional logic. The form therefore renders as a
+ * single page / single section with Fillout's exact question list and options.
  */
-export const DOCUMENT_UPLOADER_FORM_DATA: FormDataDefinition = {
-    id: 'recsLJiBVdED8EEbr',
-    title: 'Document Uploader',
-    pages: [
-        {
-            id: 'document-upload',
-            name: 'Upload Documents',
-            sections: [
-                {
-                    id: 'upload-info',
-                    title: 'Document Information',
-                    description: 'Please provide information about the documents you are uploading',
-                    questions: [
-                        {
-                            id: 'file',
-                            label: 'Select Document',
-                            type: 'file',
-                            required: true,
-                            placeholder: 'Choose a file to upload',
-                            accept: '.pdf,.doc,.docx,.xls,.xlsx,.txt,.jpg,.jpeg,.png',
-                            validation: [{ type: 'required', message: 'Please select a file to upload' }]
-                        },
-                        {
-                            id: 'documentType',
-                            label: 'Document Type',
-                            type: 'select',
-                            required: true,
-                            placeholder: 'Select document type',
-                            options: [
-                                { value: 'benefit-guide', label: 'Benefit Guide' },
-                                { value: 'sbc', label: 'SBC/Plan Summary' },
-                                { value: 'census', label: 'Employee Census' },
-                                { value: 'contract', label: 'Contract' },
-                                { value: 'other', label: 'Other' }
-                            ],
-                            validation: [{ type: 'required', message: 'Document type is required' }]
-                        },
-                        {
-                            id: 'documentDescription',
-                            label: 'Document Description',
-                            type: 'textarea',
-                            required: false,
-                            placeholder: 'Describe the document you are uploading'
-                        },
-                        {
-                            id: 'uploadNotes',
-                            label: 'Additional Notes',
-                            type: 'textarea',
-                            required: false,
-                            placeholder: 'Any additional notes about the document'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: 'review',
-            name: 'Review',
-            sections: [
-                {
-                    id: 'review-info',
-                    title: 'Review Your Information',
-                    questions: [
-                        {
-                            id: 'confirmAccuracy',
-                            label: 'I confirm that all information provided is accurate',
-                            type: 'radio',
-                            required: true,
-                            options: [
-                                { value: 'yes', label: 'Yes, all information is accurate' }
-                            ],
-                            validation: [{ type: 'required', message: 'Please confirm accuracy' }]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-};
+export const DOCUMENT_UPLOADER_FORM_DATA: FormDataDefinition = FORM_DATA;

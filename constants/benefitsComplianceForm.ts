@@ -1,82 +1,16 @@
 import { FormDataDefinition } from '@/types/form';
+import { FORM_DATA } from './form_ujtsx72pr5us';
 
 /**
- * Benefits Compliance Form
- * Form ID: recGrsR8Sdx96pckJ
+ * Auto-synced from Fillout. DO NOT EDIT DIRECTLY.
+ *
+ * Source: https://betafits.fillout.com/t/ujTSx72pr5us
+ * Regenerate:
+ *   npx tsx scripts/fetch-fillout-form-structure.ts --from-airtable
+ *   npx tsx scripts/sync-handwritten-from-fillout.ts
+ *
+ * Fillout's public API does not return page breaks, section headings, required
+ * flags, placeholders, or conditional logic. The form therefore renders as a
+ * single page / single section with Fillout's exact question list and options.
  */
-export const BENEFITS_COMPLIANCE_FORM_DATA: FormDataDefinition = {
-    id: 'recGrsR8Sdx96pckJ',
-    title: 'Benefits Compliance',
-    pages: [
-        {
-            id: 'compliance-info',
-            name: 'Compliance Information',
-            sections: [
-                {
-                    id: 'compliance-details',
-                    title: 'Benefits Compliance Details',
-                    description: 'Share how your company handles benefits compliance and required documents to confirm everything meets current standards.',
-                    questions: [
-                        {
-                            id: 'complianceConcerns',
-                            label: 'Compliance Concerns',
-                            type: 'textarea',
-                            required: false,
-                            placeholder: 'List any compliance concerns you have'
-                        },
-                        {
-                            id: 'currentComplianceStatus',
-                            label: 'Current Compliance Status',
-                            type: 'select',
-                            required: false,
-                            placeholder: 'Select compliance status',
-                            options: [
-                                { value: 'compliant', label: 'Fully Compliant' },
-                                { value: 'mostly-compliant', label: 'Mostly Compliant' },
-                                { value: 'some-issues', label: 'Some Compliance Issues' },
-                                { value: 'non-compliant', label: 'Non-Compliant' },
-                                { value: 'unknown', label: 'Unknown' }
-                            ]
-                        },
-                        {
-                            id: 'complianceAudits',
-                            label: 'Recent Compliance Audits',
-                            type: 'textarea',
-                            required: false,
-                            placeholder: 'Information about recent compliance audits'
-                        },
-                        {
-                            id: 'complianceNotes',
-                            label: 'Additional Compliance Information',
-                            type: 'textarea',
-                            required: false,
-                            placeholder: 'Any additional information about benefits compliance'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: 'review',
-            name: 'Review',
-            sections: [
-                {
-                    id: 'review-info',
-                    title: 'Review Your Information',
-                    questions: [
-                        {
-                            id: 'confirmAccuracy',
-                            label: 'I confirm that all information provided is accurate',
-                            type: 'radio',
-                            required: true,
-                            options: [
-                                { value: 'yes', label: 'Yes, all information is accurate' }
-                            ],
-                            validation: [{ type: 'required', message: 'Please confirm accuracy' }]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-};
+export const BENEFITS_COMPLIANCE_FORM_DATA: FormDataDefinition = FORM_DATA;

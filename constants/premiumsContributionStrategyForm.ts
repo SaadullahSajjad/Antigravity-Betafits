@@ -1,82 +1,16 @@
 import { FormDataDefinition } from '@/types/form';
+import { FORM_DATA } from './form_jgaijjzjvjus';
 
 /**
- * Premiums / Contribution Strategy Form
- * Form ID: recdjXjySYuYUGkdP
+ * Auto-synced from Fillout. DO NOT EDIT DIRECTLY.
+ *
+ * Source: https://betafits.fillout.com/t/jgaiJJZJvjus
+ * Regenerate:
+ *   npx tsx scripts/fetch-fillout-form-structure.ts --from-airtable
+ *   npx tsx scripts/sync-handwritten-from-fillout.ts
+ *
+ * Fillout's public API does not return page breaks, section headings, required
+ * flags, placeholders, or conditional logic. The form therefore renders as a
+ * single page / single section with Fillout's exact question list and options.
  */
-export const PREMIUMS_CONTRIBUTION_STRATEGY_FORM_DATA: FormDataDefinition = {
-    id: 'recdjXjySYuYUGkdP',
-    title: 'Premiums / Contribution Strategy',
-    pages: [
-        {
-            id: 'premiums-info',
-            name: 'Premiums & Contribution Information',
-            sections: [
-                {
-                    id: 'premiums-details',
-                    title: 'Premium and Contribution Details',
-                    description: 'Outline your company’s premium structure and contribution approach for each benefit plan to ensure accurate planning and reporting.',
-                    questions: [
-                        {
-                            id: 'currentPremium',
-                            label: 'Current Monthly Premium (Per Employee)',
-                            type: 'number',
-                            required: false,
-                            placeholder: 'Enter monthly premium amount'
-                        },
-                        {
-                            id: 'employerContribution',
-                            label: 'Employer Contribution Percentage',
-                            type: 'number',
-                            required: false,
-                            placeholder: 'Enter employer contribution percentage',
-                            helperText: 'Enter as a number (e.g., 80 for 80%)'
-                        },
-                        {
-                            id: 'contributionStrategy',
-                            label: 'Contribution Strategy',
-                            type: 'select',
-                            required: false,
-                            placeholder: 'Select contribution strategy',
-                            options: [
-                                { value: 'fixed-dollar', label: 'Fixed Dollar Amount' },
-                                { value: 'percentage', label: 'Percentage of Premium' },
-                                { value: 'tiered', label: 'Tiered Structure' },
-                                { value: 'other', label: 'Other' }
-                            ]
-                        },
-                        {
-                            id: 'strategyNotes',
-                            label: 'Strategy Notes',
-                            type: 'textarea',
-                            required: false,
-                            placeholder: 'Additional information about your premium and contribution strategy'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: 'review',
-            name: 'Review',
-            sections: [
-                {
-                    id: 'review-info',
-                    title: 'Review Your Information',
-                    questions: [
-                        {
-                            id: 'confirmAccuracy',
-                            label: 'I confirm that all information provided is accurate',
-                            type: 'radio',
-                            required: true,
-                            options: [
-                                { value: 'yes', label: 'Yes, all information is accurate' }
-                            ],
-                            validation: [{ type: 'required', message: 'Please confirm accuracy' }]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-};
+export const PREMIUMS_CONTRIBUTION_STRATEGY_FORM_DATA: FormDataDefinition = FORM_DATA;

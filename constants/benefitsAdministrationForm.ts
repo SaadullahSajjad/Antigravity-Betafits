@@ -1,82 +1,16 @@
 import { FormDataDefinition } from '@/types/form';
+import { FORM_DATA } from './form_fyj3mnj7vqus';
 
 /**
- * Benefits Administration Form
- * Form ID: recFxyNqTLDdrxXN2
+ * Auto-synced from Fillout. DO NOT EDIT DIRECTLY.
+ *
+ * Source: https://betafits.fillout.com/t/fYJ3MNj7VQus
+ * Regenerate:
+ *   npx tsx scripts/fetch-fillout-form-structure.ts --from-airtable
+ *   npx tsx scripts/sync-handwritten-from-fillout.ts
+ *
+ * Fillout's public API does not return page breaks, section headings, required
+ * flags, placeholders, or conditional logic. The form therefore renders as a
+ * single page / single section with Fillout's exact question list and options.
  */
-export const BENEFITS_ADMINISTRATION_FORM_DATA: FormDataDefinition = {
-    id: 'recFxyNqTLDdrxXN2',
-    title: 'Benefits Administration',
-    pages: [
-        {
-            id: 'admin-info',
-            name: 'Administration Information',
-            sections: [
-                {
-                    id: 'admin-details',
-                    title: 'Benefits Administration Details',
-                    description: 'Tell us how your company manages benefit enrollments, payroll deductions, and employee updates to keep your administration accurate and efficient.',
-                    questions: [
-                        {
-                            id: 'currentAdmin',
-                            label: 'Current Benefits Administrator',
-                            type: 'text',
-                            required: false,
-                            placeholder: 'Enter administrator name or company'
-                        },
-                        {
-                            id: 'adminServices',
-                            label: 'Administration Services Used',
-                            type: 'textarea',
-                            required: false,
-                            placeholder: 'List the administration services you currently use'
-                        },
-                        {
-                            id: 'satisfactionLevel',
-                            label: 'Satisfaction Level with Current Administration',
-                            type: 'select',
-                            required: false,
-                            placeholder: 'Select satisfaction level',
-                            options: [
-                                { value: 'very-satisfied', label: 'Very Satisfied' },
-                                { value: 'satisfied', label: 'Satisfied' },
-                                { value: 'neutral', label: 'Neutral' },
-                                { value: 'dissatisfied', label: 'Dissatisfied' },
-                                { value: 'very-dissatisfied', label: 'Very Dissatisfied' }
-                            ]
-                        },
-                        {
-                            id: 'adminNotes',
-                            label: 'Additional Administration Information',
-                            type: 'textarea',
-                            required: false,
-                            placeholder: 'Any additional information about benefits administration'
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            id: 'review',
-            name: 'Review',
-            sections: [
-                {
-                    id: 'review-info',
-                    title: 'Review Your Information',
-                    questions: [
-                        {
-                            id: 'confirmAccuracy',
-                            label: 'I confirm that all information provided is accurate',
-                            type: 'radio',
-                            required: true,
-                            options: [
-                                { value: 'yes', label: 'Yes, all information is accurate' }
-                            ],
-                            validation: [{ type: 'required', message: 'Please confirm accuracy' }]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-};
+export const BENEFITS_ADMINISTRATION_FORM_DATA: FormDataDefinition = FORM_DATA;
