@@ -58,16 +58,36 @@ const DECORATION_TYPES = new Set<string>([
 // Widget types that define section boundaries.
 const SECTION_TYPES = new Set<string>(['SectionCollapse', 'SectionHeader']);
 
+/**
+ * A Fillout "logic-wrapped string" — values are stored as
+ *   { logic: { value: <actual string>, references: {} }, ... }
+ * on the form template. We normalise these via `logicValue()` below.
+ */
+type LogicString = { logic?: { value?: string | number | boolean } };
+type LogicBool = { logic?: { value?: boolean } };
+
 interface Widget {
     id: string;
     type: string;
     position?: { row?: number; column?: number };
     template?: {
-        label?: { logic?: { value?: string } };
-        description?: { logic?: { value?: string } };
-        placeholder?: { logic?: { value?: string } };
-        choices?: Array<{ id?: string; label?: { logic?: { value?: string } }; value?: unknown }>;
-        required?: { logic?: { value?: boolean } } | boolean;
+        label?: LogicString;
+        description?: LogicString;
+        placeholder?: LogicString;
+        // Multiple-choice / checkbox / dropdown widgets store their choices in
+        // `options.staticOptions`, each with logic-wrapped `label` and `value`.
+        options?: {
+            staticOptions?: Array<{
+                id?: string;
+                label?: LogicString;
+                value?: LogicString;
+            }>;
+        };
+        // Matrix widgets use `rows` and `columns` at the template root instead
+        // of `options.staticOptions`.
+        rows?: Array<{ id?: string; label?: LogicString }>;
+        columns?: Array<{ id?: string; label?: LogicString; value?: LogicString }>;
+        required?: LogicBool | boolean;
         defaultOpen?: boolean;
         isDefaultOpen?: boolean;
         isCollapsable?: boolean;
@@ -150,30 +170,73 @@ function stripHtml(html: string | undefined): string {
         .trim();
 }
 
+/** Unwrap Fillout's `{ logic: { value } }` wrapper into a plain string. */
+function logicValue(v: LogicString | undefined): string {
+    const raw = v?.logic?.value;
+    if (raw === undefined || raw === null) return '';
+    return typeof raw === 'string' ? raw : String(raw);
+}
+
 function widgetLabel(w: Widget): string {
-    return stripHtml(w.template?.label?.logic?.value);
+    return stripHtml(logicValue(w.template?.label));
 }
 
 function widgetPlaceholder(w: Widget): string | undefined {
-    const p = stripHtml(w.template?.placeholder?.logic?.value);
+    const p = stripHtml(logicValue(w.template?.placeholder));
     return p || undefined;
 }
 
 function widgetRequired(w: Widget): boolean {
     const r = w.template?.required;
     if (typeof r === 'boolean') return r;
-    if (r && typeof r === 'object') return Boolean((r as { logic?: { value?: boolean } }).logic?.value);
+    if (r && typeof r === 'object') return Boolean((r as LogicBool).logic?.value);
     return false;
 }
 
+/**
+ * Extract choice options for MultipleChoice / Checkboxes / Dropdown widgets.
+ * Fillout stores them under `template.options.staticOptions`, where each entry
+ * has a logic-wrapped `label` and `value` (the value usually duplicates the
+ * label, but we preserve it when they differ).
+ */
 function widgetOptions(w: Widget): Array<{ value: string; label: string }> | undefined {
-    const choices = w.template?.choices;
-    if (!choices || !Array.isArray(choices) || choices.length === 0) return undefined;
-    return choices.map((c) => {
-        const label = stripHtml(c.label?.logic?.value) || String(c.value ?? '');
-        const value = String(c.value ?? label);
-        return { value, label };
-    });
+    const staticOptions = w.template?.options?.staticOptions;
+    if (!staticOptions || !Array.isArray(staticOptions) || staticOptions.length === 0) return undefined;
+    const out: Array<{ value: string; label: string }> = [];
+    for (const o of staticOptions) {
+        const label = stripHtml(logicValue(o.label));
+        const value = stripHtml(logicValue(o.value)) || label;
+        if (!label && !value) continue;
+        out.push({ value: value || label, label: label || value });
+    }
+    return out.length > 0 ? out : undefined;
+}
+
+/** Pull Matrix column labels — used as the shared options for each row question. */
+function matrixColumnOptions(w: Widget): Array<{ value: string; label: string }> | undefined {
+    const cols = w.template?.columns;
+    if (!cols || cols.length === 0) return undefined;
+    const out: Array<{ value: string; label: string }> = [];
+    for (const c of cols) {
+        const label = stripHtml(logicValue(c.label));
+        const value = stripHtml(logicValue(c.value)) || label;
+        if (!label && !value) continue;
+        out.push({ value: value || label, label: label || value });
+    }
+    return out.length > 0 ? out : undefined;
+}
+
+/** Pull Matrix row definitions (each becomes its own sub-question). */
+function matrixRows(w: Widget): Array<{ id: string; label: string }> {
+    const rows = w.template?.rows;
+    if (!rows || rows.length === 0) return [];
+    const out: Array<{ id: string; label: string }> = [];
+    for (const r of rows) {
+        const label = stripHtml(logicValue(r.label));
+        if (!label) continue;
+        out.push({ id: r.id || label, label });
+    }
+    return out;
 }
 
 /** Synthesize 1..10 options for rating-scale types (matches FormSection renderer). */
@@ -273,36 +336,98 @@ function orderedWidgets(step: Step): Widget[] {
     });
 }
 
-function buildStepSections(step: Step, pageIndex: number): FormSection[] {
+/**
+ * Convert a single Fillout form-step into one-or-more wizard PAGES.
+ *
+ * Fillout represents logical chunks of a long step with `SectionCollapse`
+ * widgets (rendered as collapsible section headings). We promote each of those
+ * to its own wizard page so the UI feels like a proper multi-step wizard.
+ *
+ * Rules:
+ *   - Widgets before the first SectionCollapse → a page named after the
+ *     Fillout step (fallback: "Page N").
+ *   - Each SectionCollapse/SectionHeader starts a NEW page, whose name is the
+ *     section label. That page gets every subsequent question until the next
+ *     section widget (or end of step).
+ *   - Every emitted page has exactly one `FormSection` (title = page name) so
+ *     the existing React renderer keeps working without changes.
+ *   - Decorative widgets (Divider/Text/Image/Button/…) and widgets without a
+ *     label are skipped silently.
+ *   - Pages that would end up with zero fields are dropped (a standalone
+ *     heading with no questions shouldn't produce an empty wizard step).
+ */
+function buildStepPages(step: Step, pageIndex: number, formId: string): FormPage[] {
     const widgets = orderedWidgets(step);
-    const sections: FormSection[] = [];
-    let current: FormSection = {
-        id: `${step.id}-s0`,
-        title: step.name || `Page ${pageIndex + 1}`,
-        fields: [],
+    const pages: FormPage[] = [];
+    let current: FormPage | null = null;
+
+    const startPage = (id: string, name: string, description?: string) => {
+        current = {
+            id,
+            name,
+            sections: [
+                {
+                    id: `${id}-s0`,
+                    title: name,
+                    ...(description ? { description } : {}),
+                    fields: [],
+                },
+            ],
+        };
     };
 
+    const closePage = () => {
+        if (current && current.sections[0].fields.length > 0) pages.push(current);
+        current = null;
+    };
+
+    const defaultPageName = step.name || `Page ${pageIndex + 1}`;
+    startPage(step.id, defaultPageName);
+
+    let sectionCounter = 0;
     for (const w of widgets) {
         if (DECORATION_TYPES.has(w.type)) continue;
 
         if (SECTION_TYPES.has(w.type)) {
-            // Close the current section if it has fields, then start a new one.
-            if (current.fields.length > 0) sections.push(current);
-            current = {
-                id: `${step.id}-s${sections.length + 1}-${w.id}`,
-                title: widgetLabel(w) || 'Section',
-                fields: [],
-            };
-            const desc = stripHtml(w.template?.description?.logic?.value);
-            if (desc) current.description = desc;
+            // Close whatever was being built and start a fresh page for this section.
+            closePage();
+            sectionCounter += 1;
+            const title = widgetLabel(w) || `Section ${sectionCounter}`;
+            const desc = stripHtml(logicValue(w.template?.description)) || undefined;
+            startPage(`${step.id}-s${sectionCounter}-${w.id}`, title, desc);
             continue;
         }
 
         const rawLabel = widgetLabel(w);
-        // A widget with no label is typically a decorative/helper element Fillout
-        // placed on the canvas (e.g. an empty Text block). Skip silently so we
-        // don't surface phantom "Question N" entries in the UI.
+        // Widgets with no label are decorative/helper elements Fillout placed
+        // on the canvas (e.g. an empty Text block). Skip so we don't surface
+        // phantom "Question N" entries in the UI.
         if (!rawLabel) continue;
+
+        // Matrix widgets represent a grid of (row × column) radio choices.
+        // Fillout renders one rating control per row, sharing the same column
+        // labels as options. We explode it into one radio question per row so
+        // our existing FormSection renderer (which knows radio/select/etc.) can
+        // still show every sub-question faithfully.
+        if (w.type === 'Matrix') {
+            const rows = matrixRows(w);
+            const colOpts = matrixColumnOptions(w);
+            if (rows.length > 0 && colOpts && colOpts.length > 0) {
+                if (!current) startPage(step.id, defaultPageName);
+                const required = widgetRequired(w);
+                for (const row of rows) {
+                    current!.sections[0].fields.push({
+                        id: `${w.id}__${row.id}`,
+                        label: `${rawLabel} — ${row.label}`,
+                        type: 'radio',
+                        required,
+                        options: colOpts,
+                    });
+                }
+                continue;
+            }
+            // Fallback if the Matrix is malformed — treat it as a free-text field.
+        }
 
         const reactType = mapFilloutTypeToReactType(w.type);
         const opts = widgetOptions(w) || synthesizeRatingOptions(w.type);
@@ -314,26 +439,36 @@ function buildStepSections(step: Step, pageIndex: number): FormSection[] {
             ...(widgetPlaceholder(w) ? { placeholder: widgetPlaceholder(w)! } : {}),
             ...(opts ? { options: opts } : {}),
         };
-        current.fields.push(field);
+        if (!current) startPage(step.id, defaultPageName);
+        current!.sections[0].fields.push(field);
     }
+    closePage();
 
-    if (current.fields.length > 0) sections.push(current);
-    // Never emit an empty page — always keep at least one section even if empty
-    // (shouldn't happen, but keep the downstream React renderer happy).
-    if (sections.length === 0) {
-        sections.push({ id: `${step.id}-s0`, title: step.name || `Page ${pageIndex + 1}`, fields: [] });
-    }
-    return sections;
+    // Suppress unused warning: formId is kept in the signature to allow future
+    // ID namespacing if two Fillout steps share a section-widget id.
+    void formId;
+    return pages;
 }
 
 function buildFormStructure(formId: string, snapshot: FlowSnapshot, formTitle: string): FormStructure {
     const tpl = snapshot.template;
     const steps = orderFormSteps(tpl);
-    const pages: FormPage[] = steps.map((step, i) => ({
-        id: step.id,
-        name: step.name || `Page ${i + 1}`,
-        sections: buildStepSections(step, i),
-    }));
+    const pages: FormPage[] = [];
+    steps.forEach((step, i) => {
+        pages.push(...buildStepPages(step, i, formId));
+    });
+    // If after all splitting we ended up with zero pages (e.g., a form where
+    // every widget was decorative), fall back to one empty page per Fillout
+    // step so the renderer still has something valid to show.
+    if (pages.length === 0) {
+        steps.forEach((step, i) => {
+            pages.push({
+                id: step.id,
+                name: step.name || `Page ${i + 1}`,
+                sections: [{ id: `${step.id}-s0`, title: step.name || `Page ${i + 1}`, fields: [] }],
+            });
+        });
+    }
     return { templateId: formId, title: formTitle || formId, pages };
 }
 
