@@ -80,6 +80,7 @@ interface ExpectedQuestion {
     normalised: string;
     type: string; // Fillout widget type
     options?: string[]; // option labels (normalised)
+    matrixRows?: string[]; // for Matrix: row labels (normalised)
 }
 
 interface GeneratedQuestion {
@@ -87,6 +88,7 @@ interface GeneratedQuestion {
     label: string;
     type: string;
     options?: Array<{ value: string; label: string }>;
+    rows?: Array<{ id: string; label: string }>;
 }
 
 interface FormDataShape {
@@ -155,15 +157,17 @@ function expectedFromSnapshot(tpl: RawTemplate): ExpectedQuestion[] {
                     .map((c) => stripHtml(logicValue(c.label)) || stripHtml(logicValue(c.value)))
                     .filter((x) => x.length > 0);
                 if (rows.length > 0 && cols.length > 0) {
-                    for (const row of rows) {
-                        const label = `${rawLabel} — ${row}`;
-                        out.push({
-                            label,
-                            normalised: norm(label),
-                            type: 'Matrix',
-                            options: cols.map(norm),
-                        });
-                    }
+                    // One matrix widget → one "matrix" question in the generated
+                    // form. We record the set of row labels and shared column
+                    // labels so the per-form comparator can verify every row and
+                    // option made it through.
+                    out.push({
+                        label: rawLabel,
+                        normalised: norm(rawLabel),
+                        type: 'Matrix',
+                        options: cols.map(norm),
+                        matrixRows: rows.map(norm),
+                    });
                     continue;
                 }
                 // Malformed matrix — fall through to treat as a free-text field.
@@ -204,8 +208,11 @@ interface FormReport {
     missing: string[];
     extra: string[];
     optionMismatches: Array<{ question: string; missingOptions: string[]; extraOptions: string[] }>;
+    rowMismatches: Array<{ question: string; missingRows: string[]; extraRows: string[] }>;
     totalOptionsExpected: number;
     totalOptionsMissing: number;
+    totalRowsExpected: number;
+    totalRowsMissing: number;
 }
 
 function compareForm(formId: string, expected: ExpectedQuestion[], generated: GeneratedQuestion[]): FormReport {
@@ -219,8 +226,11 @@ function compareForm(formId: string, expected: ExpectedQuestion[], generated: Ge
 
     const missing: string[] = [];
     const optionMismatches: FormReport['optionMismatches'] = [];
+    const rowMismatches: FormReport['rowMismatches'] = [];
     let totalOptionsExpected = 0;
     let totalOptionsMissing = 0;
+    let totalRowsExpected = 0;
+    let totalRowsMissing = 0;
 
     for (const e of expected) {
         const g = genByNorm.get(e.normalised);
@@ -245,6 +255,23 @@ function compareForm(formId: string, expected: ExpectedQuestion[], generated: Ge
                 });
             }
         }
+        if (e.matrixRows && e.matrixRows.length > 0) {
+            totalRowsExpected += e.matrixRows.length;
+            const genRows = new Set((g.rows ?? []).map((r) => norm(r.label)));
+            const missingRows = e.matrixRows.filter((r) => !genRows.has(r));
+            const expRows = new Set(e.matrixRows);
+            const extraRows = (g.rows ?? [])
+                .map((r) => norm(r.label))
+                .filter((r) => !expRows.has(r));
+            totalRowsMissing += missingRows.length;
+            if (missingRows.length > 0 || extraRows.length > 0) {
+                rowMismatches.push({
+                    question: e.label,
+                    missingRows,
+                    extraRows,
+                });
+            }
+        }
     }
 
     const extra: string[] = [];
@@ -260,8 +287,11 @@ function compareForm(formId: string, expected: ExpectedQuestion[], generated: Ge
         missing,
         extra,
         optionMismatches,
+        rowMismatches,
         totalOptionsExpected,
         totalOptionsMissing,
+        totalRowsExpected,
+        totalRowsMissing,
     };
 }
 
@@ -308,15 +338,18 @@ async function main() {
 
     // Summary table.
     console.log(
-        'formId            form                                    qsExp   qsGen   miss   extra   optsExp   optsMiss   status',
+        'formId            form                                    qsExp   qsGen   miss   extra   optsExp   optsMiss   rowsExp   rowsMiss   status',
     );
-    console.log('─'.repeat(124));
+    console.log('─'.repeat(142));
     let anyIssue = false;
     for (const r of reports) {
-        const ok = r.missing.length === 0 && r.totalOptionsMissing === 0;
+        const ok =
+            r.missing.length === 0 &&
+            r.totalOptionsMissing === 0 &&
+            r.totalRowsMissing === 0;
         if (!ok) anyIssue = true;
         console.log(
-            `${r.id.padEnd(17)} ${String(r.title).slice(0, 38).padEnd(38)}  ${String(r.expectedCount).padStart(5)}   ${String(r.generatedCount).padStart(5)}   ${String(r.missing.length).padStart(4)}    ${String(r.extra.length).padStart(4)}   ${String(r.totalOptionsExpected).padStart(6)}   ${String(r.totalOptionsMissing).padStart(7)}    ${ok ? 'OK' : 'NEEDS REVIEW'}`,
+            `${r.id.padEnd(17)} ${String(r.title).slice(0, 38).padEnd(38)}  ${String(r.expectedCount).padStart(5)}   ${String(r.generatedCount).padStart(5)}   ${String(r.missing.length).padStart(4)}    ${String(r.extra.length).padStart(4)}   ${String(r.totalOptionsExpected).padStart(6)}   ${String(r.totalOptionsMissing).padStart(7)}   ${String(r.totalRowsExpected).padStart(6)}   ${String(r.totalRowsMissing).padStart(7)}    ${ok ? 'OK' : 'NEEDS REVIEW'}`,
         );
     }
 
@@ -325,7 +358,8 @@ async function main() {
         const interesting =
             r.missing.length > 0 ||
             r.extra.length > 0 ||
-            r.optionMismatches.length > 0;
+            r.optionMismatches.length > 0 ||
+            r.rowMismatches.length > 0;
         if (!interesting) continue;
         console.log(`\n── ${r.id} — ${r.title} ──`);
         if (r.missing.length > 0) {
@@ -346,11 +380,22 @@ async function main() {
                     console.log('      extra:   ' + om.extraOptions.join(' | '));
             }
         }
+        if (r.rowMismatches.length > 0) {
+            console.log(`  Matrix row mismatches (${r.rowMismatches.length}):`);
+            for (const rm of r.rowMismatches) {
+                console.log(`    • ${rm.question}`);
+                if (rm.missingRows.length > 0)
+                    console.log('      missing rows: ' + rm.missingRows.join(' | '));
+                if (rm.extraRows.length > 0)
+                    console.log('      extra rows:   ' + rm.extraRows.join(' | '));
+            }
+        }
     }
 
-    console.log(
-        `\nDone. ${reports.filter((r) => r.missing.length === 0 && r.totalOptionsMissing === 0).length}/${reports.length} forms match Fillout exactly.`,
+    const allClean = reports.filter(
+        (r) => r.missing.length === 0 && r.totalOptionsMissing === 0 && r.totalRowsMissing === 0,
     );
+    console.log(`\nDone. ${allClean.length}/${reports.length} forms match Fillout exactly.`);
     process.exit(anyIssue ? 1 : 0);
 }
 

@@ -262,6 +262,54 @@ const FormSection: React.FC<Props> = ({ section, values, errors, onChange }) => 
                                     ))}
                                 </div>
                             )
+                        ) : question.type === 'matrix' ? (
+                            // Fillout Matrix widget: one titled block with a compact
+                            // rating strip per row, all sharing the same column labels
+                            // as options. Fillout's REST API flattens each Matrix row
+                            // into its own MultipleChoice question keyed by the row's
+                            // own id, so we store each row's answer under `row.id`
+                            // directly — the submit/Airtable mapping already keys by
+                            // those same row ids.
+                            <div className="space-y-3">
+                                {question.rows?.map((row) => {
+                                    const rowKey = row.id;
+                                    const selected = values[rowKey];
+                                    return (
+                                        <div
+                                            key={row.id}
+                                            className="rounded-lg border border-gray-200 bg-gray-50/50 px-4 py-3"
+                                        >
+                                            <div className="text-[13px] font-semibold text-gray-700 mb-2">
+                                                {row.label}
+                                            </div>
+                                            <div
+                                                role="radiogroup"
+                                                aria-label={`${question.label} — ${row.label}`}
+                                                className="flex flex-wrap gap-2"
+                                            >
+                                                {question.options?.map((opt) => {
+                                                    const isActive = selected === opt.value;
+                                                    return (
+                                                        <button
+                                                            key={opt.value}
+                                                            type="button"
+                                                            onClick={() => onChange(rowKey, opt.value)}
+                                                            aria-pressed={isActive}
+                                                            className={`px-3 py-1.5 rounded-full text-[12px] font-medium border transition-all ${
+                                                                isActive
+                                                                    ? 'bg-brand-500 text-white border-brand-500 shadow-sm'
+                                                                    : 'bg-white text-gray-700 border-gray-200 hover:border-brand-300 hover:text-brand-700'
+                                                            }`}
+                                                        >
+                                                            {opt.label}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         ) : question.type === 'checkbox' ? (
                             <div className="space-y-2">
                                 {question.options?.map((opt) => {

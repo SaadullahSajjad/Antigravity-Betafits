@@ -132,6 +132,8 @@ interface FormField {
     required: boolean;
     placeholder?: string;
     options?: Array<{ value: string; label: string }>;
+    /** For `matrix` type only — one sub-row per Fillout Matrix row. */
+    rows?: Array<{ id: string; label: string }>;
 }
 
 interface FormSection {
@@ -405,25 +407,25 @@ function buildStepPages(step: Step, pageIndex: number, formId: string): FormPage
         if (!rawLabel) continue;
 
         // Matrix widgets represent a grid of (row × column) radio choices.
-        // Fillout renders one rating control per row, sharing the same column
-        // labels as options. We explode it into one radio question per row so
-        // our existing FormSection renderer (which knows radio/select/etc.) can
-        // still show every sub-question faithfully.
+        // Fillout renders them as a single titled grid: the question label
+        // appears once, then each row gets a compact rating strip sharing the
+        // column labels as choices. We emit one `matrix` field holding the
+        // row list + shared options; the renderer stores each row's answer
+        // under `${w.id}__${row.id}` so the submit/Airtable pipeline keeps
+        // seeing one Fillout-style entry per sub-row just like before.
         if (w.type === 'Matrix') {
             const rows = matrixRows(w);
             const colOpts = matrixColumnOptions(w);
             if (rows.length > 0 && colOpts && colOpts.length > 0) {
                 if (!current) startPage(step.id, defaultPageName);
-                const required = widgetRequired(w);
-                for (const row of rows) {
-                    current!.sections[0].fields.push({
-                        id: `${w.id}__${row.id}`,
-                        label: `${rawLabel} — ${row.label}`,
-                        type: 'radio',
-                        required,
-                        options: colOpts,
-                    });
-                }
+                current!.sections[0].fields.push({
+                    id: w.id,
+                    label: rawLabel,
+                    type: 'matrix',
+                    required: widgetRequired(w),
+                    options: colOpts,
+                    rows: rows.map((r) => ({ id: r.id, label: r.label })),
+                });
                 continue;
             }
             // Fallback if the Matrix is malformed — treat it as a free-text field.
@@ -525,6 +527,16 @@ export const FORM_DATA: FormDataDefinition = {
                     for (const o of f.options) {
                         out += `
                                 { value: ${s(o.value)}, label: ${s(o.label)} },`;
+                    }
+                    out += `
+                            ],`;
+                }
+                if (f.rows && f.rows.length > 0) {
+                    out += `
+                            rows: [`;
+                    for (const r of f.rows) {
+                        out += `
+                                { id: ${s(r.id)}, label: ${s(r.label)} },`;
                     }
                     out += `
                             ],`;
