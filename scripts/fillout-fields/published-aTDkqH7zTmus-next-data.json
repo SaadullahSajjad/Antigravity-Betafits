@@ -1,0 +1,1350 @@
+{
+  "props": {
+    "pageProps": {
+      "flow": {
+        "id": 905890,
+        "uuid": "b3547969-ce76-4a15-9b22-46f781f1c569",
+        "name": "Document Upload Sub Form",
+        "assignmentEnabled": false,
+        "publicIdentifier": "aTDkqH7zTmus",
+        "organizationId": 48103,
+        "type": "form",
+        "ownerUserId": 50320,
+        "cloneableTemplateId": null,
+        "workspaceId": 14616,
+        "publishedSnapshotId": 119914542,
+        "parentFlowPublicIdentifier": null,
+        "settings": {},
+        "customEnding": null,
+        "tags": [
+          "form"
+        ],
+        "internalNote": null,
+        "trashedAt": null,
+        "screenshotUrl": "https://images.fillout.com/orgid-48103/flowpublicid-aTDkqH7zTmus/5mNmFSPVz4rreUvYua2ix3/48103/aTDkqH7zTmus/119914542.png",
+        "customSubdomain": null,
+        "autopublish": false,
+        "createdAt": "2024-12-20T12:32:10.053Z",
+        "updatedAt": "2026-01-25T23:53:00.490Z"
+      },
+      "flowSnapshot": {
+        "id": 119914542,
+        "template": {
+          "steps": {
+            "hFKD": {
+              "id": "hFKD",
+              "name": "Ending",
+              "type": "ending",
+              "nextStep": {
+                "isFinal": true,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "type": "thank_you",
+                "widgets": {
+                  "r984r3yd14kiBPH2gY8QDZ": {
+                    "id": "r984r3yd14kiBPH2gY8QDZ",
+                    "name": "thankYou1",
+                    "type": "ThankYou",
+                    "position": {
+                      "row": 1
+                    },
+                    "template": {
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "hideBranding": false,
+                      "richTitleText": {
+                        "logic": {
+                          "value": "Thank you",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showQuizScore": true,
+                      "richSubtitleText": {
+                        "logic": {
+                          "value": "Made with Fillout, the easy way to make stunning forms",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "showSchedulingDetails": true
+                    }
+                  }
+                },
+                "confetti": true
+              }
+            },
+            "ryB2": {
+              "id": "ryB2",
+              "name": "Page",
+              "type": "form",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "widgets": {
+                  "jFiU": {
+                    "id": "jFiU",
+                    "name": "Untitled Dropdown field",
+                    "type": "Dropdown",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "Document Type",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "1V826CXnVxXt1Nmjib4inK",
+                            "label": {
+                              "logic": {
+                                "value": "Benefit Guide",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Benefit Guide",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "8eg4NRNedXKvkxsrjwyNrT",
+                            "label": {
+                              "logic": {
+                                "value": "ERISA Wrap Document",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "ERISA Wrap Document",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "34rqNpN2EFRVpScJjFkJiQ",
+                            "label": {
+                              "logic": {
+                                "value": "Section 125 Document",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Section 125 Document",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "enUDwUPwh4MoFJEg1LVstg",
+                            "label": {
+                              "logic": {
+                                "value": "Broker Commission Disclosure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker Commission Disclosure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "fexB7qTAiX2F1JfcXxiXyK",
+                            "label": {
+                              "logic": {
+                                "value": "W9",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "W9",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "6LBcWJmK5VmS5VnyRzdGeR",
+                            "label": {
+                              "logic": {
+                                "value": "Quarterly Payroll Filing",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Quarterly Payroll Filing",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "kgRYKWXgQR5jRgofmyBvvX",
+                            "label": {
+                              "logic": {
+                                "value": "Voided Check",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Voided Check",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "2iBGfcYRUH3eVG4vsZMcwk",
+                            "label": {
+                              "logic": {
+                                "value": "Census Files",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Census Files",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "1Yr4hqGFAcGW1WJH4rD5JH",
+                            "label": {
+                              "logic": {
+                                "value": "Payroll Deductions",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Payroll Deductions",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "eNfvt4v9cSHbMvF3UfeXy8",
+                            "label": {
+                              "logic": {
+                                "value": "Renewal",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Renewal",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "s7F4rUVedZruwpCcKKx8q6",
+                            "label": {
+                              "logic": {
+                                "value": "Medical SBC",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Medical SBC",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "qX94zyeT2u13CUgzdHb8qj",
+                            "label": {
+                              "logic": {
+                                "value": "Dental Plan Summary",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Dental Plan Summary",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "qjBzgP3RTVLRAqEaAAv98y",
+                            "label": {
+                              "logic": {
+                                "value": "Vision Plan Summary",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Vision Plan Summary",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "vm7jCqZeAES53EN4BrTthT",
+                            "label": {
+                              "logic": {
+                                "value": "Medical Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Medical Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "5w3ycipUZZAAFiRxGq7VJW",
+                            "label": {
+                              "logic": {
+                                "value": "Workbook",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Workbook",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "vk8LSwEBgjnpTrFdFR7Jkf",
+                            "label": {
+                              "logic": {
+                                "value": "Workers Compensation",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Workers Compensation",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "au15Fp8HmoKBxhRX1Thvjg",
+                            "label": {
+                              "logic": {
+                                "value": "Claims Report",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Claims Report",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "oDwaZ6PyXZ9TDmwJYsX2oL",
+                            "label": {
+                              "logic": {
+                                "value": "Dental & Vision Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Dental & Vision Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "seQKvuKqTbeAnN94sAUi3m",
+                            "label": {
+                              "logic": {
+                                "value": "Dental Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Dental Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "7XKzZQPiLV728hYW2joDgM",
+                            "label": {
+                              "logic": {
+                                "value": "Vision Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Vision Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "krqHgBGjdiCnagSu1jZrLT",
+                            "label": {
+                              "logic": {
+                                "value": "M/D/V Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "M/D/V Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "cM4rfqSof3N6ybzbjoFi3z",
+                            "label": {
+                              "logic": {
+                                "value": "Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "kZ8Y": {
+                    "id": "kZ8Y",
+                    "name": "Untitled FileUpload field",
+                    "type": "FileUpload",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>To make sure everything is processed correctly, please upload <strong>one document at a time</strong>.   You can submit additional documents right after</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "maxFiles": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minFiles": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "maxFileSize": null,
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showUploadLimits": false,
+                      "acceptedFileTypes": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "acceptedMimeTypes": null,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "mG7t": {
+                    "id": "mG7t",
+                    "name": "Untitled ShortAnswer field",
+                    "type": "ShortAnswer",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>group_id</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": true,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "aT1BedDKcVa3ugvJ6SAgzB": {
+                    "id": "aT1BedDKcVa3ugvJ6SAgzB",
+                    "name": "Untitled button field",
+                    "type": "Button",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "hFKD"
+                      },
+                      "alignment": "left",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "quizzes": {
+            "answers": {},
+            "enabled": false,
+            "settings": {
+              "disableShowingCorrectAnswers": false
+            }
+          },
+          "settings": {},
+          "firstStep": "ryB2",
+          "urlParams": [
+            "id"
+          ],
+          "calculations": {},
+          "integrations": {
+            "wEQX": {
+              "serviceId": 30465,
+              "writeQuery": {
+                "id": "xbCw",
+                "config": {
+                  "view": "",
+                  "baseId": "appdqgKk1fmhfaJoT",
+                  "filters": [
+                    {
+                      "key": "",
+                      "value": {
+                        "logic": {},
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      },
+                      "condition": "="
+                    }
+                  ],
+                  "tableId": "tblBgAZKJln76anVn",
+                  "columnId": "",
+                  "mappings": [
+                    {
+                      "key": "fld2WfpQORh7R8Rpr",
+                      "value": {
+                        "logic": {
+                          "var": "ryB2['jFiU'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldHJXHRwPlVChX4t",
+                      "value": {
+                        "logic": {
+                          "var": "ryB2['kZ8Y'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldP0nYiIoqpM68xS",
+                      "value": {
+                        "logic": {
+                          "var": "ryB2['mG7t'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    }
+                  ],
+                  "actionType": "createRecord"
+                }
+              },
+              "readQueries": {},
+              "serviceType": "airtable",
+              "optionMappings": {
+                "jFiU": {
+                  "sel0CPgp0TCWZvvjQ": "eNfvt4v9cSHbMvF3UfeXy8",
+                  "sel30oCLa9yub0mYa": "2iBGfcYRUH3eVG4vsZMcwk",
+                  "sel32TPPkgDR9Aegp": "7XKzZQPiLV728hYW2joDgM",
+                  "sel4h9IzQXukaybr3": "au15Fp8HmoKBxhRX1Thvjg",
+                  "selI62iMyCxS7xVE7": "5w3ycipUZZAAFiRxGq7VJW",
+                  "selOySyWuowzTTrmB": "34rqNpN2EFRVpScJjFkJiQ",
+                  "selQc07CCm4Fs9RWf": "qX94zyeT2u13CUgzdHb8qj",
+                  "selRT5aWmgVKVKUBi": "6LBcWJmK5VmS5VnyRzdGeR",
+                  "selSyrEBsVVWn5ujH": "fexB7qTAiX2F1JfcXxiXyK",
+                  "selUwuUWCivTwqIFF": "oDwaZ6PyXZ9TDmwJYsX2oL",
+                  "seldTPD8KVFJ0rPlP": "nEsKoidn9AcwsbkwByYZaV",
+                  "sele69ErOiGuw6qSm": "seQKvuKqTbeAnN94sAUi3m",
+                  "selgbluX2M5gqOn5t": "1V826CXnVxXt1Nmjib4inK",
+                  "selglTaAHNWNn5uns": "1Yr4hqGFAcGW1WJH4rD5JH",
+                  "selhrt5ltqNFPeCqH": "enUDwUPwh4MoFJEg1LVstg",
+                  "seliCNXuztdXE7188": "qjBzgP3RTVLRAqEaAAv98y",
+                  "seliqv2GYZUZ1JDDv": "cM4rfqSof3N6ybzbjoFi3z",
+                  "seljePSxjrFDsu3eE": "kgRYKWXgQR5jRgofmyBvvX",
+                  "selltow1u4AD0R1eD": "8eg4NRNedXKvkxsrjwyNrT",
+                  "selvSakMAm807BTCb": "cM4rfqSof3N6ybzbjoFi3z",
+                  "selxEnZfxikceLmd0": "vk8LSwEBgjnpTrFdFR7Jkf",
+                  "selxOhtEvDApcKEOm": "krqHgBGjdiCnagSu1jZrLT",
+                  "selxWQcUbxMTArdYu": "vm7jCqZeAES53EN4BrTthT",
+                  "selyNZSeuueHfJifN": "s7F4rUVedZruwpCcKKx8q6"
+                },
+                "kZ8Y": {}
+              }
+            }
+          },
+          "featuredThemeId": "none"
+        },
+        "organizationId": 48103,
+        "userId": 50320,
+        "flowId": 905890,
+        "sourceTabId": "aNANLVecixQWA7BRXVFJ6u",
+        "createdAt": "2026-01-25T18:58:33.663Z",
+        "updatedAt": "2026-01-25T18:58:33.663Z"
+      },
+      "features": [
+        "PAYMENTS_V2",
+        "ZITE_BRANCH_NODE",
+        "DATABASES",
+        "ZITE_DATABASE_FORMULAS",
+        "SNAPSHOT_S3_OFFLOAD",
+        "DATABASE_AI_FIELDS",
+        "ZITE_EMAIL",
+        "SHOW_REPORT_ABUSE_WARNING"
+      ],
+      "organizationSettings": {},
+      "organization": {
+        "id": 48103,
+        "name": "Betafits",
+        "subdomain": "betafits",
+        "disabled": false,
+        "extra_feature_flags": [],
+        "showReportAbuseWarning": true,
+        "verified": false,
+        "requireMfa": false,
+        "settings": {},
+        "hasFlowCounts": true,
+        "createdAt": "2023-11-28T01:13:01.904Z",
+        "updatedAt": "2026-01-03T06:49:21.239Z"
+      },
+      "subdomain": "betafits",
+      "customDomains": [],
+      "formMetadata": {
+        "widgetOptions": {
+          "ryB2": {
+            "jFiU": [
+              {
+                "value": "Benefit Guide",
+                "label": "Benefit Guide",
+                "id": "selgbluX2M5gqOn5t"
+              },
+              {
+                "value": "ERISA Wrap Document",
+                "label": "ERISA Wrap Document",
+                "id": "selltow1u4AD0R1eD"
+              },
+              {
+                "value": "Section 125 Document",
+                "label": "Section 125 Document",
+                "id": "selOySyWuowzTTrmB"
+              },
+              {
+                "value": "Broker Commission Disclosure",
+                "label": "Broker Commission Disclosure",
+                "id": "selhrt5ltqNFPeCqH"
+              },
+              {
+                "value": "W9",
+                "label": "W9",
+                "id": "selSyrEBsVVWn5ujH"
+              },
+              {
+                "value": "Quarterly Payroll Filing",
+                "label": "Quarterly Payroll Filing",
+                "id": "selRT5aWmgVKVKUBi"
+              },
+              {
+                "value": "Voided Check",
+                "label": "Voided Check",
+                "id": "seljePSxjrFDsu3eE"
+              },
+              {
+                "value": "Census Files",
+                "label": "Census Files",
+                "id": "sel30oCLa9yub0mYa"
+              },
+              {
+                "value": "Payroll Deductions",
+                "label": "Payroll Deductions",
+                "id": "selglTaAHNWNn5uns"
+              },
+              {
+                "value": "Renewal",
+                "label": "Renewal",
+                "id": "sel0CPgp0TCWZvvjQ"
+              },
+              {
+                "value": "Medical SBC",
+                "label": "Medical SBC",
+                "id": "selyNZSeuueHfJifN"
+              },
+              {
+                "value": "Dental Plan Summary",
+                "label": "Dental Plan Summary",
+                "id": "selQc07CCm4Fs9RWf"
+              },
+              {
+                "value": "Vision Plan Summary",
+                "label": "Vision Plan Summary",
+                "id": "seliCNXuztdXE7188"
+              },
+              {
+                "value": "Medical Invoice",
+                "label": "Medical Invoice",
+                "id": "selxWQcUbxMTArdYu"
+              },
+              {
+                "value": "Workbook",
+                "label": "Workbook",
+                "id": "selI62iMyCxS7xVE7"
+              },
+              {
+                "value": "Workers Compensation",
+                "label": "Workers Compensation",
+                "id": "selxEnZfxikceLmd0"
+              },
+              {
+                "value": "Claims Report",
+                "label": "Claims Report",
+                "id": "sel4h9IzQXukaybr3"
+              },
+              {
+                "value": "Dental & Vision Invoice",
+                "label": "Dental & Vision Invoice",
+                "id": "selUwuUWCivTwqIFF"
+              },
+              {
+                "value": "Dental Invoice",
+                "label": "Dental Invoice",
+                "id": "sele69ErOiGuw6qSm"
+              },
+              {
+                "value": "Vision Invoice",
+                "label": "Vision Invoice",
+                "id": "sel32TPPkgDR9Aegp"
+              },
+              {
+                "value": "M/D/V Invoice",
+                "label": "M/D/V Invoice",
+                "id": "selxOhtEvDApcKEOm"
+              },
+              {
+                "value": "Invoice",
+                "label": "Invoice",
+                "id": "selvSakMAm807BTCb"
+              }
+            ]
+          }
+        },
+        "widgetMappings": {
+          "ryB2": {
+            "jFiU": {
+              "id": "fld2WfpQORh7R8Rpr",
+              "name": "Document Type"
+            },
+            "kZ8Y": {
+              "id": "fldHJXHRwPlVChX4t",
+              "name": "File"
+            },
+            "mG7t": {
+              "id": "fldP0nYiIoqpM68xS",
+              "name": "Link to Intake - Group Data"
+            }
+          }
+        }
+      }
+    },
+    "__N_SSG": true
+  },
+  "page": "/t/[flowPublicIdentifier]",
+  "query": {
+    "flowPublicIdentifier": "aTDkqH7zTmus"
+  },
+  "buildId": "1tZu1HL8-D9JW8892Ir-M",
+  "isFallback": false,
+  "isExperimentalCompile": false,
+  "gsp": true,
+  "scriptLoader": []
+}

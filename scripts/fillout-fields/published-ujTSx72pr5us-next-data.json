@@ -1,0 +1,4562 @@
+{
+  "props": {
+    "pageProps": {
+      "flow": {
+        "id": 1362988,
+        "uuid": "54923138-c3b6-43cb-8c76-c2d900086475",
+        "name": "Compliance",
+        "assignmentEnabled": false,
+        "publicIdentifier": "ujTSx72pr5us",
+        "organizationId": 48103,
+        "type": "form",
+        "ownerUserId": 50320,
+        "cloneableTemplateId": null,
+        "workspaceId": 14616,
+        "publishedSnapshotId": 91683755,
+        "parentFlowPublicIdentifier": null,
+        "settings": {},
+        "customEnding": "compliance",
+        "tags": [
+          "form"
+        ],
+        "internalNote": null,
+        "trashedAt": null,
+        "screenshotUrl": null,
+        "customSubdomain": null,
+        "autopublish": false,
+        "createdAt": "2025-06-15T22:22:12.128Z",
+        "updatedAt": "2025-08-27T14:53:50.532Z"
+      },
+      "flowSnapshot": {
+        "id": 91683755,
+        "template": {
+          "steps": {
+            "3d2Z": {
+              "id": "3d2Z",
+              "name": "Review",
+              "type": "submission_review",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "position": {
+                "x": 1066.6666666666667,
+                "y": 0
+              },
+              "template": {
+                "widgets": {
+                  "iEpjRg7hyZSejPqJZHJtFS": {
+                    "id": "iEpjRg7hyZSejPqJZHJtFS",
+                    "name": "review",
+                    "type": "Review",
+                    "position": {
+                      "row": 1
+                    },
+                    "template": {
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "widgetsToHide": [],
+                      "showEditButtons": true,
+                      "showHiddenFields": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "ivDWBZcj57VXoEBfEe1Qy6": {
+                    "id": "ivDWBZcj57VXoEBfEe1Qy6",
+                    "name": "text1",
+                    "type": "Text",
+                    "position": {
+                      "row": 0
+                    },
+                    "template": {
+                      "contents": {
+                        "logic": {
+                          "value": "<h3><strong>Please review your submission.</strong></h3><h5><span style=\"color: rgb(136, 136, 136);\">Update any relevant information as needed.</span></h5>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "p4wqFFNHmbExT6BtoJ89ks": {
+                    "id": "p4wqFFNHmbExT6BtoJ89ks",
+                    "name": "button",
+                    "type": "Button",
+                    "position": {
+                      "row": 2
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "Submit",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "pUjz"
+                      },
+                      "alignment": "center",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "rgba(59, 130, 246, 1)",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "fnR8": {
+              "id": "fnR8",
+              "name": "Page 3",
+              "type": "form",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "widgets": {
+                  "148e": {
+                    "id": "148e",
+                    "name": "Untitled button field",
+                    "type": "Button",
+                    "position": {
+                      "row": 9,
+                      "column": 0
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "pQqp"
+                      },
+                      "alignment": "center",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "rgba(59, 130, 246, 1)",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "1J9u": {
+                    "id": "1J9u",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Is the cost of employer-sponsored healthcare coverage reported on employees W-2s (Box 12 DD)?</p><p><br></p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "3pKB",
+                            "label": {
+                              "logic": {
+                                "value": "Yes, automatically through our payroll system",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Yes, automatically through our payroll system",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "uKbz",
+                            "label": {
+                              "logic": {
+                                "value": "Yes, we handle this manually in-house",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Yes, we handle this manually in-house",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "um2u",
+                            "label": {
+                              "logic": {
+                                "value": "No, we do not report this",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "No, we do not report this",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "25ks",
+                            "label": {
+                              "logic": {
+                                "value": "Not Sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not Sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "4K16": {
+                    "id": "4K16",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>How are required annual notices delivered to employees?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "kUQH",
+                            "label": {
+                              "logic": {
+                                "value": "Included in new hire packets and open enrollment materials",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Included in new hire packets and open enrollment materials",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "keXB",
+                            "label": {
+                              "logic": {
+                                "value": "Sent via email annually to all benefits-eligible employees",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Sent via email annually to all benefits-eligible employees",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "q5jK",
+                            "label": {
+                              "logic": {
+                                "value": "Mailed by broker,Third-Party Administrator , or carrier",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Mailed by broker,Third-Party Administrator , or carrier",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "6m8X",
+                            "label": {
+                              "logic": {
+                                "value": "Delivered through employee self-service portal or HRIS",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Delivered through employee self-service portal or HRIS",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "kowL",
+                            "label": {
+                              "logic": {
+                                "value": "Unsure how or if these notices are distributed",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Unsure how or if these notices are distributed",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "1H1y",
+                            "label": {
+                              "logic": {
+                                "value": "Not Sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not Sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "65RU": {
+                    "id": "65RU",
+                    "name": "Untitled SectionCollapse field",
+                    "type": "SectionCollapse",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    },
+                    "template": {
+                      "color": "",
+                      "label": {
+                        "logic": {
+                          "value": "Compliance Testing & Employee Communication",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "colorVersion": 2,
+                      "isCollapsable": false,
+                      "isDefaultOpen": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "6vNE": {
+                    "id": "6vNE",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Do you conduct annual non-discrimination testing for your Health &amp; Welfare plans?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "gexo",
+                            "label": {
+                              "logic": {
+                                "value": "Yes",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Yes",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "xqGb",
+                            "label": {
+                              "logic": {
+                                "value": "No",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "No",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "gy8k",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "dM5r": {
+                    "id": "dM5r",
+                    "name": "Untitled Divider field",
+                    "type": "Divider",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "fMAe": {
+                    "id": "fMAe",
+                    "name": "Untitled Checkboxes field",
+                    "type": "Checkboxes",
+                    "position": {
+                      "row": 8,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>How is annual non-discrimination testing for your Health &amp; Welfare plans handled?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "1i6w",
+                            "label": {
+                              "logic": {
+                                "value": "Internal HR",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Internal HR",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "tqNA",
+                            "label": {
+                              "logic": {
+                                "value": "Payroll vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Payroll vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "7mde",
+                            "label": {
+                              "logic": {
+                                "value": "Broker",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "fHh7",
+                            "label": {
+                              "logic": {
+                                "value": "TPA or benefits consultant",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "TPA or benefits consultant",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "gFwV",
+                            "label": {
+                              "logic": {
+                                "value": "CPA or accounting firm",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "CPA or accounting firm",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array",
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": [
+                            {
+                              "===": [
+                                {
+                                  "var": "fnR8['6vNE'].value"
+                                },
+                                {
+                                  "pickerStringTemplate": {
+                                    "value": "Yes",
+                                    "references": {}
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "inJM": {
+                    "id": "inJM",
+                    "name": "Untitled Text field",
+                    "type": "Text",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    },
+                    "template": {
+                      "contents": {
+                        "logic": {
+                          "value": "<h2 class=\"ql-align-center\"><strong style=\"color: rgb(31, 41, 55);\">Filings &amp; Notices</strong></h2>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "v5om": {
+                    "id": "v5om",
+                    "name": "Untitled SectionCollapse field",
+                    "type": "SectionCollapse",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    },
+                    "template": {
+                      "color": "rgba(226, 236, 254, 1)",
+                      "label": {
+                        "logic": {
+                          "value": "ACA Compliance Responsibilities",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "colorVersion": 2,
+                      "isCollapsable": false,
+                      "isDefaultOpen": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "vHX9": {
+                    "id": "vHX9",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Who prepares and files your ACA Forms 1094/1095?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "8pki",
+                            "label": {
+                              "logic": {
+                                "value": "Payroll vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Payroll vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "fPgB",
+                            "label": {
+                              "logic": {
+                                "value": "ACA-specific vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "ACA-specific vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "9sty",
+                            "label": {
+                              "logic": {
+                                "value": "Broker or TPA ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker or TPA ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "bRQE",
+                            "label": {
+                              "logic": {
+                                "value": "Carrier",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Carrier",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "nUQJ",
+                            "label": {
+                              "logic": {
+                                "value": "Internal HR",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Internal HR",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "3pAc",
+                            "label": {
+                              "logic": {
+                                "value": "We are not required to file",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "We are not required to file",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "mYU3",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "pQqp": {
+              "id": "pQqp",
+              "name": "Page 4",
+              "type": "form",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "widgets": {
+                  "51o2": {
+                    "id": "51o2",
+                    "name": "Untitled SectionCollapse field",
+                    "type": "SectionCollapse",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    },
+                    "template": {
+                      "color": "rgba(226, 236, 254, 1)",
+                      "label": {
+                        "logic": {
+                          "value": "Additional Regulatory Filings",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "colorVersion": 2,
+                      "isCollapsable": false,
+                      "isDefaultOpen": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "7eM6": {
+                    "id": "7eM6",
+                    "name": "Untitled Matrix field",
+                    "type": "Matrix",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    },
+                    "template": {
+                      "rows": [
+                        {
+                          "id": "mbNe",
+                          "label": {
+                            "logic": {
+                              "value": "<p>1095-B Reporting</p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        },
+                        {
+                          "id": "hTTa",
+                          "label": {
+                            "logic": {
+                              "value": "<p>PCORI Filing</p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        },
+                        {
+                          "id": "tcDK",
+                          "label": {
+                            "logic": {
+                              "value": "<p>RxDC Reporting</p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        },
+                        {
+                          "id": "uVBo",
+                          "label": {
+                            "logic": {
+                              "value": "<p>State-Mandated Benefits Reporting</p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        }
+                      ],
+                      "label": {
+                        "logic": {
+                          "value": "<p>How are the following compliance requirements currently handled?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "columns": [
+                        {
+                          "id": "ms6G",
+                          "label": {
+                            "logic": {
+                              "value": "<p>Handled by Broker</p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        },
+                        {
+                          "id": "kZGc",
+                          "label": {
+                            "logic": {
+                              "value": "<p>Managed by Payroll Vendor</p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        },
+                        {
+                          "id": "kxaM",
+                          "label": {
+                            "logic": {
+                              "value": "<p>Compliance or ACA Vendor</p><p><br></p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        },
+                        {
+                          "id": "bfRS",
+                          "label": {
+                            "logic": {
+                              "value": "<p>Internal HR or Legal</p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        },
+                        {
+                          "id": "gyqE",
+                          "label": {
+                            "logic": {
+                              "value": "<p>Not Sure</p>",
+                              "references": {}
+                            },
+                            "expectedTypes": [
+                              "string"
+                            ],
+                            "___LOGIC_TYPE___": "pickerString"
+                          }
+                        }
+                      ],
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "b2fz": {
+                    "id": "b2fz",
+                    "name": "Untitled Text field",
+                    "type": "Text",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    },
+                    "template": {
+                      "contents": {
+                        "logic": {
+                          "value": "<h2 class=\"ql-align-center\"><span style=\"color: rgb(31, 41, 55);\">Other(Leave and Multi-State Compliance)</span></h2>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "jrqy": {
+                    "id": "jrqy",
+                    "name": "Untitled Divider field",
+                    "type": "Divider",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "nbY1": {
+                    "id": "nbY1",
+                    "name": "Untitled Checkboxes field",
+                    "type": "Checkboxes",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>What systems or partners help you track and administer leave laws?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "1i6w",
+                            "label": {
+                              "logic": {
+                                "value": "Internal HR tracking (manual or spreadsheet)",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Internal HR tracking (manual or spreadsheet)",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "tqNA",
+                            "label": {
+                              "logic": {
+                                "value": "HRIS or leave management module",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "HRIS or leave management module",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "pxkv",
+                            "label": {
+                              "logic": {
+                                "value": "Insurance carrier or disability vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Insurance carrier or disability vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "sKrs",
+                            "label": {
+                              "logic": {
+                                "value": "Third-party leave administrator (TPA)",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Third-party leave administrator (TPA)",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "3CfL",
+                            "label": {
+                              "logic": {
+                                "value": "Broker assists with guidance",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker assists with guidance",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "rkCF",
+                            "label": {
+                              "logic": {
+                                "value": "No structured tracking process in place",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "No structured tracking process in place",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "mxGH",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array",
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "sbhf": {
+                    "id": "sbhf",
+                    "name": "Untitled SectionCollapse field",
+                    "type": "SectionCollapse",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    },
+                    "template": {
+                      "color": "rgba(226, 236, 254, 1)",
+                      "label": {
+                        "logic": {
+                          "value": "Leave Management",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "colorVersion": 2,
+                      "isCollapsable": false,
+                      "isDefaultOpen": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "vZ8p": {
+                    "id": "vZ8p",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>How do you manage compliance with Paid Leave and other employment-related laws across multiple states?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "6mh3",
+                            "label": {
+                              "logic": {
+                                "value": "Dedicated internal team tracks state-specific rules",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Dedicated internal team tracks state-specific rules",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "3Gpy",
+                            "label": {
+                              "logic": {
+                                "value": "We rely on our broker or compliance vendor to alert us",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "We rely on our broker or compliance vendor to alert us",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "gPBL",
+                            "label": {
+                              "logic": {
+                                "value": "Payroll/HRIS system provides multi-state compliance support",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Payroll/HRIS system provides multi-state compliance support",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "u96q",
+                            "label": {
+                              "logic": {
+                                "value": "We handle issues reactively, as they come up",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "We handle issues reactively, as they come up",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "gTB7",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "7PnrTysxZmxAkTqwdguwNG": {
+                    "id": "7PnrTysxZmxAkTqwdguwNG",
+                    "name": "Untitled button field",
+                    "type": "Button",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "3d2Z"
+                      },
+                      "alignment": "center",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "rgba(59, 130, 246, 1)",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "pUjz": {
+              "id": "pUjz",
+              "name": "Ending",
+              "type": "ending",
+              "nextStep": {
+                "isFinal": true,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "type": "thank_you",
+                "widgets": {
+                  "kzPyu6Ak6yX72REf1PPKVt": {
+                    "id": "kzPyu6Ak6yX72REf1PPKVt",
+                    "name": "thankYou1",
+                    "type": "ThankYou",
+                    "position": {
+                      "row": 1
+                    },
+                    "template": {
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "hideBranding": false,
+                      "richTitleText": {
+                        "logic": {
+                          "value": "Thank you",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showQuizScore": true,
+                      "richSubtitleText": {
+                        "logic": {
+                          "value": "Made with Fillout, the easy way to make stunning forms",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showCheckoutDetails": true,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "showSchedulingDetails": true
+                    }
+                  }
+                },
+                "confetti": true
+              }
+            },
+            "wFT2": {
+              "id": "wFT2",
+              "name": "page 2",
+              "type": "form",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "widgets": {
+                  "1nxi": {
+                    "id": "1nxi",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>How is your Section 125 (Premium Only Plan) Document prepared and kept current?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "h8Rt",
+                            "label": {
+                              "logic": {
+                                "value": "Internal HR",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Internal HR",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "3ftX",
+                            "label": {
+                              "logic": {
+                                "value": " Payroll vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": " Payroll vendor",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "noon",
+                            "label": {
+                              "logic": {
+                                "value": "Broker or Third-Party Administrator ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker or Third-Party Administrator ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "5QuV",
+                            "label": {
+                              "logic": {
+                                "value": "We don't have one",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "We don't have one",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "rP3R",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "9MSF": {
+                    "id": "9MSF",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>How is your Health &amp; Welfare Form 5500 prepared and filed?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "vEzE",
+                            "label": {
+                              "logic": {
+                                "value": "Broker provides draft of 5500 for signature",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker provides draft of 5500 for signature",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "umUj",
+                            "label": {
+                              "logic": {
+                                "value": "Broker helps gather Schedule As and provides guidance",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker helps gather Schedule As and provides guidance",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "dx2f",
+                            "label": {
+                              "logic": {
+                                "value": "Third-Party Administrator prepares the 5500 and coordinates filing",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Third-Party Administrator prepares the 5500 and coordinates filing",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "ftGN",
+                            "label": {
+                              "logic": {
+                                "value": "Payroll vendor or compliance partner provides 5500 support",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Payroll vendor or compliance partner provides 5500 support",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "kTzn",
+                            "label": {
+                              "logic": {
+                                "value": "Internal HR or legal team prepares and files directly",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Internal HR or legal team prepares and files directly",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "xe1d",
+                            "label": {
+                              "logic": {
+                                "value": "We are not required to file Form 5500",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "We are not required to file Form 5500",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "cScP",
+                            "label": {
+                              "logic": {
+                                "value": "Not Sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not Sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "dc3Q": {
+                    "id": "dc3Q",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Who manages your ERISA Wrap Document and ensures it is updated?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "a2Xu",
+                            "label": {
+                              "logic": {
+                                "value": "Internal HR or legal team",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Internal HR or legal team",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "etW8",
+                            "label": {
+                              "logic": {
+                                "value": "Broker",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "dmRX",
+                            "label": {
+                              "logic": {
+                                "value": "Third-Party Administrator ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Third-Party Administrator ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "rRtz",
+                            "label": {
+                              "logic": {
+                                "value": "We don't have an ERISA Wrap Document",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "We don't have an ERISA Wrap Document",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "brKu",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "uz5M": {
+                    "id": "uz5M",
+                    "name": "Untitled SectionCollapse field",
+                    "type": "SectionCollapse",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    },
+                    "template": {
+                      "color": "rgba(226, 236, 254, 1)",
+                      "label": {
+                        "logic": {
+                          "value": "Compliance Filing & Document Management",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "colorVersion": 2,
+                      "isCollapsable": false,
+                      "isDefaultOpen": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "axKf6ZPFcBsB77SCqkpGgD": {
+                    "id": "axKf6ZPFcBsB77SCqkpGgD",
+                    "name": "Untitled button field",
+                    "type": "Button",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "fnR8"
+                      },
+                      "alignment": "center",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "rgba(59, 130, 246, 1)",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "wVF9": {
+              "id": "wVF9",
+              "name": "Page 1",
+              "type": "form",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "widgets": {
+                  "14Fe": {
+                    "id": "14Fe",
+                    "name": "Untitled Divider field",
+                    "type": "Divider",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "fpKM": {
+                    "id": "fpKM",
+                    "name": "Untitled Checkboxes field",
+                    "type": "Checkboxes",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>How would you describe the level of compliance support you currently receive from your broker or vendors?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "6caW",
+                            "label": {
+                              "logic": {
+                                "value": "Consistent, proactive guidance on all major compliance areas",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Consistent, proactive guidance on all major compliance areas",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "fNyj",
+                            "label": {
+                              "logic": {
+                                "value": "Occasional updates or reminders, mainly during open enrollment",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Occasional updates or reminders, mainly during open enrollment",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "aoRg",
+                            "label": {
+                              "logic": {
+                                "value": "Minimal involvement — we manage most compliance tasks internally",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Minimal involvement — we manage most compliance tasks internally",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "7uCt",
+                            "label": {
+                              "logic": {
+                                "value": "No broker/vendor involved in compliance",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "No broker/vendor involved in compliance",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "xrvN",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array",
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "mHxb": {
+                    "id": "mHxb",
+                    "name": "Untitled Text field",
+                    "type": "Text",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    },
+                    "template": {
+                      "contents": {
+                        "logic": {
+                          "value": "<h2 class=\"ql-align-center\"><strong style=\"color: rgb(31, 41, 55);\">Overview &amp; Documents</strong></h2>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "r72b": {
+                    "id": "r72b",
+                    "name": "Untitled SectionCollapse field",
+                    "type": "SectionCollapse",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    },
+                    "template": {
+                      "color": "rgba(226, 236, 254, 1)",
+                      "label": {
+                        "logic": {
+                          "value": "Compliance Overview",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "colorVersion": 2,
+                      "isCollapsable": false,
+                      "isDefaultOpen": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "svnT": {
+                    "id": "svnT",
+                    "name": "Untitled Checkboxes field",
+                    "type": "Checkboxes",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>What systems or methods are used to track your compliance-related tasks throughout the year?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "1i6w",
+                            "label": {
+                              "logic": {
+                                "value": "HRIS or payroll platform",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "HRIS or payroll platform",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "tqNA",
+                            "label": {
+                              "logic": {
+                                "value": "Compliance software",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Compliance software",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "7ftk",
+                            "label": {
+                              "logic": {
+                                "value": "Broker- or vendor-provided calendar or checklist",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Broker- or vendor-provided calendar or checklist",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "ereK",
+                            "label": {
+                              "logic": {
+                                "value": "Internal spreadsheet or task list",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Internal spreadsheet or task list",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "vaez",
+                            "label": {
+                              "logic": {
+                                "value": "No formal system",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "No formal system",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "nPNh",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array",
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "wVUD": {
+                    "id": "wVUD",
+                    "name": "Untitled Checkboxes field",
+                    "type": "Checkboxes",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>What are your primary sources for staying informed about benefits compliance requirements?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "1i6w",
+                            "label": {
+                              "logic": {
+                                "value": "Compliance calendar from broker or Third-Party Administrator ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Compliance calendar from broker or Third-Party Administrator ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "tqNA",
+                            "label": {
+                              "logic": {
+                                "value": "Email alerts from broker or carriers",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Email alerts from broker or carriers",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "9fzp",
+                            "label": {
+                              "logic": {
+                                "value": "Industry newsletters or webinars",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Industry newsletters or webinars",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "sMLz",
+                            "label": {
+                              "logic": {
+                                "value": "Web searches or generative AI tools",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Web searches or generative AI tools",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "5Ttu",
+                            "label": {
+                              "logic": {
+                                "value": "Internal HR/legal staff",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Internal HR/legal staff",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "mUnD",
+                            "label": {
+                              "logic": {
+                                "value": "Not sure ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not sure ",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array",
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "ujaqRUrW7maKsYEvKdxv7P": {
+                    "id": "ujaqRUrW7maKsYEvKdxv7P",
+                    "name": "Untitled button field",
+                    "type": "Button",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "wFT2"
+                      },
+                      "alignment": "center",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "rgba(59, 130, 246, 1)",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "quizzes": {
+            "answers": {},
+            "enabled": false,
+            "settings": {
+              "disableShowingCorrectAnswers": false
+            }
+          },
+          "settings": {
+            "progressBar": {
+              "style": "circle_steps",
+              "stages": [
+                {
+                  "id": "oPZJFBcHSZZm63XhbarnFS",
+                  "label": {
+                    "logic": {
+                      "value": "Compliance ",
+                      "references": {}
+                    },
+                    "expectedTypes": [
+                      "string"
+                    ],
+                    "___LOGIC_TYPE___": "pickerString"
+                  },
+                  "stepIds": []
+                },
+                {
+                  "id": "pCzeUn1ZPLzg1gm4X9N5x9",
+                  "label": {
+                    "logic": {
+                      "value": "Compliance ",
+                      "references": {}
+                    },
+                    "expectedTypes": [
+                      "string"
+                    ],
+                    "___LOGIC_TYPE___": "pickerString"
+                  },
+                  "stepIds": []
+                },
+                {
+                  "id": "8qkfxMaAgRWoiJ18cjWpPT",
+                  "label": {
+                    "logic": {
+                      "value": "ACA & Payroll",
+                      "references": {}
+                    },
+                    "expectedTypes": [
+                      "string"
+                    ],
+                    "___LOGIC_TYPE___": "pickerString"
+                  },
+                  "stepIds": []
+                },
+                {
+                  "id": "fZvgmRQmeveUVb1zEmTVxw",
+                  "label": {
+                    "logic": {
+                      "value": "State & Federal Fillings",
+                      "references": {}
+                    },
+                    "expectedTypes": [
+                      "string"
+                    ],
+                    "___LOGIC_TYPE___": "pickerString"
+                  },
+                  "stepIds": []
+                },
+                {
+                  "id": "6tDbZGNTHetdpHsbphc5rK",
+                  "label": {
+                    "logic": {
+                      "value": "Review",
+                      "references": {}
+                    },
+                    "expectedTypes": [
+                      "string"
+                    ],
+                    "___LOGIC_TYPE___": "pickerString"
+                  },
+                  "stepIds": []
+                }
+              ],
+              "shouldHide": false,
+              "primaryColor": "rgba(59, 130, 246, 1)"
+            }
+          },
+          "firstStep": "wVF9",
+          "urlParams": [
+            "id"
+          ],
+          "calculations": {},
+          "integrations": {
+            "k7j8G8c1goE9vVTNqq9LbU": {
+              "serviceId": 30465,
+              "writeQuery": {
+                "id": "76B8gVzFsY",
+                "config": {
+                  "view": "",
+                  "baseId": "appdqgKk1fmhfaJoT",
+                  "filters": [
+                    {
+                      "key": "recordID",
+                      "value": {
+                        "logic": {
+                          "var": "urlParams['id']"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      },
+                      "condition": "="
+                    }
+                  ],
+                  "tableId": "tblaFUw6vBgpIBWIw",
+                  "columnId": "",
+                  "mappings": [],
+                  "actionType": "updateRecord"
+                }
+              },
+              "readQueries": {
+                "___fillout_db_update_fetch_id": {
+                  "id": "___fillout_db_update_fetch_id",
+                  "name": "Updating record",
+                  "config": {
+                    "view": "",
+                    "baseId": "appdqgKk1fmhfaJoT",
+                    "filters": [
+                      {
+                        "key": "recordID",
+                        "value": {
+                          "logic": {
+                            "var": "urlParams['id']"
+                          },
+                          "expectedTypes": [
+                            "any"
+                          ],
+                          "___LOGIC_TYPE___": "picker"
+                        },
+                        "condition": "="
+                      }
+                    ],
+                    "tableId": "tblaFUw6vBgpIBWIw",
+                    "columnId": "",
+                    "mappings": [],
+                    "actionType": "readSingle"
+                  }
+                }
+              },
+              "serviceType": "airtable",
+              "optionMappings": {}
+            }
+          },
+          "themePublicId": "ec0939f2-6f2e-4c71-bd47-141a5c989f13"
+        },
+        "organizationId": 48103,
+        "userId": 50320,
+        "flowId": 1362988,
+        "sourceTabId": "12f5c1G7dAbZwTwTrSRG8v",
+        "createdAt": "2025-08-27T14:53:38.720Z",
+        "updatedAt": "2025-08-27T14:53:38.720Z"
+      },
+      "features": [
+        "PAYMENTS_V2",
+        "ZITE_BRANCH_NODE",
+        "DATABASES",
+        "ZITE_DATABASE_FORMULAS",
+        "SNAPSHOT_S3_OFFLOAD",
+        "DATABASE_AI_FIELDS",
+        "ZITE_EMAIL",
+        "SHOW_REPORT_ABUSE_WARNING"
+      ],
+      "theme": {
+        "id": 63900,
+        "theme": {
+          "formSizing": "small",
+          "answersColor": "#4b5563",
+          "formPosition": "center",
+          "primaryColor": "rgba(147, 185, 90, 1)",
+          "questionsColor": "#374151",
+          "backgroundColor": "#f3f4f6",
+          "imageBrightness": 1,
+          "questionsBackgroundColor": "#fff"
+        },
+        "organizationId": 48103,
+        "name": "Plain (15)",
+        "publicIdentifier": "ec0939f2-6f2e-4c71-bd47-141a5c989f13",
+        "createdAt": "2024-03-18T15:40:11.181Z",
+        "updatedAt": "2024-03-18T15:40:18.352Z"
+      },
+      "organizationSettings": {},
+      "organization": {
+        "id": 48103,
+        "name": "Betafits",
+        "subdomain": "betafits",
+        "disabled": false,
+        "extra_feature_flags": [],
+        "showReportAbuseWarning": true,
+        "verified": false,
+        "requireMfa": false,
+        "settings": {},
+        "hasFlowCounts": true,
+        "createdAt": "2023-11-28T01:13:01.904Z",
+        "updatedAt": "2026-01-03T06:49:21.239Z"
+      },
+      "subdomain": "betafits",
+      "customDomains": [],
+      "formMetadata": {
+        "widgetOptions": {
+          "fnR8": {},
+          "pQqp": {},
+          "wFT2": {},
+          "wVF9": {}
+        },
+        "widgetMappings": {
+          "fnR8": {},
+          "pQqp": {},
+          "wFT2": {},
+          "wVF9": {}
+        }
+      }
+    },
+    "__N_SSG": true
+  },
+  "page": "/t/[flowPublicIdentifier]",
+  "query": {
+    "flowPublicIdentifier": "ujTSx72pr5us"
+  },
+  "buildId": "1tZu1HL8-D9JW8892Ir-M",
+  "isFallback": false,
+  "isExperimentalCompile": false,
+  "gsp": true,
+  "scriptLoader": []
+}

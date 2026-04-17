@@ -1,0 +1,2487 @@
+{
+  "props": {
+    "pageProps": {
+      "flow": {
+        "id": 401235,
+        "uuid": "6241b77e-7f64-4070-9278-1d144a1155e2",
+        "name": "Benefits Pulse Survey",
+        "assignmentEnabled": false,
+        "publicIdentifier": "eQ7FVU76PDus",
+        "organizationId": 48103,
+        "type": "form",
+        "ownerUserId": 50320,
+        "cloneableTemplateId": null,
+        "workspaceId": 48953,
+        "publishedSnapshotId": 109539715,
+        "parentFlowPublicIdentifier": null,
+        "settings": {},
+        "customEnding": null,
+        "tags": [
+          "form"
+        ],
+        "internalNote": null,
+        "trashedAt": null,
+        "screenshotUrl": "https://images.fillout.com/orgid-48103/flowpublicid-eQ7FVU76PDus/qwYxyjL3zETYPzfVnzumzG/48103/eQ7FVU76PDus/109539715.png",
+        "customSubdomain": null,
+        "autopublish": false,
+        "createdAt": "2024-04-11T19:11:25.108Z",
+        "updatedAt": "2025-11-28T14:13:22.931Z"
+      },
+      "flowSnapshot": {
+        "id": 109539715,
+        "template": {
+          "steps": {
+            "2TMD": {
+              "id": "2TMD",
+              "name": "Page 2",
+              "type": "form",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "widgets": {
+                  "8w6e": {
+                    "id": "8w6e",
+                    "name": "Untitled ShortAnswer field",
+                    "type": "ShortAnswer",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "Type your question here",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "eDuvVCv2qL2eNgtDmDXNZ7": {
+                    "id": "eDuvVCv2qL2eNgtDmDXNZ7",
+                    "name": "Untitled button field",
+                    "type": "Button",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "cMkwH9fDUn"
+                      },
+                      "alignment": "left",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "cMkwH9fDUn": {
+              "id": "cMkwH9fDUn",
+              "name": "Ending",
+              "type": "ending",
+              "nextStep": {
+                "isFinal": true,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "type": "thank_you",
+                "widgets": {
+                  "5d92RqJvwVdRssrV9gTRNE": {
+                    "id": "5d92RqJvwVdRssrV9gTRNE",
+                    "name": "thankYou1",
+                    "type": "ThankYou",
+                    "position": {
+                      "row": 1
+                    },
+                    "template": {
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "hideBranding": false,
+                      "richTitleText": {
+                        "logic": {
+                          "value": "Thank you",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showQuizScore": true,
+                      "richSubtitleText": {
+                        "logic": {
+                          "value": "Made with Fillout, the easy way to make stunning forms",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "showSchedulingDetails": true
+                    }
+                  }
+                },
+                "confetti": true
+              }
+            },
+            "gas4yyqPYF": {
+              "id": "gas4yyqPYF",
+              "name": "Page",
+              "type": "form",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "widgets": {
+                  "9jZR": {
+                    "id": "9jZR",
+                    "name": "Untitled Html field",
+                    "type": "Html",
+                    "position": {
+                      "row": 13,
+                      "column": 0
+                    },
+                    "template": {
+                      "css": {
+                        "logic": {
+                          "value": ".container {\n  text-align: center;\n  padding: 1em;\n  border-radius: 8px;\n  background-color: #f9fafb;\n  box-shadow: 0 4px 8px #d1d5db;\n}\n.text {\n  color: #4b5563;\n  font-weight: 500;\n  font-style: italic;\n  font-size: 16px;\n}",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "html": {
+                        "logic": {
+                          "value": "<div class=\"container\">\n    <blockquote class=\"text\">\n    \"Example text in a custom HTML box\"\n    </blockquote>\n</div>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "allowScripts": false,
+                      "enableIframe": true,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "1tTsT4b7YxSrc2e8bTQtMD": {
+                    "id": "1tTsT4b7YxSrc2e8bTQtMD",
+                    "name": "Untitled Slider field",
+                    "type": "Slider",
+                    "position": {
+                      "row": 7,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Overall Benefits Package</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maximum": {
+                        "logic": {
+                          "value": "5",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minimum": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "stepSize": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "leftLabel": {
+                        "logic": {
+                          "value": "Completely Unsatisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showValue": true,
+                      "alwaysHide": false,
+                      "rightLabel": {
+                        "logic": {
+                          "value": "Completely Satisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "displayAsPercentage": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "3auKLr4ezjbYrtpdwb2X1v": {
+                    "id": "3auKLr4ezjbYrtpdwb2X1v",
+                    "name": "Untitled Text field",
+                    "type": "Text",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    },
+                    "template": {
+                      "contents": {
+                        "logic": {
+                          "value": "<h1 class=\"ql-align-center\">Benefits Feedback Form</h1>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "4UCLbaHFiRB9ARDkPVvqDd": {
+                    "id": "4UCLbaHFiRB9ARDkPVvqDd",
+                    "name": "Untitled Slider field",
+                    "type": "Slider",
+                    "position": {
+                      "row": 9,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Medical Network</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maximum": {
+                        "logic": {
+                          "value": "5",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minimum": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "stepSize": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "leftLabel": {
+                        "logic": {
+                          "value": "Completely Unsatisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showValue": true,
+                      "alwaysHide": false,
+                      "rightLabel": {
+                        "logic": {
+                          "value": "Completely Satisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "displayAsPercentage": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "4imEtuXjmDwKo8QpLM2M6W": {
+                    "id": "4imEtuXjmDwKo8QpLM2M6W",
+                    "name": "Untitled Text field",
+                    "type": "Text",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    },
+                    "template": {
+                      "contents": {
+                        "logic": {
+                          "value": "<h2>Company: {{nJENWmZBekfw1birLBEF7G}} </h2>",
+                          "references": {
+                            "nJENWmZBekfw1birLBEF7G": {
+                              "var": "gas4yyqPYF['kGqMobiUDPcHQXPEsEWGhs'].value"
+                            }
+                          }
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "6EbFGLKbaNEhDbn4FyCD2J": {
+                    "id": "6EbFGLKbaNEhDbn4FyCD2J",
+                    "name": "Untitled LongAnswer field",
+                    "type": "LongAnswer",
+                    "position": {
+                      "row": 12,
+                      "column": 0
+                    },
+                    "template": {
+                      "rows": {
+                        "logic": {
+                          "value": "4",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "label": {
+                        "logic": {
+                          "value": "Comments",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showCounter": true,
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "9rvPU3rfdvaY6355Si6DTP": {
+                    "id": "9rvPU3rfdvaY6355Si6DTP",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>On which medical plan are you enrolled?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "single_column",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "mvxHPg327SHen7qUpLia5o",
+                            "label": {
+                              "logic": {
+                                "value": "Option 1",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Option 1",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "qadk6tpe33g3SJCWuDTEfn",
+                            "label": {
+                              "logic": {
+                                "value": "Option 2",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Option 2",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": true,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "9xm1AdHoV7ZErSGuemYwT3": {
+                    "id": "9xm1AdHoV7ZErSGuemYwT3",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>How are you currently enrolled for health benefits?</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "two_columns",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "h2uW42TYqfktRumGqFt3gr",
+                            "label": {
+                              "logic": {
+                                "value": "Employee Only",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Employee Only",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "o1hyLWPmrSdJ2JCjQ1Kfw3",
+                            "label": {
+                              "logic": {
+                                "value": "Employee + Spouse",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Employee + Spouse",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "ruJLXyy1Nu852gtpH2KLUU",
+                            "label": {
+                              "logic": {
+                                "value": "Employee + Child(ren)",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Employee + Child(ren)",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "vq1n8LTAWdFEAqpd2HNu7G",
+                            "label": {
+                              "logic": {
+                                "value": "Family",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Family",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "hLefmnDtqKLZQAhjMsAtMb",
+                            "label": {
+                              "logic": {
+                                "value": "Waived",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Waived",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "5VLQrN6SmpSWWkEjcd2vYT",
+                            "label": {
+                              "logic": {
+                                "value": "Not Eligible",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Not Eligible",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "bNkoRCS16B1NF8Vu3Kz9JR": {
+                    "id": "bNkoRCS16B1NF8Vu3Kz9JR",
+                    "name": "Untitled MultipleChoice field",
+                    "type": "MultipleChoice",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "Benefit Year",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "theme": "bubble",
+                      "layout": "single_column",
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "suJggcjrT57RbMFcs3qRxR",
+                            "label": {
+                              "logic": {
+                                "value": "2023",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "2023",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "cXShoSwVyEbrooGSozZVmu",
+                            "label": {
+                              "logic": {
+                                "value": "2024",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "2024",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "6ZeR",
+                            "label": {
+                              "logic": {
+                                "value": "2025",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "2025",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": true,
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "{{q6pA7z9c89HqSY5n32dEZx}}",
+                          "references": {
+                            "q6pA7z9c89HqSY5n32dEZx": {
+                              "var": "urlParams['Year']"
+                            }
+                          }
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "eVZknTJzZyJ8XMoKqUeVFW": {
+                    "id": "eVZknTJzZyJ8XMoKqUeVFW",
+                    "name": "Untitled Slider field",
+                    "type": "Slider",
+                    "position": {
+                      "row": 8,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Medical Plan Options</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maximum": {
+                        "logic": {
+                          "value": "5",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minimum": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "stepSize": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "leftLabel": {
+                        "logic": {
+                          "value": "Completely Unsatisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showValue": true,
+                      "alwaysHide": false,
+                      "rightLabel": {
+                        "logic": {
+                          "value": "Completely Satisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "displayAsPercentage": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "gEoRfJNxN37JVkvyow4NWU": {
+                    "id": "gEoRfJNxN37JVkvyow4NWU",
+                    "name": "Untitled Slider field",
+                    "type": "Slider",
+                    "position": {
+                      "row": 10,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Employee Costs</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maximum": {
+                        "logic": {
+                          "value": "5",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minimum": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "stepSize": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "leftLabel": {
+                        "logic": {
+                          "value": "Completely Unsatisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showValue": true,
+                      "alwaysHide": false,
+                      "rightLabel": {
+                        "logic": {
+                          "value": "Completely Satisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "displayAsPercentage": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "gke1su1bm2QX4moFUffEQ2": {
+                    "id": "gke1su1bm2QX4moFUffEQ2",
+                    "name": "Untitled Paragraph field",
+                    "type": "Paragraph",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    },
+                    "template": {
+                      "contents": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "kGqMobiUDPcHQXPEsEWGhs": {
+                    "id": "kGqMobiUDPcHQXPEsEWGhs",
+                    "name": "Untitled ShortAnswer field",
+                    "type": "ShortAnswer",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "Company",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": true,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "defaultValue": {
+                        "logic": {
+                          "value": "{{oZVCGeQyaMArxd4o9hDXTX}}",
+                          "references": {
+                            "oZVCGeQyaMArxd4o9hDXTX": {
+                              "var": "urlParams['Company']"
+                            }
+                          }
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "nq3HwiQJCCA44XDYwnedza": {
+                    "id": "nq3HwiQJCCA44XDYwnedza",
+                    "name": "Untitled button field",
+                    "type": "Button",
+                    "position": {
+                      "row": 14,
+                      "column": 0
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "2TMD"
+                      },
+                      "alignment": "left",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  },
+                  "qgw9BnxZsRS2b3oc5iH5ej": {
+                    "id": "qgw9BnxZsRS2b3oc5iH5ej",
+                    "name": "Untitled Slider field",
+                    "type": "Slider",
+                    "position": {
+                      "row": 11,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Other Benefits (Non-Medical)</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maximum": {
+                        "logic": {
+                          "value": "5",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minimum": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "stepSize": {
+                        "logic": {
+                          "value": "1",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "leftLabel": {
+                        "logic": {
+                          "value": "Completely Unsatisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showValue": true,
+                      "alwaysHide": false,
+                      "rightLabel": {
+                        "logic": {
+                          "value": "Completely Satisfied",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showOrHide": "show_when",
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "displayAsPercentage": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "quizzes": {
+            "answers": {},
+            "enabled": false,
+            "settings": {
+              "disableShowingCorrectAnswers": false
+            }
+          },
+          "settings": {
+            "progressBar": {
+              "shouldHide": false
+            }
+          },
+          "firstStep": "gas4yyqPYF",
+          "urlParams": [
+            "Company",
+            "Year"
+          ],
+          "calculations": {},
+          "integrations": {
+            "6Hyj1eHMmvwE7dTiTBfiz8": {
+              "serviceId": 30465,
+              "writeQuery": {
+                "id": "1cwXBf15cJ",
+                "config": {
+                  "view": "",
+                  "baseId": "appdqgKk1fmhfaJoT",
+                  "filters": [
+                    {
+                      "key": "",
+                      "value": {
+                        "logic": {},
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      },
+                      "condition": "="
+                    }
+                  ],
+                  "tableId": "tbl28XVUekjvl2Ujn",
+                  "columnId": "",
+                  "mappings": [
+                    {
+                      "key": "fld3dK2QtvsTVsP3w",
+                      "value": {
+                        "logic": {
+                          "var": "urlParams['Company']"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldvnyZrZdXJbklUq",
+                      "value": {
+                        "logic": {
+                          "var": "urlParams['Year']"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fld8qfYAZjMcI3lGt",
+                      "value": {
+                        "logic": {
+                          "var": "gas4yyqPYF['9rvPU3rfdvaY6355Si6DTP'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldpEpGc1yZpAarm2",
+                      "value": {
+                        "logic": {
+                          "var": "gas4yyqPYF['1tTsT4b7YxSrc2e8bTQtMD'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldzIo3mxUwQdDqa7",
+                      "value": {
+                        "logic": {
+                          "var": "gas4yyqPYF['eVZknTJzZyJ8XMoKqUeVFW'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldkraM0R1KDC3iYt",
+                      "value": {
+                        "logic": {
+                          "var": "gas4yyqPYF['4UCLbaHFiRB9ARDkPVvqDd'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldqYzqrr6gfD8rZt",
+                      "value": {
+                        "logic": {
+                          "var": "gas4yyqPYF['gEoRfJNxN37JVkvyow4NWU'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldaPgNFgxiZtkXT5",
+                      "value": {
+                        "logic": {
+                          "var": "gas4yyqPYF['qgw9BnxZsRS2b3oc5iH5ej'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldTOnasZy3qD9mZg",
+                      "value": {
+                        "logic": {
+                          "var": "gas4yyqPYF['6EbFGLKbaNEhDbn4FyCD2J'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldAs0cGIYlTpEBAC",
+                      "value": {
+                        "logic": {
+                          "var": "gas4yyqPYF['9xm1AdHoV7ZErSGuemYwT3'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    }
+                  ],
+                  "actionType": "createRecord"
+                }
+              },
+              "readQueries": {},
+              "serviceType": "airtable",
+              "optionMappings": {
+                "9xm1AdHoV7ZErSGuemYwT3": {
+                  "selAJBaAGstuto4JH": "vq1n8LTAWdFEAqpd2HNu7G",
+                  "selB0sGnZrGvbFRei": "o1hyLWPmrSdJ2JCjQ1Kfw3",
+                  "selD0fLulF65EWCCN": "ruJLXyy1Nu852gtpH2KLUU",
+                  "selLxyHGhmeEqaW4p": "h2uW42TYqfktRumGqFt3gr",
+                  "selaQ2UrcIucND7Tk": "5VLQrN6SmpSWWkEjcd2vYT",
+                  "selvbY52N3vASp2Rl": "hLefmnDtqKLZQAhjMsAtMb"
+                }
+              }
+            }
+          },
+          "featuredThemeId": "plain"
+        },
+        "organizationId": 48103,
+        "userId": 50320,
+        "flowId": 401235,
+        "sourceTabId": "5fS8RdV2KHJEReMyi6oNyS",
+        "createdAt": "2025-11-28T14:13:16.674Z",
+        "updatedAt": "2025-11-28T14:13:16.674Z"
+      },
+      "features": [
+        "PAYMENTS_V2",
+        "ZITE_BRANCH_NODE",
+        "DATABASES",
+        "ZITE_DATABASE_FORMULAS",
+        "SNAPSHOT_S3_OFFLOAD",
+        "DATABASE_AI_FIELDS",
+        "ZITE_EMAIL",
+        "SHOW_REPORT_ABUSE_WARNING"
+      ],
+      "organizationSettings": {},
+      "organization": {
+        "id": 48103,
+        "name": "Betafits",
+        "subdomain": "betafits",
+        "disabled": false,
+        "extra_feature_flags": [],
+        "showReportAbuseWarning": true,
+        "verified": false,
+        "requireMfa": false,
+        "settings": {},
+        "hasFlowCounts": true,
+        "createdAt": "2023-11-28T01:13:01.904Z",
+        "updatedAt": "2026-01-03T06:49:21.239Z"
+      },
+      "subdomain": "betafits",
+      "customDomains": [],
+      "formMetadata": {
+        "widgetOptions": {
+          "2TMD": {},
+          "gas4yyqPYF": {
+            "9rvPU3rfdvaY6355Si6DTP": [],
+            "9xm1AdHoV7ZErSGuemYwT3": [
+              {
+                "value": "Employee Only",
+                "label": "Employee Only",
+                "id": "selLxyHGhmeEqaW4p"
+              },
+              {
+                "value": "Employee + Spouse",
+                "label": "Employee + Spouse",
+                "id": "selB0sGnZrGvbFRei"
+              },
+              {
+                "value": "Employee + Child(ren)",
+                "label": "Employee + Child(ren)",
+                "id": "selD0fLulF65EWCCN"
+              },
+              {
+                "value": "Family",
+                "label": "Family",
+                "id": "selAJBaAGstuto4JH"
+              },
+              {
+                "value": "Waived",
+                "label": "Waived",
+                "id": "selvbY52N3vASp2Rl"
+              },
+              {
+                "value": "Not Eligible",
+                "label": "Not Eligible",
+                "id": "selaQ2UrcIucND7Tk"
+              }
+            ]
+          }
+        },
+        "widgetMappings": {
+          "2TMD": {},
+          "gas4yyqPYF": {
+            "1tTsT4b7YxSrc2e8bTQtMD": {
+              "id": "fldpEpGc1yZpAarm2",
+              "name": "Overall"
+            },
+            "4UCLbaHFiRB9ARDkPVvqDd": {
+              "id": "fldkraM0R1KDC3iYt",
+              "name": "Medical Network"
+            },
+            "6EbFGLKbaNEhDbn4FyCD2J": {
+              "id": "fldTOnasZy3qD9mZg",
+              "name": "Comments"
+            },
+            "9rvPU3rfdvaY6355Si6DTP": {
+              "id": "fld8qfYAZjMcI3lGt",
+              "name": "Medical Plan"
+            },
+            "9xm1AdHoV7ZErSGuemYwT3": {
+              "id": "fldAs0cGIYlTpEBAC",
+              "name": "Medical Tier"
+            },
+            "eVZknTJzZyJ8XMoKqUeVFW": {
+              "id": "fldzIo3mxUwQdDqa7",
+              "name": "Medical Options"
+            },
+            "gEoRfJNxN37JVkvyow4NWU": {
+              "id": "fldqYzqrr6gfD8rZt",
+              "name": "Medical Cost"
+            },
+            "qgw9BnxZsRS2b3oc5iH5ej": {
+              "id": "fldaPgNFgxiZtkXT5",
+              "name": "Non-Medical"
+            }
+          }
+        }
+      }
+    },
+    "__N_SSG": true
+  },
+  "page": "/t/[flowPublicIdentifier]",
+  "query": {
+    "flowPublicIdentifier": "eQ7FVU76PDus"
+  },
+  "buildId": "1tZu1HL8-D9JW8892Ir-M",
+  "isFallback": false,
+  "isExperimentalCompile": false,
+  "gsp": true,
+  "scriptLoader": []
+}

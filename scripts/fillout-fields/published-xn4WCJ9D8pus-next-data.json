@@ -1,0 +1,1346 @@
+{
+  "props": {
+    "pageProps": {
+      "flow": {
+        "id": 1324625,
+        "uuid": "70f0901a-321e-4029-8328-a3be96f8d782",
+        "name": "New Group Form",
+        "assignmentEnabled": false,
+        "publicIdentifier": "xn4WCJ9D8pus",
+        "organizationId": 48103,
+        "type": "form",
+        "ownerUserId": 50320,
+        "cloneableTemplateId": null,
+        "workspaceId": null,
+        "publishedSnapshotId": 133393093,
+        "parentFlowPublicIdentifier": null,
+        "settings": {},
+        "customEnding": null,
+        "tags": [
+          "form"
+        ],
+        "internalNote": null,
+        "trashedAt": null,
+        "screenshotUrl": "https://images.fillout.com/orgid-48103/flowpublicid-xn4WCJ9D8pus/fUivjF4TSmBUSpKUGjoez1/48103/xn4WCJ9D8pus/133393093.png",
+        "customSubdomain": null,
+        "autopublish": false,
+        "createdAt": "2025-05-30T10:48:12.734Z",
+        "updatedAt": "2026-03-30T18:32:08.027Z"
+      },
+      "flowSnapshot": {
+        "id": 133393093,
+        "template": {
+          "steps": {
+            "hLEE": {
+              "id": "hLEE",
+              "name": "Ending",
+              "type": "ending",
+              "nextStep": {
+                "isFinal": true,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "type": "thank_you",
+                "widgets": {
+                  "5B4L3daRj9YBEtZCexXad8": {
+                    "id": "5B4L3daRj9YBEtZCexXad8",
+                    "name": "thankYou1",
+                    "type": "ThankYou",
+                    "position": {
+                      "row": 1
+                    },
+                    "template": {
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "hideBranding": false,
+                      "richTitleText": {
+                        "logic": {
+                          "value": "Thank you",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showQuizScore": true,
+                      "richSubtitleText": {
+                        "logic": {
+                          "value": "Made with Fillout, the easy way to make stunning forms",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showCheckoutDetails": true,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "showSchedulingDetails": true
+                    }
+                  }
+                },
+                "confetti": true
+              }
+            },
+            "iBNU": {
+              "id": "iBNU",
+              "name": "Page",
+              "type": "form",
+              "nextStep": {
+                "isFinal": false,
+                "branches": [],
+                "defaultNextStep": ""
+              },
+              "template": {
+                "widgets": {
+                  "2uHd": {
+                    "id": "2uHd",
+                    "name": "Untitled RecordPicker field",
+                    "type": "RecordPicker",
+                    "position": {
+                      "row": 1,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "Link to Users",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "filters": [],
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array",
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "addButtonText": {
+                        "logic": {
+                          "value": "Add",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "columnsToShow": [],
+                      "searchByColumn": "",
+                      "backgroundColor": "",
+                      "changeButtonText": {
+                        "logic": {
+                          "value": "Change",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "canSelectMultiple": true,
+                      "validationPattern": "none",
+                      "createRecordConfig": {
+                        "allowCreateRecord": true,
+                        "createFormPublicIdentifier": "oLab386p53us"
+                      },
+                      "maxRecordsToChoose": 2,
+                      "minRecordsToChoose": 2,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "hasMaxRecordsToChoose": false,
+                      "hasMinRecordsToChoose": false,
+                      "plainTextColumnToShow": "",
+                      "searchPlaceholderText": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "createRecordButtonText": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "onlyShowNewlyChosenRecords": false
+                    }
+                  },
+                  "ewYV": {
+                    "id": "ewYV",
+                    "name": "Untitled Subform field",
+                    "type": "Subform",
+                    "position": {
+                      "row": 5,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p>Upload Group's Document</p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "buttonText": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showOrHide": "show_when",
+                      "submissionText": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "maxRecordsToChoose": 2,
+                      "minRecordsToChoose": 2,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "hasMaxRecordsToChoose": false,
+                      "hasMinRecordsToChoose": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "connectedFlowPublicIdentifier": "aTDkqH7zTmus"
+                    }
+                  },
+                  "jf4z": {
+                    "id": "jf4z",
+                    "name": "Untitled RecordPicker field",
+                    "type": "RecordPicker",
+                    "position": {
+                      "row": 2,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "Link to Assigned Forms",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "filters": [],
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array",
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "addButtonText": {
+                        "logic": {
+                          "value": "Add",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "columnsToShow": [],
+                      "searchByColumn": "",
+                      "backgroundColor": "",
+                      "changeButtonText": {
+                        "logic": {
+                          "value": "Change",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "canSelectMultiple": true,
+                      "validationPattern": "none",
+                      "createRecordConfig": {
+                        "allowCreateRecord": true,
+                        "createFormPublicIdentifier": "j1caxftpgyus"
+                      },
+                      "maxRecordsToChoose": 2,
+                      "minRecordsToChoose": 2,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "hasMaxRecordsToChoose": false,
+                      "hasMinRecordsToChoose": false,
+                      "plainTextColumnToShow": "",
+                      "searchPlaceholderText": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "createRecordButtonText": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "onlyShowNewlyChosenRecords": false
+                    }
+                  },
+                  "rT74": {
+                    "id": "rT74",
+                    "name": "Untitled Dropdown field",
+                    "type": "Dropdown",
+                    "position": {
+                      "row": 3,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "<p><span style=\"color: rgb(55, 65, 81);\">Document Type</span></p>",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "options": {
+                        "staticOptions": [
+                          {
+                            "id": "1dQC",
+                            "label": {
+                              "logic": {
+                                "value": "Benefit Guide",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Benefit Guide",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "xvnX",
+                            "label": {
+                              "logic": {
+                                "value": "Census Files",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Census Files",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "iKJd",
+                            "label": {
+                              "logic": {
+                                "value": "Medical SBC",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Medical SBC",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "uvre",
+                            "label": {
+                              "logic": {
+                                "value": "Dental Plan Summary",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Dental Plan Summary",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "dD7A",
+                            "label": {
+                              "logic": {
+                                "value": "Vision Plan Summary",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Vision Plan Summary",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          },
+                          {
+                            "id": "rHup",
+                            "label": {
+                              "logic": {
+                                "value": "Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            },
+                            "value": {
+                              "logic": {
+                                "value": "Invoice",
+                                "references": {}
+                              },
+                              "expectedTypes": [
+                                "string"
+                              ],
+                              "___LOGIC_TYPE___": "pickerString"
+                            }
+                          }
+                        ]
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string",
+                          "null"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "optionsToShow": [],
+                      "optionsMappings": false,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "randomizeOptionsOrder": false,
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "vATB": {
+                    "id": "vATB",
+                    "name": "Untitled ShortAnswer field",
+                    "type": "ShortAnswer",
+                    "position": {
+                      "row": 0,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "Company Name",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "required": {
+                        "logic": true,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "placeholder": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "vr6K": {
+                    "id": "vr6K",
+                    "name": "Untitled FileUpload field",
+                    "type": "FileUpload",
+                    "position": {
+                      "row": 4,
+                      "column": 0
+                    },
+                    "template": {
+                      "label": {
+                        "logic": {
+                          "value": "Upload New Group Document",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "regex": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "caption": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "inHeader": false,
+                      "maxFiles": {
+                        "logic": {
+                          "value": "5",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minFiles": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "required": {
+                        "logic": false,
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "condition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "maxLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "minLength": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "number"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "maxFileSize": null,
+                      "defaultValue": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "array"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "showUploadLimits": false,
+                      "acceptedFileTypes": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "acceptedMimeTypes": null,
+                      "validationPattern": "none",
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "validationErrorMessage": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      }
+                    }
+                  },
+                  "5QMonWzJXU4DaswT9FAgSf": {
+                    "id": "5QMonWzJXU4DaswT9FAgSf",
+                    "name": "Untitled button field",
+                    "type": "Button",
+                    "position": {
+                      "row": 6,
+                      "column": 0
+                    },
+                    "template": {
+                      "text": {
+                        "logic": {
+                          "value": "",
+                          "references": {}
+                        },
+                        "expectedTypes": [
+                          "string"
+                        ],
+                        "___LOGIC_TYPE___": "pickerString"
+                      },
+                      "disabled": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      },
+                      "inHeader": false,
+                      "nextStep": {
+                        "isFinal": false,
+                        "branches": [],
+                        "defaultNextStep": "hLEE"
+                      },
+                      "alignment": "right",
+                      "alwaysHide": false,
+                      "showOrHide": "show_when",
+                      "showBackButton": true,
+                      "showSkipButton": false,
+                      "backgroundColor": "rgba(147, 185, 90, 1)",
+                      "skipValidations": false,
+                      "showOrHideCondition": {
+                        "logic": {
+                          "and": []
+                        },
+                        "expectedTypes": [
+                          "boolean"
+                        ],
+                        "___LOGIC_TYPE___": "logic"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "quizzes": {
+            "answers": {},
+            "enabled": false,
+            "settings": {
+              "disableShowingCorrectAnswers": false
+            }
+          },
+          "settings": {},
+          "firstStep": "iBNU",
+          "urlParams": [],
+          "calculations": {},
+          "integrations": {
+            "2dQuWCHEXrkpFg3FEXqrGr": {
+              "serviceId": 30465,
+              "writeQuery": {
+                "id": "49TuhSmBMh",
+                "config": {
+                  "view": "",
+                  "baseId": "appdqgKk1fmhfaJoT",
+                  "filters": [
+                    {
+                      "key": "",
+                      "value": {
+                        "logic": {},
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      },
+                      "condition": "="
+                    }
+                  ],
+                  "tableId": "tbliXJ7599ngxEriO",
+                  "columnId": "",
+                  "mappings": [
+                    {
+                      "key": "fldqldunuuQ1dSQeh",
+                      "value": {
+                        "logic": {
+                          "var": "iBNU['vATB'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fld8ScAjRUStvNmu3",
+                      "value": {
+                        "logic": {
+                          "joinArrayFields": [
+                            {
+                              "var": "iBNU['jf4z'].value"
+                            },
+                            "recordID"
+                          ]
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldgfG2pYTFGVQwUr",
+                      "value": {
+                        "logic": {
+                          "joinArrayFields": [
+                            {
+                              "var": "iBNU['2uHd'].value"
+                            },
+                            "recordID"
+                          ]
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    },
+                    {
+                      "key": "fldQPxbzZmaTH1JP3",
+                      "value": {
+                        "logic": {
+                          "var": "iBNU['vr6K'].value"
+                        },
+                        "expectedTypes": [
+                          "any"
+                        ],
+                        "___LOGIC_TYPE___": "picker"
+                      }
+                    }
+                  ],
+                  "actionType": "createRecord"
+                }
+              },
+              "readQueries": {},
+              "serviceType": "airtable",
+              "optionMappings": {
+                "vATB": {},
+                "vr6K": {}
+              }
+            }
+          },
+          "featuredThemeId": "plain"
+        },
+        "organizationId": 48103,
+        "userId": 50320,
+        "flowId": 1324625,
+        "sourceTabId": "aSY9sF2qouXZtyZPjxHrvk",
+        "createdAt": "2026-03-30T18:31:59.027Z",
+        "updatedAt": "2026-03-30T18:31:59.027Z"
+      },
+      "features": [
+        "PAYMENTS_V2",
+        "ZITE_BRANCH_NODE",
+        "DATABASES",
+        "ZITE_DATABASE_FORMULAS",
+        "SNAPSHOT_S3_OFFLOAD",
+        "DATABASE_AI_FIELDS",
+        "ZITE_EMAIL",
+        "SHOW_REPORT_ABUSE_WARNING"
+      ],
+      "organizationSettings": {},
+      "organization": {
+        "id": 48103,
+        "name": "Betafits",
+        "subdomain": "betafits",
+        "disabled": false,
+        "extra_feature_flags": [],
+        "showReportAbuseWarning": true,
+        "verified": false,
+        "requireMfa": false,
+        "settings": {},
+        "hasFlowCounts": true,
+        "createdAt": "2023-11-28T01:13:01.904Z",
+        "updatedAt": "2026-01-03T06:49:21.239Z"
+      },
+      "subdomain": "betafits",
+      "customDomains": [],
+      "formMetadata": {
+        "widgetOptions": {
+          "iBNU": {}
+        },
+        "widgetMappings": {
+          "iBNU": {
+            "2uHd": {
+              "id": "fldgfG2pYTFGVQwUr",
+              "name": "Link to Users"
+            },
+            "jf4z": {
+              "id": "fld8ScAjRUStvNmu3",
+              "name": "Link to Assigned Forms"
+            },
+            "vATB": {
+              "id": "fldqldunuuQ1dSQeh",
+              "name": "Company Name"
+            },
+            "vr6K": {
+              "id": "fldQPxbzZmaTH1JP3",
+              "name": "Upload New Group Document"
+            }
+          }
+        }
+      }
+    },
+    "__N_SSG": true
+  },
+  "page": "/t/[flowPublicIdentifier]",
+  "query": {
+    "flowPublicIdentifier": "xn4WCJ9D8pus"
+  },
+  "buildId": "1tZu1HL8-D9JW8892Ir-M",
+  "isFallback": false,
+  "isExperimentalCompile": false,
+  "gsp": true,
+  "scriptLoader": []
+}

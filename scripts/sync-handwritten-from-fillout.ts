@@ -66,13 +66,13 @@ import { FORM_DATA } from './form_${lowerId}';
  * Auto-synced from Fillout. DO NOT EDIT DIRECTLY.
  *
  * Source: https://betafits.fillout.com/t/${formId}
- * Regenerate:
- *   npx tsx scripts/fetch-fillout-form-structure.ts --from-airtable
+ * Regenerate (fetch real multi-page/section structure from the published form):
+ *   npx tsx scripts/fetch-fillout-published-structure.ts --from-airtable
  *   npx tsx scripts/sync-handwritten-from-fillout.ts
+ *   npx tsx scripts/build-fillout-airtable-mapping.ts
  *
- * Fillout's public API does not return page breaks, section headings, required
- * flags, placeholders, or conditional logic. The form therefore renders as a
- * single page / single section with Fillout's exact question list and options.
+ * Required flags, placeholders, and conditional logic are not preserved — only
+ * pages, sections, questions, and options.
  */
 export const ${originalExportName}: FormDataDefinition = FORM_DATA;
 `;
