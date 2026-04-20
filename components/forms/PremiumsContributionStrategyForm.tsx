@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FormValues } from '@/types/form';
 import { PREMIUMS_CONTRIBUTION_STRATEGY_FORM_DATA } from '@/constants/premiumsContributionStrategyForm';
 import FormSection from './FormSection';
+import { validatePageValues } from '@/lib/form/validation';
 
 interface Props {
     onSave: (values: FormValues) => Promise<void>;
@@ -31,18 +32,10 @@ const PremiumsContributionStrategyForm: React.FC<Props> = ({ onSave, onSubmit, i
     };
 
     const validatePage = (): boolean => {
-        const pageErrors: Record<string, string> = {};
-        currentPageData.sections.forEach((section) => {
-            section.questions.forEach((question) => {
-                if (question.required && !values[question.id]) {
-                    pageErrors[question.id] = question.validation?.[0]?.message || 'Field is required';
-                }
-            });
-        });
+        const pageErrors = validatePageValues(currentPageData, values);
         setErrors(pageErrors);
         return Object.keys(pageErrors).length === 0;
     };
-
     const handleNext = () => {
         if (validatePage()) {
             setCurrentPage((prev) => Math.min(prev + 1, pages.length - 1));

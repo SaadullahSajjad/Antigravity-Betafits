@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { FormValues } from '@/types/form';
 import { QUICK_START_COMPLETE_FORM_DATA } from '@/constants/quickStartFormComplete';
 import FormSection from './FormSection';
+import { validatePageValues } from '@/lib/form/validation';
 
 interface Props {
     onSave: (values: FormValues) => Promise<void>;
@@ -61,54 +62,7 @@ const QuickStartCompleteForm: React.FC<Props> = ({ onSave, onSubmit, isSubmittin
     };
 
     const validatePage = (): boolean => {
-        const pageErrors: Record<string, string> = {};
-        currentPageData.sections.forEach((section) => {
-            section.questions.forEach((question) => {
-                const value = values[question.id];
-                
-                // Required validation
-                if (question.required) {
-                    if (question.type === 'file') {
-                        // For file fields, check if a file is selected
-                        if (!value || (Array.isArray(value) && value.length === 0)) {
-                            pageErrors[question.id] = question.validation?.[0]?.message || 'Please upload a file';
-                        }
-                    } else if (!value) {
-                        pageErrors[question.id] = question.validation?.[0]?.message || 'Field is required';
-                    }
-                }
-                
-                // File validation - check file size (max 10MB per file)
-                if (question.type === 'file' && value) {
-                    const maxSize = 10 * 1024 * 1024; // 10MB
-                    if (value instanceof File) {
-                        if (value.size > maxSize) {
-                            pageErrors[question.id] = 'File size must be less than 10MB';
-                        }
-                    } else if (Array.isArray(value)) {
-                        for (const file of value) {
-                            if (file instanceof File && file.size > maxSize) {
-                                pageErrors[question.id] = 'One or more files exceed 10MB limit';
-                                break;
-                            }
-                        }
-                    }
-                }
-                
-                // Number validation - prevent negative values
-                if (question.type === 'number' && value !== undefined && value !== null && value !== '') {
-                    const numValue = parseFloat(String(value));
-                    if (!isNaN(numValue) && numValue < 0) {
-                        pageErrors[question.id] = 'Value cannot be negative';
-                    }
-                    // Check min validation
-                    const minValidation = question.validation?.find(v => v.type === 'min');
-                    if (minValidation && !isNaN(numValue) && numValue < minValidation.value) {
-                        pageErrors[question.id] = minValidation.message;
-                    }
-                }
-            });
-        });
+        const pageErrors = validatePageValues(currentPageData, values);
         setErrors(pageErrors);
         return Object.keys(pageErrors).length === 0;
     };

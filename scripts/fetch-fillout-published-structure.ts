@@ -59,12 +59,21 @@ const DECORATION_TYPES = new Set<string>([
 const SECTION_TYPES = new Set<string>(['SectionCollapse', 'SectionHeader']);
 
 /**
- * A Fillout "logic-wrapped string" — values are stored as
- *   { logic: { value: <actual string>, references: {} }, ... }
- * on the form template. We normalise these via `logicValue()` below.
+ * Fillout wraps dynamic values in a `logic` container. Two shapes exist:
+ *   - Picker values:   { logic: { value: <string>, references: {} }, ... }
+ *     (used for labels, placeholders, choices, etc.)
+ *   - Plain logic:     { logic: <literal boolean/string>, expectedTypes: [...] }
+ *     (used for booleans like `required`, `alwaysHide`, etc.)
+ *
+ * `logicValue()` / `logicBool()` below handle both shapes transparently so the
+ * caller just sees a plain value.
  */
-type LogicString = { logic?: { value?: string | number | boolean } };
-type LogicBool = { logic?: { value?: boolean } };
+type LogicString = {
+    logic?: string | number | boolean | { value?: string | number | boolean };
+};
+type LogicBool = {
+    logic?: boolean | { value?: boolean };
+};
 
 interface Widget {
     id: string;
@@ -172,11 +181,31 @@ function stripHtml(html: string | undefined): string {
         .trim();
 }
 
-/** Unwrap Fillout's `{ logic: { value } }` wrapper into a plain string. */
+/**
+ * Unwrap Fillout's `logic` container into a plain string. Handles both the
+ * picker shape (`{ logic: { value } }`) and the flat logic shape
+ * (`{ logic: <literal> }`).
+ */
 function logicValue(v: LogicString | undefined): string {
-    const raw = v?.logic?.value;
-    if (raw === undefined || raw === null) return '';
-    return typeof raw === 'string' ? raw : String(raw);
+    if (!v) return '';
+    const l = v.logic;
+    if (l === undefined || l === null) return '';
+    if (typeof l === 'object') {
+        const inner = (l as { value?: unknown }).value;
+        if (inner === undefined || inner === null) return '';
+        return typeof inner === 'string' ? inner : String(inner);
+    }
+    return typeof l === 'string' ? l : String(l);
+}
+
+/** Same idea for boolean logic values (e.g. the `required` flag). */
+function logicBool(v: LogicBool | undefined): boolean {
+    if (!v) return false;
+    const l = v.logic;
+    if (l === undefined || l === null) return false;
+    if (typeof l === 'boolean') return l;
+    if (typeof l === 'object') return Boolean((l as { value?: unknown }).value);
+    return Boolean(l);
 }
 
 function widgetLabel(w: Widget): string {
@@ -191,8 +220,10 @@ function widgetPlaceholder(w: Widget): string | undefined {
 function widgetRequired(w: Widget): boolean {
     const r = w.template?.required;
     if (typeof r === 'boolean') return r;
-    if (r && typeof r === 'object') return Boolean((r as LogicBool).logic?.value);
-    return false;
+    // Fillout stores `required` as `{ logic: true/false, expectedTypes: [...] }`
+    // — the boolean is the `logic` property itself, not `logic.value`. The
+    // `logicBool` helper handles both shapes safely.
+    return logicBool(r);
 }
 
 /**

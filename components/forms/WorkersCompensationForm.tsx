@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { FormValues } from '@/types/form';
 import { WORKERS_COMPENSATION_FORM_DATA } from '@/constants/workersCompensationForm';
 import FormSection from './FormSection';
+import { validatePageValues } from '@/lib/form/validation';
 
 interface Props {
     onSave: (values: FormValues) => Promise<void>;
@@ -31,18 +32,10 @@ const WorkersCompensationForm: React.FC<Props> = ({ onSave, onSubmit, isSubmitti
     };
 
     const validatePage = (): boolean => {
-        const pageErrors: Record<string, string> = {};
-        currentPageData.sections.forEach((section) => {
-            section.questions.forEach((question) => {
-                if (question.required && !values[question.id]) {
-                    pageErrors[question.id] = question.validation?.[0]?.message || 'Field is required';
-                }
-            });
-        });
+        const pageErrors = validatePageValues(currentPageData, values);
         setErrors(pageErrors);
         return Object.keys(pageErrors).length === 0;
     };
-
     const handleNext = () => {
         if (validatePage()) {
             setCurrentPage((prev) => Math.min(prev + 1, pages.length - 1));
